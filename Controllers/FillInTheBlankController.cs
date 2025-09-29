@@ -23,24 +23,26 @@ public class FillInTheBlankController : Controller
 
     [HttpGet]
     public async Task<IActionResult> Question(int id)
-    {
-        var fillInTheBlank = await _fillInTheBlankRepository.GetQuestionById(id);
-        if (fillInTheBlank == null)
+    {   
+        // Ge the question from the databse
+        var question = await _fillInTheBlankRepository.GetQuestionById(id);
+        if (question == null)
         {
             _logger.LogError("[FillInTheBlankController - Get Question] FillInTheBlank question not found for the Id {Id: 0000}", id);
             return NotFound("FillInTheBlank question not found.");
         }
 
-        var fillInTheBlankViewModel = new FillInTheBlankViewModel(fillInTheBlank.Id, fillInTheBlank.Question);
-
+        // Map question to viewmodel without answer
+        var fillInTheBlankViewModel = new FillInTheBlankViewModel(question.Id, question.Question);
         return View(fillInTheBlankViewModel);
     }
 
     [HttpPost]
     public async Task<IActionResult> Question(FillInTheBlankViewModel model)
     {
-        if (!ModelState.IsValid) return View(model);
+        if (!ModelState.IsValid) return View(model); // Check if the model is correct
 
+        // Get the question from the database
         var questionFromDb = await _fillInTheBlankRepository.GetQuestionById(model.Id);
         if (questionFromDb == null)
         {
@@ -48,9 +50,8 @@ public class FillInTheBlankController : Controller
             return NotFound("FillInTheBlank question not found.");
         }
 
-        model.Question = questionFromDb.Question;
-
-        model.IsAnswerCorrect = await _quizService.CheckAnswer(questionFromDb, model.UserAnswer);
+        // Set the answer to correct or false in the model
+        model.IsAnswerCorrect = _quizService.CheckAnswer(questionFromDb, model.UserAnswer);
         return View(model);
     
     }

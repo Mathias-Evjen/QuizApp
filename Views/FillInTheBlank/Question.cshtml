@@ -12,6 +12,7 @@
     <div class="container">
         <form asp-action="Question" method="post">
             <input type="hidden" asp-for="@(Model.Id)" />
+            <input type="hidden" asp-for="@(Model.Question)" />
             <h1>@ViewBag.CurrentViewName</h1>
             <h3>Question:</h3>
             <p>@Model.Question</p>

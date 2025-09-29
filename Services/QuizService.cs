@@ -15,7 +15,8 @@ public class QuizService
         _logger = logger;
     }
 
-    public async Task<bool> CheckAnswer(FillInTheBlank question, string userAnswer)
+    // Checks the user's answer wit the correct answer in the database
+    public bool CheckAnswer(FillInTheBlank question, string userAnswer)
     {
         return string.Equals(
             userAnswer?.Trim(),

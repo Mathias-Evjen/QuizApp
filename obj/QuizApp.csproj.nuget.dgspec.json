@@ -1,20 +1,20 @@
 {
   "format": 1,
   "restore": {
-    "/home/mathias/Documents/Programmering/QuizApp/QuizApp.csproj": {}
+    "C:\\Users\\ander\\OneDrive\\Dokumenter\\GitHub\\QuizApp\\QuizApp.csproj": {}
   },
   "projects": {
-    "/home/mathias/Documents/Programmering/QuizApp/QuizApp.csproj": {
+    "C:\\Users\\ander\\OneDrive\\Dokumenter\\GitHub\\QuizApp\\QuizApp.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "/home/mathias/Documents/Programmering/QuizApp/QuizApp.csproj",
+        "projectUniqueName": "C:\\Users\\ander\\OneDrive\\Dokumenter\\GitHub\\QuizApp\\QuizApp.csproj",
         "projectName": "QuizApp",
-        "projectPath": "/home/mathias/Documents/Programmering/QuizApp/QuizApp.csproj",
-        "packagesPath": "/home/mathias/.nuget/packages/",
-        "outputPath": "/home/mathias/Documents/Programmering/QuizApp/obj/",
+        "projectPath": "C:\\Users\\ander\\OneDrive\\Dokumenter\\GitHub\\QuizApp\\QuizApp.csproj",
+        "packagesPath": "C:\\Users\\ander\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\ander\\OneDrive\\Dokumenter\\GitHub\\QuizApp\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "/home/mathias/.nuget/NuGet/NuGet.Config"
+          "C:\\Users\\ander\\AppData\\Roaming\\NuGet\\NuGet.Config"
         ],
         "originalTargetFrameworks": [
           "net8.0"
@@ -32,6 +32,11 @@
           "warnAsError": [
             "NU1605"
           ]
+        },
+        "restoreAuditProperties": {
+          "enableAudit": "true",
+          "auditLevel": "low",
+          "auditMode": "direct"
         }
       },
       "frameworks": {
@@ -48,12 +53,6 @@
           ],
           "assetTargetFallback": true,
           "warn": true,
-          "downloadDependencies": [
-            {
-              "name": "Microsoft.AspNetCore.App.Ref",
-              "version": "[8.0.20, 8.0.20]"
-            }
-          ],
           "frameworkReferences": {
             "Microsoft.AspNetCore.App": {
               "privateAssets": "none"
@@ -62,7 +61,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "/usr/share/dotnet/sdk/8.0.120/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.414/PortableRuntimeIdentifierGraph.json"
         }
       }
     }

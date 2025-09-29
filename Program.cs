@@ -3,6 +3,7 @@ using Serilog;
 using Serilog.Events;
 using Microsoft.AspNetCore.Identity;
 using QuizApp.DAL;
+using QuizApp.Services;
 
 
 var builder = WebApplication.CreateBuilder(args);
@@ -19,6 +20,7 @@ builder.Services.AddDbContext<QuizDbContext>(options =>
 });
 
 builder.Services.AddScoped<IFillInTheBlankRepository, FillInTheBlankRepository>();
+builder.Services.AddScoped<QuizService>();
 
 builder.Services.AddRazorPages();
 
@@ -38,6 +40,7 @@ var app = builder.Build();
 if (app.Environment.IsDevelopment())
 {
     app.UseDeveloperExceptionPage();
+    DBInit.Seed(app);
 }
 
 app.UseStaticFiles();

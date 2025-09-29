@@ -1,0 +1,37 @@
+2025-09-29 16:54:05.495 +02:00 [INF] User profile is available. Using '/home/mathias/.aspnet/DataProtection-Keys' as key repository; keys will not be encrypted at rest.
+2025-09-29 16:54:05.545 +02:00 [INF] Now listening on: http://localhost:5155
+2025-09-29 16:54:05.548 +02:00 [INF] Application started. Press Ctrl+C to shut down.
+2025-09-29 16:54:05.548 +02:00 [INF] Hosting environment: Development
+2025-09-29 16:54:05.548 +02:00 [INF] Content root path: /home/mathias/Documents/Programmering/QuizApp
+2025-09-29 16:54:07.913 +02:00 [INF] Request starting HTTP/1.1 GET http://localhost:5155/ - null null
+2025-09-29 16:54:07.923 +02:00 [INF] Executing endpoint 'QuizApp.Controllers.HomeController.Index (QuizApp)'
+2025-09-29 16:54:07.934 +02:00 [INF] Route matched with {action = "Index", controller = "Home"}. Executing controller action with signature Microsoft.AspNetCore.Mvc.IActionResult Index() on controller QuizApp.Controllers.HomeController (QuizApp).
+2025-09-29 16:54:07.937 +02:00 [INF] Executing ViewResult, running view Index.
+2025-09-29 16:54:07.958 +02:00 [INF] Executed action QuizApp.Controllers.HomeController.Index (QuizApp) in 22.9234ms
+2025-09-29 16:54:07.960 +02:00 [INF] Executed endpoint 'QuizApp.Controllers.HomeController.Index (QuizApp)'
+2025-09-29 16:54:07.966 +02:00 [ERR] An unhandled exception has occurred while executing the request.
+System.InvalidOperationException: RenderBody has not been called for the page at '/Views/Shared/_Layout.cshtml'. To ignore call IgnoreBody().
+   at Microsoft.AspNetCore.Mvc.Razor.RazorPage.EnsureRenderedBodyOrSections()
+   at Microsoft.AspNetCore.Mvc.Razor.RazorView.RenderLayoutAsync(ViewContext context, ViewBufferTextWriter bodyWriter)
+   at Microsoft.AspNetCore.Mvc.Razor.RazorView.RenderAsync(ViewContext context)
+   at Microsoft.AspNetCore.Mvc.ViewFeatures.ViewExecutor.ExecuteAsync(ViewContext viewContext, String contentType, Nullable`1 statusCode)
+   at Microsoft.AspNetCore.Mvc.ViewFeatures.ViewExecutor.ExecuteAsync(ViewContext viewContext, String contentType, Nullable`1 statusCode)
+   at Microsoft.AspNetCore.Mvc.ViewFeatures.ViewExecutor.ExecuteAsync(ActionContext actionContext, IView view, ViewDataDictionary viewData, ITempDataDictionary tempData, String contentType, Nullable`1 statusCode)
+   at Microsoft.AspNetCore.Mvc.ViewFeatures.ViewResultExecutor.ExecuteAsync(ActionContext context, ViewResult result)
+   at Microsoft.AspNetCore.Mvc.ViewResult.ExecuteResultAsync(ActionContext context)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeNextResultFilterAsync>g__Awaited|30_0[TFilter,TFilterAsync](ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.Rethrow(ResultExecutedContextSealed context)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.ResultNext[TFilter,TFilterAsync](State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.InvokeResultFilters()
+--- End of stack trace from previous location ---
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeNextResourceFilter>g__Awaited|25_0(ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.Rethrow(ResourceExecutedContextSealed context)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.InvokeFilterPipelineAsync()
+--- End of stack trace from previous location ---
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Logged|17_1(ResourceInvoker invoker)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Logged|17_1(ResourceInvoker invoker)
+   at Microsoft.AspNetCore.Routing.EndpointMiddleware.<Invoke>g__AwaitRequestTask|7_0(Endpoint endpoint, Task requestTask, ILogger logger)
+   at Microsoft.AspNetCore.Diagnostics.DeveloperExceptionPageMiddlewareImpl.Invoke(HttpContext context)
+2025-09-29 16:54:07.976 +02:00 [INF] Request finished HTTP/1.1 GET http://localhost:5155/ - 500 null text/html; charset=utf-8 63.6759ms
+2025-09-29 16:55:52.441 +02:00 [INF] Application is shutting down...

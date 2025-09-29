@@ -14,6 +14,18 @@ public class FillInTheBlankRepository : IFillInTheBlankRepository
         _logger = logger;
     }
 
+    public async Task<IEnumerable<FillInTheBlank>?> GetAll()
+    {
+        try
+        {
+            return await _db.FillInTheBlankQuestions.ToListAsync();
+        }
+        catch (Exception e) {
+            _logger.LogError("[FillInTheBlankRepository] ToListAsync() failed when GetAll(), error message: {e}", e.Message);
+            return null;
+        }
+    }
+
     public async Task<FillInTheBlank?> GetQuestionById(int id)
     {
         try

@@ -1,0 +1,210 @@
+2025-09-29 16:47:04.473 +02:00 [INF] User profile is available. Using '/home/mathias/.aspnet/DataProtection-Keys' as key repository; keys will not be encrypted at rest.
+2025-09-29 16:47:04.519 +02:00 [INF] Now listening on: http://localhost:5155
+2025-09-29 16:47:04.522 +02:00 [INF] Application started. Press Ctrl+C to shut down.
+2025-09-29 16:47:04.522 +02:00 [INF] Hosting environment: Development
+2025-09-29 16:47:04.522 +02:00 [INF] Content root path: /home/mathias/Documents/Programmering/QuizApp
+2025-09-29 16:47:08.226 +02:00 [INF] Request starting HTTP/1.1 GET http://localhost:5155/ - null null
+2025-09-29 16:47:08.237 +02:00 [INF] Request finished HTTP/1.1 GET http://localhost:5155/ - 404 0 null 12.5939ms
+2025-09-29 16:47:08.239 +02:00 [INF] Request reached the end of the middleware pipeline without being handled by application code. Request path: GET http://localhost:5155/, Response status code: 404
+2025-09-29 16:47:18.043 +02:00 [INF] Request starting HTTP/1.1 GET http://localhost:5155/FillInTheBlank/Question - null null
+2025-09-29 16:47:18.045 +02:00 [INF] Executing endpoint 'QuizApp.Controllers.FillInTheBlankController.Question (QuizApp)'
+2025-09-29 16:47:18.060 +02:00 [INF] Route matched with {action = "Question", controller = "FillInTheBlank"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] Question(Int32) on controller QuizApp.Controllers.FillInTheBlankController (QuizApp).
+2025-09-29 16:47:18.452 +02:00 [ERR] Failed executing DbCommand (4ms) [Parameters=[@__p_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT "f"."FillInTheBlankId", "f"."Answer", "f"."Question"
+FROM "FillInTheBlankQuestions" AS "f"
+WHERE "f"."FillInTheBlankId" = @__p_0
+LIMIT 1
+2025-09-29 16:47:18.467 +02:00 [ERR] An exception occurred while iterating over the results of a query for context type 'QuizApp.DAL.QuizDbContext'.
+Microsoft.Data.Sqlite.SqliteException (0x80004005): SQLite Error 1: 'no such table: FillInTheBlankQuestions'.
+   at Microsoft.Data.Sqlite.SqliteException.ThrowExceptionForRC(Int32 rc, sqlite3 db)
+   at Microsoft.Data.Sqlite.SqliteCommand.PrepareAndEnumerateStatements()+MoveNext()
+   at Microsoft.Data.Sqlite.SqliteCommand.GetStatements()+MoveNext()
+   at Microsoft.Data.Sqlite.SqliteDataReader.NextResult()
+   at Microsoft.Data.Sqlite.SqliteCommand.ExecuteReader(CommandBehavior behavior)
+   at Microsoft.Data.Sqlite.SqliteCommand.ExecuteReaderAsync(CommandBehavior behavior, CancellationToken cancellationToken)
+   at Microsoft.Data.Sqlite.SqliteCommand.ExecuteDbDataReaderAsync(CommandBehavior behavior, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.Internal.SingleQueryingEnumerable`1.AsyncEnumerator.InitializeReaderAsync(AsyncEnumerator enumerator, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.Internal.SingleQueryingEnumerable`1.AsyncEnumerator.MoveNextAsync()
+Microsoft.Data.Sqlite.SqliteException (0x80004005): SQLite Error 1: 'no such table: FillInTheBlankQuestions'.
+   at Microsoft.Data.Sqlite.SqliteException.ThrowExceptionForRC(Int32 rc, sqlite3 db)
+   at Microsoft.Data.Sqlite.SqliteCommand.PrepareAndEnumerateStatements()+MoveNext()
+   at Microsoft.Data.Sqlite.SqliteCommand.GetStatements()+MoveNext()
+   at Microsoft.Data.Sqlite.SqliteDataReader.NextResult()
+   at Microsoft.Data.Sqlite.SqliteCommand.ExecuteReader(CommandBehavior behavior)
+   at Microsoft.Data.Sqlite.SqliteCommand.ExecuteReaderAsync(CommandBehavior behavior, CancellationToken cancellationToken)
+   at Microsoft.Data.Sqlite.SqliteCommand.ExecuteDbDataReaderAsync(CommandBehavior behavior, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.Internal.SingleQueryingEnumerable`1.AsyncEnumerator.InitializeReaderAsync(AsyncEnumerator enumerator, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.Internal.SingleQueryingEnumerable`1.AsyncEnumerator.MoveNextAsync()
+2025-09-29 16:47:18.468 +02:00 [ERR] [FillInTheBlankRepository] FillInTheBlank FindAsync(id) failed whtn GetQuestionById) for FillInTheBlankId 0000, error message: SQLite Error 1: 'no such table: FillInTheBlankQuestions'.
+2025-09-29 16:47:18.468 +02:00 [ERR] [FillInTheBlankController] FillInTheBlank question not found for the FillInTheBlankId  0000
+2025-09-29 16:47:18.475 +02:00 [INF] Executing NotFoundObjectResult, writing value of type 'System.String'.
+2025-09-29 16:47:18.477 +02:00 [INF] Executed action QuizApp.Controllers.FillInTheBlankController.Question (QuizApp) in 415.1558ms
+2025-09-29 16:47:18.477 +02:00 [INF] Executed endpoint 'QuizApp.Controllers.FillInTheBlankController.Question (QuizApp)'
+2025-09-29 16:47:18.480 +02:00 [INF] Request finished HTTP/1.1 GET http://localhost:5155/FillInTheBlank/Question - 404 null text/plain; charset=utf-8 437.0602ms
+2025-09-29 16:47:18.493 +02:00 [INF] Request starting HTTP/1.1 GET http://localhost:5155/favicon.ico - null null
+2025-09-29 16:47:18.494 +02:00 [INF] Request finished HTTP/1.1 GET http://localhost:5155/favicon.ico - 404 0 null 1.2108ms
+2025-09-29 16:47:18.494 +02:00 [INF] Request reached the end of the middleware pipeline without being handled by application code. Request path: GET http://localhost:5155/favicon.ico, Response status code: 404
+2025-09-29 16:48:43.382 +02:00 [INF] Request starting HTTP/1.1 GET http://localhost:5155/FillInTheBlank/Question/1 - null null
+2025-09-29 16:48:43.382 +02:00 [INF] Executing endpoint 'QuizApp.Controllers.FillInTheBlankController.Question (QuizApp)'
+2025-09-29 16:48:43.382 +02:00 [INF] Route matched with {action = "Question", controller = "FillInTheBlank"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] Question(Int32) on controller QuizApp.Controllers.FillInTheBlankController (QuizApp).
+2025-09-29 16:48:43.395 +02:00 [ERR] Failed executing DbCommand (0ms) [Parameters=[@__p_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT "f"."FillInTheBlankId", "f"."Answer", "f"."Question"
+FROM "FillInTheBlankQuestions" AS "f"
+WHERE "f"."FillInTheBlankId" = @__p_0
+LIMIT 1
+2025-09-29 16:48:43.397 +02:00 [ERR] An exception occurred while iterating over the results of a query for context type 'QuizApp.DAL.QuizDbContext'.
+Microsoft.Data.Sqlite.SqliteException (0x80004005): SQLite Error 1: 'no such table: FillInTheBlankQuestions'.
+   at Microsoft.Data.Sqlite.SqliteException.ThrowExceptionForRC(Int32 rc, sqlite3 db)
+   at Microsoft.Data.Sqlite.SqliteCommand.PrepareAndEnumerateStatements()+MoveNext()
+   at Microsoft.Data.Sqlite.SqliteCommand.GetStatements()+MoveNext()
+   at Microsoft.Data.Sqlite.SqliteDataReader.NextResult()
+   at Microsoft.Data.Sqlite.SqliteCommand.ExecuteReader(CommandBehavior behavior)
+   at Microsoft.Data.Sqlite.SqliteCommand.ExecuteReaderAsync(CommandBehavior behavior, CancellationToken cancellationToken)
+   at Microsoft.Data.Sqlite.SqliteCommand.ExecuteDbDataReaderAsync(CommandBehavior behavior, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.Internal.SingleQueryingEnumerable`1.AsyncEnumerator.InitializeReaderAsync(AsyncEnumerator enumerator, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.Internal.SingleQueryingEnumerable`1.AsyncEnumerator.MoveNextAsync()
+Microsoft.Data.Sqlite.SqliteException (0x80004005): SQLite Error 1: 'no such table: FillInTheBlankQuestions'.
+   at Microsoft.Data.Sqlite.SqliteException.ThrowExceptionForRC(Int32 rc, sqlite3 db)
+   at Microsoft.Data.Sqlite.SqliteCommand.PrepareAndEnumerateStatements()+MoveNext()
+   at Microsoft.Data.Sqlite.SqliteCommand.GetStatements()+MoveNext()
+   at Microsoft.Data.Sqlite.SqliteDataReader.NextResult()
+   at Microsoft.Data.Sqlite.SqliteCommand.ExecuteReader(CommandBehavior behavior)
+   at Microsoft.Data.Sqlite.SqliteCommand.ExecuteReaderAsync(CommandBehavior behavior, CancellationToken cancellationToken)
+   at Microsoft.Data.Sqlite.SqliteCommand.ExecuteDbDataReaderAsync(CommandBehavior behavior, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.Internal.SingleQueryingEnumerable`1.AsyncEnumerator.InitializeReaderAsync(AsyncEnumerator enumerator, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.Internal.SingleQueryingEnumerable`1.AsyncEnumerator.MoveNextAsync()
+2025-09-29 16:48:43.397 +02:00 [ERR] [FillInTheBlankRepository] FillInTheBlank FindAsync(id) failed whtn GetQuestionById) for FillInTheBlankId 0001, error message: SQLite Error 1: 'no such table: FillInTheBlankQuestions'.
+2025-09-29 16:48:43.397 +02:00 [ERR] [FillInTheBlankController] FillInTheBlank question not found for the FillInTheBlankId  0001
+2025-09-29 16:48:43.397 +02:00 [INF] Executing NotFoundObjectResult, writing value of type 'System.String'.
+2025-09-29 16:48:43.397 +02:00 [INF] Executed action QuizApp.Controllers.FillInTheBlankController.Question (QuizApp) in 15.1852ms
+2025-09-29 16:48:43.397 +02:00 [INF] Executed endpoint 'QuizApp.Controllers.FillInTheBlankController.Question (QuizApp)'
+2025-09-29 16:48:43.397 +02:00 [INF] Request finished HTTP/1.1 GET http://localhost:5155/FillInTheBlank/Question/1 - 404 null text/plain; charset=utf-8 15.9026ms
+2025-09-29 16:48:43.415 +02:00 [INF] Request starting HTTP/1.1 GET http://localhost:5155/favicon.ico - null null
+2025-09-29 16:48:43.418 +02:00 [INF] Request finished HTTP/1.1 GET http://localhost:5155/favicon.ico - 404 0 null 2.3676ms
+2025-09-29 16:48:43.418 +02:00 [INF] Request reached the end of the middleware pipeline without being handled by application code. Request path: GET http://localhost:5155/favicon.ico, Response status code: 404
+2025-09-29 16:48:48.151 +02:00 [INF] Request starting HTTP/1.1 GET http://localhost:5155/FillInTheBlank/Question/1 - null null
+2025-09-29 16:48:48.151 +02:00 [INF] Executing endpoint 'QuizApp.Controllers.FillInTheBlankController.Question (QuizApp)'
+2025-09-29 16:48:48.151 +02:00 [INF] Route matched with {action = "Question", controller = "FillInTheBlank"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] Question(Int32) on controller QuizApp.Controllers.FillInTheBlankController (QuizApp).
+2025-09-29 16:48:48.179 +02:00 [ERR] Failed executing DbCommand (0ms) [Parameters=[@__p_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT "f"."FillInTheBlankId", "f"."Answer", "f"."Question"
+FROM "FillInTheBlankQuestions" AS "f"
+WHERE "f"."FillInTheBlankId" = @__p_0
+LIMIT 1
+2025-09-29 16:48:48.180 +02:00 [ERR] An exception occurred while iterating over the results of a query for context type 'QuizApp.DAL.QuizDbContext'.
+Microsoft.Data.Sqlite.SqliteException (0x80004005): SQLite Error 1: 'no such table: FillInTheBlankQuestions'.
+   at Microsoft.Data.Sqlite.SqliteException.ThrowExceptionForRC(Int32 rc, sqlite3 db)
+   at Microsoft.Data.Sqlite.SqliteCommand.PrepareAndEnumerateStatements()+MoveNext()
+   at Microsoft.Data.Sqlite.SqliteCommand.GetStatements()+MoveNext()
+   at Microsoft.Data.Sqlite.SqliteDataReader.NextResult()
+   at Microsoft.Data.Sqlite.SqliteCommand.ExecuteReader(CommandBehavior behavior)
+   at Microsoft.Data.Sqlite.SqliteCommand.ExecuteReaderAsync(CommandBehavior behavior, CancellationToken cancellationToken)
+   at Microsoft.Data.Sqlite.SqliteCommand.ExecuteDbDataReaderAsync(CommandBehavior behavior, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.Internal.SingleQueryingEnumerable`1.AsyncEnumerator.InitializeReaderAsync(AsyncEnumerator enumerator, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.Internal.SingleQueryingEnumerable`1.AsyncEnumerator.MoveNextAsync()
+Microsoft.Data.Sqlite.SqliteException (0x80004005): SQLite Error 1: 'no such table: FillInTheBlankQuestions'.
+   at Microsoft.Data.Sqlite.SqliteException.ThrowExceptionForRC(Int32 rc, sqlite3 db)
+   at Microsoft.Data.Sqlite.SqliteCommand.PrepareAndEnumerateStatements()+MoveNext()
+   at Microsoft.Data.Sqlite.SqliteCommand.GetStatements()+MoveNext()
+   at Microsoft.Data.Sqlite.SqliteDataReader.NextResult()
+   at Microsoft.Data.Sqlite.SqliteCommand.ExecuteReader(CommandBehavior behavior)
+   at Microsoft.Data.Sqlite.SqliteCommand.ExecuteReaderAsync(CommandBehavior behavior, CancellationToken cancellationToken)
+   at Microsoft.Data.Sqlite.SqliteCommand.ExecuteDbDataReaderAsync(CommandBehavior behavior, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.Internal.SingleQueryingEnumerable`1.AsyncEnumerator.InitializeReaderAsync(AsyncEnumerator enumerator, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.Internal.SingleQueryingEnumerable`1.AsyncEnumerator.MoveNextAsync()
+2025-09-29 16:48:48.181 +02:00 [ERR] [FillInTheBlankRepository] FillInTheBlank FindAsync(id) failed whtn GetQuestionById) for FillInTheBlankId 0001, error message: SQLite Error 1: 'no such table: FillInTheBlankQuestions'.
+2025-09-29 16:48:48.181 +02:00 [ERR] [FillInTheBlankController] FillInTheBlank question not found for the FillInTheBlankId  0001
+2025-09-29 16:48:48.181 +02:00 [INF] Executing NotFoundObjectResult, writing value of type 'System.String'.
+2025-09-29 16:48:48.181 +02:00 [INF] Executed action QuizApp.Controllers.FillInTheBlankController.Question (QuizApp) in 29.485ms
+2025-09-29 16:48:48.181 +02:00 [INF] Executed endpoint 'QuizApp.Controllers.FillInTheBlankController.Question (QuizApp)'
+2025-09-29 16:48:48.181 +02:00 [INF] Request finished HTTP/1.1 GET http://localhost:5155/FillInTheBlank/Question/1 - 404 null text/plain; charset=utf-8 30.0987ms
+2025-09-29 16:48:51.876 +02:00 [INF] Request starting HTTP/1.1 GET http://localhost:5155/FillInTheBlank/Question - null null
+2025-09-29 16:48:51.876 +02:00 [INF] Executing endpoint 'QuizApp.Controllers.FillInTheBlankController.Question (QuizApp)'
+2025-09-29 16:48:51.876 +02:00 [INF] Route matched with {action = "Question", controller = "FillInTheBlank"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] Question(Int32) on controller QuizApp.Controllers.FillInTheBlankController (QuizApp).
+2025-09-29 16:48:51.877 +02:00 [ERR] Failed executing DbCommand (0ms) [Parameters=[@__p_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT "f"."FillInTheBlankId", "f"."Answer", "f"."Question"
+FROM "FillInTheBlankQuestions" AS "f"
+WHERE "f"."FillInTheBlankId" = @__p_0
+LIMIT 1
+2025-09-29 16:48:51.878 +02:00 [ERR] An exception occurred while iterating over the results of a query for context type 'QuizApp.DAL.QuizDbContext'.
+Microsoft.Data.Sqlite.SqliteException (0x80004005): SQLite Error 1: 'no such table: FillInTheBlankQuestions'.
+   at Microsoft.Data.Sqlite.SqliteException.ThrowExceptionForRC(Int32 rc, sqlite3 db)
+   at Microsoft.Data.Sqlite.SqliteCommand.PrepareAndEnumerateStatements()+MoveNext()
+   at Microsoft.Data.Sqlite.SqliteCommand.GetStatements()+MoveNext()
+   at Microsoft.Data.Sqlite.SqliteDataReader.NextResult()
+   at Microsoft.Data.Sqlite.SqliteCommand.ExecuteReader(CommandBehavior behavior)
+   at Microsoft.Data.Sqlite.SqliteCommand.ExecuteReaderAsync(CommandBehavior behavior, CancellationToken cancellationToken)
+   at Microsoft.Data.Sqlite.SqliteCommand.ExecuteDbDataReaderAsync(CommandBehavior behavior, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.Internal.SingleQueryingEnumerable`1.AsyncEnumerator.InitializeReaderAsync(AsyncEnumerator enumerator, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.Internal.SingleQueryingEnumerable`1.AsyncEnumerator.MoveNextAsync()
+Microsoft.Data.Sqlite.SqliteException (0x80004005): SQLite Error 1: 'no such table: FillInTheBlankQuestions'.
+   at Microsoft.Data.Sqlite.SqliteException.ThrowExceptionForRC(Int32 rc, sqlite3 db)
+   at Microsoft.Data.Sqlite.SqliteCommand.PrepareAndEnumerateStatements()+MoveNext()
+   at Microsoft.Data.Sqlite.SqliteCommand.GetStatements()+MoveNext()
+   at Microsoft.Data.Sqlite.SqliteDataReader.NextResult()
+   at Microsoft.Data.Sqlite.SqliteCommand.ExecuteReader(CommandBehavior behavior)
+   at Microsoft.Data.Sqlite.SqliteCommand.ExecuteReaderAsync(CommandBehavior behavior, CancellationToken cancellationToken)
+   at Microsoft.Data.Sqlite.SqliteCommand.ExecuteDbDataReaderAsync(CommandBehavior behavior, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.Internal.SingleQueryingEnumerable`1.AsyncEnumerator.InitializeReaderAsync(AsyncEnumerator enumerator, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.Internal.SingleQueryingEnumerable`1.AsyncEnumerator.MoveNextAsync()
+2025-09-29 16:48:51.879 +02:00 [ERR] [FillInTheBlankRepository] FillInTheBlank FindAsync(id) failed whtn GetQuestionById) for FillInTheBlankId 0000, error message: SQLite Error 1: 'no such table: FillInTheBlankQuestions'.
+2025-09-29 16:48:51.879 +02:00 [ERR] [FillInTheBlankController] FillInTheBlank question not found for the FillInTheBlankId  0000
+2025-09-29 16:48:51.879 +02:00 [INF] Executing NotFoundObjectResult, writing value of type 'System.String'.
+2025-09-29 16:48:51.879 +02:00 [INF] Executed action QuizApp.Controllers.FillInTheBlankController.Question (QuizApp) in 2.8588ms
+2025-09-29 16:48:51.879 +02:00 [INF] Executed endpoint 'QuizApp.Controllers.FillInTheBlankController.Question (QuizApp)'
+2025-09-29 16:48:51.879 +02:00 [INF] Request finished HTTP/1.1 GET http://localhost:5155/FillInTheBlank/Question - 404 null text/plain; charset=utf-8 3.2192ms
+2025-09-29 16:49:03.455 +02:00 [INF] Request starting HTTP/1.1 GET http://localhost:5155/FillInTheBlank/Question/1 - null null
+2025-09-29 16:49:03.455 +02:00 [INF] Executing endpoint 'QuizApp.Controllers.FillInTheBlankController.Question (QuizApp)'
+2025-09-29 16:49:03.455 +02:00 [INF] Route matched with {action = "Question", controller = "FillInTheBlank"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] Question(Int32) on controller QuizApp.Controllers.FillInTheBlankController (QuizApp).
+2025-09-29 16:49:03.456 +02:00 [ERR] Failed executing DbCommand (0ms) [Parameters=[@__p_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT "f"."FillInTheBlankId", "f"."Answer", "f"."Question"
+FROM "FillInTheBlankQuestions" AS "f"
+WHERE "f"."FillInTheBlankId" = @__p_0
+LIMIT 1
+2025-09-29 16:49:03.457 +02:00 [ERR] An exception occurred while iterating over the results of a query for context type 'QuizApp.DAL.QuizDbContext'.
+Microsoft.Data.Sqlite.SqliteException (0x80004005): SQLite Error 1: 'no such table: FillInTheBlankQuestions'.
+   at Microsoft.Data.Sqlite.SqliteException.ThrowExceptionForRC(Int32 rc, sqlite3 db)
+   at Microsoft.Data.Sqlite.SqliteCommand.PrepareAndEnumerateStatements()+MoveNext()
+   at Microsoft.Data.Sqlite.SqliteCommand.GetStatements()+MoveNext()
+   at Microsoft.Data.Sqlite.SqliteDataReader.NextResult()
+   at Microsoft.Data.Sqlite.SqliteCommand.ExecuteReader(CommandBehavior behavior)
+   at Microsoft.Data.Sqlite.SqliteCommand.ExecuteReaderAsync(CommandBehavior behavior, CancellationToken cancellationToken)
+   at Microsoft.Data.Sqlite.SqliteCommand.ExecuteDbDataReaderAsync(CommandBehavior behavior, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.Internal.SingleQueryingEnumerable`1.AsyncEnumerator.InitializeReaderAsync(AsyncEnumerator enumerator, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.Internal.SingleQueryingEnumerable`1.AsyncEnumerator.MoveNextAsync()
+Microsoft.Data.Sqlite.SqliteException (0x80004005): SQLite Error 1: 'no such table: FillInTheBlankQuestions'.
+   at Microsoft.Data.Sqlite.SqliteException.ThrowExceptionForRC(Int32 rc, sqlite3 db)
+   at Microsoft.Data.Sqlite.SqliteCommand.PrepareAndEnumerateStatements()+MoveNext()
+   at Microsoft.Data.Sqlite.SqliteCommand.GetStatements()+MoveNext()
+   at Microsoft.Data.Sqlite.SqliteDataReader.NextResult()
+   at Microsoft.Data.Sqlite.SqliteCommand.ExecuteReader(CommandBehavior behavior)
+   at Microsoft.Data.Sqlite.SqliteCommand.ExecuteReaderAsync(CommandBehavior behavior, CancellationToken cancellationToken)
+   at Microsoft.Data.Sqlite.SqliteCommand.ExecuteDbDataReaderAsync(CommandBehavior behavior, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.Internal.SingleQueryingEnumerable`1.AsyncEnumerator.InitializeReaderAsync(AsyncEnumerator enumerator, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.Internal.SingleQueryingEnumerable`1.AsyncEnumerator.MoveNextAsync()
+2025-09-29 16:49:03.457 +02:00 [ERR] [FillInTheBlankRepository] FillInTheBlank FindAsync(id) failed whtn GetQuestionById) for FillInTheBlankId 0001, error message: SQLite Error 1: 'no such table: FillInTheBlankQuestions'.
+2025-09-29 16:49:03.457 +02:00 [ERR] [FillInTheBlankController] FillInTheBlank question not found for the FillInTheBlankId  0001
+2025-09-29 16:49:03.457 +02:00 [INF] Executing NotFoundObjectResult, writing value of type 'System.String'.
+2025-09-29 16:49:03.457 +02:00 [INF] Executed action QuizApp.Controllers.FillInTheBlankController.Question (QuizApp) in 2.3416ms
+2025-09-29 16:49:03.457 +02:00 [INF] Executed endpoint 'QuizApp.Controllers.FillInTheBlankController.Question (QuizApp)'
+2025-09-29 16:49:03.458 +02:00 [INF] Request finished HTTP/1.1 GET http://localhost:5155/FillInTheBlank/Question/1 - 404 null text/plain; charset=utf-8 2.7485ms
+2025-09-29 16:53:14.473 +02:00 [INF] Application is shutting down...

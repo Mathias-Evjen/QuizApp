@@ -1,0 +1,20 @@
+2025-09-29 17:34:04.536 +02:00 [INF] User profile is available. Using '/home/mathias/.aspnet/DataProtection-Keys' as key repository; keys will not be encrypted at rest.
+2025-09-29 17:34:04.582 +02:00 [INF] Now listening on: http://localhost:5155
+2025-09-29 17:34:04.584 +02:00 [INF] Application started. Press Ctrl+C to shut down.
+2025-09-29 17:34:04.584 +02:00 [INF] Hosting environment: Development
+2025-09-29 17:34:04.584 +02:00 [INF] Content root path: /home/mathias/Documents/Programmering/QuizApp
+2025-09-29 17:34:05.872 +02:00 [INF] Request starting HTTP/1.1 GET http://localhost:5155/FillInTheBlank/Question/1 - null null
+2025-09-29 17:34:05.885 +02:00 [INF] Executing endpoint 'QuizApp.Controllers.FillInTheBlankController.Question (QuizApp)'
+2025-09-29 17:34:05.894 +02:00 [INF] Route matched with {action = "Question", controller = "FillInTheBlank"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] Question(Int32) on controller QuizApp.Controllers.FillInTheBlankController (QuizApp).
+2025-09-29 17:34:05.982 +02:00 [INF] Executing ViewResult, running view Question.
+2025-09-29 17:34:06.022 +02:00 [INF] Executed ViewResult - view Question executed in 39.98ms.
+2025-09-29 17:34:06.023 +02:00 [INF] Executed action QuizApp.Controllers.FillInTheBlankController.Question (QuizApp) in 128.1616ms
+2025-09-29 17:34:06.023 +02:00 [INF] Executed endpoint 'QuizApp.Controllers.FillInTheBlankController.Question (QuizApp)'
+2025-09-29 17:34:06.026 +02:00 [INF] Request finished HTTP/1.1 GET http://localhost:5155/FillInTheBlank/Question/1 - 200 null text/html; charset=utf-8 154.4965ms
+2025-09-29 17:34:06.038 +02:00 [INF] Request starting HTTP/1.1 GET http://localhost:5155/js/bootstrap.js - null null
+2025-09-29 17:34:06.039 +02:00 [INF] Request starting HTTP/1.1 GET http://localhost:5155/js/jquery.min.js - null null
+2025-09-29 17:34:06.041 +02:00 [INF] The file /js/jquery.min.js was not modified
+2025-09-29 17:34:06.041 +02:00 [INF] The file /js/bootstrap.js was not modified
+2025-09-29 17:34:06.042 +02:00 [INF] Request finished HTTP/1.1 GET http://localhost:5155/js/jquery.min.js - 304 null text/javascript 2.7745ms
+2025-09-29 17:34:06.042 +02:00 [INF] Request finished HTTP/1.1 GET http://localhost:5155/js/bootstrap.js - 304 null text/javascript 3.302ms
+2025-09-29 18:03:35.398 +02:00 [INF] Application is shutting down...

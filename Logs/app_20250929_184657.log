@@ -1,0 +1,37 @@
+2025-09-29 18:46:58.065 +02:00 [INF] User profile is available. Using '/home/mathias/.aspnet/DataProtection-Keys' as key repository; keys will not be encrypted at rest.
+2025-09-29 18:46:58.109 +02:00 [INF] Now listening on: http://localhost:5155
+2025-09-29 18:46:58.112 +02:00 [INF] Application started. Press Ctrl+C to shut down.
+2025-09-29 18:46:58.112 +02:00 [INF] Hosting environment: Development
+2025-09-29 18:46:58.113 +02:00 [INF] Content root path: /home/mathias/Documents/Programmering/QuizApp
+2025-09-29 18:47:01.259 +02:00 [INF] Request starting HTTP/1.1 GET http://localhost:5155/ - null null
+2025-09-29 18:47:01.271 +02:00 [INF] Executing endpoint 'QuizApp.Controllers.HomeController.Index (QuizApp)'
+2025-09-29 18:47:01.277 +02:00 [INF] Route matched with {action = "Index", controller = "Home"}. Executing controller action with signature Microsoft.AspNetCore.Mvc.IActionResult Index() on controller QuizApp.Controllers.HomeController (QuizApp).
+2025-09-29 18:47:01.280 +02:00 [INF] Executing ViewResult, running view Index.
+2025-09-29 18:47:01.301 +02:00 [INF] Executed ViewResult - view Index executed in 21.1588ms.
+2025-09-29 18:47:01.302 +02:00 [INF] Executed action QuizApp.Controllers.HomeController.Index (QuizApp) in 24.9601ms
+2025-09-29 18:47:01.302 +02:00 [INF] Executed endpoint 'QuizApp.Controllers.HomeController.Index (QuizApp)'
+2025-09-29 18:47:01.303 +02:00 [INF] Request finished HTTP/1.1 GET http://localhost:5155/ - 200 null text/html; charset=utf-8 44.8065ms
+2025-09-29 18:47:01.323 +02:00 [INF] Request starting HTTP/1.1 GET http://localhost:5155/js/jquery.min.js - null null
+2025-09-29 18:47:01.328 +02:00 [INF] The file /js/jquery.min.js was not modified
+2025-09-29 18:47:01.328 +02:00 [INF] Request finished HTTP/1.1 GET http://localhost:5155/js/jquery.min.js - 304 null text/javascript 5.3082ms
+2025-09-29 18:47:01.850 +02:00 [INF] Request starting HTTP/1.1 GET http://localhost:5155/FillInTheBlank/Question/1 - null null
+2025-09-29 18:47:01.851 +02:00 [INF] Executing endpoint 'QuizApp.Controllers.FillInTheBlankController.Question (QuizApp)'
+2025-09-29 18:47:01.857 +02:00 [INF] Route matched with {action = "Question", controller = "FillInTheBlank"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] Question(Int32) on controller QuizApp.Controllers.FillInTheBlankController (QuizApp).
+2025-09-29 18:47:01.941 +02:00 [INF] Executing ViewResult, running view Question.
+2025-09-29 18:47:01.975 +02:00 [INF] Executed ViewResult - view Question executed in 33.7245ms.
+2025-09-29 18:47:01.975 +02:00 [INF] Executed action QuizApp.Controllers.FillInTheBlankController.Question (QuizApp) in 117.9054ms
+2025-09-29 18:47:01.975 +02:00 [INF] Executed endpoint 'QuizApp.Controllers.FillInTheBlankController.Question (QuizApp)'
+2025-09-29 18:47:01.977 +02:00 [INF] Request finished HTTP/1.1 GET http://localhost:5155/FillInTheBlank/Question/1 - 200 null text/html; charset=utf-8 127.087ms
+2025-09-29 18:47:05.227 +02:00 [INF] Request starting HTTP/1.1 POST http://localhost:5155/FillInTheBlank/Question/1 - application/x-www-form-urlencoded 203
+2025-09-29 18:47:05.228 +02:00 [INF] Executing endpoint 'QuizApp.Controllers.FillInTheBlankController.Question (QuizApp)'
+2025-09-29 18:47:05.233 +02:00 [INF] Route matched with {action = "Question", controller = "FillInTheBlank"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] Question(QuizApp.ViewModels.FillInTheBlankViewModel) on controller QuizApp.Controllers.FillInTheBlankController (QuizApp).
+2025-09-29 18:47:05.267 +02:00 [ERR] hER
+2025-09-29 18:47:05.267 +02:00 [INF] Executing ViewResult, running view Question.
+2025-09-29 18:47:05.268 +02:00 [INF] Executed ViewResult - view Question executed in 1.4135ms.
+2025-09-29 18:47:05.268 +02:00 [INF] Executed action QuizApp.Controllers.FillInTheBlankController.Question (QuizApp) in 35.376ms
+2025-09-29 18:47:05.268 +02:00 [INF] Executed endpoint 'QuizApp.Controllers.FillInTheBlankController.Question (QuizApp)'
+2025-09-29 18:47:05.268 +02:00 [INF] Request finished HTTP/1.1 POST http://localhost:5155/FillInTheBlank/Question/1 - 200 null text/html; charset=utf-8 40.839ms
+2025-09-29 18:47:05.282 +02:00 [INF] Request starting HTTP/1.1 GET http://localhost:5155/js/bootstrap.js - null null
+2025-09-29 18:47:05.282 +02:00 [INF] The file /js/bootstrap.js was not modified
+2025-09-29 18:47:05.282 +02:00 [INF] Request finished HTTP/1.1 GET http://localhost:5155/js/bootstrap.js - 304 null text/javascript 0.7127ms
+2025-09-29 18:52:46.793 +02:00 [INF] Application is shutting down...

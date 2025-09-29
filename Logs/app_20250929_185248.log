@@ -1,0 +1,25 @@
+2025-09-29 18:52:49.119 +02:00 [INF] User profile is available. Using '/home/mathias/.aspnet/DataProtection-Keys' as key repository; keys will not be encrypted at rest.
+2025-09-29 18:52:49.164 +02:00 [INF] Now listening on: http://localhost:5155
+2025-09-29 18:52:49.166 +02:00 [INF] Application started. Press Ctrl+C to shut down.
+2025-09-29 18:52:49.167 +02:00 [INF] Hosting environment: Development
+2025-09-29 18:52:49.167 +02:00 [INF] Content root path: /home/mathias/Documents/Programmering/QuizApp
+2025-09-29 18:52:51.098 +02:00 [INF] Request starting HTTP/1.1 GET http://localhost:5155/ - null null
+2025-09-29 18:52:51.109 +02:00 [INF] Executing endpoint 'QuizApp.Controllers.HomeController.Index (QuizApp)'
+2025-09-29 18:52:51.115 +02:00 [INF] Route matched with {action = "Index", controller = "Home"}. Executing controller action with signature Microsoft.AspNetCore.Mvc.IActionResult Index() on controller QuizApp.Controllers.HomeController (QuizApp).
+2025-09-29 18:52:51.118 +02:00 [INF] Executing ViewResult, running view Index.
+2025-09-29 18:52:51.139 +02:00 [INF] Executed ViewResult - view Index executed in 21.2639ms.
+2025-09-29 18:52:51.140 +02:00 [INF] Executed action QuizApp.Controllers.HomeController.Index (QuizApp) in 24.9381ms
+2025-09-29 18:52:51.140 +02:00 [INF] Executed endpoint 'QuizApp.Controllers.HomeController.Index (QuizApp)'
+2025-09-29 18:52:51.141 +02:00 [INF] Request finished HTTP/1.1 GET http://localhost:5155/ - 200 null text/html; charset=utf-8 44.5888ms
+2025-09-29 18:52:52.414 +02:00 [INF] Request starting HTTP/1.1 GET http://localhost:5155/FillInTheBlank/Question/1 - null null
+2025-09-29 18:52:52.415 +02:00 [INF] Executing endpoint 'QuizApp.Controllers.FillInTheBlankController.Question (QuizApp)'
+2025-09-29 18:52:52.422 +02:00 [INF] Route matched with {action = "Question", controller = "FillInTheBlank"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] Question(Int32) on controller QuizApp.Controllers.FillInTheBlankController (QuizApp).
+2025-09-29 18:52:52.505 +02:00 [INF] Executing ViewResult, running view Question.
+2025-09-29 18:52:52.539 +02:00 [INF] Executed ViewResult - view Question executed in 33.6518ms.
+2025-09-29 18:52:52.539 +02:00 [INF] Executed action QuizApp.Controllers.FillInTheBlankController.Question (QuizApp) in 116.7295ms
+2025-09-29 18:52:52.539 +02:00 [INF] Executed endpoint 'QuizApp.Controllers.FillInTheBlankController.Question (QuizApp)'
+2025-09-29 18:52:52.541 +02:00 [INF] Request finished HTTP/1.1 GET http://localhost:5155/FillInTheBlank/Question/1 - 200 null text/html; charset=utf-8 126.7585ms
+2025-09-29 18:52:52.563 +02:00 [INF] Request starting HTTP/1.1 GET http://localhost:5155/favicon.ico - null null
+2025-09-29 18:52:52.567 +02:00 [INF] Request finished HTTP/1.1 GET http://localhost:5155/favicon.ico - 404 0 null 3.1158ms
+2025-09-29 18:52:52.567 +02:00 [INF] Request reached the end of the middleware pipeline without being handled by application code. Request path: GET http://localhost:5155/favicon.ico, Response status code: 404
+2025-09-29 18:53:31.736 +02:00 [INF] Application is shutting down...

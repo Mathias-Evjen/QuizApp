@@ -17,3 +17,7 @@ build_property.SupportLocalizedComponentNames =
 build_property.GenerateRazorMetadataSourceChecksumAttributes = 
 build_property.MSBuildProjectDirectory = /home/mathias/Documents/Programmering/QuizApp
 build_property._RazorSourceGeneratorDebug = 
+
+[/home/mathias/Documents/Programmering/QuizApp/Views/FillInTheBlank/FillInTheBlank.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvRmlsbEluVGhlQmxhbmsvRmlsbEluVGhlQmxhbmsuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 

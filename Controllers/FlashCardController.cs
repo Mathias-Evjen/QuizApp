@@ -4,6 +4,7 @@ using QuizApp.ViewModels;
 using QuizApp.DAL;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using System.Threading.Tasks;
+using Serilog;
 
 namespace QuizApp.Controllers;
 
@@ -36,6 +37,7 @@ public class FlashCardController : Controller
     [HttpPost]
     public IActionResult RevealFlashCardAnswer(FlashCardsViewModel model) {
         model.FlashCards.ElementAt(model.CurrentFlashCardNum).ShowAnswer = !model.FlashCards.ElementAt(model.CurrentFlashCardNum).ShowAnswer;
+
         return View("FlashCards", model);
     }
 

@@ -11,7 +11,7 @@ namespace QuizApp.ViewModels
 
         public FlashCardsViewModel(IEnumerable<FlashCard> flashCards)
         {
-            FlashCards = flashCards;
+            FlashCards = flashCards.ToList();
         }
     }
 }

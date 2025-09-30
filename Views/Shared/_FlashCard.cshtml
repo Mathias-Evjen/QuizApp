@@ -3,6 +3,7 @@
 <div class="col border">
     <h3 class="start-text">Flash Card @Model.FlashCardId</h3>
     <div>
+        <!-- Shows either the question or the answer depending on ShowAnswer -->
         <h3 class="start-text">@(Model.ShowAnswer ? "Answer:" : "Question")</h3>
         <p>@(Model.ShowAnswer ? $"{@Model.Answer}" : $"{@Model.Question}")</p>
     </div>

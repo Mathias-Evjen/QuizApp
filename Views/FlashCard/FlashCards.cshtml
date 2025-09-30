@@ -14,16 +14,13 @@
         <input type="hidden" name="CurrentFlashCardNum" value="@Model.CurrentFlashCardNum" />
 
         <!-- Loops over all the flashcards and adds them and their attributes to the model to be sent back to the controller -->
-        @{
-            int revealIndex = 0;
-        }
-        @foreach (var card in Model.FlashCards)
+        <!-- Importantly keeps the state of the model so ShowAnswer remembers if it's true or false-->
+        @foreach (var card in Model.FlashCards.Select((c, index) => (c, index)))
         {
-            <input type="hidden" name="FlashCards[@(revealIndex)].FlashCardId" value="@card.FlashCardId" />
-            <input type="hidden" name="FlashCards[@(revealIndex)].Question" value="@card.Question" />
-            <input type="hidden" name="FlashCards[@(revealIndex)].Answer" value="@card.Answer" />
-            <input type="hidden" name="FlashCards[@(revealIndex)].ShowAnswer" value="@card.ShowAnswer" />
-            revealIndex++;
+            <input type="hidden" name="FlashCards[@card.index].FlashCardId" value="@card.c.FlashCardId" />
+            <input type="hidden" name="FlashCards[@card.index].Question" value="@card.c.Question" />
+            <input type="hidden" name="FlashCards[@card.index].Answer" value="@card.c.Answer" />
+            <input type="hidden" name="FlashCards[@card.index].ShowAnswer" value="@card.c.ShowAnswer.ToString().ToLower()" />
         }
 
         <!-- Cannot currently hide answer. Will be fixed in React -->
@@ -36,16 +33,13 @@
         <input type="hidden" name="CurrentFlashCardNum" value="@Model.CurrentFlashCardNum" />
 
         <!-- Loops over all the flashcards and adds them and their attributes to the model to be send back to the controller -->
-        @{
-            int nextIndex = 0;
-        }
-        @foreach (var card in Model.FlashCards)
+        <!-- Keeps the state of the model -->
+        @foreach (var card in Model.FlashCards.Select((c, index) => (c, index)))
         {
-            <input type="hidden" name="FlashCards[@(nextIndex)].FlashCardId" value="@card.FlashCardId" />
-            <input type="hidden" name="FlashCards[@(nextIndex)].Question" value="@card.Question" />
-            <input type="hidden" name="FlashCards[@(nextIndex)].Answer" value="@card.Answer" />
-            <input type="hidden" name="FlashCards[@(nextIndex)].ShowAnswer" value="@card.ShowAnswer" />
-            nextIndex++;
+            <input type="hidden" name="FlashCards[@card.index].FlashCardId" value="@card.c.FlashCardId" />
+            <input type="hidden" name="FlashCards[@card.index].Question" value="@card.c.Question" />
+            <input type="hidden" name="FlashCards[@card.index].Answer" value="@card.c.Answer" />
+            <input type="hidden" name="FlashCards[@card.index].ShowAnswer" value="@card.c.ShowAnswer.ToString().ToLower()" />
         }
         <button type="submit" class="btn btn-primary">Next Card</button>
     </form>

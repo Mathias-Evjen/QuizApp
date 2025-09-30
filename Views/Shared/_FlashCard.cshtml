@@ -1,0 +1,9 @@
+@model QuizApp.Models.FlashCard
+
+<div class="col border">
+    <h3 class="start-text">Flash Card @Model.FlashCardId</h3>
+    <div>
+        <h3 class="start-text">@(Model.ShowAnswer ? "Answer:" : "Question")</h3>
+        <p>@(Model.ShowAnswer ? $"{@Model.Answer}" : $"{@Model.Question}")</p>
+    </div>
+</div>

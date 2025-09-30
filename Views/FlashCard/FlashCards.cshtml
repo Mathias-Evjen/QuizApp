@@ -1,0 +1,44 @@
+@model QuizApp.ViewModels.FlashCardsViewModel
+
+<h1>Flash Cards</h1>
+
+<div class="row row-cols-1-1 g-4">
+    <p>@(Model.CurrentFlashCardNum)</p>
+    <partial name="_FlashCard" model="@Model.FlashCards.ElementAt(Model.CurrentFlashCardNum)" />
+
+    <!-- The following is a c# workaround. -->
+    <!-- React will make this a lot easier -->
+    <form asp-action="RevealFlashCardAnswer" method="post">
+        <input type="hidden" name="CurrentFlashCardNum" value="@Model.CurrentFlashCardNum" />
+
+        @{
+            int index = 0;
+        }
+        @foreach (var card in Model.FlashCards)
+        {
+            <input type="hidden" name="FlashCards[@(index)].FlashCardId" value="@card.FlashCardId" />
+            <input type="hidden" name="FlashCards[@(index)].Question" value="@card.Question" />
+            <input type="hidden" name="FlashCards[@(index)].Answer" value="@card.Answer" />
+            <input type="hidden" name="FlashCards[@(index)].ShowAnswer" value="@card.ShowAnswer" />
+            index++;
+        }
+        <button type="submit" class="btn btn-primary">Show Answer</button>
+    </form>
+
+    <form asp-action="FlashCards" method="post">
+        <input type="hidden" name="CurrentFlashCardNum" value="@Model.CurrentFlashCardNum" />
+
+        @{
+            int index = 0;
+        }
+        @foreach (var card in Model.FlashCards)
+        {
+            <input type="hidden" name="FlashCards[@(index)].FlashCardId" value="@card.FlashCardId" />
+            <input type="hidden" name="FlashCards[@(index)].Question" value="@card.Question" />
+            <input type="hidden" name="FlashCards[@(index)].Answer" value="@card.Answer" />
+            <input type="hidden" name="FlashCards[@(index)].ShowAnswer" value="@card.ShowAnswer" />
+            index++;
+        }
+        <button type="submit" class="btn btn-primary">Next Card</button>
+    </form>
+</div>

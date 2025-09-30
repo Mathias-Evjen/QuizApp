@@ -31,7 +31,22 @@ public class FlashCardController : Controller
         return View(flashCardsViewModel);
     }
 
-    // TODO: Manage POST-requests for FlashCards
+    [HttpPost]
+    public IActionResult RevealFlashCardAnswer(FlashCardsViewModel model) {
+        model.FlashCards.ElementAt(model.CurrentFlashCardNum).ShowAnswer = true;
+        return View("FlashCards", model);
+    }
+
+    // TODO: This will not be needed when we move over to React
+    [HttpPost]
+    public IActionResult FlashCards(FlashCardsViewModel model)
+    {
+        if (model.CurrentFlashCardNum + 1 < model.FlashCards.Count())
+        {
+            model.CurrentFlashCardNum += 1;
+        }
+        return View(model);
+    }
 
     [HttpGet]
     public IActionResult Create()

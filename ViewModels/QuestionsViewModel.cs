@@ -10,7 +10,7 @@ namespace QuizApp.ViewModels
 
         public QuestionsViewModel(IEnumerable<FillInTheBlank> questions)
         {
-            Questions = questions.Select(q => new FillInTheBlankViewModel(q.QuestionId, q.Question)).ToList();
+            Questions = questions.Select(q => new FillInTheBlankViewModel(q.FillInTheBlankId, q.Question)).ToList();
         }
     }
 }

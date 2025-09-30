@@ -66,7 +66,7 @@ public class FillInTheBlankController : Controller
         }
 
         // Map question to viewmodel without answer
-        var fillInTheBlankViewModel = new FillInTheBlankViewModel(question.QuestionId, question.Question);
+        var fillInTheBlankViewModel = new FillInTheBlankViewModel(question.FillInTheBlankId, question.Question);
         return View(fillInTheBlankViewModel);
     }
 

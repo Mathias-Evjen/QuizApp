@@ -1,0 +1,11 @@
+using Microsoft.AspnetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using QuizApp.Models;
+
+namespace QuizApp.Controllers
+{
+    public class QuestionsController : Controller
+    {
+        
+    }
+}

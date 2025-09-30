@@ -49,6 +49,7 @@ public class FillInTheBlankController : Controller
             }
 
             question.IsAnswerCorrect = _quizService.CheckAnswer(questionFromDb, question.UserAnswer);
+            question.CorrectAnswer = questionFromDb.Answer;
         }
         return View(model);
     }

@@ -7,6 +7,7 @@ namespace QuizApp.ViewModels
         public int Id { get; set; }
         public string Question { get; set; } = string.Empty;
         public string UserAnswer { get; set; } = string.Empty;
+        public string CorrectAnswer { get; set; } = string.Empty;
         public bool? IsAnswerCorrect { get; set; }
 
         public FillInTheBlankViewModel() {}

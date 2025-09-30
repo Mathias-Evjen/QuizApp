@@ -21,7 +21,7 @@
             @if (Model.IsAnswerCorrect.HasValue) 
             {
                 <div class="mt-3 alert @(Model.IsAnswerCorrect.Value ? "alert-success" : "alert-danger")">
-                    @(Model.IsAnswerCorrect.Value ? "Correct!" : "Wrong")
+                    @(Model.IsAnswerCorrect.Value ? "Correct!" : $"Wrong. The correct answer was '{@Model.CorrectAnswer}'")
                 </div>
             }
         </div>

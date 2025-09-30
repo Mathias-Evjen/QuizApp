@@ -54,7 +54,7 @@ public class FillInTheBlankController : Controller
 
     [HttpGet]
     public async Task<IActionResult> Question(int id)
-    {   
+    {
         // Ge the question from the databse
         var question = await _fillInTheBlankRepository.GetQuestionById(id);
         if (question == null)
@@ -84,6 +84,24 @@ public class FillInTheBlankController : Controller
         // Set the answer to correct or false in the model
         model.IsAnswerCorrect = _quizService.CheckAnswer(questionFromDb, model.UserAnswer);
         return View(model);
-    
+    }
+
+    [HttpGet]
+    public IActionResult Create()
+    {
+        return View();
+    }
+
+    [HttpPost]
+    public async Task<IActionResult> Create(FillInTheBlank fillQuestion)
+    {
+        if (ModelState.IsValid)
+        {
+            bool returnOk = await _fillInTheBlankRepository.Create(fillQuestion);
+            if (returnOk)
+                return RedirectToAction(nameof(Questions));
+        }
+        _logger.LogError("[FillInTheBlankController] Question creation failed {@question}", fillQuestion);
+        return View(fillQuestion);
     }
 }

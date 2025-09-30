@@ -39,32 +39,32 @@ public class FillInTheBlankRepository : IFillInTheBlankRepository
         }
     }
 
-    public async Task<bool> Create(FillInTheBlank fillInTheBlank)
+    public async Task<bool> Create(FillInTheBlank fillQuestion)
     {
         try
         {
-            _db.FillInTheBlankQuestions.Add(fillInTheBlank);
+            _db.FillInTheBlankQuestions.Add(fillQuestion);
             await _db.SaveChangesAsync();
             return true;
         }
         catch (Exception e)
         {
-            _logger.LogError("[FillInTheBlankRepository] FillInTheBlank creation failed for item {@fillInTheBlank}, error message: {e}", fillInTheBlank, e.Message);
+            _logger.LogError("[FillInTheBlankRepository] FillInTheBlank creation failed for item {@fillInTheBlank}, error message: {e}", fillQuestion, e.Message);
             return false;
         }
     }
 
-    public async Task<bool> Update(FillInTheBlank fillInTheBlank)
+    public async Task<bool> Update(FillInTheBlank fillQuestion)
     {
         try
         {
-            _db.FillInTheBlankQuestions.Update(fillInTheBlank);
+            _db.FillInTheBlankQuestions.Update(fillQuestion);
             await _db.SaveChangesAsync();
             return true;
         }
         catch (Exception e)
         {
-            _logger.LogError("[FillInTheBlankRepository] FillInTheBlank update failed for item {@fillInTheBlank}, error message: {e}", fillInTheBlank, e.Message);
+            _logger.LogError("[FillInTheBlankRepository] FillInTheBlank update failed for item {@fillInTheBlank}, error message: {e}", fillQuestion, e.Message);
             return false;
         }
     }
@@ -72,13 +72,13 @@ public class FillInTheBlankRepository : IFillInTheBlankRepository
     public async Task<bool> Delete(int id) {
         try
         {
-            var fillInTheBlank = await _db.FillInTheBlankQuestions.FindAsync(id);
-            if (fillInTheBlank == null)
+            var fillQuestion = await _db.FillInTheBlankQuestions.FindAsync(id);
+            if (fillQuestion == null)
             {
                 return false;
             }
 
-            _db.FillInTheBlankQuestions.Remove(fillInTheBlank);
+            _db.FillInTheBlankQuestions.Remove(fillQuestion);
             await _db.SaveChangesAsync();
             return true;
         }

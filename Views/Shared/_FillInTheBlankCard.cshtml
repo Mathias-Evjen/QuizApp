@@ -12,8 +12,7 @@
             <input type="hidden" name="@($"{prefix}.Id")" value="@Model.Id" />
             <input type="hidden" name="@($"{prefix}.Question")" value="@Model.Question" />
 
-            <h3>Answer:</h3>
-            <label for="@($"{prefix}.UserAnswer")">Your Answer</label>
+            <label for="@($"{prefix}.UserAnswer")">Your Answer:</label>
             <input type="text" name="@($"{prefix}.UserAnswer")" value="@Model.UserAnswer" class="form-control mb-2" />
             @if (Model.IsAnswerCorrect.HasValue) 
             {

@@ -3,7 +3,6 @@
 <h1>Flash Cards</h1>
 
 <div class="row row-cols-1-1 g-4">
-    <p>@(Model.CurrentFlashCardNum)</p>
     <partial name="_FlashCard" model="@Model.FlashCards.ElementAt(Model.CurrentFlashCardNum)" />
 
     <!-- The following is a c# workaround. -->
@@ -22,7 +21,9 @@
             <input type="hidden" name="FlashCards[@(index)].ShowAnswer" value="@card.ShowAnswer" />
             index++;
         }
-        <button type="submit" class="btn btn-primary">Show Answer</button>
+
+        <!-- Cannot currently hide answer. Will be fixed in React -->
+        <button type="submit" class="btn btn-primary">@(Model.FlashCards.ElementAt(Model.CurrentFlashCardNum).ShowAnswer ? "Hide Answer" : "Show Answer")</button>
     </form>
 
     <form asp-action="FlashCards" method="post">

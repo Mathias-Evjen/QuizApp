@@ -41,10 +41,10 @@ public class FillInTheBlankController : Controller
         {
             if (!ModelState.IsValid) return View(model);   // Check if the model state is valid
 
-            var questionFromDb = await _fillInTheBlankRepository.GetQuestionById(question.QuestionId);
+            var questionFromDb = await _fillInTheBlankRepository.GetQuestionById(question.FillInTheBlankId);
             if (questionFromDb == null)
             {
-                _logger.LogError("[FillInTheBlankController - Post Question] FillInTheBlank question not found for the Id {Id: 0000}", question.QuestionId);
+                _logger.LogError("[FillInTheBlankController - Post Question] FillInTheBlank question not found for the Id {Id: 0000}", question.FillInTheBlankId);
                 return NotFound("FillInTheBlank question not found.");
             }
 
@@ -76,10 +76,10 @@ public class FillInTheBlankController : Controller
         if (!ModelState.IsValid) return View(model); // Check if the model is correct
 
         // Get the question from the database
-        var questionFromDb = await _fillInTheBlankRepository.GetQuestionById(model.QuestionId);
+        var questionFromDb = await _fillInTheBlankRepository.GetQuestionById(model.FillInTheBlankId);
         if (questionFromDb == null)
         {
-            _logger.LogError("[FillInTheBlankController - Post Question] FillInTheBlank question not found for the Id {Id: 0000}", model.QuestionId);
+            _logger.LogError("[FillInTheBlankController - Post Question] FillInTheBlank question not found for the Id {Id: 0000}", model.FillInTheBlankId);
             return NotFound("FillInTheBlank question not found.");
         }
 

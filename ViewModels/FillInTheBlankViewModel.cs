@@ -4,7 +4,7 @@ namespace QuizApp.ViewModels
 {
     public class FillInTheBlankViewModel
     {
-        public int QuestionId { get; set; }
+        public int FillInTheBlankId { get; set; }
         public string Question { get; set; } = string.Empty;
         public string UserAnswer { get; set; } = string.Empty;
         public string CorrectAnswer { get; set; } = string.Empty;
@@ -14,7 +14,7 @@ namespace QuizApp.ViewModels
 
         public FillInTheBlankViewModel(int id, string question)
         {
-            QuestionId = id;
+            FillInTheBlankId = id;
             Question = question;
         }
     }

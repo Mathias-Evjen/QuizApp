@@ -3,6 +3,7 @@ using QuizApp.DAL;
 using QuizApp.Models;
 using QuizApp.ViewModels;
 using QuizApp.Services;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
 
 namespace QuizApp.Controllers;
 
@@ -19,6 +20,7 @@ public class FillInTheBlankController : Controller
         _logger = logger;
     }
 
+    [HttpGet]
     public async Task<IActionResult> Questions()
     {
         var questions = await _fillInTheBlankRepository.GetAll();
@@ -29,6 +31,27 @@ public class FillInTheBlankController : Controller
         }
         var questionsViewModelList = new QuestionsViewModel(questions);
         return View(questionsViewModelList);
+    }
+
+    [HttpPost]
+    public async Task<IActionResult> Questions(QuestionsViewModel model)
+    {
+        _logger.LogError("Questions returned from form: {models}", model.Questions);
+
+        foreach (var question in model.Questions)
+        {
+            if (!ModelState.IsValid) return View(model);   // Check if the model state is valid
+
+            var questionFromDb = await _fillInTheBlankRepository.GetQuestionById(question.Id);
+            if (questionFromDb == null)
+            {
+                _logger.LogError("[FillInTheBlankController - Post Question] FillInTheBlank question not found for the Id {Id: 0000}", question.Id);
+                return NotFound("FillInTheBlank question not found.");
+            }
+
+            question.IsAnswerCorrect = _quizService.CheckAnswer(questionFromDb, question.UserAnswer);
+        }
+        return View(model);
     }
 
     [HttpGet]

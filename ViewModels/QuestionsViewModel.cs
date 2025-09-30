@@ -4,7 +4,9 @@ namespace QuizApp.ViewModels
 {
     public class QuestionsViewModel
     {
-        public IEnumerable<FillInTheBlankViewModel> Questions;
+        public IEnumerable<FillInTheBlankViewModel> Questions { get; set; } = new List<FillInTheBlankViewModel>();
+
+        public QuestionsViewModel(){ }
 
         public QuestionsViewModel(IEnumerable<FillInTheBlank> questions)
         {

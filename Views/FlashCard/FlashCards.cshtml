@@ -7,38 +7,45 @@
 
     <!-- The following is a c# workaround. -->
     <!-- React will make this a lot easier -->
+
+    <!-- Form for revealing the answer of the flash card  -->
+    <!-- Sends a new version of the model to the controller  -->
     <form asp-action="RevealFlashCardAnswer" method="post">
         <input type="hidden" name="CurrentFlashCardNum" value="@Model.CurrentFlashCardNum" />
 
+        <!-- Loops over all the flashcards and adds them and their attributes to the model to be sent back to the controller -->
         @{
-            int index = 0;
+            int revealIndex = 0;
         }
         @foreach (var card in Model.FlashCards)
         {
-            <input type="hidden" name="FlashCards[@(index)].FlashCardId" value="@card.FlashCardId" />
-            <input type="hidden" name="FlashCards[@(index)].Question" value="@card.Question" />
-            <input type="hidden" name="FlashCards[@(index)].Answer" value="@card.Answer" />
-            <input type="hidden" name="FlashCards[@(index)].ShowAnswer" value="@card.ShowAnswer" />
-            index++;
+            <input type="hidden" name="FlashCards[@(revealIndex)].FlashCardId" value="@card.FlashCardId" />
+            <input type="hidden" name="FlashCards[@(revealIndex)].Question" value="@card.Question" />
+            <input type="hidden" name="FlashCards[@(revealIndex)].Answer" value="@card.Answer" />
+            <input type="hidden" name="FlashCards[@(revealIndex)].ShowAnswer" value="@card.ShowAnswer" />
+            revealIndex++;
         }
 
         <!-- Cannot currently hide answer. Will be fixed in React -->
         <button type="submit" class="btn btn-primary">@(Model.FlashCards.ElementAt(Model.CurrentFlashCardNum).ShowAnswer ? "Hide Answer" : "Show Answer")</button>
     </form>
 
+    <!-- Form for moving to the next flash card -->
+    <!-- Sends a new version of the model to the controller  -->
     <form asp-action="FlashCards" method="post">
         <input type="hidden" name="CurrentFlashCardNum" value="@Model.CurrentFlashCardNum" />
 
+        <!-- Loops over all the flashcards and adds them and their attributes to the model to be send back to the controller -->
         @{
-            int index = 0;
+            int nextIndex = 0;
         }
         @foreach (var card in Model.FlashCards)
         {
-            <input type="hidden" name="FlashCards[@(index)].FlashCardId" value="@card.FlashCardId" />
-            <input type="hidden" name="FlashCards[@(index)].Question" value="@card.Question" />
-            <input type="hidden" name="FlashCards[@(index)].Answer" value="@card.Answer" />
-            <input type="hidden" name="FlashCards[@(index)].ShowAnswer" value="@card.ShowAnswer" />
-            index++;
+            <input type="hidden" name="FlashCards[@(nextIndex)].FlashCardId" value="@card.FlashCardId" />
+            <input type="hidden" name="FlashCards[@(nextIndex)].Question" value="@card.Question" />
+            <input type="hidden" name="FlashCards[@(nextIndex)].Answer" value="@card.Answer" />
+            <input type="hidden" name="FlashCards[@(nextIndex)].ShowAnswer" value="@card.ShowAnswer" />
+            nextIndex++;
         }
         <button type="submit" class="btn btn-primary">Next Card</button>
     </form>

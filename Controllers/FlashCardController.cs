@@ -31,6 +31,8 @@ public class FlashCardController : Controller
         return View(flashCardsViewModel);
     }
 
+
+    // Switches the ShowAnswer value of the current flash card and returns the model
     [HttpPost]
     public IActionResult RevealFlashCardAnswer(FlashCardsViewModel model) {
         model.FlashCards.ElementAt(model.CurrentFlashCardNum).ShowAnswer = !model.FlashCards.ElementAt(model.CurrentFlashCardNum).ShowAnswer;

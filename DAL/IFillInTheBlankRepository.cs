@@ -6,8 +6,8 @@ public interface IFillInTheBlankRepository
 {
     Task<IEnumerable<FillInTheBlank>?> GetAll();
     Task<FillInTheBlank?> GetQuestionById(int id);
-    Task<bool> Create(FillInTheBlank fillInTheBlank);
-    Task<bool> Update(FillInTheBlank fillInTheBlank);
-    Task<bool> Delete(int id);
+    Task<bool> CreateQuestion(FillInTheBlank fillInTheBlank);
+    Task<bool> UpdateQuestion(FillInTheBlank fillInTheBlank);
+    Task<bool> DeleteQuestion(int id);
 
 }

@@ -39,7 +39,7 @@ public class FillInTheBlankRepository : IFillInTheBlankRepository
         }
     }
 
-    public async Task<bool> Create(FillInTheBlank fillQuestion)
+    public async Task<bool> CreateQuestion(FillInTheBlank fillQuestion)
     {
         try
         {
@@ -54,7 +54,7 @@ public class FillInTheBlankRepository : IFillInTheBlankRepository
         }
     }
 
-    public async Task<bool> Update(FillInTheBlank fillQuestion)
+    public async Task<bool> UpdateQuestion(FillInTheBlank fillQuestion)
     {
         try
         {
@@ -69,7 +69,7 @@ public class FillInTheBlankRepository : IFillInTheBlankRepository
         }
     }
 
-    public async Task<bool> Delete(int id) {
+    public async Task<bool> DeleteQuestion(int id) {
         try
         {
             var fillQuestion = await _db.FillInTheBlankQuestions.FindAsync(id);

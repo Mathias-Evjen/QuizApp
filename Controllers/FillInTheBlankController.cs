@@ -98,7 +98,7 @@ public class FillInTheBlankController : Controller
     {
         if (ModelState.IsValid)
         {
-            bool returnOk = await _fillInTheBlankRepository.Create(fillQuestion);
+            bool returnOk = await _fillInTheBlankRepository.CreateQuestion(fillQuestion);
             if (returnOk)
                 return RedirectToAction(nameof(Questions));
         }
@@ -123,11 +123,36 @@ public class FillInTheBlankController : Controller
     {
         if (ModelState.IsValid)
         {
-            bool returnOk = await _fillInTheBlankRepository.Update(fillQuestion);
+            bool returnOk = await _fillInTheBlankRepository.UpdateQuestion(fillQuestion);
             if (returnOk)
                 return RedirectToAction(nameof(Questions));
         }
         _logger.LogError("[FillInTheBlankController] Question update failed {@question}", fillQuestion);
         return View(fillQuestion);
+    }
+
+    [HttpGet]
+    public async Task<IActionResult> Delete(int id)
+    {
+        var question = await _fillInTheBlankRepository.GetQuestionById(id);
+        if (question == null)
+        {
+            _logger.LogError("[FillInTheBlankController] Question deletion failed for the QuestionId {QuestionId:0000}", id);
+            return BadRequest("Question not found for the QuestionId");
+        }
+        return View(question);
+    }
+
+    [HttpPost]
+    public async Task<IActionResult> DeleteConfirmed(int id)
+    {
+        bool returnOk = await _fillInTheBlankRepository.DeleteQuestion(id);
+        if (!returnOk)
+        {
+            _logger.LogError("[FillInTheBlankController] Question deletion failed for QuestionId {QuestionId: 0000}", id);
+            return BadRequest("Question deletion failed");
+        }
+        return RedirectToAction(nameof(Questions));
+        
     }
 }

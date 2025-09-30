@@ -5,7 +5,11 @@
 
 <div class="col">
     <div class="mt-2">
-        <span><h3 class="text-start">Question @Model.Id</h3><a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-secondary">Edit</a></span>
+        <span>
+            <h3 class="text-start">Question @Model.Id</h3>
+            <a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-secondary">Edit</a>
+            <a asp-action="Delete" asp-route-id="@Model.Id" class="btn btn-danger">Delete</a>
+        </span>
         <p>@Model.Question</p>
 
         <div class="form-group">

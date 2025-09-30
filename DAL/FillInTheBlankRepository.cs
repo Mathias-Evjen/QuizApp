@@ -34,7 +34,7 @@ public class FillInTheBlankRepository : IFillInTheBlankRepository
         }
         catch (Exception e)
         {
-            _logger.LogError("[FillInTheBlankRepository] FillInTheBlank FindAsync(id) failed whtn GetQuestionById) for FillInTheBlankId {FillInTheBlankId:0000}, error message: {e}", id, e.Message);
+            _logger.LogError("[FillInTheBlankRepository] FillInTheBlank FindAsync(id) failed when GetQuestionById) for FillInTheBlankId {FillInTheBlankId:0000}, error message: {e}", id, e.Message);
             return null;
         }
     }
@@ -49,7 +49,7 @@ public class FillInTheBlankRepository : IFillInTheBlankRepository
         }
         catch (Exception e)
         {
-            _logger.LogError("[FillInTheBlankRepository] FillInTheBlank creation failed for item {@fillInTheBlank}, error message: {e}", fillQuestion, e.Message);
+            _logger.LogError("[FillInTheBlankRepository] FillInTheBlank creation failed for question {@fillInTheBlank}, error message: {e}", fillQuestion, e.Message);
             return false;
         }
     }
@@ -64,7 +64,7 @@ public class FillInTheBlankRepository : IFillInTheBlankRepository
         }
         catch (Exception e)
         {
-            _logger.LogError("[FillInTheBlankRepository] FillInTheBlank update failed for item {@fillInTheBlank}, error message: {e}", fillQuestion, e.Message);
+            _logger.LogError("[FillInTheBlankRepository] FillInTheBlank update failed for question {@fillInTheBlank}, error message: {e}", fillQuestion, e.Message);
             return false;
         }
     }

@@ -57,7 +57,7 @@ public class FillInTheBlankController : Controller
     [HttpGet]
     public async Task<IActionResult> Question(int id)
     {
-        // Ge the question from the databse
+        // Get the question from the databse
         var question = await _fillInTheBlankRepository.GetQuestionById(id);
         if (question == null)
         {
@@ -150,10 +150,9 @@ public class FillInTheBlankController : Controller
         bool returnOk = await _fillInTheBlankRepository.DeleteQuestion(id);
         if (!returnOk)
         {
-            _logger.LogError("[FillInTheBlankController] Question deletion failed for QuestionId {QuestionId: 0000}", id);
+            _logger.LogError("[FillInTheBlankController] Question deletion failed for QuestionId {QuestionId:0000}", id);
             return BadRequest("Question deletion failed");
         }
         return RedirectToAction(nameof(Questions));
-        
     }
 }

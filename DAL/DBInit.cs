@@ -28,5 +28,26 @@ public static class DBInit
             context.AddRange(questions);
             context.SaveChanges();
         }
+
+        if (!context.FlashCards.Any())
+        {
+            var questions = new List<FlashCard>
+            {
+                new FlashCard {
+                    Question = "What is the capital of Norway?",
+                    Answer = "Oslo"
+                },
+                new FlashCard {
+                    Question = "What is the capital of Sweden?",
+                    Answer = "Stockholm"
+                },
+                new FlashCard {
+                    Question = "What is the capital of Denmark?",
+                    Answer = "Copenhagen"
+                }
+            };
+            context.AddRange(questions);
+            context.SaveChanges();
+        }
     }
 }

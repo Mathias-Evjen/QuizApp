@@ -11,6 +11,7 @@ public class QuizDbContext : DbContext
     }
 
     public DbSet<FillInTheBlank> FillInTheBlankQuestions { get; set; }
+    public DbSet<FlashCard> FlashCards { get; set; }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {

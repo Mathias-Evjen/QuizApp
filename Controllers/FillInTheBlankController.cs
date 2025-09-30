@@ -4,6 +4,7 @@ using QuizApp.Models;
 using QuizApp.ViewModels;
 using QuizApp.Services;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
+using System.Threading.Tasks;
 
 namespace QuizApp.Controllers;
 
@@ -102,6 +103,31 @@ public class FillInTheBlankController : Controller
                 return RedirectToAction(nameof(Questions));
         }
         _logger.LogError("[FillInTheBlankController] Question creation failed {@question}", fillQuestion);
+        return View(fillQuestion);
+    }
+
+    [HttpGet]
+    public async Task<IActionResult> Edit(int id)
+    {
+        var question = await _fillInTheBlankRepository.GetQuestionById(id);
+        if (question == null)
+        {
+            _logger.LogError("[FillInTheBlankController] Question not found when updating QuestionId {QuestionId: 0000}", id);
+            return BadRequest("Question not found for the QuestionId");
+        }
+        return View(question);
+    }
+
+    [HttpPost]
+    public async Task<IActionResult> Edit(FillInTheBlank fillQuestion)
+    {
+        if (ModelState.IsValid)
+        {
+            bool returnOk = await _fillInTheBlankRepository.Update(fillQuestion);
+            if (returnOk)
+                return RedirectToAction(nameof(Questions));
+        }
+        _logger.LogError("[FillInTheBlankController] Question update failed {@question}", fillQuestion);
         return View(fillQuestion);
     }
 }

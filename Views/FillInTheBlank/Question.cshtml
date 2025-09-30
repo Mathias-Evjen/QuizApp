@@ -1,33 +1,7 @@
 @model QuizApp.ViewModels.FillInTheBlankViewModel
 
-<!DOCTYPE html>
+<h1>Questions</h1>
 
-<html>
-<head>
-    <meta name="viewport" content="width=device-width" />
-    <link rel="stylesheet" href="//netdna.bootstrapcdn. com/bootstrap/3.0.3/css/bootstrap.min. css">
-    <title>QuizApp</title>
-</head>
-<body>
-    <div class="container">
-        <form asp-action="Question" method="post">
-            <input type="hidden" asp-for="@(Model.Id)" />
-            <input type="hidden" asp-for="@(Model.Question)" />
-            <h1>@ViewBag.CurrentViewName</h1>
-            <h3>Question:</h3>
-            <p>@Model.Question</p>
-            <h3>Answer:</h3>
-            <label asp-for="UserAnswer"></label>
-            <input asp-for="UserAnswer" class="form-control" />
-            <button type="submit" class="btn btn-primary">Check</button>
-
-            @if (Model.IsAnswerCorrect.HasValue) 
-            {
-                <div class="mt-3 alert @(Model.IsAnswerCorrect.Value ? "alert-success" : "alert-danger")">
-                    @(Model.IsAnswerCorrect.Value ? "Correct!" : "Wrong")
-                </div>
-            }
-        </form>
-    </div>
-</body>
-</html>
+<div>
+    <partial name="_FillInTheBlankCard" model="@Model" />
+</div>

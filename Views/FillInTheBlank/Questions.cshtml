@@ -1,0 +1,10 @@
+@model QuizApp.ViewModels.QuestionsViewModel
+
+<h1>List of questions</h1>
+
+<div class="row row-cols-1 g-4">
+    @foreach (var question in Model.Questions) 
+    {
+        <partial name="_FillInTheBlankCard" model="question" />
+    }
+</div>

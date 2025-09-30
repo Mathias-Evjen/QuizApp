@@ -19,7 +19,17 @@ public class FillInTheBlankController : Controller
         _logger = logger;
     }
 
-    // public async Task
+    public async Task<IActionResult> Questions()
+    {
+        var questions = await _fillInTheBlankRepository.GetAll();
+        if (questions == null)
+        {
+            _logger.LogError("[FillInTheBlankController] Questions list not found while executing _fillInTheBlankRepository.GetAll()");
+            return NotFound("Questions not found");
+        }
+        var questionsViewModelList = new QuestionsViewModel(questions);
+        return View(questionsViewModelList);
+    }
 
     [HttpGet]
     public async Task<IActionResult> Question(int id)

@@ -7,23 +7,7 @@
         @for (int i = 0; i < @Model.Questions.Count(); i++) 
         {
             QuizApp.ViewModels.FillInTheBlankViewModel? question = @Model.Questions.ElementAt(i);
-            <h3 class="text-start">Question @question.Id</h3>
-            <p>@question.Question</p>
-
-            <div class="form-group">
-                <input type="hidden" name="Questions[@i].Id" value="@question.Id" />
-                <input type="hidden" name="Questions[@i].Id" value="@question.Id" />
-
-                <h3>Answer:</h3>
-                <label for="Questions[@i].UserAnswer">Your Answer</label>
-                <input type="text" name="Questions[@i].UserAnswer" value="@question.UserAnswer" class="form-control mb-2" />
-                @if (question.IsAnswerCorrect.HasValue) 
-                {
-                    <div class="mt-3 alert @(question.IsAnswerCorrect.Value ? "alert-success" : "alert-danger")">
-                        @(question.IsAnswerCorrect.Value ? "Correct!" : "Wrong")
-                    </div>
-                }
-            </div>
+            <partial name="_FillInTheBlankCard" model="question" view-data='new ViewDataDictionary(ViewData) { ["prefix"] = $"Questions[{i}]" }'/>
         }
         <button type="submit" class="btn btn-primary">Submit</button>
     </form>

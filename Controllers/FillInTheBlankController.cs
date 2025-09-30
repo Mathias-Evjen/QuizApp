@@ -36,8 +36,6 @@ public class FillInTheBlankController : Controller
     [HttpPost]
     public async Task<IActionResult> Questions(QuestionsViewModel model)
     {
-        _logger.LogError("Questions returned from form: {models}", model.Questions);
-
         foreach (var question in model.Questions)
         {
             if (!ModelState.IsValid) return View(model);   // Check if the model state is valid

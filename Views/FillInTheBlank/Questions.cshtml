@@ -4,13 +4,16 @@
 
 <div class="row row-cols-1 g-4">
     <form asp-action="Questions" method="post">
+
+        <!-- ViewData is set with to its corresponding question and then passed on to _FillInTheBlankCard as its viewdata -->
+        <!-- Allows for _FillInTheBlankCard to use asp-for -->
         @for (int i = 0; i < @Model.Questions.Count(); i++) 
         {
-            QuizApp.ViewModels.FillInTheBlankViewModel? question = @Model.Questions.ElementAt(i);
-            <partial 
-                name="_FillInTheBlankCard" 
-                model="question" 
-                view-data='new ViewDataDictionary(ViewData) { ["questionVM"] = $"Questions[{i}]" }'/>
+            var question = Model.Questions.ElementAt(i);
+            var vd = new ViewDataDictionary(ViewData);
+            vd.TemplateInfo.HtmlFieldPrefix = $"Questions[{i}]";
+
+            <partial name="_FillInTheBlankCard", model="question", view-data="vd"/>
         }
         <button type="submit" class="btn btn-primary">Submit</button>
         <a asp-action="Create" class="btn btn-secondary">Add question</a>

@@ -1,12 +1,5 @@
 @model QuizApp.ViewModels.FillInTheBlankViewModel
 
-<!-- Defines a prefix for where the values in the form should be mapped -->
-<!-- Works in key-value pairs: questionVM.FillInTheBlankId = Model.FillInTheBlankId -->
-<!-- This becomes Model.Questions[0].FillInTheBlankId=1 (if the value is set to 1) in the Questions razor view -->
-@{
-    var questionVM = ViewData["questionVM"]?.ToString() ?? "";
-}
-
 <div class="col">
     <div class="mt-2">
         <span>
@@ -17,11 +10,11 @@
         <p>@Model.Question</p>
 
         <div class="form-group">
-            <input type="hidden" name="@($"{questionVM}.FillInTheBlankId")" value="@Model.FillInTheBlankId" />
-            <input type="hidden" name="@($"{questionVM}.Question")" value="@Model.Question" />
+            <input type="hidden" asp-for="FillInTheBlankId" />
+            <input type="hidden" asp-for="Question" />
 
-            <label for="@($"{questionVM}.UserAnswer")">Your Answer:</label>
-            <input type="text" for="@($"{questionVM}.UserAnswer")" name="@($"{questionVM}.UserAnswer")" value="@Model.UserAnswer" class="form-control mb-2" />
+            <label asp-for="UserAnswer">Your Answer:</label>
+            <input type="text" asp-for="UserAnswer" class="form-control mb-2" />
             @if (Model.IsAnswerCorrect.HasValue) 
             {
                 <div class="mt-3 alert @(Model.IsAnswerCorrect.Value ? "alert-success" : "alert-danger")">

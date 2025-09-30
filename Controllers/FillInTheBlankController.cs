@@ -41,10 +41,10 @@ public class FillInTheBlankController : Controller
         {
             if (!ModelState.IsValid) return View(model);   // Check if the model state is valid
 
-            var questionFromDb = await _fillInTheBlankRepository.GetQuestionById(question.Id);
+            var questionFromDb = await _fillInTheBlankRepository.GetQuestionById(question.QuestionId);
             if (questionFromDb == null)
             {
-                _logger.LogError("[FillInTheBlankController - Post Question] FillInTheBlank question not found for the Id {Id: 0000}", question.Id);
+                _logger.LogError("[FillInTheBlankController - Post Question] FillInTheBlank question not found for the Id {Id: 0000}", question.QuestionId);
                 return NotFound("FillInTheBlank question not found.");
             }
 
@@ -66,7 +66,7 @@ public class FillInTheBlankController : Controller
         }
 
         // Map question to viewmodel without answer
-        var fillInTheBlankViewModel = new FillInTheBlankViewModel(question.Id, question.Question);
+        var fillInTheBlankViewModel = new FillInTheBlankViewModel(question.QuestionId, question.Question);
         return View(fillInTheBlankViewModel);
     }
 
@@ -76,10 +76,10 @@ public class FillInTheBlankController : Controller
         if (!ModelState.IsValid) return View(model); // Check if the model is correct
 
         // Get the question from the database
-        var questionFromDb = await _fillInTheBlankRepository.GetQuestionById(model.Id);
+        var questionFromDb = await _fillInTheBlankRepository.GetQuestionById(model.QuestionId);
         if (questionFromDb == null)
         {
-            _logger.LogError("[FillInTheBlankController - Post Question] FillInTheBlank question not found for the Id {Id: 0000}", model.Id);
+            _logger.LogError("[FillInTheBlankController - Post Question] FillInTheBlank question not found for the Id {Id: 0000}", model.QuestionId);
             return NotFound("FillInTheBlank question not found.");
         }
 

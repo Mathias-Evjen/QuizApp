@@ -4,17 +4,26 @@ namespace QuizApp.ViewModels
 {
     public class MatchingViewModel
     {
-        public int Id { get; set; }
-        public string Question { get; set; } = string.Empty;
-        public string Answer { get; set; } = string.Empty;
-        public int AmountCorrect { get; set; }
+        public Matching Question { get; set; }
+        public List<string> Keys { get; set; } = new List<string>();
+        public List<string> Values { get; set; } = new List<string>();
 
         public MatchingViewModel() { }
 
-        public MatchingViewModel(int id, string question)
+        public MatchingViewModel(Matching question)
         {
-            Id = id;
             Question = question;
+
+
+            foreach (var pair in question.SplitQuestion())
+            {
+                Keys.Add(pair.Key);
+            }
+
+            for (int i = 0; i < Keys.Count; i++)
+            {
+                Values.Add(string.Empty);
+            }
         }
     }
 

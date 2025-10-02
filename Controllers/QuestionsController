@@ -4,8 +4,5 @@ using QuizApp.Models;
 
 namespace QuizApp.Controllers
 {
-    public class QuestionsController : Controller
-    {
-        
-    }
+    
 }

@@ -1,17 +1,17 @@
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
 namespace QuizApp.Models
 {
-    public class Question
+    public class Option
     {
         public int Id { get; set; }
 
         [Required]
         public string Text { get; set; } = "";
 
-        public List<Option> Options { get; set; } = new();
+        public bool IsCorrect { get; set; }
 
-        public bool AllowMultiple { get; set; } = false;
+        public int QuestionId { get; set; }
+        public Question? Question { get; set; }
     }
 }

@@ -1,0 +1,30 @@
+@model IEnumerable<QuizApp.Models.Question>
+@{
+    ViewData["Title"] = "Quiz";
+}
+
+<h2>Ta quizen</h2>
+
+<form asp-action="Submit" method="post">
+@foreach (var q in Model)
+{
+    <div>
+        <p><b>@q.Text</b></p>
+        @if (q.AllowMultiple)
+        {
+            foreach (var o in q.Options)
+            {
+                <input type="checkbox" name="answers[@q.Id]" value="@o.Text" /> @o.Text <br/>
+            }
+        }
+        else
+        {
+            foreach (var o in q.Options)
+            {
+                <input type="radio" name="answers[@q.Id]" value="@o.Text" /> @o.Text <br/>
+            }
+        }
+    </div>
+}
+    <button type="submit">Send inn</button>
+</form>

@@ -15,7 +15,7 @@ namespace QuizApp.Models
         public int QuestionId { get; set; }
         public string QuestionText { get; set; } = string.Empty;
         public List<string> SelectedAnswers { get; set; } = new();
-        public List<string> CorectAnswers { get; set; } = new();
+        public List<string> CorrectAnswers { get; set; } = new();
         public bool IsCorrect { get; set; }
     }
 }

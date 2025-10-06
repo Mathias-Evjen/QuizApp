@@ -1,0 +1,32 @@
+@model IEnumerable<FlashCardQuiz>
+
+<h1>List of Flash Card quizzes</h1>
+<div style="border: 1px solid #ccc; padding: 10px; margin-bottom: 20px;">
+    <div class="container">
+        <div>
+            <table class="table table-striped" style="max-width: 1200px;">
+                <tr class="table-header">
+                    <th>Quiz ID</th>
+                    <th>Quiz Name</th>
+                    <th>Description</th>
+                    <th>Number of questions</th>
+                    <th>Actions</th>
+                </tr>
+                @foreach(var quiz in Model)
+                {
+                    <tr>
+                        <td>@quiz.FlashCardQuizId</td>
+                        <td><a class="nav-link text-dark" asp-controller="FlashCard" asp-action="FlashCards" asp-route-quizId="@quiz.FlashCardQuizId">@quiz.Name</a></td>
+                        <td>@quiz.Description</td>
+                        <td>@quiz.NumOfQuestions</td>
+                        <td>
+                            <a asp-action="Edit" asp-route-id="@quiz.FlashCardQuizId">Add Flash Cards</a>
+                            <a asp-action="Delete" asp-route-id="@quiz.FlashCardQuizId">Delete</a>
+                        </td>
+                    </tr>
+                }
+            </table>
+            <a asp-action="Create" class="btn btn-primary">New quiz</a>
+        </div>
+    </div>
+</div>

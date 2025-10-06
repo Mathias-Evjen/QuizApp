@@ -14,11 +14,13 @@ public class FlashCardRepository : IFlashCardRepository
         _logger = logger;
     }
 
-    public async Task<IEnumerable<FlashCard>?> GetAll()
+    public async Task<IEnumerable<FlashCard>?> GetAll(int quizId)
     {
         try
         {
-            return await _db.FlashCards.ToListAsync();
+            return await _db.FlashCards
+                                .Where(fc => fc.QuizId == quizId)
+                                .ToListAsync();
         }
         catch (Exception e)
         {

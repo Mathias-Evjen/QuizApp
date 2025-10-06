@@ -29,25 +29,46 @@ public static class DBInit
             context.SaveChanges();
         }
 
+        
+        if (!context.FlashCardQuizzes.Any())
+        {
+            var quiz = new List<FlashCardQuiz>
+            {
+                new FlashCardQuiz {Name = "Capitals of Scandinavia", Description = "Flashcards with questions about the captial cities of Scandinavia"}
+            };
+            context.AddRange(quiz);
+            context.SaveChanges();
+        }
+
         if (!context.FlashCards.Any())
         {
+            var quiz = context.FlashCardQuizzes.Find(1);
             var questions = new List<FlashCard>
             {
                 new FlashCard {
                     Question = "What is the capital of Norway?",
-                    Answer = "Oslo"
+                    Answer = "Oslo",
+                    Quiz = quiz!
                 },
                 new FlashCard {
                     Question = "What is the capital of Sweden?",
-                    Answer = "Stockholm"
+                    Answer = "Stockholm",
+                    Quiz = quiz!
                 },
                 new FlashCard {
                     Question = "What is the capital of Denmark?",
-                    Answer = "Copenhagen"
+                    Answer = "Copenhagen",
+                    Quiz = quiz!
                 }
             };
             context.AddRange(questions);
             context.SaveChanges();
         }
+        var quizzes = context.FlashCardQuizzes.Include(fc => fc.FlashCards);
+        foreach(var quiz in quizzes)
+        {
+            quiz.NumOfQuestions = quiz.FlashCards != null ? quiz.FlashCards.Count : 0;
+        }
+        context.SaveChanges();
     }
 }

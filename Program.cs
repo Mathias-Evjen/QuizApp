@@ -21,6 +21,7 @@ builder.Services.AddDbContext<QuizDbContext>(options =>
 
 builder.Services.AddScoped<IFillInTheBlankRepository, FillInTheBlankRepository>();
 builder.Services.AddScoped<IFlashCardRepository, FlashCardRepository>();
+builder.Services.AddScoped<IFlashCardQuizRepository, FlashCardQuizRepository>();
 builder.Services.AddScoped<QuizService>();
 
 builder.Services.AddRazorPages();

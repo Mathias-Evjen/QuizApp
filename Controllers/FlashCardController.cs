@@ -20,9 +20,9 @@ public class FlashCardController : Controller
     }
 
     [HttpGet]
-    public async Task<IActionResult> FlashCards()
+    public async Task<IActionResult> FlashCards(int quizId)
     {
-        var flashCards = await _flashCardRepository.GetAll();
+        var flashCards = await _flashCardRepository.GetAll(quizId);
         if (flashCards == null)
         {
             _logger.LogError("[FlashCardController] FlashCards list not found while executing _flashCardRepository.GetAll()");

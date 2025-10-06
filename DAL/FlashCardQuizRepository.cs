@@ -18,7 +18,9 @@ public class FlashCardQuizRepository : IFlashCardQuizRepository
     {
         try 
         {
-            return await _db.FlashCardQuizzes.ToListAsync();
+            return await _db.FlashCardQuizzes
+                                .Include(fc => fc.FlashCards)
+                                .ToListAsync();
         }
         catch (Exception e) 
         {
@@ -30,7 +32,9 @@ public class FlashCardQuizRepository : IFlashCardQuizRepository
     public async Task<FlashCardQuiz?> GetFlashCardQuizById(int id) {
         try
         {
-            return await _db.FlashCardQuizzes.FindAsync(id);
+            return await _db.FlashCardQuizzes
+                                .Include(q => q.FlashCards)
+                                .FirstOrDefaultAsync(q => q.FlashCardQuizId == id);
         }
         catch (Exception e)
         {
@@ -74,10 +78,7 @@ public class FlashCardQuizRepository : IFlashCardQuizRepository
         try
         {
             var quiz = await _db.FlashCardQuizzes.FindAsync(id);
-            if (quiz == null) 
-            {
-                return false;
-            }
+            if (quiz == null) return false;
 
             _db.FlashCardQuizzes.Remove(quiz);
             await _db.SaveChangesAsync();

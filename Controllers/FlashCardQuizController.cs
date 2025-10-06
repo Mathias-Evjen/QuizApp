@@ -19,7 +19,7 @@ public class FlashCardQuizController : Controller
     }
 
     [HttpGet]
-    public async Task<IActionResult> FlashCardQuizzes()
+    public async Task<IActionResult> Quizzes()
     {
         var quizzes = await _flashCardQuizRepository.GetAll();
         if (quizzes == null)
@@ -55,7 +55,7 @@ public class FlashCardQuizController : Controller
         {
             bool returnOk = await _flashCardQuizRepository.CreateFlashCardQuiz(quiz);
             if (returnOk)
-                return RedirectToAction(nameof(FlashCardQuizzes));
+                return RedirectToAction(nameof(Quizzes));
         }
         _logger.LogError("[FlashCardQuizController] FlashCardQuiz creation failed {@question}", quiz);
         return View(quiz);
@@ -80,7 +80,7 @@ public class FlashCardQuizController : Controller
         {
             bool returnOk = await _flashCardQuizRepository.UpdateFlashCardQuiz(quiz);
             if (returnOk)
-                return RedirectToAction(nameof(FlashCardQuizzes));
+                return RedirectToAction(nameof(Quizzes));
         }
         _logger.LogError("[FlashCardQuizController] FlashCardQuiz update failed {@quiz}", quiz);
         return View(quiz);
@@ -107,6 +107,6 @@ public class FlashCardQuizController : Controller
             _logger.LogError("[FlashCardQuizController] FlashCardQuiz deletion failed for FlashCardQuizId {Id:0000}", id);
             return BadRequest("FlashCardQuiz deletion failed");
         }
-        return RedirectToAction(nameof(FlashCardQuizzes));
+        return RedirectToAction(nameof(Quizzes));
     }
 }

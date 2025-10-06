@@ -1,8 +1,8 @@
 @model QuizApp.ViewModels.FlashCardsViewModel
 
 <h1>Flash Cards</h1>
-
-<div class="row row-cols-1-1 g-4">
+@if (Model.FlashCards.Any()) {
+    <div class="row row-cols-1-1 g-4">
     <partial name="_FlashCard" model="@Model.FlashCards.ElementAt(Model.CurrentFlashCardNum)" />
 
     <!-- The following is a c# workaround. -->
@@ -43,4 +43,8 @@
         }
         <button type="submit" class="btn btn-primary">Next Card</button>
     </form>
-</div>
+    <a asp-controller="FlashCardQuiz" asp-action="Quizzes" class="btn btn-secondary">Exit</a>
+    </div>
+} else {
+    <h3>There are no questions in this quiz</h3>
+}

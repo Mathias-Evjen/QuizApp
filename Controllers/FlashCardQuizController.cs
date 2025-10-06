@@ -85,7 +85,7 @@ public class FlashCardQuizController : Controller
         _logger.LogError("[FlashCardQuizController] FlashCardQuiz update failed {@quiz}", quiz);
         return View(quiz);
     }
-
+    
     [HttpGet]
     public async Task<IActionResult> Delete(int id)
     {

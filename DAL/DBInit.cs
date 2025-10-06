@@ -48,17 +48,20 @@ public static class DBInit
                 new FlashCard {
                     Question = "What is the capital of Norway?",
                     Answer = "Oslo",
-                    Quiz = quiz!
+                    Quiz = quiz!,
+                    QuizQuestionNum = 1
                 },
                 new FlashCard {
                     Question = "What is the capital of Sweden?",
                     Answer = "Stockholm",
-                    Quiz = quiz!
+                    Quiz = quiz!,
+                    QuizQuestionNum = 2
                 },
                 new FlashCard {
                     Question = "What is the capital of Denmark?",
                     Answer = "Copenhagen",
-                    Quiz = quiz!
+                    Quiz = quiz!,
+                    QuizQuestionNum = 3
                 }
             };
             context.AddRange(questions);

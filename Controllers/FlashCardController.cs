@@ -5,17 +5,20 @@ using QuizApp.DAL;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using System.Threading.Tasks;
 using Serilog;
+using QuizApp.Services;
 
 namespace QuizApp.Controllers;
 
 public class FlashCardController : Controller
 {
     private readonly IFlashCardRepository _flashCardRepository;
+    private readonly FlashCardQuizService _flashCardQuizService;
     private readonly ILogger<FlashCardController> _logger;
 
-    public FlashCardController(IFlashCardRepository flashCardRepository, ILogger<FlashCardController> logger)
+    public FlashCardController(IFlashCardRepository flashCardRepository, FlashCardQuizService flashCardQuizService, ILogger<FlashCardController> logger)
     {
         _flashCardRepository = flashCardRepository;
+        _flashCardQuizService = flashCardQuizService;
         _logger = logger;
     }
 
@@ -59,9 +62,14 @@ public class FlashCardController : Controller
     }
 
     [HttpGet]
-    public IActionResult Create()
+    public IActionResult Create(int quizId, int numOfQuestions)
     {
-        return View();
+        var flashCard = new FlashCard
+        {
+            QuizId = quizId,
+            QuizQuestionNum = numOfQuestions + 1
+        };
+        return View(flashCard);
     }
 
     [HttpPost]
@@ -71,10 +79,11 @@ public class FlashCardController : Controller
         {
             bool returnOk = await _flashCardRepository.CreateFlashCard(flashCard);
             if (returnOk)
-                return RedirectToAction(nameof(FlashCards));
+                await _flashCardQuizService.UpdateQuestionCounter(flashCard.QuizId);
+                return RedirectToAction("ManageQuiz", "FlashCardQuiz", new { id = flashCard.QuizId });
         }
         _logger.LogError("[FlashCardController] FlashCard creation failed {@flashCard}", flashCard);
-        return View(flashCard);
+        return RedirectToAction("ManageQuiz", "FlashCardQuiz", new { id = flashCard.QuizId });
     }
 
     [HttpGet]

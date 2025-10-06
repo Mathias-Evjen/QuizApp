@@ -4,6 +4,7 @@
 
 <h3>Name: @Model.Name</h3>
 <h4>Description: @Model.Description</h4>
+<p># of q's: @Model.NumOfQuestions</p>
 
 <div style="border: 1px solid #ccc; padding: 10px; margin-bottom: 20px;">
     <div class="container">
@@ -17,7 +18,7 @@
             @foreach(var flashCard in Model.FlashCards!)
             {
                 <tr>
-                    <td>@flashCard.FlashCardId</td>
+                    <td>@flashCard.QuizQuestionNum</td>
                     <td>@flashCard.Question</td>
                     <td>@flashCard.Answer</td>
                     <td>
@@ -27,5 +28,6 @@
                 </tr>
             }
         </table>
+        <a asp-controller="FlashCard" asp-action="Create" asp-route-quizId="@Model.FlashCardQuizId" asp-route-numOfQuestions="@Model.NumOfQuestions" class="btn btn-primary">Add question</a>
     </div>
 </div>

@@ -20,7 +20,7 @@
                         <td>@quiz.Description</td>
                         <td>@quiz.NumOfQuestions</td>
                         <td>
-                            <a asp-action="ManageQuiz" asp-route-id="@quiz.FlashCardQuizId">Manage Flash Cards</a>
+                            <a asp-action="ManageQuiz" asp-route-quizId="@quiz.FlashCardQuizId">Manage Flash Cards</a>
                             <a asp-action="Delete" asp-route-id="@quiz.FlashCardQuizId">Delete</a>
                         </td>
                     </tr>

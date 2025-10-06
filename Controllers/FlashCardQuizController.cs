@@ -62,12 +62,12 @@ public class FlashCardQuizController : Controller
     }
 
     [HttpGet]
-    public async Task<IActionResult> ManageQuiz(int id)
+    public async Task<IActionResult> ManageQuiz(int quizId)
     {
-        var quiz = await _flashCardQuizRepository.GetFlashCardQuizById(id);
+        var quiz = await _flashCardQuizRepository.GetFlashCardQuizById(quizId);
         if (quiz == null)
         {
-            _logger.LogError("[FlashCardQuizcontroller] FlashCardQuiz not found for the Id {Id: 0000}", id);
+            _logger.LogError("[FlashCardQuizcontroller] FlashCardQuiz not found for the Id {Id: 0000}", quizId);
             return NotFound("FlashCardQuiz not found for the FlashCardQuizId");
         }
         return View(quiz);
@@ -85,7 +85,7 @@ public class FlashCardQuizController : Controller
         _logger.LogError("[FlashCardQuizController] FlashCardQuiz update failed {@quiz}", quiz);
         return View(quiz);
     }
-    
+
     [HttpGet]
     public async Task<IActionResult> Delete(int id)
     {

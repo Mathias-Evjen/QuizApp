@@ -4,7 +4,6 @@
 
 <h3>Name: @Model.Name</h3>
 <h4>Description: @Model.Description</h4>
-<p># of q's: @Model.NumOfQuestions</p>
 
 <div style="border: 1px solid #ccc; padding: 10px; margin-bottom: 20px;">
     <div class="container">
@@ -31,3 +30,7 @@
         <a asp-controller="FlashCard" asp-action="Create" asp-route-quizId="@Model.FlashCardQuizId" asp-route-numOfQuestions="@Model.NumOfQuestions" class="btn btn-primary">Add question</a>
     </div>
 </div>
+
+<p>Se på muligheten for å ha flash card i en liste og få plasseringen derfra i stedet for hard-kodet</p>
+<p>Vil kanskje gjøre det lettere å bytte plass på dem</p>
+<p>Vil også automatisk sortere dem</p>

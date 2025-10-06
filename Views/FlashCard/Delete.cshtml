@@ -17,7 +17,7 @@
         <dd class="col-sm-10">@Model.Answer</dd>
     </dl>
 
-    <form asp-action="DeleteConfirmed" asp-route-id="@Model.FlashCardId">
+    <form asp-action="DeleteConfirmed" asp-route-flashCardId="@Model.FlashCardId" asp-route-qNum="@Model.QuizQuestionNum" asp-route-quizId="@Model.QuizId">
         <button type="submit" class="btn btn-danger">Delete</button>
         <a asp-action="FlashCards" class="btn btn-secondary">Cancel</a>
     </form>

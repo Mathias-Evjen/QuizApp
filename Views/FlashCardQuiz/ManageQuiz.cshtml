@@ -23,7 +23,7 @@
                     <td>@flashCard.Answer</td>
                     <td>
                         <a asp-controller="FlashCard" asp-action="Edit" asp-route-id="@flashCard.FlashCardId">Edit</a>
-                        <a asp-action="Delete" asp-route-id="@flashCard.FlashCardId">Delete</a>
+                        <a asp-controller="FlashCard" asp-action="Delete" asp-route-id="@flashCard.FlashCardId">Delete</a>
                     </td>
                 </tr>
             }

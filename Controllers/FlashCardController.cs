@@ -79,7 +79,7 @@ public class FlashCardController : Controller
         {
             bool returnOk = await _flashCardRepository.CreateFlashCard(flashCard);
             if (returnOk)
-                await _flashCardQuizService.UpdateQuestionCounter(flashCard.QuizId);
+                await _flashCardQuizService.IncQuestionCounter(flashCard.QuizId);
                 return RedirectToAction("ManageQuiz", "FlashCardQuiz", new { id = flashCard.QuizId });
         }
         _logger.LogError("[FlashCardController] FlashCard creation failed {@flashCard}", flashCard);
@@ -124,14 +124,16 @@ public class FlashCardController : Controller
     }
 
     [HttpPost]
-    public async Task<IActionResult> DeleteConfirmed(int id)
+    public async Task<IActionResult> DeleteConfirmed(int flashCardId, int qNum, int quizId)
     {
-        bool returnOk = await _flashCardRepository.DeleteFlashCard(id);
+        bool returnOk = await _flashCardRepository.DeleteFlashCard(flashCardId);
         if (!returnOk)
         {
-            _logger.LogError("[FlashCardController] FlashCard deletion failed for FlashCardId {FlashCardId:0000}", id);
+            _logger.LogError("[FlashCardController] FlashCard deletion failed for FlashCardId {FlashCardId:0000}", flashCardId);
             return BadRequest("FlashCard deletion failed");
         }
-        return RedirectToAction(nameof(FlashCards));
+        await _flashCardQuizService.DecQuestionCounter(quizId);
+        await _flashCardQuizService.UpdateFlashCardQuestionNumbers(qNum, quizId);
+        return RedirectToAction("ManageQuiz", "FlashCardQuiz", new { id = quizId });
     }
 }

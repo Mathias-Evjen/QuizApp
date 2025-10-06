@@ -23,7 +23,7 @@
             <th>Questions</th>
             <th>Answer</th>
         </tr>
-        @foreach(var flashCard in Model.FlashCards)
+        @foreach(var flashCard in Model.FlashCards!)
         {
             <tr>
                 <td>@flashCard.FlashCardId</td>

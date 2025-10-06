@@ -86,7 +86,7 @@ public class FlashCardRepository : IFlashCardRepository
         }
         catch (Exception e)
         {
-            _logger.LogError("[FlashCardRepository] FlashCar deletion failed for the FlashCardId {FlashCardId:0000}, error message: {e}", id, e.Message);
+            _logger.LogError("[FlashCardRepository] FlashCard deletion failed for the FlashCardId {FlashCardId:0000}, error message: {e}", id, e.Message);
             return false;
         }
     }

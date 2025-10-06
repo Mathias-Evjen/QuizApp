@@ -43,13 +43,19 @@ public class FlashCardController : Controller
 
     // TODO: This will not be needed when we move over to React
     [HttpPost]
-    public IActionResult FlashCards(FlashCardsViewModel model)
+    public IActionResult NextFlashCard(FlashCardsViewModel model)
     {
         if (model.CurrentFlashCardNum + 1 < model.FlashCards.Count())
-        {
             model.CurrentFlashCardNum += 1;
-        }
-        return View(model);
+        return View("FlashCards", model);
+    }
+
+    [HttpPost]
+    public IActionResult PrevFlashCard(FlashCardsViewModel model)
+    {
+        if (model.CurrentFlashCardNum - 1 >= 0)
+            model.CurrentFlashCardNum -= 1;
+        return View("FlashCards", model);
     }
 
     [HttpGet]
@@ -72,7 +78,7 @@ public class FlashCardController : Controller
     }
 
     [HttpGet]
-    public async Task<IActionResult> Create(int id)
+    public async Task<IActionResult> Edit(int id)
     {
         var flashCard = await _flashCardRepository.GetFlashCardById(id);
         if (flashCard == null)
@@ -90,10 +96,10 @@ public class FlashCardController : Controller
         {
             bool returnOk = await _flashCardRepository.UpdateFlashCard(flashCard);
             if (returnOk)
-                return RedirectToAction(nameof(FlashCards));
+                return RedirectToAction("ManageQuiz", "FlashCardQuiz", new { id = flashCard.QuizId });
         }
         _logger.LogError("[FlashCardController] FlashCard update failed {@flashCard}", flashCard);
-        return View(flashCard);
+        return RedirectToAction("ManageQuiz", "FlashCardQuiz", new { id = flashCard.QuizId });
     }
 
     [HttpGet]

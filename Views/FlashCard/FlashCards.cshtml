@@ -27,9 +27,9 @@
         <button type="submit" class="btn btn-primary">@(Model.FlashCards.ElementAt(Model.CurrentFlashCardNum).ShowAnswer ? "Hide Answer" : "Show Answer")</button>
     </form>
 
-    <!-- Form for moving to the next flash card -->
+    <!-- Form for moving to the previous flash card -->
     <!-- Sends a new version of the model to the controller  -->
-    <form asp-action="FlashCards" method="post">
+    <form asp-action="PrevFlashCard" method="post">
         <input type="hidden" name="CurrentFlashCardNum" value="@Model.CurrentFlashCardNum" />
 
         <!-- Loops over all the flashcards and adds them and their attributes to the model to be send back to the controller -->
@@ -41,10 +41,28 @@
             <input type="hidden" name="FlashCards[@card.index].Answer" value="@card.c.Answer" />
             <input type="hidden" name="FlashCards[@card.index].ShowAnswer" value="@card.c.ShowAnswer.ToString().ToLower()" />
         }
-        <button type="submit" class="btn btn-primary">Next Card</button>
+        <button type="submit" class="btn btn-primary">Previous</button>
+    </form>
+
+    <!-- Form for moving to the next flash card -->
+    <!-- Sends a new version of the model to the controller  -->
+    <form asp-action="NextFlashCard" method="post">
+        <input type="hidden" name="CurrentFlashCardNum" value="@Model.CurrentFlashCardNum" />
+
+        <!-- Loops over all the flashcards and adds them and their attributes to the model to be send back to the controller -->
+        <!-- Keeps the state of the model -->
+        @foreach (var card in Model.FlashCards.Select((c, index) => (c, index)))
+        {
+            <input type="hidden" name="FlashCards[@card.index].FlashCardId" value="@card.c.FlashCardId" />
+            <input type="hidden" name="FlashCards[@card.index].Question" value="@card.c.Question" />
+            <input type="hidden" name="FlashCards[@card.index].Answer" value="@card.c.Answer" />
+            <input type="hidden" name="FlashCards[@card.index].ShowAnswer" value="@card.c.ShowAnswer.ToString().ToLower()" />
+        }
+        <button type="submit" class="btn btn-primary">Next</button>
     </form>
     <a asp-controller="FlashCardQuiz" asp-action="Quizzes" class="btn btn-secondary">Exit</a>
     </div>
+    
 } else {
     <h3>There are no questions in this quiz</h3>
 }

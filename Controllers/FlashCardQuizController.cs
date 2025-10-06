@@ -62,7 +62,7 @@ public class FlashCardQuizController : Controller
     }
 
     [HttpGet]
-    public async Task<IActionResult> Edit(int id)
+    public async Task<IActionResult> ManageQuiz(int id)
     {
         var quiz = await _flashCardQuizRepository.GetFlashCardQuizById(id);
         if (quiz == null)

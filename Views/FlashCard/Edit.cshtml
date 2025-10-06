@@ -4,6 +4,7 @@
 
 <form asp-action="Edit" method="post">
     <input type="hidden" asp-for="FlashCardId" />
+    <input type="hidden" asp-for="QuizId" />
     <div class="form-group">
         <label asp-for="Question">Question:</label>
         <input asp-for="Question" class="form-control" />
@@ -13,5 +14,5 @@
         <input asp-for="Answer" class="form-control" />
     </div>
     <button type="submit" class="btn btn-primary">Save changes</button>
-    <a asp-action="FlashCards" class="btn btn-secondary">Cancel</a>
+    <a asp-controller="FlashCardQuiz" asp-action="ManageQuiz" asp-route-id="@Model.QuizId" class="btn btn-secondary">Cancel</a>
 </form>

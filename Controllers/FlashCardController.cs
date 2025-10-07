@@ -80,10 +80,10 @@ public class FlashCardController : Controller
             bool returnOk = await _flashCardRepository.CreateFlashCard(flashCard);
             if (returnOk)
                 await _flashCardQuizService.IncQuestionCounter(flashCard.QuizId);
-                return RedirectToAction("ManageQuiz", "FlashCardQuiz", new { id = flashCard.QuizId });
+                return RedirectToAction("ManageQuiz", "FlashCardQuiz", new { quizId = flashCard.QuizId });
         }
         _logger.LogError("[FlashCardController] FlashCard creation failed {@flashCard}", flashCard);
-        return RedirectToAction("ManageQuiz", "FlashCardQuiz", new { id = flashCard.QuizId });
+        return RedirectToAction("ManageQuiz", "FlashCardQuiz", new { quizId = flashCard.QuizId });
     }
 
     [HttpGet]

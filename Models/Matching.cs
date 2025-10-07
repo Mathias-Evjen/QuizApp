@@ -31,19 +31,23 @@ namespace QuizApp.Models
             return pairsQuestion.ToArray();
         }
 
-        public string AssembleQuestion(string[] pairsQuestion)
+        public string AssembleAnswer(List<string> keys, List<string> value)
         {
-            if (pairsQuestion.Length == 0 || pairsQuestion == null)
+            if (keys.Count == 0 || value.Count == 0)
             {
-                return "";
+                return "Empty lists!";
             }
-            string question = "";
-            for (int i = 0; i < pairsQuestion.Length; i++)
+            if (keys.Count != value.Count) {
+                return "Lists is not the same length!";
+            }
+            string questionAnswer = "";
+            for (int i = 0; i < keys.Count; i++)
             {
-                if (i != 0) { question += ","; }
-                question += pairsQuestion[i][0] + "," + pairsQuestion[i][1];
+                if (i != 0) { questionAnswer += ","; }
+                questionAnswer += keys[i] + "," + value[i];
             }
-            return question;
+            Answer = questionAnswer;
+            return questionAnswer;
         }
 
     }

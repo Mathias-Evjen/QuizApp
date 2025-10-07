@@ -1,15 +1,33 @@
+using Microsoft.EntityFrameworkCore;
+using QuizApp.DAL;
+
+
 var builder = WebApplication.CreateBuilder(args);
+var connectionString = builder.Configuration.GetConnectionString("QuizDbContextConnection") ?? throw new
+InvalidOperationException("Connection string 'QuizDbContextConnection' not found.");
 
 // Legg til MVC
 builder.Services.AddControllersWithViews();
 
+builder.Services.AddDbContext<QuizDbContext>(options =>
+{
+    options.UseSqlite(
+        builder.Configuration["ConnectionStrings:QuizDbContextConnection"]
+    );
+});
+
+builder.Services.AddScoped<IMatchingRepository, MatchingRepository>();
+
+
+
+
+
 var app = builder.Build();
 
 // Middleware
-if (!app.Environment.IsDevelopment())
+if (app.Environment.IsDevelopment())
 {
-    app.UseExceptionHandler("/Home/Error");
-    app.UseHsts();
+    app.UseDeveloperExceptionPage();
 }
 
 app.UseStaticFiles();

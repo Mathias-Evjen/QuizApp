@@ -1,30 +1,37 @@
 @model FlashCardQuiz
 
 <div class="col-md-4 col-sm-6 mb-3">
-    <div class="card h-100 shadow-sm position-relative">
+    <div class="card h-100 shadow-sm">
         <div class="card-body">
-            <h5 class="card-title">@Model.Name</h5>
-            <p class="card-text text-muted">@Model.Description</p>
 
-            <a asp-controller="FlashCard"
-               asp-action="FlashCards"
-               asp-route-quizId="@Model.FlashCardQuizId"
-               class="stretched-link"></a>
-            <div class="mt-3"> <!-- adds padding/margin above buttons -->
+            <!-- Clickable area -->
+            <div class="position-relative">
+                <h5 class="card-title mb-1">@Model.Name</h5>
+                <p class="card-text text-muted">@Model.Description</p>
+
+                <a asp-controller="FlashCard"
+                   asp-action="FlashCards"
+                   asp-route-quizId="@Model.FlashCardQuizId"
+                   class="stretched-link"></a>
+            </div>
+
+            <!-- Buttons -->
+            <div class="mt-3">
                 <div class="d-flex gap-2">
                     <a asp-action="ManageQuiz" 
-                    asp-route-quizId="@Model.FlashCardQuizId" 
-                    class="btn btn-secondary">
+                       asp-route-quizId="@Model.FlashCardQuizId" 
+                       class="btn btn-secondary">
                         Manage Quiz
                     </a>
 
                     <a asp-action="Delete" 
-                    asp-route-id="@Model.FlashCardQuizId" 
-                    class="btn btn-danger">
+                       asp-route-id="@Model.FlashCardQuizId" 
+                       class="btn btn-danger">
                         Delete
                     </a>
                 </div>
             </div>
+
         </div>
     </div>
 </div>

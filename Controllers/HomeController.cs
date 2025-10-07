@@ -7,7 +7,7 @@ namespace QuizApp.Controllers
         public IActionResult Index()
         {
             // Redirecter direkte til Quiz/Index
-            return RedirectToAction("Index", "Quiz");
+            return View(); //RedirectToAction("Index", "Quiz");
         }
     }
 }

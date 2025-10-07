@@ -108,7 +108,7 @@ public class FlashCardController : Controller
                 return RedirectToAction("ManageQuiz", "FlashCardQuiz", new { id = flashCard.QuizId });
         }
         _logger.LogError("[FlashCardController] FlashCard update failed {@flashCard}", flashCard);
-        return RedirectToAction("ManageQuiz", "FlashCardQuiz", new { id = flashCard.QuizId });
+        return RedirectToAction("ManageQuiz", "FlashCardQuiz", new { quizId = flashCard.QuizId });
     }
 
     [HttpGet]
@@ -134,6 +134,6 @@ public class FlashCardController : Controller
         }
         await _flashCardQuizService.DecQuestionCounter(quizId);
         await _flashCardQuizService.UpdateFlashCardQuestionNumbers(qNum, quizId);
-        return RedirectToAction("ManageQuiz", "FlashCardQuiz", new { id = quizId });
+        return RedirectToAction("ManageQuiz", "FlashCardQuiz", new { quizId = quizId });
     }
 }

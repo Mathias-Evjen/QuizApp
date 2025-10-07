@@ -36,7 +36,7 @@ public class FlashCardQuizController : Controller
         var quiz = await _flashCardQuizRepository.GetFlashCardQuizById(id);
         if (quiz == null)
         {
-            _logger.LogError("[FlashCardQuizcontroller] FlashCardQuiz not found for the Id {Id: 0000}", id);
+            _logger.LogError("[FlashCardQuizController] FlashCardQuiz not found for the Id {Id: 0000}", id);
             return NotFound("FlashCardQuiz not found");
         }
         return View(quiz);
@@ -67,7 +67,7 @@ public class FlashCardQuizController : Controller
         var quiz = await _flashCardQuizRepository.GetFlashCardQuizById(quizId);
         if (quiz == null)
         {
-            _logger.LogError("[FlashCardQuizcontroller] FlashCardQuiz not found for the Id {Id: 0000}", quizId);
+            _logger.LogError("[FlashCardQuizcontroller] ManageQuiz not found for the Id {Id: 0000}", quizId);
             return NotFound("FlashCardQuiz not found for the FlashCardQuizId");
         }
         return View(quiz);

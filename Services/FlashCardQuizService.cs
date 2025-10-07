@@ -4,7 +4,7 @@ using QuizApp.Controllers;
 
 namespace QuizApp.Services;
 
-public class FlashCardQuizService
+public class FlashCardQuizService : IFlashCardQuizService
 {
     private readonly IFlashCardQuizRepository _flashCardQuizRepository;
     private readonly IFlashCardRepository _flashCardRepository;

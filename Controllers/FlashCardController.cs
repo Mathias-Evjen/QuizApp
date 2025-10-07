@@ -12,10 +12,10 @@ namespace QuizApp.Controllers;
 public class FlashCardController : Controller
 {
     private readonly IFlashCardRepository _flashCardRepository;
-    private readonly FlashCardQuizService _flashCardQuizService;
+    private readonly IFlashCardQuizService _flashCardQuizService;
     private readonly ILogger<FlashCardController> _logger;
 
-    public FlashCardController(IFlashCardRepository flashCardRepository, FlashCardQuizService flashCardQuizService, ILogger<FlashCardController> logger)
+    public FlashCardController(IFlashCardRepository flashCardRepository, IFlashCardQuizService flashCardQuizService, ILogger<FlashCardController> logger)
     {
         _flashCardRepository = flashCardRepository;
         _flashCardQuizService = flashCardQuizService;

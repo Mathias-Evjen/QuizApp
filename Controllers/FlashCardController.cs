@@ -105,7 +105,7 @@ public class FlashCardController : Controller
         {
             bool returnOk = await _flashCardRepository.UpdateFlashCard(flashCard);
             if (returnOk)
-                return RedirectToAction("ManageQuiz", "FlashCardQuiz", new { id = flashCard.QuizId });
+                return RedirectToAction("ManageQuiz", "FlashCardQuiz", new { quizId = flashCard.QuizId });
         }
         _logger.LogError("[FlashCardController] FlashCard update failed {@flashCard}", flashCard);
         return RedirectToAction("ManageQuiz", "FlashCardQuiz", new { quizId = flashCard.QuizId });

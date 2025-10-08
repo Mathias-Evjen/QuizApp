@@ -21,17 +21,17 @@ public class MatchingController : Controller
 
     public async Task<IActionResult> MatchingQuestion()
     {
-        var testQuestion = new Matching
+        /*var testQuestion = new Matching
         {
             Id = 4,
             Question = "elefant,ost,melk,blomst,grønnsak,tiger",
             CorrectAnswer = "elefant,tiger,melk,ost,grønnsak,blomst"
-        };
-        _matchingRepository.CreateMatching(testQuestion);
+        };*/
+        //_matchingRepository.CreateMatching(testQuestion);
         Matching matchingJustMade = await _matchingRepository.GetMatchingById(4);
         Console.WriteLine($"Correct Answer: {matchingJustMade.CorrectAnswer}, Question: {matchingJustMade.Question}");
 
-        var viewModel = new MatchingViewModel(testQuestion);
+        var viewModel = new MatchingViewModel(matchingJustMade);
 
         return View(viewModel);
     }

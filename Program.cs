@@ -37,10 +37,9 @@ app.UseRouting();
 
 app.UseAuthorization();
 
-// Standard route
-app.MapControllerRoute(
-    name: "default",
-    pattern: "{controller=Matching}/{action=Question}/{id?}"
-);
+
+app.MapDefaultControllerRoute();
+
+//app.MapRazorPages();
 
 app.Run();

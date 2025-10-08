@@ -2,7 +2,7 @@ using System;
 
 namespace QuizApp.Models
 {
-    public class FillInTheBlank
+    public class FillInTheBlank : Queston
     {
 
         public int FillInTheBlankId { get; set; }

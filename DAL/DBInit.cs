@@ -34,7 +34,8 @@ public static class DBInit
         {
             var quiz = new List<FlashCardQuiz>
             {
-                new FlashCardQuiz {Name = "Capitals of Scandinavia", Description = "Flashcards with questions about the captial cities of Scandinavia"}
+                new FlashCardQuiz {Name = "Capitals of Scandinavia", Description = "Flashcards with questions about the captial cities of Scandinavia"},
+                new FlashCardQuiz {Name = "Which band?", Description = "Which band wrote the song on the card?"}
             };
             context.AddRange(quiz);
             context.SaveChanges();
@@ -42,28 +43,60 @@ public static class DBInit
 
         if (!context.FlashCards.Any())
         {
-            var quiz = context.FlashCardQuizzes.Find(1);
+            var quiz1 = context.FlashCardQuizzes.Find(1);
+            var quiz2 = context.FlashCardQuizzes.Find(2);
             var questions = new List<FlashCard>
             {
                 new FlashCard {
                     Question = "What is the capital of Norway?",
                     Answer = "Oslo",
-                    Quiz = quiz!,
+                    Quiz = quiz1!,
                     QuizQuestionNum = 1
                 },
                 new FlashCard {
                     Question = "What is the capital of Sweden?",
                     Answer = "Stockholm",
-                    Quiz = quiz!,
+                    Quiz = quiz1!,
                     QuizQuestionNum = 2
                 },
                 new FlashCard {
                     Question = "What is the capital of Denmark?",
                     Answer = "Copenhagen",
-                    Quiz = quiz!,
+                    Quiz = quiz1!,
                     QuizQuestionNum = 3
+                },
+                new FlashCard {
+                    Question = "Who wrote the song 'Supermassive Black Hole'?",
+                    Answer = "Muse",
+                    Quiz = quiz2!,
+                    QuizQuestionNum = 1
+                },
+                new FlashCard {
+                    Question = "Who wrote the song 'Paranoid Android'?",
+                    Answer = "Radiohead",
+                    Quiz = quiz2!,
+                    QuizQuestionNum = 2
+                },
+                new FlashCard {
+                    Question = "Who wrote the song 'Somewhere Only We know'?",
+                    Answer = "Keane",
+                    Quiz = quiz2!,
+                    QuizQuestionNum = 3
+                },
+                new FlashCard {
+                    Question = "Who wrote the song 'Do I Wanna Know'?",
+                    Answer = "Arctic Monkeys",
+                    Quiz = quiz2!,
+                    QuizQuestionNum = 4
+                },
+                new FlashCard {
+                    Question = "Who wrote the song 'Ode To The Mets'?",
+                    Answer = "The Strokes",
+                    Quiz = quiz2!,
+                    QuizQuestionNum = 5
                 }
             };
+
             context.AddRange(questions);
             context.SaveChanges();
         }

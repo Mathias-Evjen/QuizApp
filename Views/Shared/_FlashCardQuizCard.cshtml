@@ -8,6 +8,9 @@
             <div class="position-relative">
                 <h5 class="card-title mb-1">@Model.Name</h5>
                 <p class="card-text text-muted">@Model.Description</p>
+                <p class="card-text">
+                    <span class="badge bg-light text-muted">@Model.NumOfQuestions cards</span>
+                </p>
 
                 <a asp-controller="FlashCard"
                    asp-action="FlashCards"

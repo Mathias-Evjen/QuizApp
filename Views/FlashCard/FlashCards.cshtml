@@ -1,68 +1,81 @@
 @model QuizApp.ViewModels.FlashCardsViewModel
 
-<h1>Flash Cards</h1>
-@if (Model.FlashCards.Any()) {
-    <div class="row g-4">
-        <div class="col">
-            <partial name="_FlashCard" model="@Model.FlashCards.ElementAt(Model.CurrentFlashCardNum)" />
-        </div>
+<div class="text-center">
+    <h1>@Model.FlashCardQuizName</h1>
+    @if (Model.FlashCards.Any()) {
+        <div class="row g-4 w-50 mx-auto">
+            <div class="col">
+                <partial name="_FlashCard" model="@Model.FlashCards.ElementAt(Model.CurrentFlashCardNum)" />
+            </div>
 
-        <div class="col-12 mt-3">
-            <div class="d-flex justify-content-between align-items-center flex-wrap gap-2">
+            <div class="col-12 mt-3">
+                <div class="d-flex justify-content-between align-items-center flex-wrap gap-2">
 
-                <!-- Left side: Prev / Next -->
-                <div class="d-flex gap-2">
-                    <form asp-action="PrevFlashCard" method="post" class="m-0">
-                        <input type="hidden" name="CurrentFlashCardNum" value="@Model.CurrentFlashCardNum" />
-                        @foreach (var card in Model.FlashCards.Select((c, index) => (c, index)))
-                        {
-                            <input type="hidden" name="FlashCards[@card.index].FlashCardId" value="@card.c.FlashCardId" />
-                            <input type="hidden" name="FlashCards[@card.index].Question" value="@card.c.Question" />
-                            <input type="hidden" name="FlashCards[@card.index].Answer" value="@card.c.Answer" />
-                            <input type="hidden" name="FlashCards[@card.index].ShowAnswer" value="@card.c.ShowAnswer.ToString().ToLower()" />
+                    <!-- Left side: Prev / Next -->
+                    <div class="d-flex gap-2">
+                        <form asp-action="PrevFlashCard" method="post" class="m-0">
+                            <input type="hidden" name="CurrentFlashCardNum" value="@Model.CurrentFlashCardNum" />
+                            <input type="hidden" name="FlashCardQuizName" value="@Model.FlashCardQuizName" />
+                            @foreach (var card in Model.FlashCards.Select((c, index) => (c, index)))
+                            {
+                                <input type="hidden" name="FlashCards[@card.index].FlashCardId" value="@card.c.FlashCardId" />
+                                <input type="hidden" name="FlashCards[@card.index].Question" value="@card.c.Question" />
+                                <input type="hidden" name="FlashCards[@card.index].Answer" value="@card.c.Answer" />
+                                <input type="hidden" name="FlashCards[@card.index].ShowAnswer" value="@card.c.ShowAnswer.ToString().ToLower()" />
+                            }
+                            <button type="submit" class="btn btn-primary">Previous</button>
+                        </form>
+
+                        @{
+                            var currentFlashCard = Model.CurrentFlashCardNum+1;
                         }
-                        <button type="submit" class="btn btn-primary">Previous</button>
-                    </form>
 
-                    <form asp-action="NextFlashCard" method="post" class="m-0">
-                        <input type="hidden" name="CurrentFlashCardNum" value="@Model.CurrentFlashCardNum" />
-                        @foreach (var card in Model.FlashCards.Select((c, index) => (c, index)))
-                        {
-                            <input type="hidden" name="FlashCards[@card.index].FlashCardId" value="@card.c.FlashCardId" />
-                            <input type="hidden" name="FlashCards[@card.index].Question" value="@card.c.Question" />
-                            <input type="hidden" name="FlashCards[@card.index].Answer" value="@card.c.Answer" />
-                            <input type="hidden" name="FlashCards[@card.index].ShowAnswer" value="@card.c.ShowAnswer.ToString().ToLower()" />
-                        }
-                        <button type="submit" class="btn btn-primary">Next</button>
-                    </form>
-                </div>
+                        <h5>@currentFlashCard/@Model.FlashCards.Count()</h5>
 
-                <!-- Right side: Show Answer and Exit -->
-                <div class="d-flex gap-2 align-items-center">
-                    <form asp-action="RevealFlashCardAnswer" method="post" class="m-0">
-                        <input type="hidden" name="CurrentFlashCardNum" value="@Model.CurrentFlashCardNum" />
-                        @foreach (var card in Model.FlashCards.Select((c, index) => (c, index)))
-                        {
-                            <input type="hidden" name="FlashCards[@card.index].FlashCardId" value="@card.c.FlashCardId" />
-                            <input type="hidden" name="FlashCards[@card.index].Question" value="@card.c.Question" />
-                            <input type="hidden" name="FlashCards[@card.index].Answer" value="@card.c.Answer" />
-                            <input type="hidden" name="FlashCards[@card.index].ShowAnswer" value="@card.c.ShowAnswer.ToString().ToLower()" />
-                        }
-                        <button type="submit" class="btn btn-success">
-                            @(Model.FlashCards.ElementAt(Model.CurrentFlashCardNum).ShowAnswer ? "Hide Answer" : "Show Answer")
-                        </button>
-                    </form>
+                        <form asp-action="NextFlashCard" method="post" class="m-0">
+                            <input type="hidden" name="CurrentFlashCardNum" value="@Model.CurrentFlashCardNum" />
+                            <input type="hidden" name="FlashCardQuizName" value="@Model.FlashCardQuizName" />
+                            @foreach (var card in Model.FlashCards.Select((c, index) => (c, index)))
+                            {
+                                <input type="hidden" name="FlashCards[@card.index].FlashCardId" value="@card.c.FlashCardId" />
+                                <input type="hidden" name="FlashCards[@card.index].Question" value="@card.c.Question" />
+                                <input type="hidden" name="FlashCards[@card.index].Answer" value="@card.c.Answer" />
+                                <input type="hidden" name="FlashCards[@card.index].ShowAnswer" value="@card.c.ShowAnswer.ToString().ToLower()" />
+                            }
+                            <button type="submit" class="btn btn-primary">Next</button>
+                        </form>
+                    </div>
 
-                    <a asp-controller="FlashCardQuiz" 
-                    asp-action="Quizzes" 
-                    class="btn btn-secondary btn-sm">
-                        Exit
-                    </a>
+                    <!-- Right side: Show Answer and Exit -->
+                    <div class="d-flex gap-2 align-items-center">
+                        <form asp-action="RevealFlashCardAnswer" method="post" class="m-0">
+                            <input type="hidden" name="CurrentFlashCardNum" value="@Model.CurrentFlashCardNum" />
+                            <input type="hidden" name="FlashCardQuizName" value="@Model.FlashCardQuizName" />
+                            @foreach (var card in Model.FlashCards.Select((c, index) => (c, index)))
+                            {
+                                <input type="hidden" name="FlashCards[@card.index].FlashCardId" value="@card.c.FlashCardId" />
+                                <input type="hidden" name="FlashCards[@card.index].Question" value="@card.c.Question" />
+                                <input type="hidden" name="FlashCards[@card.index].Answer" value="@card.c.Answer" />
+                                <input type="hidden" name="FlashCards[@card.index].ShowAnswer" value="@card.c.ShowAnswer.ToString().ToLower()" />
+                            }
+                            <button type="submit" class="btn btn-success">
+                                @(Model.FlashCards.ElementAt(Model.CurrentFlashCardNum).ShowAnswer ? "Hide Answer" : "Show Answer")
+                            </button>
+                        </form>
+
+                        <a asp-controller="FlashCardQuiz" 
+                        asp-action="Quizzes" 
+                        class="btn btn-secondary btn-sm">
+                            Exit
+                        </a>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
-    
-} else {
-    <h3>There are no questions in this quiz</h3>
-}
+        
+    } else {
+        <h3>There are no questions in this quiz</h3>
+    }
+</div>
+
+

@@ -23,7 +23,7 @@ public class FlashCardController : Controller
     }
 
     [HttpGet]
-    public async Task<IActionResult> FlashCards(int quizId)
+    public async Task<IActionResult> FlashCards(int quizId, string quizName)
     {
         var flashCards = await _flashCardRepository.GetAll(quizId);
         if (flashCards == null)
@@ -31,7 +31,7 @@ public class FlashCardController : Controller
             _logger.LogError("[FlashCardController] FlashCards list not found while executing _flashCardRepository.GetAll()");
             return NotFound("FlashCards not found");
         }
-        var flashCardsViewModel = new FlashCardsViewModel(flashCards);
+        var flashCardsViewModel = new FlashCardsViewModel(flashCards, quizName);
         return View(flashCardsViewModel);
     }
 

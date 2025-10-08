@@ -10,7 +10,7 @@ public class MatchingController : Controller
 {
 
     private readonly IMatchingRepository _matchingRepository;
- 
+
     private readonly ILogger<MatchingController> _logger;
 
     public MatchingController(IMatchingRepository matchingRepository, ILogger<MatchingController> logger)
@@ -28,7 +28,7 @@ public class MatchingController : Controller
             CorrectAnswer = "elefant,tiger,melk,ost,grønnsak,blomst"
         };*/
         //_matchingRepository.CreateMatching(testQuestion);
-        Matching matchingJustMade = await _matchingRepository.GetMatchingById(4);
+        Matching matchingJustMade = await _matchingRepository.GetMatchingById(1);
         Console.WriteLine($"Correct Answer: {matchingJustMade.CorrectAnswer}, Question: {matchingJustMade.Question}");
 
         var viewModel = new MatchingViewModel(matchingJustMade);
@@ -45,7 +45,7 @@ public class MatchingController : Controller
             Console.WriteLine($"Key: {keys[i]}, Answer: {values[i]}, Id: {id}");
         }
         string correctAnswer = matchingObject.CorrectAnswer;
-        string questionAnswer = matchingObject.AssembleAnswer(keys, values);
+        string questionAnswer = matchingObject.Assemble(keys, values, 2);
         Console.WriteLine($"Answer: {questionAnswer}, Correct Answer: {correctAnswer}");
         if (questionAnswer == correctAnswer)
         {
@@ -56,6 +56,37 @@ public class MatchingController : Controller
             Console.WriteLine($"Answer is wrong! Correct answer is: {correctAnswer}");
         }
 
+        return View();
+    }
+
+    [HttpPost]
+    public async Task<IActionResult> CreateMatchingQuestion(List<string> Keys, List<string> Values)
+    {
+        Console.WriteLine("Vises dette?");
+        if (Keys == null || Values == null || Keys.Count != Values.Count)
+        {
+            ModelState.AddModelError("", "Ugyldige inndata: Keys og Values må være like lange.");
+            return View();
+        }
+
+
+        // Opprett Matching-objektet basert på inndataene
+        var matchingQuestion = new Matching()
+        {
+            Id = 1
+        };
+        matchingQuestion.Assemble(Keys, Values, 1);
+        matchingQuestion.ShuffleQuestion(Keys, Values);
+        _matchingRepository.CreateMatching(matchingQuestion);
+
+        // Omdiriger til en annen side etter vellykket lagring
+        return RedirectToAction("Index", "Home");
+    }
+
+    [HttpGet]
+    public IActionResult CreateMatchingQuestion(int id)
+    {
+        // Logikk for å vise siden
         return View();
     }
 }

@@ -1,11 +1,16 @@
 using System;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Security.Cryptography.X509Certificates;
 
 namespace QuizApp.Models
 {
     public class Matching
     {
+        [Key] // Marker dette som primærnøkkel
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
+
         public string Question { get; set; } = string.Empty;
         public string Answer { get; set; } = string.Empty;
         public string CorrectAnswer { get; set; } = string.Empty;
@@ -31,23 +36,63 @@ namespace QuizApp.Models
             return pairsQuestion.ToArray();
         }
 
-        public string AssembleAnswer(List<string> keys, List<string> value)
+        public string Assemble(List<string> keys, List<string> value, int task)
         {
             if (keys.Count == 0 || value.Count == 0)
             {
                 return "Empty lists!";
             }
-            if (keys.Count != value.Count) {
+            if (keys.Count != value.Count)
+            {
                 return "Lists is not the same length!";
             }
-            string questionAnswer = "";
+            string questionOrAnswer = "";
             for (int i = 0; i < keys.Count; i++)
             {
-                if (i != 0) { questionAnswer += ","; }
-                questionAnswer += keys[i] + "," + value[i];
+                if (i != 0) { questionOrAnswer += ","; }
+                questionOrAnswer += keys[i] + "," + value[i];
             }
-            Answer = questionAnswer;
-            return questionAnswer;
+            if (task == 1)
+            {
+                CorrectAnswer = questionOrAnswer;
+            }
+            else if (task == 2)
+            {
+                Answer = questionOrAnswer;
+            }
+            else if (task == 3)
+            {
+                Question = questionOrAnswer;
+                Console.WriteLine($"Shuffled: {Question}");
+            }
+            return questionOrAnswer;
+        }
+        public string ShuffleQuestion(List<string> keys, List<string> values)
+        {
+            if (values == null || values.Count == 0)
+            {
+                Console.WriteLine("Values er tom");
+                throw new InvalidOperationException("Values list is empty or null");
+            }
+
+            Console.WriteLine("Shuffling");
+
+            Random random = new Random(); // Opprett en ny Random-instans
+            int n = values.Count;
+
+            // Fisher-Yates-algoritmen for stokking
+            for (int i = n - 1; i > 0; i--)
+            {
+                int j = random.Next(0, i + 1); // Velg en tilfeldig indeks mellom 0 og i
+                // Bytt elementene på indeks i og j
+                string temp = values[i];
+                values[i] = values[j];
+                values[j] = temp;
+            }
+
+            string shuffledQuestion = Assemble(keys, values, 3);
+
+            return shuffledQuestion; // Returner den stokket listen
         }
 
     }

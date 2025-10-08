@@ -36,6 +36,25 @@ namespace QuizApp.Models
             return pairsQuestion.ToArray();
         }
 
+        public KeyValuePair<string,string>[] SplitCorrectAnswer()
+        {
+            if (string.IsNullOrEmpty(CorrectAnswer))
+            {
+                return Array.Empty<KeyValuePair<string, string>>();
+            }
+            var partsCorrectAnswer = CorrectAnswer.Split(',');
+            if (partsCorrectAnswer.Length % 2 != 0)
+            {
+                throw new InvalidOperationException("Amount of values in Question needs to be even");
+            }
+            var pairsCorrectAnswer = new List<KeyValuePair<string, string>>();
+            for (int i = 0; i < partsCorrectAnswer.Length; i += 2)
+            {
+                pairsCorrectAnswer.Add(new KeyValuePair<string, string>(partsCorrectAnswer[i].Trim(), partsCorrectAnswer[i + 1].Trim()));
+            }
+            return pairsCorrectAnswer.ToArray();
+        }
+
         public string Assemble(List<string> keys, List<string> value, int task)
         {
             if (keys.Count == 0 || value.Count == 0)

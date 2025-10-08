@@ -15,9 +15,9 @@
                 <div class="col-2">
                     <select class="form-select" name="values">
                         <option value="@pair.Value">@pair.Value</option>
-                        @foreach(var part in Model.Question.Split(',')){
-                            if (part != pair.Key && part != pair.Value){
-                                <option value="@part">@part</option>
+                        @foreach(var value in pairQuestions){
+                            if (value.Value != pair.Key && value.Value != pair.Value){
+                                <option value="@value.Value">@value.Value</option>
                             }
                         }
                     </select>
@@ -27,6 +27,6 @@
             <br>
         }
         <br>
-        <button type="submit" class="btn btn-primary">Neste</button>
+        <button type="submit" class="btn btn-primary">Next</button>
     </form>
 </div>

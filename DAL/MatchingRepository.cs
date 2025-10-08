@@ -90,9 +90,4 @@ public class MatchingRepository : IMatchingRepository
             return false;
         }
     }
-
-    public Task<IEnumerable<Matching>?> GetAll(int id)
-    {
-        throw new NotImplementedException();
-    }
 }

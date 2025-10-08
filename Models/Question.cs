@@ -2,5 +2,5 @@ using System;
 
 namespace QuizApp.Models
 {
-    public abstract class Queston() {}
+    public abstract class Question() {}
 }

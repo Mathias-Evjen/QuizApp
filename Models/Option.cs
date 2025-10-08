@@ -1,17 +1,13 @@
-using System.ComponentModel.DataAnnotations;
-
 namespace QuizApp.Models
 {
     public class Option
     {
         public int Id { get; set; }
-
-        [Required]
-        public string Text { get; set; } = "";
-
+        public string Text { get; set; } = string.Empty;
         public bool IsCorrect { get; set; }
 
-        public int QuestionId { get; set; }
-        public Question? Question { get; set; }
+        // Foreign key til MultipleChoice
+        public int MultipleChoiceId { get; set; }
+        public MultipleChoice MultipleChoice { get; set; } = null!;
     }
 }

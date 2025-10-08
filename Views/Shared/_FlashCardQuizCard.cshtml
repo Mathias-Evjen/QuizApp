@@ -1,38 +1,42 @@
 @model FlashCardQuiz
 
-<div class="col-md-4 col-sm-6 mb-3">
-    <div class="card h-100 shadow-sm">
-        <div class="card-body">
+<div class="col-md-4 col-sm-6 mb-3" onmouseover="this.style.transform='scale(1.01)'" onmouseout="this.style.transform='scale(1)'"style="transition: all 0.3s ease">
+    <div class="card h-100 shadow position-relative overflow-hidden" style="background-color: #5DADE2">
+        <div class="card-body p-2">
 
-            <!-- Clickable area -->
-            <div class="position-relative">
-                <h5 class="card-title mb-1">@Model.Name</h5>
-                <p class="card-text text-muted">@Model.Description</p>
-                <p class="card-text">
-                    <span class="badge bg-light text-muted">@Model.NumOfQuestions cards</span>
-                </p>
+            <div class="bg-white p-3 h-100 position-relative">
+                <!-- Badge fixed at top-right -->
+                <span class="badge bg-light text-muted position-absolute top-0 end-0 m-2 p-2">
+                    @Model.NumOfQuestions cards
+                </span>
 
-                <a asp-controller="FlashCard"
-                   asp-action="FlashCards"
-                   asp-route-quizId="@Model.FlashCardQuizId"
-                   asp-route-quizName="@Model.Name"
-                   class="stretched-link"></a>
-            </div>
+                <!-- Clickable area -->
+                <div class="position-relative h-100" style="padding-bottom: 10vh">
+                    <h3 class="card-title mb-1">@Model.Name</h3>
+                    <p class="card-text text-muted">@Model.Description</p>
 
-            <!-- Buttons -->
-            <div class="mt-3">
-                <div class="d-flex gap-2">
-                    <a asp-action="ManageQuiz" 
-                       asp-route-quizId="@Model.FlashCardQuizId" 
-                       class="btn btn-secondary">
-                        Manage Quiz
-                    </a>
+                    <a asp-controller="FlashCard"
+                       asp-action="FlashCards"
+                       asp-route-quizId="@Model.FlashCardQuizId"
+                       asp-route-quizName="@Model.Name"
+                       class="stretched-link"></a>
+                </div>
 
-                    <a asp-action="Delete" 
-                       asp-route-id="@Model.FlashCardQuizId" 
-                       class="btn btn-danger">
-                        Delete
-                    </a>
+                <!-- Buttons fixed at bottom -->
+                <div class="position-absolute bottom-0 start-0 end-0 p-3 bg-white">
+                    <div class="d-flex gap-2 justify-content-between">
+                        <a asp-action="ManageQuiz" 
+                           asp-route-quizId="@Model.FlashCardQuizId" 
+                           class="btn btn-secondary flex-fill">
+                            Manage Quiz
+                        </a>
+
+                        <a asp-action="Delete" 
+                           asp-route-id="@Model.FlashCardQuizId" 
+                           class="btn btn-danger flex-fill">
+                            Delete
+                        </a>
+                    </div>
                 </div>
             </div>
 

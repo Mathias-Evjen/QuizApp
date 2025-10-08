@@ -1,7 +1,7 @@
 @model FlashCardQuiz
 
 <div class="col-md-4 col-sm-6 mb-3" onmouseover="this.style.transform='scale(1.01)'" onmouseout="this.style.transform='scale(1)'"style="transition: all 0.3s ease">
-    <div class="card h-100 shadow position-relative overflow-hidden" style="background-color: #5DADE2">
+    <div class="card h-100 shadow position-relative overflow-hidden" style="background-color: #BB8FCE">
         <div class="card-body p-2">
 
             <div class="bg-white p-3 h-100 position-relative">
@@ -19,6 +19,7 @@
                        asp-action="FlashCards"
                        asp-route-quizId="@Model.FlashCardQuizId"
                        asp-route-quizName="@Model.Name"
+                       asp-route-quizDescription="@Model.Description"
                        class="stretched-link"></a>
                 </div>
 

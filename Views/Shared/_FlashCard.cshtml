@@ -1,10 +1,10 @@
 @model QuizApp.Models.FlashCard
 
-<div class="card shadow-sm position-relative" style="height: 35vh">
+<div class="card shadow position-relative" style="height: 35vh">
     <p class="start-text position-absolute top-0 start-0 m-3 fw-bold">
         @(Model.ShowAnswer ? "A" : "Q")
     </p>
-    <div class="d-flex justify-content-center align-items-center text-center h-100">
+    <div class="d-flex justify-content-center align-items-center text-center h-100" style="background-color: @Model.BackgroundColor">
         <h2 class="p-5 mb-0">
             @(Model.ShowAnswer ? $"{@Model.Answer}" : $"{@Model.Question}")
         </h2>

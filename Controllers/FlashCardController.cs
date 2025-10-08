@@ -23,7 +23,7 @@ public class FlashCardController : Controller
     }
 
     [HttpGet]
-    public async Task<IActionResult> FlashCards(int quizId, string quizName)
+    public async Task<IActionResult> FlashCards(int quizId, string quizName, string quizDescription)
     {
         var flashCards = await _flashCardRepository.GetAll(quizId);
         if (flashCards == null)
@@ -31,14 +31,22 @@ public class FlashCardController : Controller
             _logger.LogError("[FlashCardController] FlashCards list not found while executing _flashCardRepository.GetAll()");
             return NotFound("FlashCards not found");
         }
-        var flashCardsViewModel = new FlashCardsViewModel(flashCards, quizName);
+
+        // Decorate the flashcards
+        foreach (var flashCard in flashCards)
+        {
+            flashCard.BackgroundColor = pickRandomFlashCardColor();
+        }
+
+        var flashCardsViewModel = new FlashCardsViewModel(flashCards, quizName, quizDescription);       
         return View(flashCardsViewModel);
     }
 
 
     // Switches the ShowAnswer value of the current flash card and returns the model
     [HttpPost]
-    public IActionResult RevealFlashCardAnswer(FlashCardsViewModel model) {
+    public IActionResult RevealFlashCardAnswer(FlashCardsViewModel model)
+    {
         model.FlashCards.ElementAt(model.CurrentFlashCardNum).ShowAnswer = !model.FlashCards.ElementAt(model.CurrentFlashCardNum).ShowAnswer;
 
         return View("FlashCards", model);
@@ -80,7 +88,7 @@ public class FlashCardController : Controller
             bool returnOk = await _flashCardRepository.CreateFlashCard(flashCard);
             if (returnOk)
                 await _flashCardQuizService.IncQuestionCounter(flashCard.QuizId);
-                return RedirectToAction("ManageQuiz", "FlashCardQuiz", new { quizId = flashCard.QuizId });
+            return RedirectToAction("ManageQuiz", "FlashCardQuiz", new { quizId = flashCard.QuizId });
         }
         _logger.LogError("[FlashCardController] FlashCard creation failed {@flashCard}", flashCard);
         return RedirectToAction("ManageQuiz", "FlashCardQuiz", new { quizId = flashCard.QuizId });
@@ -135,5 +143,25 @@ public class FlashCardController : Controller
         await _flashCardQuizService.DecQuestionCounter(quizId);
         await _flashCardQuizService.UpdateFlashCardQuestionNumbers(qNum, quizId);
         return RedirectToAction("ManageQuiz", "FlashCardQuiz", new { quizId = quizId });
+    }
+
+    // Flashcard dectoration
+    public string pickRandomFlashCardColor()
+    {
+        var flashCardColors = new List<string>{
+            "#FFF9C4",
+            "#FFE0B2",
+            "#F8BBD0",
+            "#FFCCBC",
+            "#E1BEE7",
+            "#B3E5FC",
+            "#C8E6C9",
+            "#FFF3E0",
+            "#FFDAB9"
+        };
+
+        var random = new Random();
+        int randomIndex = random.Next(flashCardColors.Count());
+        return flashCardColors[randomIndex];
     }
 }

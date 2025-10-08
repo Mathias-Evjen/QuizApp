@@ -8,13 +8,15 @@ namespace QuizApp.ViewModels
         public IEnumerable<FlashCard> FlashCards { get; set; } = new List<FlashCard>();
 
         public string FlashCardQuizName { get; set; } = string.Empty;
+        public string FlashCardQuizDescription { get; set; } = string.Empty;
 
         public FlashCardsViewModel() { }
 
-        public FlashCardsViewModel(IEnumerable<FlashCard> flashCards, string flashCardquizName)
+        public FlashCardsViewModel(IEnumerable<FlashCard> flashCards, string flashCardquizName, string flashCardQuizDescription)
         {
             FlashCards = flashCards.ToList();
             FlashCardQuizName = flashCardquizName;
+            FlashCardQuizDescription = flashCardQuizDescription;
         }
     }
 }

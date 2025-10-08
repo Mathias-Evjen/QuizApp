@@ -12,5 +12,6 @@ namespace QuizApp.Models
         public virtual FlashCardQuiz? Quiz { get; set; } = default!;
         public int QuizQuestionNum { get; set; }
         public bool AnsweredCorrectly { get; set; }
+        public string BackgroundColor { get; set; } = string.Empty;
     }
 }

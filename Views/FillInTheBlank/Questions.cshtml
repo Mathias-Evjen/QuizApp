@@ -1,21 +1,29 @@
 @model QuizApp.ViewModels.QuestionsViewModel
 
-<h1>List of questions</h1>
+<div class="d-flex justify-content-center mt-5">
+    <div class="w-75">
 
-<div class="row row-cols-1 g-4">
-    <form asp-action="Questions" method="post">
+        <!-- Left-aligned title -->
+        <h1 class="mb-4">List of Questions</h1>
 
-        <!-- ViewData is set with to its corresponding question and then passed on to _FillInTheBlankCard as its viewdata -->
-        <!-- Allows for _FillInTheBlankCard to use asp-for -->
-        @for (int i = 0; i < @Model.Questions.Count(); i++) 
-        {
-            var question = Model.Questions.ElementAt(i);
-            var vd = new ViewDataDictionary(ViewData);
-            vd.TemplateInfo.HtmlFieldPrefix = $"Questions[{i}]";
+        <form asp-action="Questions" method="post">
+            <!-- Question cards -->
+            <div class="row row-cols-1 g-4">
+                @for (int i = 0; i < Model.Questions.Count(); i++) 
+                {
+                    var question = Model.Questions.ElementAt(i);
+                    var vd = new ViewDataDictionary(ViewData);
+                    vd.TemplateInfo.HtmlFieldPrefix = $"Questions[{i}]";
 
-            <partial name="_FillInTheBlankCard", model="question", view-data="vd"/>
-        }
-        <button type="submit" class="btn btn-primary">Submit</button>
-        <a asp-action="Create" class="btn btn-secondary">Add question</a>
-    </form>
+                    <partial name="_FillInTheBlankCard" model="question" view-data="vd" />
+                }
+            </div>
+
+            <!-- Left-aligned buttons -->
+            <div class="mt-4">
+                <button type="submit" class="btn btn-primary me-2">Submit</button>
+                <a asp-action="Create" class="btn btn-secondary">Add Question</a>
+            </div>
+        </form>
+    </div>
 </div>

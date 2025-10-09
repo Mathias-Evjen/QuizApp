@@ -4,7 +4,7 @@
 <h4>Description: @Model.Description</h4>
 
 <div class="border rounded p-3" style="background-color: rgb(230, 230, 230)">
-    <div class="container">
+    <div class="container pt-2">
         @* <table class="table table-striped" style="max-width: 1200px;">
             <tr class="table-header">
                 <th>Question no.</th>
@@ -37,9 +37,7 @@
                 <div class="col-4">
                     <h5>Answer</h5>
                 </div>
-                <div class="col-2">
-                    <h5>Actions</h5>
-                </div>
+                
             </div>
         </div>
 
@@ -49,6 +47,7 @@
         }
 
         <a asp-controller="FlashCard" asp-action="Create" asp-route-quizId="@Model.FlashCardQuizId" asp-route-numOfQuestions="@Model.NumOfQuestions" class="btn btn-primary mt-2">Add question</a>
+        <a asp-controller="FlashCardQuiz" asp-action="Edit" asp-route-quizId="@Model.FlashCardQuizId" class="btn btn-secondary mt-2">Edit quiz</a>
     </div>
 </div>
 

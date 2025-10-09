@@ -24,23 +24,22 @@
                 </div>
 
                 <!-- Buttons fixed at bottom -->
-                <div class="position-absolute bottom-0 start-0 end-0 p-3 bg-white">
+                <div class="position-absolute bottom-0 start-0 end-0 p-3 bg-white" style="z-index: 10;">
                     <div class="d-flex gap-2 justify-content-between">
                         <a asp-action="ManageQuiz" 
                            asp-route-quizId="@Model.FlashCardQuizId" 
-                           class="btn btn-secondary flex-fill">
-                            Manage Quiz
+                           class="btn btn-secondary flex-fill position-relative">
+                            Manage Cards
                         </a>
 
                         <a asp-action="Delete" 
                            asp-route-id="@Model.FlashCardQuizId" 
-                           class="btn btn-danger flex-fill">
+                           class="btn btn-danger flex-fill position-relative">
                             Delete
                         </a>
                     </div>
                 </div>
             </div>
-
         </div>
     </div>
 </div>

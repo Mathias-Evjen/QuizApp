@@ -1,13 +1,11 @@
 @model FlashCardQuiz
 
-<h1>Add, change or remove questions</h1>
-
 <h3>Name: @Model.Name</h3>
 <h4>Description: @Model.Description</h4>
 
-<div style="border: 1px solid #ccc; padding: 10px; margin-bottom: 20px;">
+<div class="border rounded p-3" style="background-color: rgb(230, 230, 230)">
     <div class="container">
-        <table class="table table-striped" style="max-width: 1200px;">
+        @* <table class="table table-striped" style="max-width: 1200px;">
             <tr class="table-header">
                 <th>Question no.</th>
                 <th>Question</th>
@@ -26,8 +24,31 @@
                     </td>
                 </tr>
             }
-        </table>
-        <a asp-controller="FlashCard" asp-action="Create" asp-route-quizId="@Model.FlashCardQuizId" asp-route-numOfQuestions="@Model.NumOfQuestions" class="btn btn-primary mt-1">Add question</a>
+        </table> *@
+
+        <div class="card shadow-sm mb-3 bg-light">
+            <div class="row p-2">
+                <div class="col-1">
+                    <h5>No.</h5>
+                </div>
+                <div class="col-5">
+                    <h5>Question</h5>
+                </div>
+                <div class="col-4">
+                    <h5>Answer</h5>
+                </div>
+                <div class="col-2">
+                    <h5>Actions</h5>
+                </div>
+            </div>
+        </div>
+
+        @foreach(var flashCard in Model.FlashCards!) 
+        {
+            <partial name="_ManageQuizCard" model="flashCard" />
+        }
+
+        <a asp-controller="FlashCard" asp-action="Create" asp-route-quizId="@Model.FlashCardQuizId" asp-route-numOfQuestions="@Model.NumOfQuestions" class="btn btn-primary mt-2">Add question</a>
     </div>
 </div>
 

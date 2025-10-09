@@ -9,10 +9,12 @@
     <div class="form-group">
         <label asp-for="Question">Question:</label>
         <input asp-for="Question" class="form-control" />
+        <span asp-validation-for="Question" class="text-danger"></span>
     </div>
     <div class="form-group">
         <label asp-for="Answer">Answer:</label>
         <input asp-for="Answer" class="form-control" />
+        <span asp-validation-for="Answer" class="text-danger"></span>
     </div>
     <button type="submit" class="btn btn-primary mt-1">Save changes</button>
     <a asp-controller="FlashCardQuiz" asp-action="ManageQuiz" asp-route-id="@Model.QuizId" class="btn btn-secondary mt-1">Cancel</a>

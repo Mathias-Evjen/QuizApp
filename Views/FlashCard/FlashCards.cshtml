@@ -9,7 +9,7 @@
             </div>
 
             <div class="col-12 mt-3">
-                <div class="d-flex justify-content-between align-items-center flex-wrap gap-2 pb-3">
+                <div class="d-flex justify-content-between align-items-center flex-wrap gap-2 pb-3 mt-1">
 
                     <!-- Left side: Prev / Next -->
                     <div class="d-flex gap-2 mt-1">
@@ -22,11 +22,11 @@
                             var currentFlashCard = Model.CurrentFlashCardNum+1;
                         }
 
-                        <h5>@currentFlashCard/@Model.FlashCards.Count()</h5>
+                        <h5 class="pt-2">@currentFlashCard/@Model.FlashCards.Count()</h5>
 
                         <form asp-action="NextFlashCard" method="post" class="m-0">
                             <partial name="_FlashCardHiddenFields" model="Model" />
-                            <button type="submit" class="btn btn-primary mt-1">Next</button>
+                            <button type="submit" class="btn btn-primary">Next</button>
                         </form>
                     </div>
 
@@ -34,14 +34,14 @@
                     <div class="d-flex gap-2 align-items-center">
                         <form asp-action="RevealFlashCardAnswer" method="post" class="m-0">
                             <partial name="_FlashCardHiddenFields" model="Model" />
-                            <button type="submit" class="btn btn-success mt-1">
+                            <button type="submit" class="btn btn-success">
                                 @(Model.FlashCards.ElementAt(Model.CurrentFlashCardNum).ShowAnswer ? "Hide Answer" : "Show Answer")
                             </button>
                         </form>
 
                         <a asp-controller="FlashCardQuiz" 
                         asp-action="Quizzes" 
-                        class="btn btn-secondary btn-sm">
+                        class="btn btn-secondary">
                             Exit
                         </a>
                     </div>

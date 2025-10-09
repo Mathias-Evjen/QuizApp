@@ -22,17 +22,8 @@ public class MatchingController : Controller
 
     public async Task<IActionResult> MatchingQuestion()
     {
-        /*var testQuestion = new Matching
-        {
-            Id = 4,
-            Question = "elefant,ost,melk,blomst,grønnsak,tiger",
-            CorrectAnswer = "elefant,tiger,melk,ost,grønnsak,blomst"
-        };*/
-        //_matchingRepository.CreateMatching(testQuestion);
-        Matching matchingJustMade = await _matchingRepository.GetMatchingById(1);
-        Console.WriteLine($"Correct Answer: {matchingJustMade.CorrectAnswer}, Question: {matchingJustMade.Question}");
-
-        var viewModel = new MatchingViewModel(matchingJustMade);
+        List<Matching> matching = (await _matchingRepository.GetAll()).ToList();
+        var viewModel = new MatchingViewModel(matching[0]);
 
         return View(viewModel);
     }
@@ -47,16 +38,27 @@ public class MatchingController : Controller
         }
         string correctAnswer = matchingObject.CorrectAnswer;
         string questionAnswer = matchingObject.Assemble(keys, values, 2);
+        matchingObject.Answer = questionAnswer;
         Console.WriteLine($"Answer: {questionAnswer}, Correct Answer: {correctAnswer}");
         if (questionAnswer == correctAnswer)
-        {return RedirectToAction("Index", "Home");
+        {
             Console.WriteLine("Answer is correct!");
         }
         else
         {
             Console.WriteLine($"Answer is wrong! Correct answer is: {correctAnswer}");
         }
-
+        int correctCounter = 0;
+        KeyValuePair<string, string>[] corretAnswerSplit = matchingObject.SplitCorrectAnswer();
+        for (int i = 0; i < corretAnswerSplit.Length; i++)
+        {
+            if (corretAnswerSplit[i].Value == values[i])
+            {
+                correctCounter++;
+            }
+        }
+        matchingObject.AmountCorrect = correctCounter;
+        _matchingRepository.UpdateMatching(matchingObject);
         return RedirectToAction("Index", "Home");
     }
 

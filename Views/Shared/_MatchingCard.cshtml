@@ -6,26 +6,27 @@
 <div class="container">
     <form asp-controller="Matching" asp-action="SubmitMatchingQuestion" method="post">
         <input type="hidden" name="id" value="@Model.Id" />
-        @foreach (var pair in pairQuestions){
-            <div class="row">
-                <div class="col-1">
-                    <label>@pair.Key</label>
-                    <input type="hidden" name="keys" value="@pair.Key" />
-                </div>
-                <div class="col-2">
-                    <select class="form-select" name="values">
-                        <option value="@pair.Value">@pair.Value</option>
-                        @foreach(var value in pairQuestions){
-                            if (value.Value != pair.Key && value.Value != pair.Value){
-                                <option value="@value.Value">@value.Value</option>
+        <table class="table table-bordered" style="width: 400px;">
+            @foreach (var pair in pairQuestions){
+                <tr class="text-center">
+                    <td>
+                        <label>@pair.Key</label>
+                        <input type="hidden" name="keys" value="@pair.Key" />
+                    </td>
+                    <td>
+                        <select class="form-select" name="values">
+                            <option value="@pair.Value">@pair.Value</option>
+                            @foreach(var value in pairQuestions){
+                                if (value.Value != pair.Key && value.Value != pair.Value){
+                                    <option value="@value.Value">@value.Value</option>
+                                }
                             }
-                        }
-                    </select>
-                
-                </div>
-            </div>
-            <br>
-        }
+                        </select>
+                    
+                    </td>
+                </tr>
+            }
+        </table>
         <br>
         <button type="submit" class="btn btn-primary">Next</button>
     </form>

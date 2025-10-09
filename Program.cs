@@ -17,6 +17,7 @@ builder.Services.AddDbContext<QuizDbContext>(options =>
 });
 
 builder.Services.AddScoped<IMatchingRepository, MatchingRepository>();
+builder.Services.AddScoped<ISequenceRepository, SequenceRepository>();
 
 
 
@@ -28,6 +29,7 @@ var app = builder.Build();
 if (app.Environment.IsDevelopment())
 {
     app.UseDeveloperExceptionPage();
+    DBInit.Seed(app);
 }
 
 app.UseStaticFiles();

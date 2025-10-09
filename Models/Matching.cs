@@ -82,7 +82,6 @@ namespace QuizApp.Models
             else if (task == 3)
             {
                 Question = questionOrAnswer;
-                Console.WriteLine($"Shuffled: {Question}");
             }
             return questionOrAnswer;
         }

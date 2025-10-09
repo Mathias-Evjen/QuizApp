@@ -1,0 +1,28 @@
+@model QuizApp.Models.MultipleChoice
+
+@{
+    ViewData["Title"] = "Edit Multiple Choice";
+}
+
+<h2>Edit Multiple Choice Question</h2>
+
+<form asp-action="Edit" method="post">
+    <input type="hidden" asp-for="Id" />
+
+    <div class="mb-3">
+        <label asp-for="QuestionText" class="form-label"></label>
+        <input asp-for="QuestionText" class="form-control" />
+        <span asp-validation-for="QuestionText" class="text-danger"></span>
+    </div>
+
+    <h5>Options</h5>
+    @for (int i = 0; i < Model.Options.Count; i++)
+    {
+        <div class="mb-2">
+            <input name="optionTexts" value="@Model.Options[i].Text" class="form-control" />
+            <input type="checkbox" name="correctOptionIndexes" value="@i" @(Model.Options[i].IsCorrect ? "checked" : "") /> Correct
+        </div>
+    }
+
+    <button type="submit" class="btn btn-primary">Save Changes</button>
+</form>

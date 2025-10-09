@@ -1,23 +1,28 @@
 @model List<QuizApp.Models.MultipleChoice>
-<p>Antall spørsmål: @Model?.Count()</p> // Viser om det er spørsmål i databasen
 
+@{
+    ViewData["Title"] = "Take Quiz";
+}
 
 <h2>Quiz</h2>
 
 <form asp-action="Submit" method="post">
-@foreach (var q in Model)
-{
-    <div>
-        <h4>@q.QuestionText</h4>
-        @foreach (var opt in q.Options)
-        {
-            <div>
-                <input type="checkbox" name="answers[@q.Id][]" value="@opt.Text" />
-                <label>@opt.Text</label>
+    @foreach (var q in Model)
+    {
+        <div class="card mb-3">
+            <div class="card-body">
+                <h5>@q.QuestionText</h5>
+
+                @foreach (var opt in q.Options)
+                {
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" name="answers[@q.Id][]" value="@opt.Text" />
+                        <label class="form-check-label">@opt.Text</label>
+                    </div>
+                }
             </div>
-        }
-    </div>
-    <hr />
-}
+        </div>
+    }
+
     <button type="submit" class="btn btn-primary">Submit</button>
 </form>

@@ -30,18 +30,46 @@ build_property._RazorSourceGeneratorDebug =
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxJbmRleC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/ander/OneDrive/Dokumenter/GitHub/QuizApp/Views/Quiz/Create.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUXVpelxDcmVhdGUuY3NodG1s
+[C:/Users/ander/OneDrive/Dokumenter/GitHub/QuizApp/Views/Questions/Create.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUXVlc3Rpb25zXENyZWF0ZS5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/ander/OneDrive/Dokumenter/GitHub/QuizApp/Views/Questions/Edit.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUXVlc3Rpb25zXEVkaXQuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/ander/OneDrive/Dokumenter/GitHub/QuizApp/Views/Questions/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUXVlc3Rpb25zXEluZGV4LmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/ander/OneDrive/Dokumenter/GitHub/QuizApp/Views/Questions/Result.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUXVlc3Rpb25zXFJlc3VsdC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
 [C:/Users/ander/OneDrive/Dokumenter/GitHub/QuizApp/Views/Quiz/Index.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUXVpelxJbmRleC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/ander/OneDrive/Dokumenter/GitHub/QuizApp/Views/Quiz/Result.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUXVpelxSZXN1bHQuY3NodG1s
-build_metadata.AdditionalFiles.CssScope = 
-
 [C:/Users/ander/OneDrive/Dokumenter/GitHub/QuizApp/Views/Shared/_Layout.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9MYXlvdXQuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/ander/OneDrive/Dokumenter/GitHub/QuizApp/Views/TrueFalse/Create.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcVHJ1ZUZhbHNlXENyZWF0ZS5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/ander/OneDrive/Dokumenter/GitHub/QuizApp/Views/TrueFalse/Edit.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcVHJ1ZUZhbHNlXEVkaXQuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/ander/OneDrive/Dokumenter/GitHub/QuizApp/Views/TrueFalse/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcVHJ1ZUZhbHNlXEluZGV4LmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/ander/OneDrive/Dokumenter/GitHub/QuizApp/Views/_ViewImports.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcX1ZpZXdJbXBvcnRzLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/ander/OneDrive/Dokumenter/GitHub/QuizApp/Views/_ViewStart.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcX1ZpZXdTdGFydC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 

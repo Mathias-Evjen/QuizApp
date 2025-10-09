@@ -1,0 +1,27 @@
+@model QuizApp.Models.TrueFalseQuestion
+
+@{
+    ViewData["Title"] = "Edit True/False Question";
+}
+
+<h2>Edit True/False Question</h2>
+
+<form asp-action="Edit" method="post">
+    <input type="hidden" asp-for="Id" />
+
+    <div class="mb-3">
+        <label asp-for="QuestionText" class="form-label"></label>
+        <input asp-for="QuestionText" class="form-control" />
+        <span asp-validation-for="QuestionText" class="text-danger"></span>
+    </div>
+
+    <div class="mb-3">
+        <label>Correct Answer:</label>
+        <select asp-for="CorrectAnswer" class="form-select">
+            <option value="true">True</option>
+            <option value="false">False</option>
+        </select>
+    </div>
+
+    <button type="submit" class="btn btn-primary">Save Changes</button>
+</form>

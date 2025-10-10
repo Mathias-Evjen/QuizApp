@@ -31,13 +31,13 @@ namespace QuizApp.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(TrueFalseQuestion question)
         {
-            if (!ModelState.IsValid)
-                return View(question);
-
-            await _repo.AddAsync(question);
-            await _repo.SaveAsync();
-
-            return RedirectToAction(nameof(Index));
+            if (ModelState.IsValid)
+            {
+                await _repo.AddAsync(question);
+                await _repo.SaveAsync();
+                return RedirectToAction(nameof(Index));
+            }
+            return View(question);
         }
 
         // GET: /TrueFalse/Edit/5
@@ -58,13 +58,14 @@ namespace QuizApp.Controllers
             if (id != question.Id)
                 return BadRequest();
 
-            if (!ModelState.IsValid)
-                return View(question);
+            if (ModelState.IsValid)
+            {
+                await _repo.UpdateAsync(question);
+                await _repo.SaveAsync();
+                return RedirectToAction(nameof(Index));
+            }
 
-            await _repo.UpdateAsync(question);
-            await _repo.SaveAsync();
-
-            return RedirectToAction(nameof(Index));
+            return View(question);
         }
 
         // GET: /TrueFalse/Delete/5

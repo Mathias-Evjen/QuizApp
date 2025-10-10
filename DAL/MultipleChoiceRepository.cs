@@ -1,36 +1,69 @@
 using Microsoft.EntityFrameworkCore;
 using QuizApp.Models;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace QuizApp.DAL
 {
     public class MultipleChoiceRepository : IMultipleChoiceRepository
     {
-        private readonly AppDbContext _db;
-        public MultipleChoiceRepository(AppDbContext db) => _db = db;
+        private readonly AppDbContext _context;
 
-        public async Task<List<MultipleChoice>> GetAllWithOptionsAsync() =>
-            await _db.MultipleChoices.Include(q => q.Options)
-                .AsNoTracking().ToListAsync();
-
-        public async Task<MultipleChoice?> GetWithOptionsAsync(int id) =>
-            await _db.MultipleChoices.Include(q => q.Options)
-                .FirstOrDefaultAsync(q => q.Id == id);
-
-        public async Task AddAsync(MultipleChoice q) =>
-            await _db.MultipleChoices.AddAsync(q);
-
-        public Task UpdateAsync(MultipleChoice q)
+        public MultipleChoiceRepository(AppDbContext context)
         {
-            _db.MultipleChoices.Update(q);
-            return Task.CompletedTask;
+            _context = context;
+        }
+
+        public async Task<List<MultipleChoice>> GetAllAsync()
+        {
+            return await _context.MultipleChoices
+                .Include(q => q.Options)
+                .ToListAsync();
+        }
+
+        public async Task<MultipleChoice?> GetByIdAsync(int id)
+        {
+            return await _context.MultipleChoices.FindAsync(id);
+        }
+
+        public async Task<MultipleChoice?> GetDetailedAsync(int id)
+        {
+            return await _context.MultipleChoices
+                .Include(q => q.Options)
+                .FirstOrDefaultAsync(q => q.Id == id);
+        }
+
+        public async Task<MultipleChoice?> GetWithOptionsAsync(int id)
+        {
+            return await _context.MultipleChoices
+                .Include(q => q.Options)
+                .FirstOrDefaultAsync(q => q.Id == id);
+        }
+
+        public async Task AddAsync(MultipleChoice question)
+        {
+            await _context.MultipleChoices.AddAsync(question);
+        }
+
+        public async Task UpdateAsync(MultipleChoice question)
+        {
+            _context.MultipleChoices.Update(question);
+            await Task.CompletedTask;
         }
 
         public async Task DeleteAsync(int id)
         {
-            var q = await _db.MultipleChoices.FindAsync(id);
-            if (q != null) _db.MultipleChoices.Remove(q);
+            var question = await _context.MultipleChoices.FindAsync(id);
+            if (question != null)
+            {
+                _context.MultipleChoices.Remove(question);
+            }
         }
 
-        public Task SaveAsync() => _db.SaveChangesAsync();
+        public async Task SaveAsync()
+        {
+            await _context.SaveChangesAsync();
+        }
     }
 }

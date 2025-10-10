@@ -1,29 +1,30 @@
 using Microsoft.EntityFrameworkCore;
 using QuizApp.DAL;
-using QuizApp.DAL;
+using QuizApp.Models;
 
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddControllersWithViews();
 
+// ✅ Legg til SQLite-databasekobling
 builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseSqlite(builder.Configuration.GetConnectionString("DefaultConnection")));
 
-// Register repositories
+// ✅ Registrer Repository-avhengigheter
 builder.Services.AddScoped<IQuestionRepository, QuestionRepository>();
 builder.Services.AddScoped<IMultipleChoiceRepository, MultipleChoiceRepository>();
 builder.Services.AddScoped<ITrueFalseRepository, TrueFalseRepository>();
 
 var app = builder.Build();
 
-// Seed data on startup
+// ✅ Kjør DbInit manuelt (uten å registrere den som service)
 using (var scope = app.Services.CreateScope())
 {
-    var db = scope.ServiceProvider.GetRequiredService<AppDbContext>();
-    DbInit.Seed(db);
+    var services = scope.ServiceProvider;
+    var context = services.GetRequiredService<AppDbContext>();
+    DbInit.Seed(context); // ✅ Dette fungerer fordi DbInit er static
 }
 
-// Middleware
 if (!app.Environment.IsDevelopment())
 {
     app.UseExceptionHandler("/Home/Error");
@@ -38,6 +39,6 @@ app.UseAuthorization();
 
 app.MapControllerRoute(
     name: "default",
-    pattern: "{controller=Quiz}/{action=Index}/{id?}");
+    pattern: "{controller=Home}/{action=Index}/{id?}");
 
 app.Run();

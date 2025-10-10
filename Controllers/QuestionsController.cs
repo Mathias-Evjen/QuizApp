@@ -1,5 +1,4 @@
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using QuizApp.DAL;
 using QuizApp.Models;
 
@@ -7,42 +6,117 @@ namespace QuizApp.Controllers
 {
     public class QuestionsController : Controller
     {
+        private readonly IMultipleChoiceRepository _repo;
         private readonly AppDbContext _context;
 
-        public QuestionsController(AppDbContext context)
+        public QuestionsController(IMultipleChoiceRepository repo, AppDbContext context)
         {
+            _repo = repo;
             _context = context;
         }
 
         public async Task<IActionResult> Index()
         {
-            var questions = await _context.MultipleChoices
-                .Include(mc => mc.Options)
-                .ToListAsync();
+            var questions = await _repo.GetAllAsync();
             return View(questions);
         }
 
-        public IActionResult Create() => View();
+        public IActionResult Create()
+        {
+            return View();
+        }
 
         [HttpPost]
-        public async Task<IActionResult> Create(MultipleChoice question,
-                                                List<string> optionTexts,
-                                                List<int> correctOptionIndexes)
+        public async Task<IActionResult> Create(MultipleChoice question)
         {
-            for (int i = 0; i < optionTexts.Count; i++)
+            if (ModelState.IsValid)
             {
-                if (string.IsNullOrWhiteSpace(optionTexts[i])) continue;
+                await _repo.AddAsync(question);
+                await _repo.SaveAsync();
+                return RedirectToAction(nameof(Index));
+            }
+            return View(question);
+        }
 
-                question.Options.Add(new Option
+        public async Task<IActionResult> Edit(int id)
+        {
+            var question = await _repo.GetDetailedAsync(id);
+            if (question == null)
+                return NotFound();
+
+            return View(question);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Edit(int id, MultipleChoice updatedQuestion)
+        {
+            if (id != updatedQuestion.Id)
+                return NotFound();
+
+            if (!ModelState.IsValid)
+                return View(updatedQuestion);
+
+            var existingQuestion = await _repo.GetDetailedAsync(id);
+            if (existingQuestion == null)
+                return NotFound();
+
+            existingQuestion.QuestionText = updatedQuestion.QuestionText;
+
+            foreach (var existingOption in existingQuestion.Options.ToList())
+            {
+                var updatedOption = updatedQuestion.Options.FirstOrDefault(o => o.Id == existingOption.Id);
+                if (updatedOption != null)
                 {
-                    Text = optionTexts[i],
-                    IsCorrect = correctOptionIndexes.Contains(i)
-                });
+                    existingOption.Text = updatedOption.Text;
+                    existingOption.IsCorrect = updatedOption.IsCorrect;
+                }
+                else
+                {
+                    _context.Options.Remove(existingOption);
+                }
             }
 
-            _context.MultipleChoices.Add(question);
-            await _context.SaveChangesAsync();
+            if (Request.Form.ContainsKey("optionTexts"))
+            {
+                var newOptionTexts = Request.Form["optionTexts"];
+                var correctIndexes = Request.Form["correctOptionIndexes"];
 
+                for (int i = 0; i < newOptionTexts.Count; i++)
+                {
+                    var text = newOptionTexts[i];
+                    bool isCorrect = correctIndexes.Contains(i.ToString());
+
+                    if (!string.IsNullOrWhiteSpace(text))
+                    {
+                        existingQuestion.Options.Add(new Option
+                        {
+                            Text = text,
+                            IsCorrect = isCorrect
+                        });
+                    }
+                }
+            }
+
+            await _repo.UpdateAsync(existingQuestion);
+            await _repo.SaveAsync();
+
+            return RedirectToAction(nameof(Index));
+        }
+
+        public async Task<IActionResult> Delete(int id)
+        {
+            var question = await _repo.GetByIdAsync(id);
+            if (question == null)
+                return NotFound();
+
+            return View(question);
+        }
+
+        [HttpPost, ActionName("Delete")]
+        public async Task<IActionResult> DeleteConfirmed(int id)
+        {
+            await _repo.DeleteAsync(id);
+            await _repo.SaveAsync();
             return RedirectToAction(nameof(Index));
         }
     }

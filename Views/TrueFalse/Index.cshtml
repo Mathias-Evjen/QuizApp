@@ -1,34 +1,30 @@
-@model IEnumerable<QuizApp.Models.TrueFalseQuestion>
-
-@{
-    ViewData["Title"] = "True/False Questions";
-}
+@model List<QuizApp.Models.TrueFalseQuestion>
 
 <h2>True/False Questions</h2>
 
 <p>
-    <a class="btn btn-success" asp-action="Create">Add New Question</a>
+    <a asp-action="Create" class="btn btn-success">Add Question</a>
 </p>
 
-<table class="table table-striped">
+<table class="table">
     <thead>
         <tr>
             <th>Question</th>
-            <th>Answer</th>
+            <th>Correct Answer</th>
             <th></th>
         </tr>
     </thead>
     <tbody>
-        @foreach (var item in Model)
-        {
-            <tr>
-                <td>@item.QuestionText</td>
-                <td>@(item.CorrectAnswer ? "True" : "False")</td>
-                <td>
-                    <a class="btn btn-primary btn-sm" asp-action="Edit" asp-route-id="@item.Id">Edit</a>
-                    <a class="btn btn-danger btn-sm" asp-action="Delete" asp-route-id="@item.Id">Delete</a>
-                </td>
-            </tr>
-        }
+    @foreach (var q in Model)
+    {
+        <tr>
+            <td>@q.QuestionText</td>
+            <td>@(q.CorrectAnswer ? "True" : "False")</td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@q.Id" class="btn btn-primary btn-sm">Edit</a>
+                <a asp-action="Delete" asp-route-id="@q.Id" class="btn btn-danger btn-sm">Delete</a>
+            </td>
+        </tr>
+    }
     </tbody>
 </table>

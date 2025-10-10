@@ -1,0 +1,20 @@
+@model QuizApp.Models.TrueFalseQuestion
+
+<h2>Add True/False Question</h2>
+
+<form asp-action="Create" method="post">
+    <div class="mb-3">
+        <label asp-for="QuestionText" class="form-label"></label>
+        <input asp-for="QuestionText" class="form-control" />
+        <span asp-validation-for="QuestionText" class="text-danger"></span>
+    </div>
+
+    <div class="mb-3">
+        <label class="form-label">Correct Answer:</label><br />
+        <input type="radio" asp-for="CorrectAnswer" value="true" /> True
+        <input type="radio" asp-for="CorrectAnswer" value="false" /> False
+    </div>
+
+    <button type="submit" class="btn btn-success">Save</button>
+    <a asp-action="Index" class="btn btn-secondary">Cancel</a>
+</form>

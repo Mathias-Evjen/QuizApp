@@ -1,7 +1,9 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using QuizApp.DAL;
-using QuizApp.Models;
+using QuizApp.ViewModels;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace QuizApp.Controllers
 {
@@ -14,56 +16,51 @@ namespace QuizApp.Controllers
             _context = context;
         }
 
+        // GET: /Quiz
         public async Task<IActionResult> Index()
         {
-            // Henter bare MultipleChoice med alternativer
             var questions = await _context.MultipleChoices
-                .Include(mc => mc.Options)
+                .Include(q => q.Options)
                 .ToListAsync();
-
             return View(questions);
         }
 
+        // POST: /Quiz/Submit
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public async Task<IActionResult> Submit(Dictionary<int, string[]> answers)
         {
             var questions = await _context.MultipleChoices
-                .Include(mc => mc.Options)
+                .Include(q => q.Options)
                 .ToListAsync();
 
-            var attempt = new QuizAttempt
+            var result = new QuizResultViewModel
             {
-                Total = questions.Count
+                TotalQuestions = questions.Count
             };
 
             foreach (var q in questions)
             {
-                var correct = q.Options
-                               .Where(o => o.IsCorrect)
-                               .Select(o => o.Text)
-                               .ToList();
-
+                var correct = q.Options.Where(o => o.IsCorrect).Select(o => o.Text).ToList();
                 var selected = answers.ContainsKey(q.Id)
                     ? answers[q.Id].ToList()
-                    : new List<string>();
+                    : new();
 
-                var aq = new AnsweredQuestion
+                var isCorrect = correct.OrderBy(c => c).SequenceEqual(selected.OrderBy(s => s));
+
+                result.Results.Add(new ResultQuestion
                 {
-                    QuestionId = q.Id,
                     QuestionText = q.QuestionText,
                     CorrectAnswers = correct,
-                    SelectedAnswers = selected,
-                    IsCorrect = correct.OrderBy(c => c)
-                                       .SequenceEqual(selected.OrderBy(s => s))
-                };
+                    UserAnswers = selected,
+                    IsCorrect = isCorrect
+                });
 
-                if (aq.IsCorrect)
-                    attempt.Score++;
-
-                attempt.Answers.Add(aq);
+                if (isCorrect)
+                    result.CorrectAnswers++;
             }
 
-            return View("Result", attempt);
+            return View("Result", result);
         }
     }
 }

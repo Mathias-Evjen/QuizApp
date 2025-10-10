@@ -16,7 +16,9 @@ namespace QuizApp.DAL
 
         public async Task<List<TrueFalseQuestion>> GetAllAsync()
         {
-            return await _context.TrueFalseQuestions.ToListAsync();
+            return await _context.TrueFalseQuestions
+                .AsNoTracking()
+                .ToListAsync();
         }
 
         public async Task<TrueFalseQuestion?> GetByIdAsync(int id)
@@ -24,14 +26,23 @@ namespace QuizApp.DAL
             return await _context.TrueFalseQuestions.FindAsync(id);
         }
 
-        public async Task AddAsync(TrueFalseQuestion q)
+        // ✅ Ny metode lagt til for å oppfylle interfacet
+        public async Task<TrueFalseQuestion?> GetDetailedAsync(int id)
         {
-            await _context.TrueFalseQuestions.AddAsync(q);
+            return await _context.TrueFalseQuestions
+                .AsNoTracking()
+                .FirstOrDefaultAsync(q => q.Id == id);
         }
 
-        public async Task UpdateAsync(TrueFalseQuestion q)
+        public async Task AddAsync(TrueFalseQuestion question)
         {
-            _context.TrueFalseQuestions.Update(q);
+            await _context.TrueFalseQuestions.AddAsync(question);
+        }
+
+        public async Task UpdateAsync(TrueFalseQuestion question)
+        {
+            _context.TrueFalseQuestions.Update(question);
+            await Task.CompletedTask;
         }
 
         public async Task DeleteAsync(int id)

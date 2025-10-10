@@ -12,6 +12,7 @@ public class QuizDbContext : DbContext
 
     public DbSet<Matching> MatchingQuestions { get; set; }
     public DbSet<Sequence> SequenceQuestions { get; set; }
+    public DbSet<Ranking> RankingQuestions { get; set; }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {

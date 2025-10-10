@@ -1,11 +1,11 @@
 @using Microsoft.Extensions.ObjectPool
-@model QuizApp.ViewModels.SequenceViewModel
+@model QuizApp.ViewModels.RankingViewModel
 @{
-    ViewData["Title"] = "Show Sequence Questions";
+    ViewData["Title"] = "Show Ranking Questions";
     
 }
 
-<h1>Sequence Questions</h1>
+<h1>Ranking Questions</h1>
 <hr />
 <table class="table table-bordered">
     <thead>
@@ -18,14 +18,14 @@
         </tr>
     </thead>
     <tbody>
-        @foreach (var sequence in Model.Sequences)
+        @foreach (var ranking in Model.Rankings)
         {
             <tr>
-                <td>@sequence.Id</td>
-                <td>@sequence.QuestionText</td>
+                <td>@ranking.Id</td>
+                <td>@ranking.QuestionText</td>
                 <td>
                     @{
-                        string[] questionSplit = sequence.Question.Split(",");
+                        string[] questionSplit = ranking.Question.Split(",");
                         string questionFormatted = "";
                         for(int i = 0; i < questionSplit.Length; i++){
                             if (i != 0){questionFormatted+=" - ";}
@@ -36,7 +36,7 @@
                 </td>
                 <td>
                     @{
-                        string[] correctAnswerSplit = sequence.CorrectAnswer.Split(",");
+                        string[] correctAnswerSplit = ranking.CorrectAnswer.Split(",");
                         string correctAnswerFormatted = "";
                         for(int i = 0; i < correctAnswerSplit.Length; i++){
                             if (i != 0){correctAnswerFormatted+=" -> ";}
@@ -46,9 +46,9 @@
                     @correctAnswerFormatted
                 </td>
                 <td>
-                    <a asp-action="UpdateSequencePage" asp-route-id="@sequence.Id" class="btn btn-primary" style="margin-bottom: 5px;">Update</a>
+                    <a asp-action="UpdateRankingPage" asp-route-id="@ranking.Id" class="btn btn-primary" style="margin-bottom: 5px;">Update</a>
                     <br />
-                    <a asp-action="DeleteSequence" asp-route-id="@sequence.Id" class="btn btn-danger">Delete</a>
+                    <a asp-action="DeleteRanking" asp-route-id="@ranking.Id" class="btn btn-danger">Delete</a>
                 </td>
             </tr>
         }

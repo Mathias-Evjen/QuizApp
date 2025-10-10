@@ -1,14 +1,14 @@
 @using Microsoft.Extensions.ObjectPool
-@model QuizApp.Models.Sequence
+@model QuizApp.Models.Ranking
 
 @{
-    ViewData["Title"] = "Update Sequence";
+    ViewData["Title"] = "Update Ranking";
     var splitQuestion = Model.Question.Split(",");
     var splitCorrectAnswer = Model.CorrectAnswer.Split(",");
 }
 <h1>Update sequence</h1>
 <hr />
-<form asp-controller="Sequence" asp-action="UpdateSequence" method="post">
+<form asp-controller="Ranking" asp-action="UpdateRanking" method="post">
     <input type="hidden" name="id" asp-for="Id" value="@Model.Id" />
     <label asp-for="QuestionText" class="form-label">Question text</label><br />
     <input type="text" class="form-control" name="questionText" asp-for="QuestionText" value="@Model.QuestionText"/><br /><br />

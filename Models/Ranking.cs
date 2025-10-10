@@ -1,11 +1,9 @@
-
-
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace QuizApp.Models
 {
- public class Sequence
+ public class Ranking
     {
         [Key] // Marker dette som primærnøkkel
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
@@ -61,7 +59,7 @@ namespace QuizApp.Models
 
             string shuffledQuestion = Assemble(values, 3);
 
-            return shuffledQuestion; // Returner den stokket listen
+            return shuffledQuestion; 
         }
     }   
 }

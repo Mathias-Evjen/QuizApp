@@ -18,6 +18,7 @@ builder.Services.AddDbContext<QuizDbContext>(options =>
 
 builder.Services.AddScoped<IMatchingRepository, MatchingRepository>();
 builder.Services.AddScoped<ISequenceRepository, SequenceRepository>();
+builder.Services.AddScoped<IRankingRepository, RankingRepository>();
 
 
 

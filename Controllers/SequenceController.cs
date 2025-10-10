@@ -44,7 +44,7 @@ public class SequenceController : Controller
     }
 
     [HttpPost]
-    public async Task<IActionResult> CreateSequenceQuestion(List<string> Values)
+    public async Task<IActionResult> CreateSequenceQuestion(string questionText, List<string> Values)
     {
         if (Values == null)
         {
@@ -52,6 +52,7 @@ public class SequenceController : Controller
             return View();
         }
         var sequenceQuestion = new Sequence();
+        sequenceQuestion.QuestionText = questionText;
         sequenceQuestion.Assemble(Values, 1);
         sequenceQuestion.ShuffleQuestion(Values);
         _sequenceRepository.CreateSequence(sequenceQuestion);
@@ -81,10 +82,11 @@ public class SequenceController : Controller
     }
 
     [HttpPost]
-    public IActionResult UpdateSequence(int id, List<string> question, List<string> correctAnswer)
+    public IActionResult UpdateSequence(int id, string questionText, List<string> question, List<string> correctAnswer)
     {
         Sequence updatetSequence = new Sequence();
         updatetSequence.Id = id;
+        updatetSequence.QuestionText = questionText;
         updatetSequence.Assemble(question, 3);
         updatetSequence.Assemble(correctAnswer, 1);
 

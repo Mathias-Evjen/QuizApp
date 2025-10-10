@@ -1,13 +1,13 @@
-@model QuizApp.ViewModels.SequenceViewModel
+@model QuizApp.ViewModels.RankingViewModel
 
 @{
-    ViewData["Title"] = "Create Sequence Questions";
+    ViewData["Title"] = "Create Ranking Questions";
 }
 
 <div class="container">
     <h1>Create sequence question in order</h1>
     <hr />
-    <form asp-action="CreateSequenceQuestion" method="post" id="sequenceForm">
+    <form asp-action="CreateRankingQuestion" method="post" id="sequenceForm">
         <div id="valuesContainer">
         <input type="text" class="form-control" style="max-width:50vw;" name="questionText" placeholder="Question text..."/><br />
             <div class="row mb-3">

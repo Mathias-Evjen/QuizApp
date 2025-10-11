@@ -1,6 +1,6 @@
 @model QuizApp.Models.TrueFalseQuestion
 
-<h2>Add True/False Question</h2>
+<h2>Create True/False Question</h2>
 
 <form asp-action="Create" method="post">
     <div class="mb-3">
@@ -9,12 +9,11 @@
         <span asp-validation-for="QuestionText" class="text-danger"></span>
     </div>
 
-    <div class="mb-3">
-        <label class="form-label">Correct Answer:</label><br />
-        <input type="radio" asp-for="CorrectAnswer" value="true" /> True
-        <input type="radio" asp-for="CorrectAnswer" value="false" /> False
+    <div class="form-check">
+        <input asp-for="CorrectAnswer" class="form-check-input" type="checkbox" />
+        <label asp-for="CorrectAnswer" class="form-check-label">Correct Answer is True</label>
     </div>
 
-    <button type="submit" class="btn btn-success">Save</button>
-    <a asp-action="Index" class="btn btn-secondary">Cancel</a>
+    <button type="submit" class="btn btn-primary mt-3">Save</button>
+    <a asp-action="Index" class="btn btn-secondary mt-3">Cancel</a>
 </form>

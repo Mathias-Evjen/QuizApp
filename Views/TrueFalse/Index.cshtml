@@ -1,17 +1,15 @@
-@model List<QuizApp.Models.TrueFalseQuestion>
+@model IEnumerable<QuizApp.Models.TrueFalseQuestion>
 
-<h2>True/False Questions</h2>
+<h2>True / False Questions</h2>
 
-<p>
-    <a asp-action="Create" class="btn btn-success">Add Question</a>
-</p>
+<a asp-action="Create" class="btn btn-primary mb-3">+ Add Question</a>
 
-<table class="table">
-    <thead>
+<table class="table table-bordered align-middle">
+    <thead class="table-light">
         <tr>
             <th>Question</th>
             <th>Correct Answer</th>
-            <th></th>
+            <th style="width: 220px;">Actions</th>
         </tr>
     </thead>
     <tbody>
@@ -21,8 +19,11 @@
             <td>@q.QuestionText</td>
             <td>@(q.CorrectAnswer ? "True" : "False")</td>
             <td>
-                <a asp-action="Edit" asp-route-id="@q.Id" class="btn btn-primary btn-sm">Edit</a>
-                <a asp-action="Delete" asp-route-id="@q.Id" class="btn btn-danger btn-sm">Delete</a>
+                <a asp-action="Edit" asp-route-id="@q.Id" class="btn btn-sm btn-warning me-2">Edit</a>
+                <form asp-action="Delete" asp-route-id="@q.Id" method="post" style="display:inline;" 
+                      onsubmit="return confirm('Are you sure you want to delete this question?');">
+                    <button type="submit" class="btn btn-sm btn-danger">Delete</button>
+                </form>
             </td>
         </tr>
     }

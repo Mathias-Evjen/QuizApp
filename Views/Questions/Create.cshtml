@@ -1,6 +1,6 @@
-@model QuizApp.Models.MultipleChoice
+@model QuizApp.Models.TrueFalseQuestion
 
-<h2>Add Multiple Choice Question</h2>
+<h2>Create True/False Question</h2>
 
 <form asp-action="Create" method="post">
     <div class="mb-3">
@@ -9,39 +9,11 @@
         <span asp-validation-for="QuestionText" class="text-danger"></span>
     </div>
 
-    <h4>Options</h4>
-
-    <div id="options-container">
-        <div class="option-item mb-2">
-            <input type="text" name="optionTexts" class="form-control d-inline-block w-75" placeholder="Enter option text" />
-            <input type="checkbox" name="correctOptionIndexes" value="0" class="form-check-input ms-2" /> Correct
-        </div>
+    <div class="form-check">
+        <input asp-for="CorrectAnswer" class="form-check-input" type="checkbox" />
+        <label asp-for="CorrectAnswer" class="form-check-label">Correct Answer is True</label>
     </div>
 
-    <button type="button" id="add-option" class="btn btn-secondary mb-3">+ Add Option</button>
-
-    <div>
-        <button type="submit" class="btn btn-success">Save Question</button>
-        <a asp-action="Index" class="btn btn-secondary">Cancel</a>
-    </div>
+    <button type="submit" class="btn btn-primary mt-3">Save</button>
+    <a asp-action="Index" class="btn btn-secondary mt-3">Cancel</a>
 </form>
-
-@section Scripts {
-    <script>
-        let optionCount = 1;
-        document.getElementById("add-option").addEventListener("click", function () {
-            const container = document.getElementById("options-container");
-
-            const div = document.createElement("div");
-            div.classList.add("option-item", "mb-2");
-
-            div.innerHTML = `
-                <input type="text" name="optionTexts" class="form-control d-inline-block w-75" placeholder="Enter option text" />
-                <input type="checkbox" name="correctOptionIndexes" value="${optionCount}" class="form-check-input ms-2" /> Correct
-            `;
-
-            container.appendChild(div);
-            optionCount++;
-        });
-    </script>
-}

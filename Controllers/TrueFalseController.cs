@@ -1,31 +1,37 @@
 using Microsoft.AspNetCore.Mvc;
 using QuizApp.DAL;
 using QuizApp.Models;
-using System.Threading.Tasks;
 
 namespace QuizApp.Controllers
 {
     public class TrueFalseController : Controller
     {
         private readonly ITrueFalseRepository _repo;
+        private readonly ILogger<TrueFalseController> _logger;
 
-        public TrueFalseController(ITrueFalseRepository repo)
+        public TrueFalseController(ITrueFalseRepository repo, ILogger<TrueFalseController> logger)
         {
             _repo = repo;
+            _logger = logger;
         }
 
         // GET: /TrueFalse
         public async Task<IActionResult> Index()
         {
-            var questions = await _repo.GetAllAsync();
-            return View(questions);
+            try
+            {
+                var questions = await _repo.GetAllAsync();
+                return View(questions);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Failed to load TrueFalse list.");
+                return View("Error");
+            }
         }
 
         // GET: /TrueFalse/Create
-        public IActionResult Create()
-        {
-            return View();
-        }
+        public IActionResult Create() => View();
 
         // POST: /TrueFalse/Create
         [HttpPost]
@@ -33,69 +39,110 @@ namespace QuizApp.Controllers
         public async Task<IActionResult> Create(TrueFalseQuestion question)
         {
             if (!ModelState.IsValid)
+            {
+                _logger.LogWarning("Invalid model state on TrueFalse Create.");
                 return View(question);
+            }
 
-            await _repo.AddAsync(question);
-            await _repo.SaveAsync();
+            try
+            {
+                await _repo.AddAsync(question);
+                await _repo.SaveAsync();
 
-            return RedirectToAction(nameof(Index));
+                _logger.LogInformation("TrueFalse created: {Question}", question.QuestionText);
+                return RedirectToAction(nameof(Index));
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error creating TrueFalse.");
+                return View("Error");
+            }
         }
 
         // GET: /TrueFalse/Edit/5
         public async Task<IActionResult> Edit(int id)
         {
-            var question = await _repo.GetByIdAsync(id);
-            if (question == null)
-                return NotFound();
-
-            return View(question);
+            try
+            {
+                var question = await _repo.GetByIdAsync(id);
+                if (question == null)
+                {
+                    _logger.LogWarning("Edit requested for non-existing TrueFalse Id={Id}", id);
+                    return NotFound();
+                }
+                return View(question);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Failed to load TrueFalse for edit. Id={Id}", id);
+                return View("Error");
+            }
         }
 
         // POST: /TrueFalse/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, TrueFalseQuestion updatedQuestion)
+        public async Task<IActionResult> Edit(TrueFalseQuestion question)
         {
-            if (id != updatedQuestion.Id)
-                return NotFound();
-
             if (!ModelState.IsValid)
-                return View(updatedQuestion);
+            {
+                _logger.LogWarning("Invalid model state on TrueFalse Edit. Id={Id}", question.Id);
+                return View(question);
+            }
 
-            var existingQuestion = await _repo.GetByIdAsync(id);
-            if (existingQuestion == null)
-                return NotFound();
+            try
+            {
+                await _repo.UpdateAsync(question);
+                await _repo.SaveAsync();
 
-            // Oppdater felter
-            existingQuestion.QuestionText = updatedQuestion.QuestionText;
-            existingQuestion.CorrectAnswer = updatedQuestion.CorrectAnswer;
-
-            await _repo.UpdateAsync(existingQuestion);
-            await _repo.SaveAsync();
-
-            return RedirectToAction(nameof(Index));
+                _logger.LogInformation("TrueFalse updated: Id={Id}", question.Id);
+                return RedirectToAction(nameof(Index));
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error updating TrueFalse. Id={Id}", question.Id);
+                return View("Error");
+            }
         }
 
         // GET: /TrueFalse/Delete/5
         public async Task<IActionResult> Delete(int id)
         {
-            var question = await _repo.GetByIdAsync(id);
-            if (question == null)
-                return NotFound();
-
-            return View(question);
+            try
+            {
+                var question = await _repo.GetByIdAsync(id);
+                if (question == null)
+                {
+                    _logger.LogWarning("Delete requested for non-existing TrueFalse Id={Id}", id);
+                    return NotFound();
+                }
+                return View(question);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Failed to load TrueFalse for delete. Id={Id}", id);
+                return View("Error");
+            }
         }
 
         // POST: /TrueFalse/Delete/5
-        [HttpPost]
+        [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Delete(int id, TrueFalseQuestion model)
+        public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            await _repo.DeleteAsync(id);
-            await _repo.SaveAsync();
+            try
+            {
+                await _repo.DeleteAsync(id);
+                await _repo.SaveAsync();
 
-            return RedirectToAction(nameof(Index));
+                _logger.LogInformation("TrueFalse deleted: Id={Id}", id);
+                return RedirectToAction(nameof(Index));
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error deleting TrueFalse. Id={Id}", id);
+                return View("Error");
+            }
         }
-
     }
 }

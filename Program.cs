@@ -4,26 +4,21 @@ using QuizApp.Models;
 
 var builder = WebApplication.CreateBuilder(args);
 
+// Logging
+builder.Logging.ClearProviders();
+builder.Logging.AddConsole();
+builder.Logging.AddDebug();
+
 builder.Services.AddControllersWithViews();
 
-// ✅ Legg til SQLite-databasekobling
 builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseSqlite(builder.Configuration.GetConnectionString("DefaultConnection")));
 
-// ✅ Registrer Repository-avhengigheter
-builder.Services.AddScoped<IQuestionRepository, QuestionRepository>();
+// Repositories
 builder.Services.AddScoped<IMultipleChoiceRepository, MultipleChoiceRepository>();
 builder.Services.AddScoped<ITrueFalseRepository, TrueFalseRepository>();
 
 var app = builder.Build();
-
-// ✅ Kjør DbInit manuelt (uten å registrere den som service)
-using (var scope = app.Services.CreateScope())
-{
-    var services = scope.ServiceProvider;
-    var context = services.GetRequiredService<AppDbContext>();
-    DbInit.Seed(context); // ✅ Dette fungerer fordi DbInit er static
-}
 
 if (!app.Environment.IsDevelopment())
 {
@@ -33,7 +28,6 @@ if (!app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 app.UseStaticFiles();
-
 app.UseRouting();
 app.UseAuthorization();
 

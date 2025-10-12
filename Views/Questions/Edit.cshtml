@@ -1,4 +1,5 @@
 @model QuizApp.Models.MultipleChoice
+@{ ViewData["Title"] = "Edit Multiple Choice"; }
 
 <h2>Edit Multiple Choice Question</h2>
 
@@ -11,65 +12,23 @@
         <span asp-validation-for="QuestionText" class="text-danger"></span>
     </div>
 
-    <h4>Existing Options</h4>
+    <h5>Options</h5>
+    @for (int i = 0; i < Model.Options.Count; i++)
+    {
+        <div class="mb-2">
+            <label>Option @(i + 1)</label>
+            <input name="Options[@i].Text" value="@Model.Options[i].Text" class="form-control" />
+            <div class="form-check">
+                <input class="form-check-input" type="checkbox"
+                       name="Options[@i].IsCorrect"
+                       @(Model.Options[i].IsCorrect ? "checked" : "") />
+                <label class="form-check-label">Correct</label>
+            </div>
+        </div>
+    }
 
-    <div id="existing-options">
-        @if (Model.Options != null && Model.Options.Any())
-        {
-            for (int i = 0; i < Model.Options.Count; i++)
-            {
-                <div class="option-item mb-2">
-                    <input type="hidden" name="Options[@i].Id" value="@Model.Options[i].Id" />
-
-                    <input type="text" name="Options[@i].Text" value="@Model.Options[i].Text"
-                           class="form-control d-inline-block w-75" />
-
-                    <input type="checkbox" name="Options[@i].IsCorrect" value="true"
-                           class="form-check-input ms-2" @(Model.Options[i].IsCorrect ? "checked" : "") /> Correct
-
-                    <button type="button" class="btn btn-sm btn-outline-danger ms-2 remove-option">Remove</button>
-                </div>
-            }
-        }
-        else
-        {
-            <p class="text-muted">No options found. Add new ones below.</p>
-        }
-    </div>
-
-    <h4 class="mt-4">Add New Options</h4>
-    <div id="new-options"></div>
-    <button type="button" id="add-option" class="btn btn-secondary mb-3">+ Add Option</button>
-
-    <div>
-        <button type="submit" class="btn btn-primary">Save</button>
-        <a asp-action="Index" class="btn btn-secondary">Cancel</a>
-    </div>
+    <button type="submit" class="btn btn-primary">Save Changes</button>
+    <a asp-action="Index" class="btn btn-secondary">Cancel</a>
 </form>
 
-@section Scripts {
-    <script>
-        let newOptionCount = 0;
-
-        document.getElementById("add-option").addEventListener("click", function () {
-            const container = document.getElementById("new-options");
-            const div = document.createElement("div");
-            div.classList.add("option-item", "mb-2");
-
-            div.innerHTML = `
-                <input type="text" name="optionTexts" class="form-control d-inline-block w-75" placeholder="Enter new option text" />
-                <input type="checkbox" name="correctOptionIndexes" value="${newOptionCount}" class="form-check-input ms-2" /> Correct
-                <button type="button" class="btn btn-sm btn-outline-danger ms-2 remove-option">Remove</button>
-            `;
-
-            container.appendChild(div);
-            newOptionCount++;
-        });
-
-        document.addEventListener("click", function (e) {
-            if (e.target.classList.contains("remove-option")) {
-                e.target.closest(".option-item").remove();
-            }
-        });
-    </script>
-}
+@section Scripts { <partial name="_ValidationScriptsPartial" /> }

@@ -6,8 +6,8 @@ namespace QuizApp.Models
         public string Text { get; set; } = string.Empty;
         public bool IsCorrect { get; set; }
 
-        // Foreign key til MultipleChoice
+        // Foreign key
         public int MultipleChoiceId { get; set; }
-        public MultipleChoice MultipleChoice { get; set; } = null!;
+        public MultipleChoice? MultipleChoice { get; set; }
     }
 }

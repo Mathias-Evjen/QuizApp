@@ -2,15 +2,13 @@
 
 <h2>Multiple Choice Questions</h2>
 
-<p>
-    <a asp-action="Create" class="btn btn-success">Add Question</a>
-</p>
+<p><a asp-action="Create" class="btn btn-success">Add Question</a></p>
 
 @foreach (var q in Model)
 {
-    <div class="card mb-3 shadow-sm">
+    <div class="card mb-3">
         <div class="card-body">
-            <h4>@q.QuestionText</h4>
+            <h5>@q.QuestionText</h5>
 
             @if (q.Options != null && q.Options.Any())
             {
@@ -29,7 +27,7 @@
             }
             else
             {
-                <p class="text-muted">No options added yet.</p>
+                <p class="text-muted">No options available</p>
             }
 
             <div class="mt-3">

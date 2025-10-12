@@ -1,6 +1,7 @@
 @model QuizApp.Models.TrueFalseQuestion
+@{ ViewData["Title"] = "Add True/False"; }
 
-<h2>Create True/False Question</h2>
+<h2>Add True/False Question</h2>
 
 <form asp-action="Create" method="post">
     <div class="mb-3">
@@ -9,11 +10,13 @@
         <span asp-validation-for="QuestionText" class="text-danger"></span>
     </div>
 
-    <div class="form-check">
-        <input asp-for="CorrectAnswer" class="form-check-input" type="checkbox" />
-        <label asp-for="CorrectAnswer" class="form-check-label">Correct Answer is True</label>
+    <div class="form-check mb-3">
+        <input class="form-check-input" type="checkbox" asp-for="CorrectAnswer" />
+        <label asp-for="CorrectAnswer" class="form-check-label">True</label>
     </div>
 
-    <button type="submit" class="btn btn-primary mt-3">Save</button>
-    <a asp-action="Index" class="btn btn-secondary mt-3">Cancel</a>
+    <button type="submit" class="btn btn-success">Save</button>
+    <a asp-action="Index" class="btn btn-secondary">Cancel</a>
 </form>
+
+@section Scripts { <partial name="_ValidationScriptsPartial" /> }

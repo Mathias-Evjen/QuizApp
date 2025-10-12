@@ -1,4 +1,5 @@
 @model QuizApp.Models.MultipleChoice
+@{ ViewData["Title"] = "Delete Multiple Choice"; }
 
 <h2>Delete Multiple Choice Question</h2>
 
@@ -6,8 +7,7 @@
 
 <div class="card mb-3">
     <div class="card-body">
-        <h4>@Model.QuestionText</h4>
-
+        <h5>@Model.QuestionText</h5>
         @if (Model.Options != null && Model.Options.Any())
         {
             <ul class="list-group list-group-flush">

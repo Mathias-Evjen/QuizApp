@@ -11,6 +11,6 @@ namespace QuizApp.Models
         public int QuizId { get; set; } // Hvilken quiz spørsmålet tilhører
         public int QuizQuestionNum { get; set; }    // Holder plasseringen i quizen
 
-        public bool AnsweredCorrectly { get; set; } // kan hende ikke trengs
+        public bool AnsweredCorrectly { get; set; }
     }
 }

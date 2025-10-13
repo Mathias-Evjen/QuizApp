@@ -12,7 +12,7 @@ namespace QuizApp.ViewModels
 
         public MatchingViewModel(IEnumerable<Matching>? matchings)
         {
-            Matchings = matchings;
+            Matchings = matchings!;
         }
 
         public MatchingViewModel(Matching question)

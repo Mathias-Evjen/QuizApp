@@ -1,0 +1,56 @@
+@model FlashCardQuiz
+
+<h3>Name: @Model.Name</h3>
+<h4>Description: @Model.Description</h4>
+
+<div class="border rounded p-3" style="background-color: rgb(230, 230, 230)">
+    <div class="container pt-2">
+        @* <table class="table table-striped" style="max-width: 1200px;">
+            <tr class="table-header">
+                <th>Question no.</th>
+                <th>Question</th>
+                <th>Answer</th>
+                <th>Actions</th>
+            </tr>
+            @foreach(var flashCard in Model.FlashCards!)
+            {
+                <tr>
+                    <td>@flashCard.QuizQuestionNum</td>
+                    <td>@flashCard.Question</td>
+                    <td>@flashCard.Answer</td>
+                    <td>
+                        <a asp-controller="FlashCard" asp-action="Edit" asp-route-id="@flashCard.FlashCardId">Edit</a>
+                        <a asp-controller="FlashCard" asp-action="Delete" asp-route-id="@flashCard.FlashCardId">Delete</a>
+                    </td>
+                </tr>
+            }
+        </table> *@
+
+        <div class="card shadow-sm mb-3 bg-light">
+            <div class="row p-2">
+                <div class="col-1">
+                    <h5>No.</h5>
+                </div>
+                <div class="col-5">
+                    <h5>Question</h5>
+                </div>
+                <div class="col-4">
+                    <h5>Answer</h5>
+                </div>
+                
+            </div>
+        </div>
+
+        @foreach(var flashCard in Model.FlashCards!) 
+        {
+            <partial name="_ManageQuizCard" model="flashCard" />
+        }
+
+        <a asp-controller="FlashCard" asp-action="Create" asp-route-quizId="@Model.FlashCardQuizId" asp-route-numOfQuestions="@Model.NumOfQuestions" class="btn btn-primary mt-2">Add question</a>
+        <a asp-controller="FlashCardQuiz" asp-action="Edit" asp-route-quizId="@Model.FlashCardQuizId" class="btn btn-secondary mt-2">Edit quiz</a>
+    </div>
+</div>
+
+<p>Se på muligheten for å ha flash card i en liste og få plasseringen derfra i stedet for hard-kodet</p>
+<p>Vil kanskje gjøre det lettere å bytte plass på dem</p>
+<p>Vil også automatisk sortere dem</p>

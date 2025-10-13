@@ -6,6 +6,7 @@ bin/
 obj/
 Debug/
 Release/
+Logs/
 
 # User-specific files
 *.user

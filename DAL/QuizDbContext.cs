@@ -10,6 +10,9 @@ public class QuizDbContext : DbContext
         Database.EnsureCreated();
     }
 
+    public DbSet<Matching> MatchingQuestions { get; set; }
+    public DbSet<Sequence> SequenceQuestions { get; set; }
+    public DbSet<Ranking> RankingQuestions { get; set; }
     public DbSet<FillInTheBlank> FillInTheBlankQuestions { get; set; }
     public DbSet<FlashCardQuiz> FlashCardQuizzes { get; set; }
     public DbSet<FlashCard> FlashCards { get; set; }

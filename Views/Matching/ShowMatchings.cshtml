@@ -1,0 +1,59 @@
+@using Microsoft.Extensions.ObjectPool
+@model QuizApp.ViewModels.MatchingViewModel
+
+@{
+    ViewData["Title"] = "Show Matching Questions";
+    
+}
+
+<h1>Matching Questions</h1>
+<hr />
+<table class="table table-bordered">
+    <thead>
+        <tr>
+            <th>Id</th>
+            <th>Question</th>
+            <th>Correct Answer</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var matching in Model.Matchings)
+        {
+            <tr>
+                <td>@matching.Id</td>
+                <td>
+                @{
+                    string questionFormatted = "";
+                    string[] questionSplit = matching.Question.Split(",");
+                    for(int i = 0; i < questionSplit.Length; i+=2){
+                        if(i!=0){questionFormatted+=" , ";}
+                        questionFormatted += questionSplit[i] + " <-> " + questionSplit[i+1];
+                    }
+                }
+                @questionFormatted
+                </td>
+                <td>
+                @{
+                    string correctAnswerFormatted = "";
+                    string[] correctAnswerSplit = matching.CorrectAnswer.Split(",");
+                    for(int i = 0; i < correctAnswerSplit.Length; i+=2){
+                        if(i!=0){correctAnswerFormatted+=" , ";}
+                        correctAnswerFormatted += correctAnswerSplit[i] + " <-> " + correctAnswerSplit[i+1];
+                    }
+                }
+                @correctAnswerFormatted
+                </td>
+                <td>
+                    <a asp-action="UpdateMatchingPage" asp-route-id="@matching.Id" class="btn btn-primary" style="margin-bottom: 5px;">Update</a>
+                    <br />
+                    <a asp-action="DeleteMatching" asp-route-id="@matching.Id" class="btn btn-danger">Delete</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<div class="mt-3">
+    <a asp-controller="Home" asp-action="Index" class="btn btn-secondary">Back to Home</a>
+</div>

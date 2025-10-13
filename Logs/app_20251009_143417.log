@@ -1,0 +1,422 @@
+2025-10-09 14:34:18.638 +02:00 [INF] User profile is available. Using '/home/tofri/.aspnet/DataProtection-Keys' as key repository; keys will not be encrypted at rest.
+2025-10-09 14:34:18.714 +02:00 [INF] Now listening on: http://localhost:5155
+2025-10-09 14:34:18.718 +02:00 [INF] Application started. Press Ctrl+C to shut down.
+2025-10-09 14:34:18.718 +02:00 [INF] Hosting environment: Development
+2025-10-09 14:34:18.718 +02:00 [INF] Content root path: /home/tofri/Documents/GitHub/QuizApp
+2025-10-09 14:34:20.455 +02:00 [INF] Request starting HTTP/1.1 GET http://localhost:5155/ - null null
+2025-10-09 14:34:20.476 +02:00 [INF] Executing endpoint 'QuizApp.Controllers.HomeController.Index (QuizApp)'
+2025-10-09 14:34:20.484 +02:00 [INF] Route matched with {action = "Index", controller = "Home"}. Executing controller action with signature Microsoft.AspNetCore.Mvc.IActionResult Index() on controller QuizApp.Controllers.HomeController (QuizApp).
+2025-10-09 14:34:20.489 +02:00 [INF] Executing ViewResult, running view Index.
+2025-10-09 14:34:20.525 +02:00 [INF] Executed ViewResult - view Index executed in 35.9928ms.
+2025-10-09 14:34:20.527 +02:00 [INF] Executed action QuizApp.Controllers.HomeController.Index (QuizApp) in 42.1344ms
+2025-10-09 14:34:20.527 +02:00 [INF] Executed endpoint 'QuizApp.Controllers.HomeController.Index (QuizApp)'
+2025-10-09 14:34:20.529 +02:00 [INF] Request finished HTTP/1.1 GET http://localhost:5155/ - 200 null text/html; charset=utf-8 74.9564ms
+2025-10-09 14:34:20.542 +02:00 [INF] Request starting HTTP/1.1 GET http://localhost:5155/js/jquery.validate.unobtrusive.js - null null
+2025-10-09 14:34:20.542 +02:00 [INF] Request starting HTTP/1.1 GET http://localhost:5155/js/jquery.validate.js - null null
+2025-10-09 14:34:20.555 +02:00 [INF] Sending file. Request path: '/js/jquery.validate.unobtrusive.js'. Physical path: '/home/tofri/Documents/GitHub/QuizApp/wwwroot/js/jquery.validate.unobtrusive.js'
+2025-10-09 14:34:20.556 +02:00 [INF] Sending file. Request path: '/js/jquery.validate.js'. Physical path: '/home/tofri/Documents/GitHub/QuizApp/wwwroot/js/jquery.validate.js'
+2025-10-09 14:34:20.557 +02:00 [INF] Request finished HTTP/1.1 GET http://localhost:5155/js/jquery.validate.unobtrusive.js - 200 19820 text/javascript 14.7838ms
+2025-10-09 14:34:20.557 +02:00 [INF] Request finished HTTP/1.1 GET http://localhost:5155/js/jquery.validate.js - 200 52536 text/javascript 14.749ms
+2025-10-09 14:34:25.537 +02:00 [INF] Request starting HTTP/1.1 GET http://localhost:5155/FillInTheBlank/Questions - null null
+2025-10-09 14:34:25.539 +02:00 [INF] Executing endpoint 'QuizApp.Controllers.FillInTheBlankController.Questions (QuizApp)'
+2025-10-09 14:34:25.543 +02:00 [INF] Route matched with {action = "Questions", controller = "FillInTheBlank"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] Questions() on controller QuizApp.Controllers.FillInTheBlankController (QuizApp).
+2025-10-09 14:34:25.591 +02:00 [INF] Executing ViewResult, running view Questions.
+2025-10-09 14:34:25.619 +02:00 [INF] Executed ViewResult - view Questions executed in 28.2264ms.
+2025-10-09 14:34:25.619 +02:00 [INF] Executed action QuizApp.Controllers.FillInTheBlankController.Questions (QuizApp) in 75.8575ms
+2025-10-09 14:34:25.619 +02:00 [INF] Executed endpoint 'QuizApp.Controllers.FillInTheBlankController.Questions (QuizApp)'
+2025-10-09 14:34:25.621 +02:00 [INF] Request finished HTTP/1.1 GET http://localhost:5155/FillInTheBlank/Questions - 200 null text/html; charset=utf-8 84.0368ms
+2025-10-09 14:34:25.636 +02:00 [INF] Request starting HTTP/1.1 GET http://localhost:5155/js/jquery.validate.unobtrusive.js - null null
+2025-10-09 14:34:25.636 +02:00 [INF] Request starting HTTP/1.1 GET http://localhost:5155/js/jquery.validate.js - null null
+2025-10-09 14:34:25.638 +02:00 [INF] The file /js/jquery.validate.js was not modified
+2025-10-09 14:34:25.638 +02:00 [INF] The file /js/jquery.validate.unobtrusive.js was not modified
+2025-10-09 14:34:25.638 +02:00 [INF] Request finished HTTP/1.1 GET http://localhost:5155/js/jquery.validate.unobtrusive.js - 304 null text/javascript 2.04ms
+2025-10-09 14:34:25.638 +02:00 [INF] Request finished HTTP/1.1 GET http://localhost:5155/js/jquery.validate.js - 304 null text/javascript 2.04ms
+2025-10-09 14:35:07.286 +02:00 [INF] Request starting HTTP/1.1 GET http://localhost:5155/FillInTheBlank/Question/1 - null null
+2025-10-09 14:35:07.287 +02:00 [INF] Executing endpoint 'QuizApp.Controllers.FillInTheBlankController.Question (QuizApp)'
+2025-10-09 14:35:07.293 +02:00 [INF] Route matched with {action = "Question", controller = "FillInTheBlank"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] Question(Int32) on controller QuizApp.Controllers.FillInTheBlankController (QuizApp).
+2025-10-09 14:35:07.353 +02:00 [INF] Executing ViewResult, running view Question.
+2025-10-09 14:35:07.356 +02:00 [INF] Executed ViewResult - view Question executed in 3.4881ms.
+2025-10-09 14:35:07.356 +02:00 [INF] Executed action QuizApp.Controllers.FillInTheBlankController.Question (QuizApp) in 62.7459ms
+2025-10-09 14:35:07.356 +02:00 [INF] Executed endpoint 'QuizApp.Controllers.FillInTheBlankController.Question (QuizApp)'
+2025-10-09 14:35:07.356 +02:00 [INF] Request finished HTTP/1.1 GET http://localhost:5155/FillInTheBlank/Question/1 - 200 null text/html; charset=utf-8 70.6043ms
+2025-10-09 14:35:07.373 +02:00 [INF] Request starting HTTP/1.1 GET http://localhost:5155/js/jquery.validate.js - null null
+2025-10-09 14:35:07.373 +02:00 [INF] Request starting HTTP/1.1 GET http://localhost:5155/js/jquery.validate.unobtrusive.js - null null
+2025-10-09 14:35:07.373 +02:00 [INF] The file /js/jquery.validate.js was not modified
+2025-10-09 14:35:07.373 +02:00 [INF] The file /js/jquery.validate.unobtrusive.js was not modified
+2025-10-09 14:35:07.373 +02:00 [INF] Request finished HTTP/1.1 GET http://localhost:5155/js/jquery.validate.js - 304 null text/javascript 0.5394ms
+2025-10-09 14:35:07.373 +02:00 [INF] Request finished HTTP/1.1 GET http://localhost:5155/js/jquery.validate.unobtrusive.js - 304 null text/javascript 0.563ms
+2025-10-09 14:35:08.498 +02:00 [INF] Request starting HTTP/1.1 GET http://localhost:5155/FillInTheBlank/Questions - null null
+2025-10-09 14:35:08.499 +02:00 [INF] Executing endpoint 'QuizApp.Controllers.FillInTheBlankController.Questions (QuizApp)'
+2025-10-09 14:35:08.499 +02:00 [INF] Route matched with {action = "Questions", controller = "FillInTheBlank"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] Questions() on controller QuizApp.Controllers.FillInTheBlankController (QuizApp).
+2025-10-09 14:35:08.503 +02:00 [INF] Executing ViewResult, running view Questions.
+2025-10-09 14:35:08.506 +02:00 [INF] Executed ViewResult - view Questions executed in 2.5151ms.
+2025-10-09 14:35:08.506 +02:00 [INF] Executed action QuizApp.Controllers.FillInTheBlankController.Questions (QuizApp) in 6.8222ms
+2025-10-09 14:35:08.506 +02:00 [INF] Executed endpoint 'QuizApp.Controllers.FillInTheBlankController.Questions (QuizApp)'
+2025-10-09 14:35:08.506 +02:00 [INF] Request finished HTTP/1.1 GET http://localhost:5155/FillInTheBlank/Questions - 200 null text/html; charset=utf-8 7.6548ms
+2025-10-09 14:35:10.939 +02:00 [INF] Request starting HTTP/1.1 GET http://localhost:5155/FillInTheBlank/Question/1 - null null
+2025-10-09 14:35:10.939 +02:00 [INF] Executing endpoint 'QuizApp.Controllers.FillInTheBlankController.Question (QuizApp)'
+2025-10-09 14:35:10.940 +02:00 [INF] Route matched with {action = "Question", controller = "FillInTheBlank"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] Question(Int32) on controller QuizApp.Controllers.FillInTheBlankController (QuizApp).
+2025-10-09 14:35:10.943 +02:00 [INF] Executing ViewResult, running view Question.
+2025-10-09 14:35:10.944 +02:00 [INF] Executed ViewResult - view Question executed in 0.6302ms.
+2025-10-09 14:35:10.944 +02:00 [INF] Executed action QuizApp.Controllers.FillInTheBlankController.Question (QuizApp) in 4.452ms
+2025-10-09 14:35:10.944 +02:00 [INF] Executed endpoint 'QuizApp.Controllers.FillInTheBlankController.Question (QuizApp)'
+2025-10-09 14:35:10.944 +02:00 [INF] Request finished HTTP/1.1 GET http://localhost:5155/FillInTheBlank/Question/1 - 200 null text/html; charset=utf-8 5.1994ms
+2025-10-09 14:35:15.594 +02:00 [INF] Request starting HTTP/1.1 GET http://localhost:5155/FlashCardQuiz/Quizzes - null null
+2025-10-09 14:35:15.594 +02:00 [INF] Executing endpoint 'QuizApp.Controllers.FlashCardQuizController.Quizzes (QuizApp)'
+2025-10-09 14:35:15.597 +02:00 [INF] Route matched with {action = "Quizzes", controller = "FlashCardQuiz"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] Quizzes() on controller QuizApp.Controllers.FlashCardQuizController (QuizApp).
+2025-10-09 14:35:15.612 +02:00 [INF] Executing ViewResult, running view Quizzes.
+2025-10-09 14:35:15.619 +02:00 [INF] Executed ViewResult - view Quizzes executed in 7.602ms.
+2025-10-09 14:35:15.619 +02:00 [INF] Executed action QuizApp.Controllers.FlashCardQuizController.Quizzes (QuizApp) in 22.2131ms
+2025-10-09 14:35:15.619 +02:00 [INF] Executed endpoint 'QuizApp.Controllers.FlashCardQuizController.Quizzes (QuizApp)'
+2025-10-09 14:35:15.619 +02:00 [INF] Request finished HTTP/1.1 GET http://localhost:5155/FlashCardQuiz/Quizzes - 200 null text/html; charset=utf-8 25.2383ms
+2025-10-09 14:35:15.630 +02:00 [INF] Request starting HTTP/1.1 GET http://localhost:5155/js/jquery.validate.unobtrusive.js - null null
+2025-10-09 14:35:15.630 +02:00 [INF] Request starting HTTP/1.1 GET http://localhost:5155/js/jquery.validate.js - null null
+2025-10-09 14:35:15.630 +02:00 [INF] The file /js/jquery.validate.js was not modified
+2025-10-09 14:35:15.630 +02:00 [INF] The file /js/jquery.validate.unobtrusive.js was not modified
+2025-10-09 14:35:15.630 +02:00 [INF] Request finished HTTP/1.1 GET http://localhost:5155/js/jquery.validate.js - 304 null text/javascript 0.3825ms
+2025-10-09 14:35:15.630 +02:00 [INF] Request finished HTTP/1.1 GET http://localhost:5155/js/jquery.validate.unobtrusive.js - 304 null text/javascript 0.4007ms
+2025-10-09 14:35:18.737 +02:00 [INF] Request starting HTTP/1.1 GET http://localhost:5155/FillInTheBlank/Question/1 - null null
+2025-10-09 14:35:18.737 +02:00 [INF] Executing endpoint 'QuizApp.Controllers.FillInTheBlankController.Question (QuizApp)'
+2025-10-09 14:35:18.737 +02:00 [INF] Route matched with {action = "Question", controller = "FillInTheBlank"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] Question(Int32) on controller QuizApp.Controllers.FillInTheBlankController (QuizApp).
+2025-10-09 14:35:18.739 +02:00 [INF] Executing ViewResult, running view Question.
+2025-10-09 14:35:18.740 +02:00 [INF] Executed ViewResult - view Question executed in 0.8142ms.
+2025-10-09 14:35:18.740 +02:00 [INF] Executed action QuizApp.Controllers.FillInTheBlankController.Question (QuizApp) in 2.6596ms
+2025-10-09 14:35:18.740 +02:00 [INF] Executed endpoint 'QuizApp.Controllers.FillInTheBlankController.Question (QuizApp)'
+2025-10-09 14:35:18.740 +02:00 [INF] Request finished HTTP/1.1 GET http://localhost:5155/FillInTheBlank/Question/1 - 200 null text/html; charset=utf-8 3.0778ms
+2025-10-09 14:35:31.031 +02:00 [INF] Request starting HTTP/1.1 GET http://localhost:5155/FillInTheBlank/Questions - null null
+2025-10-09 14:35:31.031 +02:00 [INF] Executing endpoint 'QuizApp.Controllers.FillInTheBlankController.Questions (QuizApp)'
+2025-10-09 14:35:31.032 +02:00 [INF] Route matched with {action = "Questions", controller = "FillInTheBlank"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] Questions() on controller QuizApp.Controllers.FillInTheBlankController (QuizApp).
+2025-10-09 14:35:31.034 +02:00 [INF] Executing ViewResult, running view Questions.
+2025-10-09 14:35:31.036 +02:00 [INF] Executed ViewResult - view Questions executed in 1.637ms.
+2025-10-09 14:35:31.036 +02:00 [INF] Executed action QuizApp.Controllers.FillInTheBlankController.Questions (QuizApp) in 3.4738ms
+2025-10-09 14:35:31.036 +02:00 [INF] Executed endpoint 'QuizApp.Controllers.FillInTheBlankController.Questions (QuizApp)'
+2025-10-09 14:35:31.036 +02:00 [INF] Request finished HTTP/1.1 GET http://localhost:5155/FillInTheBlank/Questions - 200 null text/html; charset=utf-8 5.4414ms
+2025-10-09 14:35:31.049 +02:00 [INF] Request starting HTTP/1.1 GET http://localhost:5155/js/jquery.validate.unobtrusive.js - null null
+2025-10-09 14:35:31.049 +02:00 [INF] Request starting HTTP/1.1 GET http://localhost:5155/js/jquery.validate.js - null null
+2025-10-09 14:35:31.049 +02:00 [INF] The file /js/jquery.validate.unobtrusive.js was not modified
+2025-10-09 14:35:31.049 +02:00 [INF] The file /js/jquery.validate.js was not modified
+2025-10-09 14:35:31.049 +02:00 [INF] Request finished HTTP/1.1 GET http://localhost:5155/js/jquery.validate.unobtrusive.js - 304 null text/javascript 0.6344ms
+2025-10-09 14:35:31.050 +02:00 [INF] Request finished HTTP/1.1 GET http://localhost:5155/js/jquery.validate.js - 304 null text/javascript 0.7274ms
+2025-10-09 14:35:48.117 +02:00 [INF] Request starting HTTP/1.1 POST http://localhost:5155/FillInTheBlank/Questions - application/x-www-form-urlencoded 443
+2025-10-09 14:35:48.118 +02:00 [INF] Executing endpoint 'QuizApp.Controllers.FillInTheBlankController.Questions (QuizApp)'
+2025-10-09 14:35:48.122 +02:00 [INF] Route matched with {action = "Questions", controller = "FillInTheBlank"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] Questions(QuizApp.ViewModels.QuestionsViewModel) on controller QuizApp.Controllers.FillInTheBlankController (QuizApp).
+2025-10-09 14:35:48.136 +02:00 [INF] Executing ViewResult, running view Questions.
+2025-10-09 14:35:48.137 +02:00 [INF] Executed ViewResult - view Questions executed in 1.0068ms.
+2025-10-09 14:35:48.137 +02:00 [INF] Executed action QuizApp.Controllers.FillInTheBlankController.Questions (QuizApp) in 15.5763ms
+2025-10-09 14:35:48.137 +02:00 [INF] Executed endpoint 'QuizApp.Controllers.FillInTheBlankController.Questions (QuizApp)'
+2025-10-09 14:35:48.137 +02:00 [INF] Request finished HTTP/1.1 POST http://localhost:5155/FillInTheBlank/Questions - 200 null text/html; charset=utf-8 20.1604ms
+2025-10-09 14:35:48.151 +02:00 [INF] Request starting HTTP/1.1 GET http://localhost:5155/js/jquery.validate.unobtrusive.js - null null
+2025-10-09 14:35:48.151 +02:00 [INF] Request starting HTTP/1.1 GET http://localhost:5155/js/jquery.validate.js - null null
+2025-10-09 14:35:48.151 +02:00 [INF] The file /js/jquery.validate.js was not modified
+2025-10-09 14:35:48.151 +02:00 [INF] The file /js/jquery.validate.unobtrusive.js was not modified
+2025-10-09 14:35:48.151 +02:00 [INF] Request finished HTTP/1.1 GET http://localhost:5155/js/jquery.validate.unobtrusive.js - 304 null text/javascript 0.3306ms
+2025-10-09 14:35:48.151 +02:00 [INF] Request finished HTTP/1.1 GET http://localhost:5155/js/jquery.validate.js - 304 null text/javascript 0.3307ms
+2025-10-09 14:35:51.753 +02:00 [INF] Request starting HTTP/1.1 GET http://localhost:5155/FillInTheBlank/Question/1 - null null
+2025-10-09 14:35:51.753 +02:00 [INF] Executing endpoint 'QuizApp.Controllers.FillInTheBlankController.Question (QuizApp)'
+2025-10-09 14:35:51.753 +02:00 [INF] Route matched with {action = "Question", controller = "FillInTheBlank"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] Question(Int32) on controller QuizApp.Controllers.FillInTheBlankController (QuizApp).
+2025-10-09 14:35:51.755 +02:00 [INF] Executing ViewResult, running view Question.
+2025-10-09 14:35:51.756 +02:00 [INF] Executed ViewResult - view Question executed in 0.6423ms.
+2025-10-09 14:35:51.756 +02:00 [INF] Executed action QuizApp.Controllers.FillInTheBlankController.Question (QuizApp) in 2.1734ms
+2025-10-09 14:35:51.756 +02:00 [INF] Executed endpoint 'QuizApp.Controllers.FillInTheBlankController.Question (QuizApp)'
+2025-10-09 14:35:51.756 +02:00 [INF] Request finished HTTP/1.1 GET http://localhost:5155/FillInTheBlank/Question/1 - 200 null text/html; charset=utf-8 2.5737ms
+2025-10-09 14:35:53.124 +02:00 [INF] Request starting HTTP/1.1 GET http://localhost:5155/FillInTheBlank/Questions - null null
+2025-10-09 14:35:53.125 +02:00 [INF] Executing endpoint 'QuizApp.Controllers.FillInTheBlankController.Questions (QuizApp)'
+2025-10-09 14:35:53.125 +02:00 [INF] Route matched with {action = "Questions", controller = "FillInTheBlank"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] Questions() on controller QuizApp.Controllers.FillInTheBlankController (QuizApp).
+2025-10-09 14:35:53.126 +02:00 [INF] Executing ViewResult, running view Questions.
+2025-10-09 14:35:53.127 +02:00 [INF] Executed ViewResult - view Questions executed in 0.9658ms.
+2025-10-09 14:35:53.127 +02:00 [INF] Executed action QuizApp.Controllers.FillInTheBlankController.Questions (QuizApp) in 2.5766ms
+2025-10-09 14:35:53.127 +02:00 [INF] Executed endpoint 'QuizApp.Controllers.FillInTheBlankController.Questions (QuizApp)'
+2025-10-09 14:35:53.127 +02:00 [INF] Request finished HTTP/1.1 GET http://localhost:5155/FillInTheBlank/Questions - 200 null text/html; charset=utf-8 3.0304ms
+2025-10-09 14:35:56.918 +02:00 [INF] Request starting HTTP/1.1 GET http://localhost:5155/FillInTheBlank/Question/1 - null null
+2025-10-09 14:35:56.918 +02:00 [INF] Executing endpoint 'QuizApp.Controllers.FillInTheBlankController.Question (QuizApp)'
+2025-10-09 14:35:56.918 +02:00 [INF] Route matched with {action = "Question", controller = "FillInTheBlank"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] Question(Int32) on controller QuizApp.Controllers.FillInTheBlankController (QuizApp).
+2025-10-09 14:35:56.920 +02:00 [INF] Executing ViewResult, running view Question.
+2025-10-09 14:35:56.920 +02:00 [INF] Executed ViewResult - view Question executed in 0.4486ms.
+2025-10-09 14:35:56.920 +02:00 [INF] Executed action QuizApp.Controllers.FillInTheBlankController.Question (QuizApp) in 2.0085ms
+2025-10-09 14:35:56.920 +02:00 [INF] Executed endpoint 'QuizApp.Controllers.FillInTheBlankController.Question (QuizApp)'
+2025-10-09 14:35:56.920 +02:00 [INF] Request finished HTTP/1.1 GET http://localhost:5155/FillInTheBlank/Question/1 - 200 null text/html; charset=utf-8 2.3727ms
+2025-10-09 14:35:57.359 +02:00 [INF] Request starting HTTP/1.1 GET http://localhost:5155/FillInTheBlank/Questions - null null
+2025-10-09 14:35:57.360 +02:00 [INF] Executing endpoint 'QuizApp.Controllers.FillInTheBlankController.Questions (QuizApp)'
+2025-10-09 14:35:57.360 +02:00 [INF] Route matched with {action = "Questions", controller = "FillInTheBlank"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] Questions() on controller QuizApp.Controllers.FillInTheBlankController (QuizApp).
+2025-10-09 14:35:57.361 +02:00 [INF] Executing ViewResult, running view Questions.
+2025-10-09 14:35:57.362 +02:00 [INF] Executed ViewResult - view Questions executed in 0.8251ms.
+2025-10-09 14:35:57.362 +02:00 [INF] Executed action QuizApp.Controllers.FillInTheBlankController.Questions (QuizApp) in 2.177ms
+2025-10-09 14:35:57.362 +02:00 [INF] Executed endpoint 'QuizApp.Controllers.FillInTheBlankController.Questions (QuizApp)'
+2025-10-09 14:35:57.362 +02:00 [INF] Request finished HTTP/1.1 GET http://localhost:5155/FillInTheBlank/Questions - 200 null text/html; charset=utf-8 2.6427ms
+2025-10-09 14:35:57.373 +02:00 [INF] Request starting HTTP/1.1 GET http://localhost:5155/js/jquery.validate.js - null null
+2025-10-09 14:35:57.373 +02:00 [INF] Request starting HTTP/1.1 GET http://localhost:5155/js/jquery.validate.unobtrusive.js - null null
+2025-10-09 14:35:57.373 +02:00 [INF] The file /js/jquery.validate.js was not modified
+2025-10-09 14:35:57.373 +02:00 [INF] The file /js/jquery.validate.unobtrusive.js was not modified
+2025-10-09 14:35:57.373 +02:00 [INF] Request finished HTTP/1.1 GET http://localhost:5155/js/jquery.validate.js - 304 null text/javascript 0.3035ms
+2025-10-09 14:35:57.374 +02:00 [INF] Request finished HTTP/1.1 GET http://localhost:5155/js/jquery.validate.unobtrusive.js - 304 null text/javascript 0.3457ms
+2025-10-09 14:35:57.973 +02:00 [INF] Request starting HTTP/1.1 GET http://localhost:5155/FillInTheBlank/Question/1 - null null
+2025-10-09 14:35:57.973 +02:00 [INF] Executing endpoint 'QuizApp.Controllers.FillInTheBlankController.Question (QuizApp)'
+2025-10-09 14:35:57.973 +02:00 [INF] Route matched with {action = "Question", controller = "FillInTheBlank"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] Question(Int32) on controller QuizApp.Controllers.FillInTheBlankController (QuizApp).
+2025-10-09 14:35:57.974 +02:00 [INF] Executing ViewResult, running view Question.
+2025-10-09 14:35:57.975 +02:00 [INF] Executed ViewResult - view Question executed in 0.5847ms.
+2025-10-09 14:35:57.975 +02:00 [INF] Executed action QuizApp.Controllers.FillInTheBlankController.Question (QuizApp) in 2.0745ms
+2025-10-09 14:35:57.975 +02:00 [INF] Executed endpoint 'QuizApp.Controllers.FillInTheBlankController.Question (QuizApp)'
+2025-10-09 14:35:57.975 +02:00 [INF] Request finished HTTP/1.1 GET http://localhost:5155/FillInTheBlank/Question/1 - 200 null text/html; charset=utf-8 2.4488ms
+2025-10-09 14:35:58.377 +02:00 [INF] Request starting HTTP/1.1 GET http://localhost:5155/FillInTheBlank/Questions - null null
+2025-10-09 14:35:58.377 +02:00 [INF] Executing endpoint 'QuizApp.Controllers.FillInTheBlankController.Questions (QuizApp)'
+2025-10-09 14:35:58.377 +02:00 [INF] Route matched with {action = "Questions", controller = "FillInTheBlank"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] Questions() on controller QuizApp.Controllers.FillInTheBlankController (QuizApp).
+2025-10-09 14:35:58.378 +02:00 [INF] Executing ViewResult, running view Questions.
+2025-10-09 14:35:58.379 +02:00 [INF] Executed ViewResult - view Questions executed in 1.0341ms.
+2025-10-09 14:35:58.379 +02:00 [INF] Executed action QuizApp.Controllers.FillInTheBlankController.Questions (QuizApp) in 2.2377ms
+2025-10-09 14:35:58.380 +02:00 [INF] Executed endpoint 'QuizApp.Controllers.FillInTheBlankController.Questions (QuizApp)'
+2025-10-09 14:35:58.380 +02:00 [INF] Request finished HTTP/1.1 GET http://localhost:5155/FillInTheBlank/Questions - 200 null text/html; charset=utf-8 2.5937ms
+2025-10-09 14:35:58.657 +02:00 [INF] Request starting HTTP/1.1 GET http://localhost:5155/FillInTheBlank/Question/1 - null null
+2025-10-09 14:35:58.657 +02:00 [INF] Executing endpoint 'QuizApp.Controllers.FillInTheBlankController.Question (QuizApp)'
+2025-10-09 14:35:58.657 +02:00 [INF] Route matched with {action = "Question", controller = "FillInTheBlank"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] Question(Int32) on controller QuizApp.Controllers.FillInTheBlankController (QuizApp).
+2025-10-09 14:35:58.659 +02:00 [INF] Executing ViewResult, running view Question.
+2025-10-09 14:35:58.659 +02:00 [INF] Executed ViewResult - view Question executed in 0.4381ms.
+2025-10-09 14:35:58.659 +02:00 [INF] Executed action QuizApp.Controllers.FillInTheBlankController.Question (QuizApp) in 2.4008ms
+2025-10-09 14:35:58.659 +02:00 [INF] Executed endpoint 'QuizApp.Controllers.FillInTheBlankController.Question (QuizApp)'
+2025-10-09 14:35:58.660 +02:00 [INF] Request finished HTTP/1.1 GET http://localhost:5155/FillInTheBlank/Question/1 - 200 null text/html; charset=utf-8 2.7858ms
+2025-10-09 14:35:58.912 +02:00 [INF] Request starting HTTP/1.1 GET http://localhost:5155/FlashCardQuiz/Quizzes - null null
+2025-10-09 14:35:58.913 +02:00 [INF] Executing endpoint 'QuizApp.Controllers.FlashCardQuizController.Quizzes (QuizApp)'
+2025-10-09 14:35:58.913 +02:00 [INF] Route matched with {action = "Quizzes", controller = "FlashCardQuiz"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] Quizzes() on controller QuizApp.Controllers.FlashCardQuizController (QuizApp).
+2025-10-09 14:35:58.916 +02:00 [INF] Executing ViewResult, running view Quizzes.
+2025-10-09 14:35:58.917 +02:00 [INF] Executed ViewResult - view Quizzes executed in 1.1988ms.
+2025-10-09 14:35:58.917 +02:00 [INF] Executed action QuizApp.Controllers.FlashCardQuizController.Quizzes (QuizApp) in 3.7534ms
+2025-10-09 14:35:58.917 +02:00 [INF] Executed endpoint 'QuizApp.Controllers.FlashCardQuizController.Quizzes (QuizApp)'
+2025-10-09 14:35:58.917 +02:00 [INF] Request finished HTTP/1.1 GET http://localhost:5155/FlashCardQuiz/Quizzes - 200 null text/html; charset=utf-8 5.2086ms
+2025-10-09 14:35:59.334 +02:00 [INF] Request starting HTTP/1.1 GET http://localhost:5155/FillInTheBlank/Questions - null null
+2025-10-09 14:35:59.334 +02:00 [INF] Executing endpoint 'QuizApp.Controllers.FillInTheBlankController.Questions (QuizApp)'
+2025-10-09 14:35:59.334 +02:00 [INF] Route matched with {action = "Questions", controller = "FillInTheBlank"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] Questions() on controller QuizApp.Controllers.FillInTheBlankController (QuizApp).
+2025-10-09 14:35:59.336 +02:00 [INF] Executing ViewResult, running view Questions.
+2025-10-09 14:35:59.336 +02:00 [INF] Executed ViewResult - view Questions executed in 0.6975ms.
+2025-10-09 14:35:59.337 +02:00 [INF] Executed action QuizApp.Controllers.FillInTheBlankController.Questions (QuizApp) in 2.1784ms
+2025-10-09 14:35:59.337 +02:00 [INF] Executed endpoint 'QuizApp.Controllers.FillInTheBlankController.Questions (QuizApp)'
+2025-10-09 14:35:59.337 +02:00 [INF] Request finished HTTP/1.1 GET http://localhost:5155/FillInTheBlank/Questions - 200 null text/html; charset=utf-8 2.5783ms
+2025-10-09 14:35:59.695 +02:00 [INF] Request starting HTTP/1.1 GET http://localhost:5155/FillInTheBlank/Question/1 - null null
+2025-10-09 14:35:59.695 +02:00 [INF] Executing endpoint 'QuizApp.Controllers.FillInTheBlankController.Question (QuizApp)'
+2025-10-09 14:35:59.695 +02:00 [INF] Route matched with {action = "Question", controller = "FillInTheBlank"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] Question(Int32) on controller QuizApp.Controllers.FillInTheBlankController (QuizApp).
+2025-10-09 14:35:59.697 +02:00 [INF] Executing ViewResult, running view Question.
+2025-10-09 14:35:59.698 +02:00 [INF] Executed ViewResult - view Question executed in 0.5497ms.
+2025-10-09 14:35:59.698 +02:00 [INF] Executed action QuizApp.Controllers.FillInTheBlankController.Question (QuizApp) in 2.2185ms
+2025-10-09 14:35:59.698 +02:00 [INF] Executed endpoint 'QuizApp.Controllers.FillInTheBlankController.Question (QuizApp)'
+2025-10-09 14:35:59.698 +02:00 [INF] Request finished HTTP/1.1 GET http://localhost:5155/FillInTheBlank/Question/1 - 200 null text/html; charset=utf-8 2.5738ms
+2025-10-09 14:36:00.009 +02:00 [INF] Request starting HTTP/1.1 GET http://localhost:5155/FillInTheBlank/Questions - null null
+2025-10-09 14:36:00.009 +02:00 [INF] Executing endpoint 'QuizApp.Controllers.FillInTheBlankController.Questions (QuizApp)'
+2025-10-09 14:36:00.009 +02:00 [INF] Route matched with {action = "Questions", controller = "FillInTheBlank"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] Questions() on controller QuizApp.Controllers.FillInTheBlankController (QuizApp).
+2025-10-09 14:36:00.010 +02:00 [INF] Executing ViewResult, running view Questions.
+2025-10-09 14:36:00.011 +02:00 [INF] Executed ViewResult - view Questions executed in 0.7288ms.
+2025-10-09 14:36:00.011 +02:00 [INF] Executed action QuizApp.Controllers.FillInTheBlankController.Questions (QuizApp) in 1.8719ms
+2025-10-09 14:36:00.011 +02:00 [INF] Executed endpoint 'QuizApp.Controllers.FillInTheBlankController.Questions (QuizApp)'
+2025-10-09 14:36:00.011 +02:00 [INF] Request finished HTTP/1.1 GET http://localhost:5155/FillInTheBlank/Questions - 200 null text/html; charset=utf-8 2.2162ms
+2025-10-09 14:36:00.897 +02:00 [INF] Request starting HTTP/1.1 GET http://localhost:5155/FlashCardQuiz/Quizzes - null null
+2025-10-09 14:36:00.897 +02:00 [INF] Executing endpoint 'QuizApp.Controllers.FlashCardQuizController.Quizzes (QuizApp)'
+2025-10-09 14:36:00.897 +02:00 [INF] Route matched with {action = "Quizzes", controller = "FlashCardQuiz"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] Quizzes() on controller QuizApp.Controllers.FlashCardQuizController (QuizApp).
+2025-10-09 14:36:00.900 +02:00 [INF] Executing ViewResult, running view Quizzes.
+2025-10-09 14:36:00.901 +02:00 [INF] Executed ViewResult - view Quizzes executed in 0.6558ms.
+2025-10-09 14:36:00.901 +02:00 [INF] Executed action QuizApp.Controllers.FlashCardQuizController.Quizzes (QuizApp) in 3.4761ms
+2025-10-09 14:36:00.901 +02:00 [INF] Executed endpoint 'QuizApp.Controllers.FlashCardQuizController.Quizzes (QuizApp)'
+2025-10-09 14:36:00.901 +02:00 [INF] Request finished HTTP/1.1 GET http://localhost:5155/FlashCardQuiz/Quizzes - 200 null text/html; charset=utf-8 3.8287ms
+2025-10-09 14:36:10.929 +02:00 [INF] Request starting HTTP/1.1 GET http://localhost:5155/FlashCard/FlashCards?quizId=1&quizName=Capitals%20of%20Scandinavia&quizDescription=Flashcards%20with%20questions%20about%20the%20captial%20cities%20of%20Scandinavia - null null
+2025-10-09 14:36:10.929 +02:00 [INF] Executing endpoint 'QuizApp.Controllers.FlashCardController.FlashCards (QuizApp)'
+2025-10-09 14:36:10.933 +02:00 [INF] Route matched with {action = "FlashCards", controller = "FlashCard"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] FlashCards(Int32, System.String, System.String) on controller QuizApp.Controllers.FlashCardController (QuizApp).
+2025-10-09 14:36:10.945 +02:00 [INF] Executing ViewResult, running view FlashCards.
+2025-10-09 14:36:10.962 +02:00 [INF] Executed ViewResult - view FlashCards executed in 18.073ms.
+2025-10-09 14:36:10.962 +02:00 [INF] Executed action QuizApp.Controllers.FlashCardController.FlashCards (QuizApp) in 29.8363ms
+2025-10-09 14:36:10.962 +02:00 [INF] Executed endpoint 'QuizApp.Controllers.FlashCardController.FlashCards (QuizApp)'
+2025-10-09 14:36:10.963 +02:00 [INF] Request finished HTTP/1.1 GET http://localhost:5155/FlashCard/FlashCards?quizId=1&quizName=Capitals%20of%20Scandinavia&quizDescription=Flashcards%20with%20questions%20about%20the%20captial%20cities%20of%20Scandinavia - 200 null text/html; charset=utf-8 33.2761ms
+2025-10-09 14:36:10.973 +02:00 [INF] Request starting HTTP/1.1 GET http://localhost:5155/js/jquery.validate.unobtrusive.js - null null
+2025-10-09 14:36:10.973 +02:00 [INF] Request starting HTTP/1.1 GET http://localhost:5155/js/jquery.validate.js - null null
+2025-10-09 14:36:10.973 +02:00 [INF] The file /js/jquery.validate.js was not modified
+2025-10-09 14:36:10.973 +02:00 [INF] The file /js/jquery.validate.unobtrusive.js was not modified
+2025-10-09 14:36:10.973 +02:00 [INF] Request finished HTTP/1.1 GET http://localhost:5155/js/jquery.validate.unobtrusive.js - 304 null text/javascript 0.258ms
+2025-10-09 14:36:10.973 +02:00 [INF] Request finished HTTP/1.1 GET http://localhost:5155/js/jquery.validate.js - 304 null text/javascript 0.2504ms
+2025-10-09 14:36:16.058 +02:00 [INF] Request starting HTTP/1.1 POST http://localhost:5155/FlashCard/RevealFlashCardAnswer - application/x-www-form-urlencoded 952
+2025-10-09 14:36:16.059 +02:00 [INF] Executing endpoint 'QuizApp.Controllers.FlashCardController.RevealFlashCardAnswer (QuizApp)'
+2025-10-09 14:36:16.063 +02:00 [INF] Route matched with {action = "RevealFlashCardAnswer", controller = "FlashCard"}. Executing controller action with signature Microsoft.AspNetCore.Mvc.IActionResult RevealFlashCardAnswer(QuizApp.ViewModels.FlashCardsViewModel) on controller QuizApp.Controllers.FlashCardController (QuizApp).
+2025-10-09 14:36:16.068 +02:00 [INF] Executing ViewResult, running view FlashCards.
+2025-10-09 14:36:16.069 +02:00 [INF] Executed ViewResult - view FlashCards executed in 1.194ms.
+2025-10-09 14:36:16.069 +02:00 [INF] Executed action QuizApp.Controllers.FlashCardController.RevealFlashCardAnswer (QuizApp) in 5.9638ms
+2025-10-09 14:36:16.069 +02:00 [INF] Executed endpoint 'QuizApp.Controllers.FlashCardController.RevealFlashCardAnswer (QuizApp)'
+2025-10-09 14:36:16.069 +02:00 [INF] Request finished HTTP/1.1 POST http://localhost:5155/FlashCard/RevealFlashCardAnswer - 200 null text/html; charset=utf-8 11.2352ms
+2025-10-09 14:36:16.703 +02:00 [INF] Request starting HTTP/1.1 POST http://localhost:5155/FlashCard/RevealFlashCardAnswer - application/x-www-form-urlencoded 951
+2025-10-09 14:36:16.703 +02:00 [INF] Executing endpoint 'QuizApp.Controllers.FlashCardController.RevealFlashCardAnswer (QuizApp)'
+2025-10-09 14:36:16.703 +02:00 [INF] Route matched with {action = "RevealFlashCardAnswer", controller = "FlashCard"}. Executing controller action with signature Microsoft.AspNetCore.Mvc.IActionResult RevealFlashCardAnswer(QuizApp.ViewModels.FlashCardsViewModel) on controller QuizApp.Controllers.FlashCardController (QuizApp).
+2025-10-09 14:36:16.706 +02:00 [INF] Executing ViewResult, running view FlashCards.
+2025-10-09 14:36:16.707 +02:00 [INF] Executed ViewResult - view FlashCards executed in 0.8725ms.
+2025-10-09 14:36:16.707 +02:00 [INF] Executed action QuizApp.Controllers.FlashCardController.RevealFlashCardAnswer (QuizApp) in 3.2131ms
+2025-10-09 14:36:16.707 +02:00 [INF] Executed endpoint 'QuizApp.Controllers.FlashCardController.RevealFlashCardAnswer (QuizApp)'
+2025-10-09 14:36:16.707 +02:00 [INF] Request finished HTTP/1.1 POST http://localhost:5155/FlashCard/RevealFlashCardAnswer - 200 null text/html; charset=utf-8 3.7876ms
+2025-10-09 14:36:20.954 +02:00 [INF] Request starting HTTP/1.1 POST http://localhost:5155/FlashCard/NextFlashCard - application/x-www-form-urlencoded 952
+2025-10-09 14:36:20.954 +02:00 [INF] Executing endpoint 'QuizApp.Controllers.FlashCardController.NextFlashCard (QuizApp)'
+2025-10-09 14:36:20.956 +02:00 [INF] Route matched with {action = "NextFlashCard", controller = "FlashCard"}. Executing controller action with signature Microsoft.AspNetCore.Mvc.IActionResult NextFlashCard(QuizApp.ViewModels.FlashCardsViewModel) on controller QuizApp.Controllers.FlashCardController (QuizApp).
+2025-10-09 14:36:20.957 +02:00 [INF] Executing ViewResult, running view FlashCards.
+2025-10-09 14:36:20.958 +02:00 [INF] Executed ViewResult - view FlashCards executed in 0.6996ms.
+2025-10-09 14:36:20.958 +02:00 [INF] Executed action QuizApp.Controllers.FlashCardController.NextFlashCard (QuizApp) in 2.3936ms
+2025-10-09 14:36:20.958 +02:00 [INF] Executed endpoint 'QuizApp.Controllers.FlashCardController.NextFlashCard (QuizApp)'
+2025-10-09 14:36:20.958 +02:00 [INF] Request finished HTTP/1.1 POST http://localhost:5155/FlashCard/NextFlashCard - 200 null text/html; charset=utf-8 3.783ms
+2025-10-09 14:36:21.851 +02:00 [INF] Request starting HTTP/1.1 POST http://localhost:5155/FlashCard/RevealFlashCardAnswer - application/x-www-form-urlencoded 952
+2025-10-09 14:36:21.851 +02:00 [INF] Executing endpoint 'QuizApp.Controllers.FlashCardController.RevealFlashCardAnswer (QuizApp)'
+2025-10-09 14:36:21.851 +02:00 [INF] Route matched with {action = "RevealFlashCardAnswer", controller = "FlashCard"}. Executing controller action with signature Microsoft.AspNetCore.Mvc.IActionResult RevealFlashCardAnswer(QuizApp.ViewModels.FlashCardsViewModel) on controller QuizApp.Controllers.FlashCardController (QuizApp).
+2025-10-09 14:36:21.852 +02:00 [INF] Executing ViewResult, running view FlashCards.
+2025-10-09 14:36:21.853 +02:00 [INF] Executed ViewResult - view FlashCards executed in 0.6531ms.
+2025-10-09 14:36:21.853 +02:00 [INF] Executed action QuizApp.Controllers.FlashCardController.RevealFlashCardAnswer (QuizApp) in 1.8628ms
+2025-10-09 14:36:21.853 +02:00 [INF] Executed endpoint 'QuizApp.Controllers.FlashCardController.RevealFlashCardAnswer (QuizApp)'
+2025-10-09 14:36:21.853 +02:00 [INF] Request finished HTTP/1.1 POST http://localhost:5155/FlashCard/RevealFlashCardAnswer - 200 null text/html; charset=utf-8 2.1526ms
+2025-10-09 14:36:22.213 +02:00 [INF] Request starting HTTP/1.1 POST http://localhost:5155/FlashCard/RevealFlashCardAnswer - application/x-www-form-urlencoded 951
+2025-10-09 14:36:22.213 +02:00 [INF] Executing endpoint 'QuizApp.Controllers.FlashCardController.RevealFlashCardAnswer (QuizApp)'
+2025-10-09 14:36:22.213 +02:00 [INF] Route matched with {action = "RevealFlashCardAnswer", controller = "FlashCard"}. Executing controller action with signature Microsoft.AspNetCore.Mvc.IActionResult RevealFlashCardAnswer(QuizApp.ViewModels.FlashCardsViewModel) on controller QuizApp.Controllers.FlashCardController (QuizApp).
+2025-10-09 14:36:22.215 +02:00 [INF] Executing ViewResult, running view FlashCards.
+2025-10-09 14:36:22.216 +02:00 [INF] Executed ViewResult - view FlashCards executed in 1.0634ms.
+2025-10-09 14:36:22.217 +02:00 [INF] Executed action QuizApp.Controllers.FlashCardController.RevealFlashCardAnswer (QuizApp) in 2.9725ms
+2025-10-09 14:36:22.217 +02:00 [INF] Executed endpoint 'QuizApp.Controllers.FlashCardController.RevealFlashCardAnswer (QuizApp)'
+2025-10-09 14:36:22.217 +02:00 [INF] Request finished HTTP/1.1 POST http://localhost:5155/FlashCard/RevealFlashCardAnswer - 200 null text/html; charset=utf-8 3.4331ms
+2025-10-09 14:36:22.229 +02:00 [INF] Request starting HTTP/1.1 GET http://localhost:5155/js/jquery.validate.js - null null
+2025-10-09 14:36:22.229 +02:00 [INF] The file /js/jquery.validate.js was not modified
+2025-10-09 14:36:22.229 +02:00 [INF] Request finished HTTP/1.1 GET http://localhost:5155/js/jquery.validate.js - 304 null text/javascript 0.3797ms
+2025-10-09 14:36:22.233 +02:00 [INF] Request starting HTTP/1.1 GET http://localhost:5155/js/jquery.validate.unobtrusive.js - null null
+2025-10-09 14:36:22.233 +02:00 [INF] The file /js/jquery.validate.unobtrusive.js was not modified
+2025-10-09 14:36:22.233 +02:00 [INF] Request finished HTTP/1.1 GET http://localhost:5155/js/jquery.validate.unobtrusive.js - 304 null text/javascript 0.2579ms
+2025-10-09 14:36:22.918 +02:00 [INF] Request starting HTTP/1.1 POST http://localhost:5155/FlashCard/NextFlashCard - application/x-www-form-urlencoded 952
+2025-10-09 14:36:22.918 +02:00 [INF] Executing endpoint 'QuizApp.Controllers.FlashCardController.NextFlashCard (QuizApp)'
+2025-10-09 14:36:22.918 +02:00 [INF] Route matched with {action = "NextFlashCard", controller = "FlashCard"}. Executing controller action with signature Microsoft.AspNetCore.Mvc.IActionResult NextFlashCard(QuizApp.ViewModels.FlashCardsViewModel) on controller QuizApp.Controllers.FlashCardController (QuizApp).
+2025-10-09 14:36:22.919 +02:00 [INF] Executing ViewResult, running view FlashCards.
+2025-10-09 14:36:22.920 +02:00 [INF] Executed ViewResult - view FlashCards executed in 0.7171ms.
+2025-10-09 14:36:22.920 +02:00 [INF] Executed action QuizApp.Controllers.FlashCardController.NextFlashCard (QuizApp) in 1.819ms
+2025-10-09 14:36:22.920 +02:00 [INF] Executed endpoint 'QuizApp.Controllers.FlashCardController.NextFlashCard (QuizApp)'
+2025-10-09 14:36:22.920 +02:00 [INF] Request finished HTTP/1.1 POST http://localhost:5155/FlashCard/NextFlashCard - 200 null text/html; charset=utf-8 2.0929ms
+2025-10-09 14:36:23.515 +02:00 [INF] Request starting HTTP/1.1 POST http://localhost:5155/FlashCard/RevealFlashCardAnswer - application/x-www-form-urlencoded 952
+2025-10-09 14:36:23.516 +02:00 [INF] Executing endpoint 'QuizApp.Controllers.FlashCardController.RevealFlashCardAnswer (QuizApp)'
+2025-10-09 14:36:23.516 +02:00 [INF] Route matched with {action = "RevealFlashCardAnswer", controller = "FlashCard"}. Executing controller action with signature Microsoft.AspNetCore.Mvc.IActionResult RevealFlashCardAnswer(QuizApp.ViewModels.FlashCardsViewModel) on controller QuizApp.Controllers.FlashCardController (QuizApp).
+2025-10-09 14:36:23.517 +02:00 [INF] Executing ViewResult, running view FlashCards.
+2025-10-09 14:36:23.517 +02:00 [INF] Executed ViewResult - view FlashCards executed in 0.5697ms.
+2025-10-09 14:36:23.517 +02:00 [INF] Executed action QuizApp.Controllers.FlashCardController.RevealFlashCardAnswer (QuizApp) in 1.5853ms
+2025-10-09 14:36:23.517 +02:00 [INF] Executed endpoint 'QuizApp.Controllers.FlashCardController.RevealFlashCardAnswer (QuizApp)'
+2025-10-09 14:36:23.517 +02:00 [INF] Request finished HTTP/1.1 POST http://localhost:5155/FlashCard/RevealFlashCardAnswer - 200 null text/html; charset=utf-8 1.9016ms
+2025-10-09 14:36:23.999 +02:00 [INF] Request starting HTTP/1.1 POST http://localhost:5155/FlashCard/RevealFlashCardAnswer - application/x-www-form-urlencoded 951
+2025-10-09 14:36:23.999 +02:00 [INF] Executing endpoint 'QuizApp.Controllers.FlashCardController.RevealFlashCardAnswer (QuizApp)'
+2025-10-09 14:36:24.000 +02:00 [INF] Route matched with {action = "RevealFlashCardAnswer", controller = "FlashCard"}. Executing controller action with signature Microsoft.AspNetCore.Mvc.IActionResult RevealFlashCardAnswer(QuizApp.ViewModels.FlashCardsViewModel) on controller QuizApp.Controllers.FlashCardController (QuizApp).
+2025-10-09 14:36:24.001 +02:00 [INF] Executing ViewResult, running view FlashCards.
+2025-10-09 14:36:24.002 +02:00 [INF] Executed ViewResult - view FlashCards executed in 0.9652ms.
+2025-10-09 14:36:24.002 +02:00 [INF] Executed action QuizApp.Controllers.FlashCardController.RevealFlashCardAnswer (QuizApp) in 2.374ms
+2025-10-09 14:36:24.002 +02:00 [INF] Executed endpoint 'QuizApp.Controllers.FlashCardController.RevealFlashCardAnswer (QuizApp)'
+2025-10-09 14:36:24.002 +02:00 [INF] Request finished HTTP/1.1 POST http://localhost:5155/FlashCard/RevealFlashCardAnswer - 200 null text/html; charset=utf-8 2.9381ms
+2025-10-09 14:36:25.984 +02:00 [INF] Request starting HTTP/1.1 POST http://localhost:5155/FlashCard/PrevFlashCard - application/x-www-form-urlencoded 952
+2025-10-09 14:36:25.984 +02:00 [INF] Executing endpoint 'QuizApp.Controllers.FlashCardController.PrevFlashCard (QuizApp)'
+2025-10-09 14:36:25.985 +02:00 [INF] Route matched with {action = "PrevFlashCard", controller = "FlashCard"}. Executing controller action with signature Microsoft.AspNetCore.Mvc.IActionResult PrevFlashCard(QuizApp.ViewModels.FlashCardsViewModel) on controller QuizApp.Controllers.FlashCardController (QuizApp).
+2025-10-09 14:36:25.987 +02:00 [INF] Executing ViewResult, running view FlashCards.
+2025-10-09 14:36:25.987 +02:00 [INF] Executed ViewResult - view FlashCards executed in 0.7219ms.
+2025-10-09 14:36:25.987 +02:00 [INF] Executed action QuizApp.Controllers.FlashCardController.PrevFlashCard (QuizApp) in 2.3599ms
+2025-10-09 14:36:25.987 +02:00 [INF] Executed endpoint 'QuizApp.Controllers.FlashCardController.PrevFlashCard (QuizApp)'
+2025-10-09 14:36:25.987 +02:00 [INF] Request finished HTTP/1.1 POST http://localhost:5155/FlashCard/PrevFlashCard - 200 null text/html; charset=utf-8 3.8277ms
+2025-10-09 14:36:26.835 +02:00 [INF] Request starting HTTP/1.1 POST http://localhost:5155/FlashCard/PrevFlashCard - application/x-www-form-urlencoded 952
+2025-10-09 14:36:26.835 +02:00 [INF] Executing endpoint 'QuizApp.Controllers.FlashCardController.PrevFlashCard (QuizApp)'
+2025-10-09 14:36:26.835 +02:00 [INF] Route matched with {action = "PrevFlashCard", controller = "FlashCard"}. Executing controller action with signature Microsoft.AspNetCore.Mvc.IActionResult PrevFlashCard(QuizApp.ViewModels.FlashCardsViewModel) on controller QuizApp.Controllers.FlashCardController (QuizApp).
+2025-10-09 14:36:26.836 +02:00 [INF] Executing ViewResult, running view FlashCards.
+2025-10-09 14:36:26.837 +02:00 [INF] Executed ViewResult - view FlashCards executed in 0.5098ms.
+2025-10-09 14:36:26.837 +02:00 [INF] Executed action QuizApp.Controllers.FlashCardController.PrevFlashCard (QuizApp) in 1.5794ms
+2025-10-09 14:36:26.837 +02:00 [INF] Executed endpoint 'QuizApp.Controllers.FlashCardController.PrevFlashCard (QuizApp)'
+2025-10-09 14:36:26.837 +02:00 [INF] Request finished HTTP/1.1 POST http://localhost:5155/FlashCard/PrevFlashCard - 200 null text/html; charset=utf-8 1.9037ms
+2025-10-09 14:36:28.707 +02:00 [INF] Request starting HTTP/1.1 GET http://localhost:5155/FlashCardQuiz/Quizzes - null null
+2025-10-09 14:36:28.707 +02:00 [INF] Executing endpoint 'QuizApp.Controllers.FlashCardQuizController.Quizzes (QuizApp)'
+2025-10-09 14:36:28.707 +02:00 [INF] Route matched with {action = "Quizzes", controller = "FlashCardQuiz"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] Quizzes() on controller QuizApp.Controllers.FlashCardQuizController (QuizApp).
+2025-10-09 14:36:28.710 +02:00 [INF] Executing ViewResult, running view Quizzes.
+2025-10-09 14:36:28.710 +02:00 [INF] Executed ViewResult - view Quizzes executed in 0.5186ms.
+2025-10-09 14:36:28.710 +02:00 [INF] Executed action QuizApp.Controllers.FlashCardQuizController.Quizzes (QuizApp) in 2.6607ms
+2025-10-09 14:36:28.710 +02:00 [INF] Executed endpoint 'QuizApp.Controllers.FlashCardQuizController.Quizzes (QuizApp)'
+2025-10-09 14:36:28.710 +02:00 [INF] Request finished HTTP/1.1 GET http://localhost:5155/FlashCardQuiz/Quizzes - 200 null text/html; charset=utf-8 2.9701ms
+2025-10-09 14:36:32.450 +02:00 [INF] Request starting HTTP/1.1 GET http://localhost:5155/FlashCardQuiz/Quizzes - null null
+2025-10-09 14:36:32.450 +02:00 [INF] Executing endpoint 'QuizApp.Controllers.FlashCardQuizController.Quizzes (QuizApp)'
+2025-10-09 14:36:32.450 +02:00 [INF] Route matched with {action = "Quizzes", controller = "FlashCardQuiz"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] Quizzes() on controller QuizApp.Controllers.FlashCardQuizController (QuizApp).
+2025-10-09 14:36:32.452 +02:00 [INF] Executing ViewResult, running view Quizzes.
+2025-10-09 14:36:32.452 +02:00 [INF] Executed ViewResult - view Quizzes executed in 0.4127ms.
+2025-10-09 14:36:32.452 +02:00 [INF] Executed action QuizApp.Controllers.FlashCardQuizController.Quizzes (QuizApp) in 1.9233ms
+2025-10-09 14:36:32.452 +02:00 [INF] Executed endpoint 'QuizApp.Controllers.FlashCardQuizController.Quizzes (QuizApp)'
+2025-10-09 14:36:32.452 +02:00 [INF] Request finished HTTP/1.1 GET http://localhost:5155/FlashCardQuiz/Quizzes - 200 null text/html; charset=utf-8 2.2169ms
+2025-10-09 14:36:32.818 +02:00 [INF] Request starting HTTP/1.1 GET http://localhost:5155/FillInTheBlank/Questions - null null
+2025-10-09 14:36:32.818 +02:00 [INF] Executing endpoint 'QuizApp.Controllers.FillInTheBlankController.Questions (QuizApp)'
+2025-10-09 14:36:32.818 +02:00 [INF] Route matched with {action = "Questions", controller = "FillInTheBlank"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] Questions() on controller QuizApp.Controllers.FillInTheBlankController (QuizApp).
+2025-10-09 14:36:32.819 +02:00 [INF] Executing ViewResult, running view Questions.
+2025-10-09 14:36:32.820 +02:00 [INF] Executed ViewResult - view Questions executed in 0.6478ms.
+2025-10-09 14:36:32.820 +02:00 [INF] Executed action QuizApp.Controllers.FillInTheBlankController.Questions (QuizApp) in 1.6311ms
+2025-10-09 14:36:32.820 +02:00 [INF] Executed endpoint 'QuizApp.Controllers.FillInTheBlankController.Questions (QuizApp)'
+2025-10-09 14:36:32.820 +02:00 [INF] Request finished HTTP/1.1 GET http://localhost:5155/FillInTheBlank/Questions - 200 null text/html; charset=utf-8 1.862ms
+2025-10-09 14:36:33.716 +02:00 [INF] Request starting HTTP/1.1 GET http://localhost:5155/FillInTheBlank/Question/1 - null null
+2025-10-09 14:36:33.716 +02:00 [INF] Executing endpoint 'QuizApp.Controllers.FillInTheBlankController.Question (QuizApp)'
+2025-10-09 14:36:33.716 +02:00 [INF] Route matched with {action = "Question", controller = "FillInTheBlank"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] Question(Int32) on controller QuizApp.Controllers.FillInTheBlankController (QuizApp).
+2025-10-09 14:36:33.717 +02:00 [INF] Executing ViewResult, running view Question.
+2025-10-09 14:36:33.717 +02:00 [INF] Executed ViewResult - view Question executed in 0.2831ms.
+2025-10-09 14:36:33.717 +02:00 [INF] Executed action QuizApp.Controllers.FillInTheBlankController.Question (QuizApp) in 1.7065ms
+2025-10-09 14:36:33.717 +02:00 [INF] Executed endpoint 'QuizApp.Controllers.FillInTheBlankController.Question (QuizApp)'
+2025-10-09 14:36:33.717 +02:00 [INF] Request finished HTTP/1.1 GET http://localhost:5155/FillInTheBlank/Question/1 - 200 null text/html; charset=utf-8 1.9525ms
+2025-10-09 14:36:34.615 +02:00 [INF] Request starting HTTP/1.1 GET http://localhost:5155/ - null null
+2025-10-09 14:36:34.616 +02:00 [INF] Executing endpoint 'QuizApp.Controllers.HomeController.Index (QuizApp)'
+2025-10-09 14:36:34.616 +02:00 [INF] Route matched with {action = "Index", controller = "Home"}. Executing controller action with signature Microsoft.AspNetCore.Mvc.IActionResult Index() on controller QuizApp.Controllers.HomeController (QuizApp).
+2025-10-09 14:36:34.616 +02:00 [INF] Executing ViewResult, running view Index.
+2025-10-09 14:36:34.616 +02:00 [INF] Executed ViewResult - view Index executed in 0.3659ms.
+2025-10-09 14:36:34.616 +02:00 [INF] Executed action QuizApp.Controllers.HomeController.Index (QuizApp) in 0.5218ms
+2025-10-09 14:36:34.616 +02:00 [INF] Executed endpoint 'QuizApp.Controllers.HomeController.Index (QuizApp)'
+2025-10-09 14:36:34.616 +02:00 [INF] Request finished HTTP/1.1 GET http://localhost:5155/ - 200 null text/html; charset=utf-8 0.9356ms
+2025-10-09 14:36:35.838 +02:00 [INF] Request starting HTTP/1.1 GET http://localhost:5155/FlashCardQuiz/Quizzes - null null
+2025-10-09 14:36:35.838 +02:00 [INF] Executing endpoint 'QuizApp.Controllers.FlashCardQuizController.Quizzes (QuizApp)'
+2025-10-09 14:36:35.838 +02:00 [INF] Route matched with {action = "Quizzes", controller = "FlashCardQuiz"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] Quizzes() on controller QuizApp.Controllers.FlashCardQuizController (QuizApp).
+2025-10-09 14:36:35.840 +02:00 [INF] Executing ViewResult, running view Quizzes.
+2025-10-09 14:36:35.840 +02:00 [INF] Executed ViewResult - view Quizzes executed in 0.3114ms.
+2025-10-09 14:36:35.840 +02:00 [INF] Executed action QuizApp.Controllers.FlashCardQuizController.Quizzes (QuizApp) in 1.5443ms
+2025-10-09 14:36:35.840 +02:00 [INF] Executed endpoint 'QuizApp.Controllers.FlashCardQuizController.Quizzes (QuizApp)'
+2025-10-09 14:36:35.840 +02:00 [INF] Request finished HTTP/1.1 GET http://localhost:5155/FlashCardQuiz/Quizzes - 200 null text/html; charset=utf-8 1.8584ms
+2025-10-09 14:36:35.852 +02:00 [INF] Request starting HTTP/1.1 GET http://localhost:5155/js/jquery.validate.js - null null
+2025-10-09 14:36:35.852 +02:00 [INF] Request starting HTTP/1.1 GET http://localhost:5155/js/jquery.validate.unobtrusive.js - null null
+2025-10-09 14:36:35.852 +02:00 [INF] The file /js/jquery.validate.unobtrusive.js was not modified
+2025-10-09 14:36:35.852 +02:00 [INF] The file /js/jquery.validate.js was not modified
+2025-10-09 14:36:35.852 +02:00 [INF] Request finished HTTP/1.1 GET http://localhost:5155/js/jquery.validate.unobtrusive.js - 304 null text/javascript 0.2653ms
+2025-10-09 14:36:35.852 +02:00 [INF] Request finished HTTP/1.1 GET http://localhost:5155/js/jquery.validate.js - 304 null text/javascript 0.271ms
+2025-10-09 14:36:40.155 +02:00 [INF] Request starting HTTP/1.1 GET http://localhost:5155/ - null null
+2025-10-09 14:36:40.155 +02:00 [INF] Executing endpoint 'QuizApp.Controllers.HomeController.Index (QuizApp)'
+2025-10-09 14:36:40.155 +02:00 [INF] Route matched with {action = "Index", controller = "Home"}. Executing controller action with signature Microsoft.AspNetCore.Mvc.IActionResult Index() on controller QuizApp.Controllers.HomeController (QuizApp).
+2025-10-09 14:36:40.155 +02:00 [INF] Executing ViewResult, running view Index.
+2025-10-09 14:36:40.155 +02:00 [INF] Executed ViewResult - view Index executed in 0.2226ms.
+2025-10-09 14:36:40.155 +02:00 [INF] Executed action QuizApp.Controllers.HomeController.Index (QuizApp) in 0.2806ms
+2025-10-09 14:36:40.155 +02:00 [INF] Executed endpoint 'QuizApp.Controllers.HomeController.Index (QuizApp)'
+2025-10-09 14:36:40.155 +02:00 [INF] Request finished HTTP/1.1 GET http://localhost:5155/ - 200 null text/html; charset=utf-8 0.5084ms
+2025-10-09 14:36:42.559 +02:00 [INF] Request starting HTTP/1.1 GET http://localhost:5155/FlashCardQuiz/Quizzes - null null
+2025-10-09 14:36:42.559 +02:00 [INF] Executing endpoint 'QuizApp.Controllers.FlashCardQuizController.Quizzes (QuizApp)'
+2025-10-09 14:36:42.559 +02:00 [INF] Route matched with {action = "Quizzes", controller = "FlashCardQuiz"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] Quizzes() on controller QuizApp.Controllers.FlashCardQuizController (QuizApp).
+2025-10-09 14:36:42.561 +02:00 [INF] Executing ViewResult, running view Quizzes.
+2025-10-09 14:36:42.561 +02:00 [INF] Executed ViewResult - view Quizzes executed in 0.3078ms.
+2025-10-09 14:36:42.561 +02:00 [INF] Executed action QuizApp.Controllers.FlashCardQuizController.Quizzes (QuizApp) in 1.4588ms
+2025-10-09 14:36:42.561 +02:00 [INF] Executed endpoint 'QuizApp.Controllers.FlashCardQuizController.Quizzes (QuizApp)'
+2025-10-09 14:36:42.561 +02:00 [INF] Request finished HTTP/1.1 GET http://localhost:5155/FlashCardQuiz/Quizzes - 200 null text/html; charset=utf-8 1.8837ms
+2025-10-09 14:37:18.704 +02:00 [INF] Request starting HTTP/1.1 GET http://localhost:5155/FillInTheBlank/Questions - null null
+2025-10-09 14:37:18.704 +02:00 [INF] Executing endpoint 'QuizApp.Controllers.FillInTheBlankController.Questions (QuizApp)'
+2025-10-09 14:37:18.704 +02:00 [INF] Route matched with {action = "Questions", controller = "FillInTheBlank"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] Questions() on controller QuizApp.Controllers.FillInTheBlankController (QuizApp).
+2025-10-09 14:37:18.705 +02:00 [INF] Executing ViewResult, running view Questions.
+2025-10-09 14:37:18.705 +02:00 [INF] Executed ViewResult - view Questions executed in 0.6749ms.
+2025-10-09 14:37:18.705 +02:00 [INF] Executed action QuizApp.Controllers.FillInTheBlankController.Questions (QuizApp) in 1.6528ms
+2025-10-09 14:37:18.705 +02:00 [INF] Executed endpoint 'QuizApp.Controllers.FillInTheBlankController.Questions (QuizApp)'
+2025-10-09 14:37:18.706 +02:00 [INF] Request finished HTTP/1.1 GET http://localhost:5155/FillInTheBlank/Questions - 200 null text/html; charset=utf-8 2.0219ms
+2025-10-09 14:37:18.718 +02:00 [INF] Request starting HTTP/1.1 GET http://localhost:5155/js/jquery.validate.js - null null
+2025-10-09 14:37:18.718 +02:00 [INF] Request starting HTTP/1.1 GET http://localhost:5155/js/jquery.validate.unobtrusive.js - null null
+2025-10-09 14:37:18.718 +02:00 [INF] The file /js/jquery.validate.unobtrusive.js was not modified
+2025-10-09 14:37:18.718 +02:00 [INF] The file /js/jquery.validate.js was not modified
+2025-10-09 14:37:18.718 +02:00 [INF] Request finished HTTP/1.1 GET http://localhost:5155/js/jquery.validate.js - 304 null text/javascript 0.3335ms
+2025-10-09 14:37:18.718 +02:00 [INF] Request finished HTTP/1.1 GET http://localhost:5155/js/jquery.validate.unobtrusive.js - 304 null text/javascript 0.3059ms
+2025-10-09 14:37:26.405 +02:00 [INF] Request starting HTTP/1.1 GET http://localhost:5155/FillInTheBlank/Questions - null null
+2025-10-09 14:37:26.405 +02:00 [INF] Executing endpoint 'QuizApp.Controllers.FillInTheBlankController.Questions (QuizApp)'
+2025-10-09 14:37:26.405 +02:00 [INF] Route matched with {action = "Questions", controller = "FillInTheBlank"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] Questions() on controller QuizApp.Controllers.FillInTheBlankController (QuizApp).
+2025-10-09 14:37:26.406 +02:00 [INF] Executing ViewResult, running view Questions.
+2025-10-09 14:37:26.407 +02:00 [INF] Executed ViewResult - view Questions executed in 0.7224ms.
+2025-10-09 14:37:26.407 +02:00 [INF] Executed action QuizApp.Controllers.FillInTheBlankController.Questions (QuizApp) in 1.8537ms
+2025-10-09 14:37:26.407 +02:00 [INF] Executed endpoint 'QuizApp.Controllers.FillInTheBlankController.Questions (QuizApp)'
+2025-10-09 14:37:26.407 +02:00 [INF] Request finished HTTP/1.1 GET http://localhost:5155/FillInTheBlank/Questions - 200 null text/html; charset=utf-8 2.2261ms
+2025-10-09 14:37:42.689 +02:00 [INF] Request starting HTTP/1.1 GET http://localhost:5155/FillInTheBlank/Question/1 - null null
+2025-10-09 14:37:42.689 +02:00 [INF] Executing endpoint 'QuizApp.Controllers.FillInTheBlankController.Question (QuizApp)'
+2025-10-09 14:37:42.689 +02:00 [INF] Route matched with {action = "Question", controller = "FillInTheBlank"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] Question(Int32) on controller QuizApp.Controllers.FillInTheBlankController (QuizApp).
+2025-10-09 14:37:42.691 +02:00 [INF] Executing ViewResult, running view Question.
+2025-10-09 14:37:42.691 +02:00 [INF] Executed ViewResult - view Question executed in 0.4144ms.
+2025-10-09 14:37:42.691 +02:00 [INF] Executed action QuizApp.Controllers.FillInTheBlankController.Question (QuizApp) in 1.7475ms
+2025-10-09 14:37:42.691 +02:00 [INF] Executed endpoint 'QuizApp.Controllers.FillInTheBlankController.Question (QuizApp)'
+2025-10-09 14:37:42.691 +02:00 [INF] Request finished HTTP/1.1 GET http://localhost:5155/FillInTheBlank/Question/1 - 200 null text/html; charset=utf-8 2.1381ms
+2025-10-09 14:37:42.709 +02:00 [INF] Request starting HTTP/1.1 GET http://localhost:5155/js/jquery.validate.unobtrusive.js - null null
+2025-10-09 14:37:42.709 +02:00 [INF] Request starting HTTP/1.1 GET http://localhost:5155/js/jquery.validate.js - null null
+2025-10-09 14:37:42.709 +02:00 [INF] The file /js/jquery.validate.unobtrusive.js was not modified
+2025-10-09 14:37:42.709 +02:00 [INF] The file /js/jquery.validate.js was not modified
+2025-10-09 14:37:42.709 +02:00 [INF] Request finished HTTP/1.1 GET http://localhost:5155/js/jquery.validate.unobtrusive.js - 304 null text/javascript 0.2761ms
+2025-10-09 14:37:42.709 +02:00 [INF] Request finished HTTP/1.1 GET http://localhost:5155/js/jquery.validate.js - 304 null text/javascript 0.2946ms
+2025-10-09 14:41:16.698 +02:00 [INF] Application is shutting down...

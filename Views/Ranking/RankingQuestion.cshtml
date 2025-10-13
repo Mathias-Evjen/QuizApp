@@ -1,0 +1,66 @@
+@model QuizApp.ViewModels.RankingViewModel
+
+@{
+    ViewData["Title"] = "Ranking Question";
+    var splitQuestion = Model.Question.Split(",");
+}
+<div class="container">
+    <h3>@Model.QuestionText</h3>
+    <hr />
+    <form asp-controller="Ranking" asp-action="SubmitRankingQuestion" method="post">
+        <input type="hidden" name="id" value="@Model.Id" />
+        <div class="align-items-center justify-content-center w-100">
+            <div class="row position-relative align-items-center justify-content-center w-25" style="min-height:120px; border-radius:10px; background-color:rgb(243, 243, 243); padding:10px;margin-top: 50px; padding-top:30px;">
+                <label class="form-label" style="position: absolute; top: 5px; left: 5px; margin-bottom:30px;">Answer:</label>
+                @for(int i = 0; i < splitQuestion.Length; i++){
+                    <div class="row align-items-center justify-content-center">
+                        <label class="form-label answer-label" style="min-width:50px; max-width:250px; min-height: 30px; border-radius:10px; text-align: center; border: 2px solid grey;" value="" id="label-@i"></label>
+                        <input type="hidden" name="values" id="input-@i" value="" />
+                    </div>
+                }
+            </div>
+        </div>
+        <br /><br /><br />
+        <div class="row position-relative align-items-center justify-content-center" id="optionsRow" style="min-height:120px; border-radius:10px; background-color:rgb(237, 237, 237); padding:10px;">
+            <label class="form-label" style="position: absolute; top: 5px; left: 5px;">Options:</label>
+            @for(int i = 0; i < splitQuestion.Length; i++){
+                <div class="col">
+                    <label class="form-label question-label" style="background-color: white; min-width:50px; min-height: 30px; border-radius:10px; text-align: center; border: 2px solid black;" value="@splitQuestion[i]" id="question-label-@i">@splitQuestion[i]</label>
+                </div>
+            }
+        </div>
+        <br /><br />
+        <button type="submit" class="btn btn-primary" style="float: right;">Neste</button>
+    </form>
+</div>
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        console.log("Script running!")
+        const questionLabel = document.querySelectorAll(".question-label");
+        questionLabel.forEach(label => {
+            label.addEventListener("click", function () {
+                const labelText = this.textContent;
+                console.log(labelText)
+                
+                for(let i = 0; i < @splitQuestion.Length; i++){
+                    let labelField = document.getElementById(`label-${i}`);
+                    let inputField = document.getElementById(`input-${i}`);
+                    if(labelField.textContent === ""){
+                        labelField.textContent = labelText;
+                        inputField.value = labelText;
+                        break;
+                    }
+                }
+            });
+        });
+        const answerLabels = document.querySelectorAll(".answer-label");
+        answerLabels.forEach(answerLabel => {
+            answerLabel.addEventListener("click", function(){
+                answerLabelId = answerLabel.id.split("-")[1];
+                answerLabel.textContent = "";
+                document.getElementById(`input-${answerLabelId}`).value = "";
+            })
+        })
+    });
+
+</script>

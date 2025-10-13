@@ -1,0 +1,32 @@
+@using Microsoft.Extensions.ObjectPool
+@model QuizApp.Models.Sequence
+
+@{
+    ViewData["Title"] = "Update Sequence";
+    var splitQuestion = Model.Question.Split(",");
+    var splitCorrectAnswer = Model.CorrectAnswer.Split(",");
+}
+<h1>Update sequence</h1>
+<hr />
+<form asp-controller="Sequence" asp-action="UpdateSequence" method="post">
+    <input type="hidden" name="id" asp-for="Id" value="@Model.Id" />
+    <label asp-for="QuestionText" class="form-label">Question text</label><br />
+    <input type="text" class="form-control" name="questionText" asp-for="QuestionText" value="@Model.QuestionText"/><br /><br />
+    <div class="mb-3">
+        <label asp-for="Question" class="form-label">Question</label>
+        @foreach(var part in splitQuestion){
+            <div class="row">
+                <input type="text" class="form-control" style="max-width:200px; margin-bottom:10px;" name="question" value="@part"/>
+            </div>
+        }
+    </div>
+    <div class="mb-3">
+        <label asp-for="CorrectAnswer" class="form-label">Correct Answer</label>
+        @foreach(var part in splitCorrectAnswer){
+            <div class="row">
+                <input type="text" class="form-control" style="max-width:200px; margin-bottom:10px;" name="correctAnswer" value="@part"/>
+            </div>
+        }
+    </div>
+    <button type="submit" class="btn btn-primary">Update</button>
+</form>

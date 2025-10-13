@@ -19,6 +19,10 @@ builder.Services.AddDbContext<QuizDbContext>(options =>
     );
 });
 
+builder.Services.AddScoped<IMatchingRepository, MatchingRepository>();
+builder.Services.AddScoped<ISequenceRepository, SequenceRepository>();
+builder.Services.AddScoped<IRankingRepository, RankingRepository>();
+
 builder.Services.AddScoped<IFillInTheBlankRepository, FillInTheBlankRepository>();
 builder.Services.AddScoped<IFlashCardRepository, FlashCardRepository>();
 builder.Services.AddScoped<IFlashCardQuizRepository, FlashCardQuizRepository>();
@@ -51,5 +55,17 @@ app.UseStaticFiles();
 app.MapDefaultControllerRoute();
 
 app.MapRazorPages();
+
+app.UseStaticFiles();
+// app.UseHttpsRedirection(); // valgfritt for testing uten HTTPS
+
+app.UseRouting();
+
+app.UseAuthorization();
+
+
+app.MapDefaultControllerRoute();
+
+//app.MapRazorPages();
 
 app.Run();

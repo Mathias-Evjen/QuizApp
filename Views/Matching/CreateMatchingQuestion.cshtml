@@ -1,0 +1,58 @@
+@model QuizApp.ViewModels.MatchingViewModel
+
+@{
+    ViewData["Title"] = "Create Matching Questions";
+}
+
+<div class="container">
+    <h1>Opprett Matching Question</h1>
+    <hr />
+    <form asp-action="CreateMatchingQuestion" method="post" id="matchingForm">
+        <div id="keyValueContainer">
+            <div class="row mb-3">
+                <div class="col-5">
+                    <input type="text" class="form-control" name="Keys" placeholder="Key" />
+                </div>
+                <div class="col-5">
+                    <input type="text" class="form-control" name="Values" placeholder="Value" />
+                </div>
+                <div class="col-2">
+                    <button type="button" class="btn btn-danger remove-pair" onclick="removePair(this)">X</button>
+                </div>
+            </div>
+        </div>
+
+        <button type="button" class="btn btn-secondary mb-3" id="addPairButton">Add row</button>
+        <br><br>
+        <button type="submit" class="btn btn-primary">Save</button>
+    </form>
+</div>
+
+<script>
+    // Legg til dynamiske Key/Value-par
+    document.getElementById('addPairButton').addEventListener('click', function () {
+        const container = document.getElementById('keyValueContainer');
+
+        // Opprett en ny rad med Key/Value-inputfelt
+        const newRow = document.createElement('div');
+        newRow.classList.add('row', 'mb-3');
+        newRow.innerHTML = `
+            <div class="col-5">
+                <input type="text" class="form-control" name="Keys" placeholder="Key" />
+            </div>
+            <div class="col-5">
+                <input type="text" class="form-control" name="Values" placeholder="Value" />
+            </div>
+            <div class="col-2">
+                <button type="button" class="btn btn-danger remove-pair" onclick="removePair(this)">X</button>
+            </div>
+        `;
+        container.appendChild(newRow);
+    });
+
+    // Fjern en eksisterende Key/Value-par
+    function removePair(button) {
+        const row = button.parentElement.parentElement;
+        row.remove();
+    }
+</script>

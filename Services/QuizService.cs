@@ -16,12 +16,12 @@ public class QuizService
     }
 
     // Checks the user's answer wit the correct answer in the database
-    public bool CheckAnswer(FillInTheBlank question, string userAnswer)
+    public bool CheckAnswer(string correctAnswer, string userAnswer)
     {
         return string.Equals(
             userAnswer?.Trim(),
-            question.Answer,
+            correctAnswer,
             StringComparison.OrdinalIgnoreCase
-        );
+            );
     }
 }

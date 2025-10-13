@@ -48,7 +48,7 @@ public class FillInTheBlankController : Controller
                 return NotFound("FillInTheBlank question not found.");
             }
 
-            question.IsAnswerCorrect = _quizService.CheckAnswer(questionFromDb, question.UserAnswer);
+            question.IsAnswerCorrect = _quizService.CheckAnswer(questionFromDb.Answer, question.UserAnswer);
             question.CorrectAnswer = questionFromDb.Answer;
         }
         return View(model);
@@ -84,7 +84,7 @@ public class FillInTheBlankController : Controller
         }
 
         // Set the answer to correct or false in the model
-        model.IsAnswerCorrect = _quizService.CheckAnswer(questionFromDb, model.UserAnswer);
+        model.IsAnswerCorrect = _quizService.CheckAnswer(questionFromDb.Answer, model.UserAnswer);
         return View(model);
     }
 

@@ -1,0 +1,29 @@
+@model QuizApp.Models.TrueFalseQuestion
+
+@{
+    ViewData["Title"] = "Delete True/False Question";
+}
+
+<div class="container mt-4">
+    <h2 class="mb-4 text-center text-danger">Delete True/False Question</h2>
+
+    <div class="card shadow-sm mb-4">
+        <div class="card-body">
+            <p class="fw-semibold mb-2">Are you sure you want to delete this question?</p>
+
+            <div class="border rounded p-3 bg-light">
+                <strong>@Model.QuestionTexts</strong>
+            </div>
+
+            <div class="mt-3">
+                <p><strong>Correct Answer:</strong> @(Model.CorrectAnswer ? "True" : "False")</p>
+            </div>
+        </div>
+    </div>
+
+    <form asp-action="Delete" method="post" class="text-end">
+        <input type="hidden" asp-for="Id" />
+        <button type="submit" class="btn btn-danger me-2">Delete</button>
+        <a asp-action="Index" class="btn btn-secondary">Cancel</a>
+    </form>
+</div>

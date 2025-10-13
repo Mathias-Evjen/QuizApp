@@ -19,8 +19,14 @@ public class SequenceController : Controller
 
     public async Task<IActionResult> SequenceQuestion()
     {
-        List<Sequence> sequence = (await _sequenceRepository.GetAll()).ToList();
-        var viewModel = new SequenceViewModel(sequence[0]);
+        var sequence = await _sequenceRepository.GetAll();
+        if (sequence == null)
+        {
+            _logger.LogError("[SequenceController] Questions list not found while executing _SequenceRepository.GetAll()");
+            return NotFound("Sequence question not found");
+        }
+
+        var viewModel = new SequenceViewModel(sequence.ElementAt(0));
 
         return View(viewModel);
     }
@@ -29,6 +35,12 @@ public class SequenceController : Controller
     public async Task<IActionResult> SubmitSequenceQuestion(int id, List<string> values)
     {
         var sequenceObject = await _sequenceRepository.GetSequenceById(id);
+        if (sequenceObject == null)
+        {
+            _logger.LogError("[SequenceController - Get Question] Sequence question not found for the Id {Id: 0000}", id);
+            return NotFound("Sequence question not found.");
+        }
+
         string answer = sequenceObject.Assemble(values, 2);
         Console.WriteLine("Answer: " + answer);
         if (answer == sequenceObject.CorrectAnswer)
@@ -39,7 +51,7 @@ public class SequenceController : Controller
         {
             Console.WriteLine($"Answer is wrong, correct answer: {sequenceObject.CorrectAnswer}");
         }
-        _sequenceRepository.UpdateSequence(sequenceObject);
+        await _sequenceRepository.UpdateSequence(sequenceObject);
         return RedirectToAction("Index", "Home");
     }
 
@@ -55,7 +67,7 @@ public class SequenceController : Controller
         sequenceQuestion.QuestionText = questionText;
         sequenceQuestion.Assemble(Values, 1);
         sequenceQuestion.ShuffleQuestion(Values);
-        _sequenceRepository.CreateSequence(sequenceQuestion);
+        await _sequenceRepository.CreateSequence(sequenceQuestion);
 
         return RedirectToAction("Index", "Home");
     }
@@ -69,7 +81,7 @@ public class SequenceController : Controller
     [HttpGet]
     public async Task<IActionResult> ShowSequences()
     {
-        IEnumerable<Sequence> sequences = await _sequenceRepository.GetAll();
+        var sequences = await _sequenceRepository.GetAll();
 
         var viewModel = new SequenceViewModel(sequences);
         return View(viewModel);
@@ -77,7 +89,7 @@ public class SequenceController : Controller
 
     public async Task<IActionResult> UpdateSequencePage(int id)
     {
-        Sequence sequence = await _sequenceRepository.GetSequenceById(id);
+        var sequence = await _sequenceRepository.GetSequenceById(id);
         return View(sequence);
     }
 

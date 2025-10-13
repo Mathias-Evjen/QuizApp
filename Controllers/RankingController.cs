@@ -19,8 +19,14 @@ public class RankingController : Controller
 
     public async Task<IActionResult> RankingQuestion()
     {
-        List<Ranking> ranking = (await _rankingRepository.GetAll()).ToList();
-        var viewModel = new RankingViewModel(ranking[0]);
+        var ranking = await _rankingRepository.GetAll();
+        if (ranking == null)
+        {
+            _logger.LogError("[RankingController] Questions list not found while executing _rankingRepository.GetAll()");
+            return NotFound("Questions not found");
+        }
+
+        var viewModel = new RankingViewModel(ranking.ElementAt(0));
 
         return View(viewModel);
     }
@@ -29,6 +35,12 @@ public class RankingController : Controller
     public async Task<IActionResult> SubmitRankingQuestion(int id, List<string> values)
     {
         var rankingObject = await _rankingRepository.GetRankingById(id);
+        if (rankingObject == null)
+        {
+            _logger.LogError("[RankingController - Get Question] Ranking question not found for the Id {Id: 0000}", id);
+            return NotFound("Ranking question not found.");
+        }
+
         string answer = rankingObject.Assemble(values, 2);
         Console.WriteLine("Answer: " + answer);
         if (answer == rankingObject.CorrectAnswer)
@@ -39,7 +51,7 @@ public class RankingController : Controller
         {
             Console.WriteLine($"Answer is wrong, correct answer: {rankingObject.CorrectAnswer}");
         }
-        _rankingRepository.UpdateRanking(rankingObject);
+        await _rankingRepository.UpdateRanking(rankingObject);
         return RedirectToAction("Index", "Home");
     }
 
@@ -55,7 +67,7 @@ public class RankingController : Controller
         rankingQuestion.QuestionText = questionText;
         rankingQuestion.Assemble(Values, 1);
         rankingQuestion.ShuffleQuestion(Values);
-        _rankingRepository.CreateRanking(rankingQuestion);
+        await _rankingRepository.CreateRanking(rankingQuestion);
 
         return RedirectToAction("Index", "Home");
     }
@@ -69,7 +81,7 @@ public class RankingController : Controller
     [HttpGet]
     public async Task<IActionResult> ShowRankings()
     {
-        IEnumerable<Ranking> rankings = await _rankingRepository.GetAll();
+        var rankings = await _rankingRepository.GetAll();
 
         var viewModel = new RankingViewModel(rankings);
         return View(viewModel);
@@ -77,7 +89,7 @@ public class RankingController : Controller
 
     public async Task<IActionResult> UpdateRankingPage(int id)
     {
-        Ranking ranking = await _rankingRepository.GetRankingById(id);
+        var ranking = await _rankingRepository.GetRankingById(id);
         return View(ranking);
     }
 

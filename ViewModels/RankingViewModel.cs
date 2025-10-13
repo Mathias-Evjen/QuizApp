@@ -14,7 +14,7 @@ namespace QuizApp.ViewModels
 
         public RankingViewModel(IEnumerable<Ranking>? rankings)
         {
-            Rankings = rankings;
+            Rankings = rankings!;
         }
         public RankingViewModel(Ranking ranking)
         {

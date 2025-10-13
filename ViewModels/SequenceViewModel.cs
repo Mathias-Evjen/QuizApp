@@ -13,7 +13,7 @@ namespace QuizApp.ViewModels
 
         public SequenceViewModel(IEnumerable<Sequence>? sequences)
         {
-            Sequences = sequences;
+            Sequences = sequences!;
         }
         public SequenceViewModel(Sequence sequence)
         {

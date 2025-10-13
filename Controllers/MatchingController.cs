@@ -22,8 +22,14 @@ public class MatchingController : Controller
 
     public async Task<IActionResult> MatchingQuestion()
     {
-        List<Matching> matching = (await _matchingRepository.GetAll()).ToList();
-        var viewModel = new MatchingViewModel(matching[0]);
+        var matching = await _matchingRepository.GetAll();
+        if (matching == null)
+        {
+            _logger.LogError("[MatchingController] Questions list not found while executing _matchingRepository.GetAll()");
+            return NotFound("Matching questions not found");
+        }
+
+        var viewModel = new MatchingViewModel(matching.ElementAt(0));
 
         return View(viewModel);
     }
@@ -32,6 +38,12 @@ public class MatchingController : Controller
     public async Task<IActionResult> SubmitMatchingQuestion(int id, List<string> keys, List<string> values)
     {
         var matchingObject = await _matchingRepository.GetMatchingById(id);
+        if (matchingObject == null)
+        {
+            _logger.LogError("[MatchingController - Get Question] Matching question not found for the Id {Id: 0000}", id);
+            return NotFound("Matching question not found.");
+        }
+
         for (int i = 0; i < keys.Count; i++)
         {
             Console.WriteLine($"Key: {keys[i]}, Answer: {values[i]}, Id: {id}");
@@ -58,7 +70,7 @@ public class MatchingController : Controller
             }
         }
         matchingObject.AmountCorrect = correctCounter;
-        _matchingRepository.UpdateMatching(matchingObject);
+        await _matchingRepository.UpdateMatching(matchingObject);
         return RedirectToAction("Index", "Home");
     }
 
@@ -74,7 +86,7 @@ public class MatchingController : Controller
         var matchingQuestion = new Matching();
         matchingQuestion.Assemble(Keys, Values, 1);
         matchingQuestion.ShuffleQuestion(Keys, Values);
-        _matchingRepository.CreateMatching(matchingQuestion);
+        await _matchingRepository.CreateMatching(matchingQuestion);
 
         return RedirectToAction("Index", "Home");
     }
@@ -88,7 +100,7 @@ public class MatchingController : Controller
     [HttpGet]
     public async Task<IActionResult> ShowMatchings()
     {
-        IEnumerable<Matching> matchings = await _matchingRepository.GetAll();
+        var matchings = await _matchingRepository.GetAll();
 
         var viewModel = new MatchingViewModel(matchings);
         return View(viewModel);
@@ -96,7 +108,7 @@ public class MatchingController : Controller
 
     public async Task<IActionResult> UpdateMatchingPage(int id)
     {
-        Matching matching = await _matchingRepository.GetMatchingById(id);
+        var matching = await _matchingRepository.GetMatchingById(id);
         return View(matching);
     }
 

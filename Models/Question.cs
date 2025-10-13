@@ -5,5 +5,7 @@ namespace QuizApp.Models
     public abstract class Question()
     {
         //public int QuestionId { get; set; }
+        public int QuizQuestionNum { get; set; } // Holder plasseringen i quizen
+        public abstract string QuestionType { get; }
     }
 }

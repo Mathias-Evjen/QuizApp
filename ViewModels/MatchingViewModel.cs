@@ -4,7 +4,8 @@ namespace QuizApp.ViewModels
 {
     public class MatchingViewModel
     {
-        public Matching Question { get; set; }
+        public int Id { get; set; }
+        public string Question { get; set; } = string.Empty;
         public IEnumerable<Matching> Matchings { get; set; } = new List<Matching>();
         public List<string> Keys { get; set; } = new List<string>();
         public List<string> Values { get; set; } = new List<string>();
@@ -16,17 +17,14 @@ namespace QuizApp.ViewModels
 
         public MatchingViewModel(Matching question)
         {
-            Question = question;
+            Id = question.Id;
+            Question = question.Question;
 
 
             foreach (var pair in question.SplitQuestion())
             {
                 Keys.Add(pair.Key);
-            }
-
-            for (int i = 0; i < Keys.Count; i++)
-            {
-                Values.Add(string.Empty);
+                Values.Add(pair.Value);
             }
         }
     }

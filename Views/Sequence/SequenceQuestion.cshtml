@@ -2,13 +2,13 @@
 
 @{
     ViewData["Title"] = "Sequence Question";
-    var splitQuestion = Model.Sequence.Question.Split(",");
+    var splitQuestion = Model.Question.Split(",");
 }
 <div class="container">
-    <h3>@Model.Sequence.QuestionText</h3>
+    <h3>@Model.QuestionText</h3>
     <hr />
     <form asp-controller="Sequence" asp-action="SubmitSequenceQuestion" method="post">
-        <input type="hidden" name="id" value="@Model.Sequence.Id" />
+        <input type="hidden" name="id" value="@Model.Id" />
         <div class="row position-relative align-items-center justify-content-center" style="min-height:120px; border-radius:10px; background-color:rgb(243, 243, 243); padding:10px;margin-top: 50px;">
             <label class="form-label" style="position: absolute; top: 5px; left: 5px;">Answer:</label>
             @for(int i = 0; i < splitQuestion.Length; i++){

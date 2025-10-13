@@ -1,8 +1,38 @@
 @model QuizApp.ViewModels.MatchingViewModel
 
+@{
+    //var pairQuestions = Model.Question.SplitQuestion();
+}
 
 <div class="container w-400">
     <h1>Matching question</h1>
     <hr>
-    <partial name="_MatchingCard" model="Model.Question" />
+<div class="container">
+    <form asp-controller="Matching" asp-action="SubmitMatchingQuestion" method="post">
+        <input type="hidden" name="id" value="@Model.Id" />
+        <table class="table table-bordered" style="width: 400px;">
+            @for (int i = 0; i < Model.Keys.Count; i++){
+                <tr class="text-center align-items-center justify-content-center">
+                    <td>
+                        <label>@Model.Keys[i]</label>
+                        <input type="hidden" name="keys" value="@Model.Keys[i]" />
+                    </td>
+                    <td>
+                        <select class="form-select" name="values">
+                            <option value="@Model.Values[i]">@Model.Values[i]</option>
+                            @for(int j = 0; j < Model.Values.Count; j++){
+                                if (Model.Values[j] != Model.Keys[i] && Model.Values[j] != Model.Values[i]){
+                                    <option value="@Model.Values[j]">@Model.Values[j]</option>
+                                }
+                            }
+                        </select>
+                    
+                    </td>
+                </tr>
+            }
+        </table>
+        <br>
+        <button type="submit" class="btn btn-primary">Next</button>
+    </form>
+</div>
 </div>

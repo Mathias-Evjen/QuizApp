@@ -6,8 +6,7 @@ namespace QuizApp.Controllers
     {
         public IActionResult Index()
         {
-            // Kan f.eks. vise en velkomstside eller sende deg til quiz
-            return RedirectToAction("Index", "Quiz");
+            return View();
         }
     }
 }

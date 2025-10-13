@@ -1,7 +1,7 @@
 namespace QuizApp.Models
 {
-    public class TrueFalseQuestion : Question
+    public class TrueFalseQuestion : QuestionText
     {
-        public bool CorrectAnswer { get; set; }   // True eller False
+        public bool CorrectAnswer { get; set; }
     }
 }

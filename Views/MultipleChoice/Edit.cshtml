@@ -1,0 +1,53 @@
+@model QuizApp.Models.MultipleChoice
+
+@{
+    ViewData["Title"] = "Edit Multiple Choice";
+}
+
+<div class="container mt-4">
+    <h2 class="mb-4 text-center">Edit Multiple Choice Question</h2>
+
+    <form asp-action="Edit" method="post" class="card p-4 shadow-sm">
+        <!-- Skjult ID (brukes for å finne spørsmålet ved lagring) -->
+        <input type="hidden" asp-for="Id" />
+
+        <!-- Spørsmålstekst -->
+        <div class="mb-3">
+            <label asp-for="QuestionTexts" class="form-label fw-bold">Question</label>
+            <input asp-for="QuestionTexts" class="form-control" placeholder="Enter question text..." />
+            <span asp-validation-for="QuestionTexts" class="text-danger"></span>
+        </div>
+
+        <!-- Alternativer -->
+        <h5 class="mt-3">Options</h5>
+        @for (int i = 0; i < Model.Options.Count; i++)
+        {
+            <div class="input-group mb-2">
+                <!-- Tekstfelt for alternativ -->
+                <input name="Options[@i].Text" value="@Model.Options[i].Text"
+                       class="form-control" placeholder="Option @(i + 1)" />
+
+                <!-- Checkbox for korrekt alternativ -->
+                <div class="input-group-text">
+                    <input class="form-check-input mt-0"
+                           type="checkbox"
+                           name="Options[@i].IsCorrect"
+                           value="true"
+                           @(Model.Options[i].IsCorrect ? "checked" : "") />
+                    <label class="ms-1">Correct</label>
+                </div>
+            </div>
+        }
+
+        <!-- Handlingsknapper -->
+        <div class="mt-4 text-end">
+            <button type="submit" class="btn btn-primary me-2">Save Changes</button>
+            <a asp-action="Index" class="btn btn-secondary">Cancel</a>
+        </div>
+    </form>
+</div>
+
+<!-- Valideringsscript for skjema -->
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

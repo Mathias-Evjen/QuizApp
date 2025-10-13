@@ -8,10 +8,7 @@ namespace QuizApp.DAL
     {
         Task<List<TrueFalseQuestion>> GetAllAsync();
         Task<TrueFalseQuestion?> GetByIdAsync(int id);
-
-        // 🔹 Ny metode for mer detaljert henting (selv om True/False sjelden trenger Include)
         Task<TrueFalseQuestion?> GetDetailedAsync(int id);
-
         Task AddAsync(TrueFalseQuestion question);
         Task UpdateAsync(TrueFalseQuestion question);
         Task DeleteAsync(int id);

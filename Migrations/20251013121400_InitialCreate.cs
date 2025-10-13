@@ -16,7 +16,7 @@ namespace QuizApp.Migrations
                 {
                     Id = table.Column<int>(type: "INTEGER", nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
-                    QuestionText = table.Column<string>(type: "TEXT", nullable: false),
+                    QuestionTexts = table.Column<string>(type: "TEXT", maxLength: 200, nullable: false),
                     Discriminator = table.Column<string>(type: "TEXT", maxLength: 21, nullable: false),
                     CorrectAnswer = table.Column<bool>(type: "INTEGER", nullable: true)
                 },

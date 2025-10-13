@@ -1,28 +1,63 @@
 @model IEnumerable<QuizApp.Models.TrueFalseQuestion>
 
-<h2>True / False Questions</h2>
+@{
+    ViewData["Title"] = "True / False Questions";
+}
 
-<a asp-action="Create" class="btn btn-primary mb-3">+ Add Question</a>
+<div class="container mt-4">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2 class="mb-0">True / False Questions</h2>
+        <a asp-action="Create" class="btn btn-success">
+            <i class="bi bi-plus-circle"></i> Add Question
+        </a>
+    </div>
 
-<table class="table table-bordered align-middle">
-    <thead class="table-light">
-        <tr>
-            <th>Question</th>
-            <th>Correct Answer</th>
-            <th style="width: 220px;">Actions</th>
-        </tr>
-    </thead>
-    <tbody>
-    @foreach (var q in Model)
+    @if (Model.Any())
     {
-        <tr>
-            <td>@q.QuestionText</td>
-            <td>@(q.CorrectAnswer ? "True" : "False")</td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@q.Id" class="btn btn-sm btn-warning me-2">Edit</a>
-                <a asp-action="Delete" asp-route-id="@q.Id" class="btn btn-sm btn-danger">Delete</a>
-            </td>
-        </tr>
+        <div class="card shadow-sm">
+            <div class="card-body p-0">
+                <table class="table table-hover align-middle mb-0">
+                    <thead class="table-light">
+                        <tr>
+                            <th>Question</th>
+                            <th class="text-center">Correct Answer</th>
+                            <th class="text-end" style="width: 180px;">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var q in Model)
+                        {
+                            <tr>
+                                <td>@q.QuestionTexts</td>
+                                <td class="text-center">
+                                    @if (q.CorrectAnswer)
+                                    {
+                                        <span class="badge bg-success">True</span>
+                                    }
+                                    else
+                                    {
+                                        <span class="badge bg-danger">False</span>
+                                    }
+                                </td>
+                                <td class="text-end">
+                                    <a asp-action="Edit" asp-route-id="@q.Id" class="btn btn-sm btn-warning me-2">
+                                        Edit
+                                    </a>
+                                    <a asp-action="Delete" asp-route-id="@q.Id" class="btn btn-sm btn-danger">
+                                        Delete
+                                    </a>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
     }
-    </tbody>
-</table>
+    else
+    {
+        <div class="alert alert-info mt-3 shadow-sm">
+            <i class="bi bi-info-circle"></i> No True/False questions have been added yet.
+        </div>
+    }
+</div>

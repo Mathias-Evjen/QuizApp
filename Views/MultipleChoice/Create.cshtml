@@ -1,0 +1,39 @@
+@model QuizApp.Models.MultipleChoice
+
+@{
+    ViewData["Title"] = "Add Multiple Choice Question";
+}
+
+<div class="container mt-4">
+    <h2 class="mb-4 text-center">Add Multiple Choice Question</h2>
+
+    <form asp-action="Create" method="post" class="card p-4 shadow-sm">
+
+        <div class="mb-3">
+            <label asp-for="QuestionTexts" class="form-label fw-bold">Question</label>
+            <input asp-for="QuestionTexts" class="form-control" placeholder="Enter your question here..." />
+            <span asp-validation-for="QuestionTexts" class="text-danger"></span>
+        </div>
+
+        <h5 class="mt-3">Options</h5>
+        @for (int i = 0; i < Model.Options.Count; i++)
+        {
+            <div class="input-group mb-2">
+                <input asp-for="Options[i].Text" class="form-control" placeholder="Option text" />
+                <div class="input-group-text">
+                    <input asp-for="Options[i].IsCorrect" class="form-check-input mt-0" type="checkbox" />
+                    <label class="ms-1">Correct</label>
+                </div>
+            </div>
+        }
+
+        <div class="mt-4 text-end">
+            <button type="submit" class="btn btn-primary me-2">Save</button>
+            <a asp-action="Index" class="btn btn-secondary">Cancel</a>
+        </div>
+    </form>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

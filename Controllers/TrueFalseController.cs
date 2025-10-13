@@ -30,12 +30,11 @@ namespace QuizApp.Controllers
             }
         }
 
-        // GET: /TrueFalse/Create
+        // GET: /Create
         public IActionResult Create() => View();
 
-        // POST: /TrueFalse/Create
+        // POST: /Create
         [HttpPost]
-        [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(TrueFalseQuestion question)
         {
             if (!ModelState.IsValid)
@@ -49,7 +48,7 @@ namespace QuizApp.Controllers
                 await _repo.AddAsync(question);
                 await _repo.SaveAsync();
 
-                _logger.LogInformation("TrueFalse created: {Question}", question.QuestionText);
+                _logger.LogInformation("TrueFalse created: {Question}", question.QuestionTexts);
                 return RedirectToAction(nameof(Index));
             }
             catch (Exception ex)
@@ -59,7 +58,7 @@ namespace QuizApp.Controllers
             }
         }
 
-        // GET: /TrueFalse/Edit/5
+        // GET: /Edit
         public async Task<IActionResult> Edit(int id)
         {
             try
@@ -79,9 +78,8 @@ namespace QuizApp.Controllers
             }
         }
 
-        // POST: /TrueFalse/Edit/5
+        // POST: /Edit
         [HttpPost]
-        [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(TrueFalseQuestion question)
         {
             if (!ModelState.IsValid)
@@ -105,7 +103,7 @@ namespace QuizApp.Controllers
             }
         }
 
-        // GET: /TrueFalse/Delete/5
+        // GET: /Delete
         public async Task<IActionResult> Delete(int id)
         {
             try
@@ -125,9 +123,8 @@ namespace QuizApp.Controllers
             }
         }
 
-        // POST: /TrueFalse/Delete/5
+        // POST: /Delete
         [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             try
@@ -140,7 +137,7 @@ namespace QuizApp.Controllers
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "Error deleting TrueFalse. Id={Id}", id);
+                _logger.LogError(ex, "Error deletinSg TrueFalse. Id={Id}", id);
                 return View("Error");
             }
         }

@@ -11,7 +11,7 @@ builder.Logging.AddDebug();
 
 builder.Services.AddControllersWithViews();
 
-builder.Services.AddDbContext<AppDbContext>(options =>
+builder.Services.AddDbContext<QuizDbContext>(options =>
     options.UseSqlite(builder.Configuration.GetConnectionString("DefaultConnection")));
 
 // Repositories
@@ -34,5 +34,11 @@ app.UseAuthorization();
 app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}");
+
+using (var scope = app.Services.CreateScope())
+{
+    var context = scope.ServiceProvider.GetRequiredService<QuizDbContext>();
+    DbInit.Seed(context);
+}
 
 app.Run();

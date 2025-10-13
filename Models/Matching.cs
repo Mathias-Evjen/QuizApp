@@ -9,6 +9,7 @@ namespace QuizApp.Models
     {
         public int Id { get; set; }
         public int QuizId { get; set; }
+        public string QuestionType = "Matching";
         public virtual Quiz? Quiz { get; set; } = default!;
         public string Question { get; set; } = string.Empty;
         public string Answer { get; set; } = string.Empty;

@@ -4,6 +4,7 @@ using Serilog.Events;
 using Microsoft.AspNetCore.Identity;
 using QuizApp.DAL;
 using QuizApp.Services;
+using QuizApp.Models;
 
 
 var builder = WebApplication.CreateBuilder(args);
@@ -28,6 +29,8 @@ builder.Services.AddScoped<IFlashCardRepository, FlashCardRepository>();
 builder.Services.AddScoped<IFlashCardQuizRepository, FlashCardQuizRepository>();
 builder.Services.AddScoped<QuizService>();
 builder.Services.AddScoped<IFlashCardQuizService, FlashCardQuizService>();
+builder.Services.AddScoped<IMultipleChoiceRepository, MultipleChoiceRepository>();
+builder.Services.AddScoped<ITrueFalseRepository, TrueFalseRepository>();
 
 builder.Services.AddRazorPages();
 

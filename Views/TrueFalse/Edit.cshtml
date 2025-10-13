@@ -1,0 +1,33 @@
+@model QuizApp.Models.TrueFalseQuestion
+
+@{
+    ViewData["Title"] = "Edit True/False Question";
+}
+
+<div class="container mt-4">
+    <h2 class="mb-4 text-center">Edit True/False Question</h2>
+
+    <form asp-action="Edit" method="post" class="card p-4 shadow-sm">
+        <input type="hidden" asp-for="Id" />
+
+        <div class="mb-3">
+            <label asp-for="QuestionTexts" class="form-label fw-bold">Question</label>
+            <input asp-for="QuestionTexts" class="form-control" placeholder="Enter question text..." />
+            <span asp-validation-for="QuestionTexts" class="text-danger"></span>
+        </div>
+
+        <div class="form-check mb-3">
+            <input class="form-check-input" type="checkbox" asp-for="CorrectAnswer" />
+            <label asp-for="CorrectAnswer" class="form-check-label fw-semibold">Correct answer is True</label>
+        </div>
+
+        <div class="text-end">
+            <button type="submit" class="btn btn-primary me-2">Save Changes</button>
+            <a asp-action="Index" class="btn btn-secondary">Cancel</a>
+        </div>
+    </form>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

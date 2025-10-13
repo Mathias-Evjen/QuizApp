@@ -31,7 +31,7 @@ public class QuizController : Controller
     }
 
     [HttpGet]
-    public async Task<IActionResult> Quiz(int id) 
+    public async Task<IActionResult> Quiz(int id)
     {
         var quiz = await _quizRepository.GetQuizById(id);
         if (quiz == null)
@@ -40,6 +40,55 @@ public class QuizController : Controller
             return NotFound("Quiz not found");
         }
         return View(quiz);
+    }
+
+    [HttpGet]
+    public async Task<IActionResult> OpenQuiz(int id)
+    {
+        var quiz = await _quizRepository.GetQuizById(id);
+        if (quiz == null)
+        {
+            _logger.LogError("[QuizController - Get Quiz By Id] Quiz not found for the Id {Id: 0000}", id);
+            return NotFound("Quiz not found.");
+        }
+        var quizViewModel = new QuizzesViewModel(quiz);
+        string questionType = "";
+        switch (quizViewModel.Questions.ElementAt(quizViewModel.CurrentQuizNum).QuestionType)
+        {
+            case "Matching":
+                questionType = "Matching";
+                break;
+            case "Ranking":
+                questionType = "Ranking";
+                break;
+            case "Sequence":
+                questionType = "Sequence";
+                break;
+            case "FillInTheBlank":
+                questionType = "FillInTheBlank";
+                break;
+            default:
+                _logger.LogError("[QuizController - Open Quiz] Question type not found");
+                break;
+        }
+
+        return View(questionType,quizViewModel);
+    }
+
+    [HttpPost]
+    public IActionResult NextQuestion(FlashCardsViewModel model)
+    {
+        if (model.CurrentFlashCardNum + 1 < model.FlashCards.Count())
+            model.CurrentFlashCardNum += 1;
+        return View("FlashCards", model);
+    }
+
+    [HttpPost]
+    public IActionResult PrevFlashCard(FlashCardsViewModel model)
+    {
+        if (model.CurrentFlashCardNum - 1 >= 0)
+            model.CurrentFlashCardNum -= 1;
+        return View("FlashCards", model);
     }
 
     [HttpGet]

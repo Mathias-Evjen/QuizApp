@@ -1,8 +1,13 @@
 @model Quiz
 
-<div class="row" style="border: 2px black solid; padding: 10px; margin-bottom: 20px;">
+<div class="row" style="border: 2px black solid; padding: 10px; margin-bottom: 20px; border-radius:7px;">
     <h3>@Model.Name</h3>
     <hr />
-    <p style="margin-bottom:10px; font-family: cursive;">@Model.Description</p>
-    <div style="font-weight: bold;">@Model.NumOfQuestions</div>
+    <div class="col-10">
+        <p style="margin-bottom:10px; " class="text-muted">@Model.Description</p>
+        <div style="font-weight: bold;">@Model.NumOfQuestions</div>
+    </div>
+    <div class="col-2">
+        <a asp-controller="Quiz" asp-action="OpenQuiz" asp-route-id="@Model.QuizId" class="btn btn-primary" style="float:right;">Open</a>
+    </div>
 </div>

@@ -17,7 +17,7 @@ public class FlashCardQuizService : IFlashCardQuizService
         _logger = logger;
     }
 
-    public async Task IncQuestionCounter(int quizId)
+    public async Task ChangeQuestionCount(int quizId, bool increment)
     {
         var quiz = await _flashCardQuizRepository.GetFlashCardQuizById(quizId);
         if (quiz == null)
@@ -26,24 +26,9 @@ public class FlashCardQuizService : IFlashCardQuizService
             return;
         }
 
-        quiz.NumOfQuestions += 1;
-        bool returnOk = await _flashCardQuizRepository.UpdateFlashCardQuiz(quiz);
-        if (!returnOk)
-        {
-            _logger.LogError("[FlashCardQuizService] FlashCardQuiz update failed for {@quiz}", quiz);
-        }
-    }
+        if (increment) quiz.NumOfQuestions += 1;
+        else quiz.NumOfQuestions -= 1;
 
-    public async Task DecQuestionCounter(int quizId)
-    {
-        var quiz = await _flashCardQuizRepository.GetFlashCardQuizById(quizId);
-        if (quiz == null)
-        {
-            _logger.LogError("[FlashCardQuizService] FlashCardQuiz not found for the Id {Id: 0000}", quizId);
-            return;
-        }
-
-        quiz.NumOfQuestions -= 1;
         bool returnOk = await _flashCardQuizRepository.UpdateFlashCardQuiz(quiz);
         if (!returnOk)
         {

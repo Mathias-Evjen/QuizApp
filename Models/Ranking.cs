@@ -3,12 +3,11 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace QuizApp.Models
 {
- public class Ranking
+ public class Ranking : Question
     {
-        [Key] // Marker dette som primærnøkkel
-        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
-
+        public int QuizId { get; set; }
+        public virtual Quiz? Quiz { get; set; } = default!;
         public string Question { get; set; } = string.Empty;
         public string QuestionText { get; set; } = string.Empty;
         public string Answer { get; set; } = string.Empty;

@@ -1,0 +1,45 @@
+@model FlashCardQuiz
+
+<div class="col-md-4 col-sm-6 mb-3" onmouseover="this.style.transform='scale(1.01)'" onmouseout="this.style.transform='scale(1)'"style="transition: all 0.3s ease">
+    <div class="card h-100 shadow position-relative overflow-hidden" style="background-color: #BB8FCE">
+        <div class="card-body p-2">
+
+            <div class="bg-white p-3 h-100 position-relative">
+                <!-- Badge fixed at top-right -->
+                <span class="badge bg-light text-muted position-absolute top-0 end-0 ml-3 m-2 p-2">
+                    @Model.NumOfQuestions cards
+                </span>
+
+                <!-- Clickable area -->
+                <div class="position-relative h-100" style="padding-bottom: 10vh; padding-top: 15px;">
+                    <h3 class="card-title mb-1">@Model.Name</h3>
+                    <p class="card-text text-muted">@Model.Description</p>
+
+                    <a asp-controller="FlashCard"
+                       asp-action="FlashCards"
+                       asp-route-quizId="@Model.FlashCardQuizId"
+                       asp-route-quizName="@Model.Name"
+                       asp-route-quizDescription="@Model.Description"
+                       class="stretched-link"></a>
+                </div>
+
+                <!-- Buttons fixed at bottom -->
+                <div class="position-absolute bottom-0 start-0 end-0 p-3 bg-white" style="z-index: 10;">
+                    <div class="d-flex gap-2 justify-content-between">
+                        <a asp-action="ManageQuiz" 
+                           asp-route-quizId="@Model.FlashCardQuizId" 
+                           class="btn btn-secondary flex-fill position-relative">
+                            Manage Cards
+                        </a>
+
+                        <a asp-action="Delete" 
+                           asp-route-id="@Model.FlashCardQuizId" 
+                           class="btn btn-danger flex-fill position-relative">
+                            Delete
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

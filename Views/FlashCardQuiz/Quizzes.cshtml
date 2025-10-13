@@ -1,0 +1,11 @@
+@model IEnumerable<FlashCardQuiz>
+
+<h1>List of Flash Card quizzes</h1>
+
+<div class="row row-cols-1 row-cols-md-3 g-4">
+    @foreach(var quiz in Model) 
+    {
+        <partial name="_FlashCardQuizCard" model="quiz" />
+    }
+</div>
+<a asp-action="Create" class="btn btn-primary">New quiz</a>

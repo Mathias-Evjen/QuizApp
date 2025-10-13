@@ -1,0 +1,110 @@
+using Microsoft.EntityFrameworkCore;
+using QuizApp.Models;
+
+namespace QuizApp.DAL;
+
+public static class DBInit
+{
+    public static void Seed(IApplicationBuilder app)
+    {
+        using var serviceScope = app.ApplicationServices.CreateScope();
+        QuizDbContext context = serviceScope.ServiceProvider.GetRequiredService<QuizDbContext>();
+        context.Database.EnsureDeleted();
+        context.Database.EnsureCreated();
+
+        if (!context.FillInTheBlankQuestions.Any())
+        {
+            var questions = new List<FillInTheBlank>
+            {
+                new FillInTheBlank {
+                    Question = "What is the capital of Norway?",
+                    Answer = "Oslo"
+                },
+                new FillInTheBlank {
+                    Question = "What is the capital of Sweden?",
+                    Answer = "Stockholm"
+                }
+            };
+            context.AddRange(questions);
+            context.SaveChanges();
+        }
+
+        
+        if (!context.FlashCardQuizzes.Any())
+        {
+            var quiz = new List<FlashCardQuiz>
+            {
+                new FlashCardQuiz {Name = "Capitals of Scandinavia", Description = "Flashcards with questions about the captial cities of Scandinavia"},
+                new FlashCardQuiz {Name = "Which band?", Description = "Which band wrote the song on the card?"}
+            };
+            context.AddRange(quiz);
+            context.SaveChanges();
+        }
+
+        if (!context.FlashCards.Any())
+        {
+            var quiz1 = context.FlashCardQuizzes.Find(1);
+            var quiz2 = context.FlashCardQuizzes.Find(2);
+            var questions = new List<FlashCard>
+            {
+                new FlashCard {
+                    Question = "What is the capital of Norway?",
+                    Answer = "Oslo",
+                    Quiz = quiz1!,
+                    QuizQuestionNum = 1
+                },
+                new FlashCard {
+                    Question = "What is the capital of Sweden?",
+                    Answer = "Stockholm",
+                    Quiz = quiz1!,
+                    QuizQuestionNum = 2
+                },
+                new FlashCard {
+                    Question = "What is the capital of Denmark?",
+                    Answer = "Copenhagen",
+                    Quiz = quiz1!,
+                    QuizQuestionNum = 3
+                },
+                new FlashCard {
+                    Question = "Who wrote the song 'Supermassive Black Hole'?",
+                    Answer = "Muse",
+                    Quiz = quiz2!,
+                    QuizQuestionNum = 1
+                },
+                new FlashCard {
+                    Question = "Who wrote the song 'Paranoid Android'?",
+                    Answer = "Radiohead",
+                    Quiz = quiz2!,
+                    QuizQuestionNum = 2
+                },
+                new FlashCard {
+                    Question = "Who wrote the song 'Somewhere Only We know'?",
+                    Answer = "Keane",
+                    Quiz = quiz2!,
+                    QuizQuestionNum = 3
+                },
+                new FlashCard {
+                    Question = "Who wrote the song 'Do I Wanna Know'?",
+                    Answer = "Arctic Monkeys",
+                    Quiz = quiz2!,
+                    QuizQuestionNum = 4
+                },
+                new FlashCard {
+                    Question = "Who wrote the song 'Ode To The Mets'?",
+                    Answer = "The Strokes",
+                    Quiz = quiz2!,
+                    QuizQuestionNum = 5
+                }
+            };
+
+            context.AddRange(questions);
+            context.SaveChanges();
+        }
+        var quizzes = context.FlashCardQuizzes.Include(fc => fc.FlashCards);
+        foreach(var quiz in quizzes)
+        {
+            quiz.NumOfQuestions = quiz.FlashCards != null ? quiz.FlashCards.Count : 0;
+        }
+        context.SaveChanges();
+    }
+}

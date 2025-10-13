@@ -1,0 +1,61 @@
+@model QuizApp.ViewModels.FlashCardsViewModel
+
+<div class="text-center">
+    <h1>@Model.FlashCardQuizName</h1>
+    @if (Model.FlashCards.Any()) {
+        <div class="row g-4 w-50 mx-auto">
+            <div class="col">
+                <partial name="_FlashCard" model="@Model.FlashCards.ElementAt(Model.CurrentFlashCardNum)" />
+            </div>
+
+            <div class="col-12 mt-3">
+                <div class="d-flex justify-content-between align-items-center flex-wrap gap-2 pb-3 mt-1">
+
+                    <!-- Left side: Prev / Next -->
+                    <div class="d-flex gap-2 mt-1">
+                        <form asp-action="PrevFlashCard" method="post" class="m-0">
+                            <partial name="_FlashCardHiddenFields" model="Model" />
+                            <button type="submit" class="btn btn-primary">Previous</button>
+                        </form>
+
+                        @{
+                            var currentFlashCard = Model.CurrentFlashCardNum+1;
+                        }
+
+                        <h5 class="pt-2">@currentFlashCard/@Model.FlashCards.Count()</h5>
+
+                        <form asp-action="NextFlashCard" method="post" class="m-0">
+                            <partial name="_FlashCardHiddenFields" model="Model" />
+                            <button type="submit" class="btn btn-primary">Next</button>
+                        </form>
+                    </div>
+
+                    <!-- Right side: Show Answer and Exit -->
+                    <div class="d-flex gap-2 align-items-center">
+                        <form asp-action="RevealFlashCardAnswer" method="post" class="m-0">
+                            <partial name="_FlashCardHiddenFields" model="Model" />
+                            <button type="submit" class="btn btn-success">
+                                @(Model.FlashCards.ElementAt(Model.CurrentFlashCardNum).ShowAnswer ? "Hide Answer" : "Show Answer")
+                            </button>
+                        </form>
+
+                        <a asp-controller="FlashCardQuiz" 
+                        asp-action="Quizzes" 
+                        class="btn btn-secondary">
+                            Exit
+                        </a>
+                    </div>
+                </div>
+                <div class="card p-3 bg-light">
+                    <h3 class="card-title">Description:</h3>
+                    <p class="card-text text-muted">@Model.FlashCardQuizDescription</p>
+                </div>
+            </div>
+        </div>
+        
+    } else {
+        <h3>There are no questions in this quiz</h3>
+    }
+</div>
+
+

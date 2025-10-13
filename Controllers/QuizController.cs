@@ -72,6 +72,14 @@ public class QuizController : Controller
                 break;
         }
 
+        // Har ikke helt funnet ut hva hvordan det kan brukes her, men kan nok være nyttig:
+        // Vi trenger ikke QuestionType, vi kan bruke:
+        if (quizViewModel.Questions.ElementAt(quizViewModel.CurrentQuizNum) is FillInTheBlank)
+        {
+            // return view("FillInTheBlank", quizViewModel)
+        }
+        // På denne måten slipper vi unødvendige kall og atributter
+
         return View(questionType,quizViewModel);
     }
 

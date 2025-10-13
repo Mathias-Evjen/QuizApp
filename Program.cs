@@ -19,10 +19,10 @@ builder.Services.AddDbContext<QuizDbContext>(options =>
     );
 });
 
+builder.Services.AddScoped<IQuizRepository, QuizRepository>();
 builder.Services.AddScoped<IMatchingRepository, MatchingRepository>();
 builder.Services.AddScoped<ISequenceRepository, SequenceRepository>();
 builder.Services.AddScoped<IRankingRepository, RankingRepository>();
-
 builder.Services.AddScoped<IFillInTheBlankRepository, FillInTheBlankRepository>();
 builder.Services.AddScoped<IFlashCardRepository, FlashCardRepository>();
 builder.Services.AddScoped<IFlashCardQuizRepository, FlashCardQuizRepository>();

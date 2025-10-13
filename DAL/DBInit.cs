@@ -12,17 +12,30 @@ public static class DBInit
         context.Database.EnsureDeleted();
         context.Database.EnsureCreated();
 
+        if (!context.Quizzes.Any())
+        {
+                        var quiz = new List<Quiz>
+            {
+                new Quiz {Name = "Example quiz", Description = "Quiz with examples"},
+                new Quiz {Name = "Also example quiz", Description = "This is also a quiz with examples"}
+            };
+            context.AddRange(quiz);
+            context.SaveChanges();
+        }
+
         if (!context.MatchingQuestions.Any())
         {
             var questions = new List<Matching>
             {
                 new Matching {
                     Question = "fotball,kake,hjul,knotter,bake,hav,bade,bil",
-                    CorrectAnswer = "fotball,knotter,hjul,bil,bake,kake,bade,hav"
+                    CorrectAnswer = "fotball,knotter,hjul,bil,bake,kake,bade,hav",
+                    QuizId = 1
                 },
                 new Matching {
                     Question = "sol,snø,tre,planet,vinter,blader",
-                    CorrectAnswer = "sol,planet,tre,blader,vinter,snø"
+                    CorrectAnswer = "sol,planet,tre,blader,vinter,snø",
+                    QuizId = 2
                 }
             };
             context.AddRange(questions);

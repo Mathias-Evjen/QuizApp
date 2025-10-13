@@ -1,0 +1,11 @@
+@model IEnumerable<Quiz>
+
+<h1>List of quizzes</h1>
+<hr />
+<div class="row">
+    @foreach(var quiz in Model) 
+    {
+        <partial name="_QuizCard" model="quiz" />
+    }
+</div>
+<a asp-action="Create" class="btn btn-primary">New quiz</a>

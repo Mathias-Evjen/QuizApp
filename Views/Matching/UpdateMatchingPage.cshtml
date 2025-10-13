@@ -1,0 +1,43 @@
+@model QuizApp.Models.Matching
+
+@{
+    ViewData["Title"] = "Update Matching";
+    var splitQuestion = Model.SplitQuestion();
+    var splitCorrectAnswer = Model.SplitCorrectAnswer();
+    for (int i = 0; i < splitQuestion.Length; i++)
+    {
+        Console.WriteLine($"Key: {splitQuestion[i].Key}, Value: {splitQuestion[i].Value}");
+    }
+}
+<h1>Update matching</h1>
+<hr />
+<form asp-controller="Matching" asp-action="UpdateMatching" method="post">
+    <input type="hidden" name="id" asp-for="Id" value="@Model.Id" />
+    <div class="mb-3">
+        <label asp-for="Question" class="form-label">Question</label>
+        @foreach(var part in splitQuestion){
+            <div class="row">
+                <div class="col-1">
+                    <input type="text" class="form-control" name="keysQuestion" value="@part.Key"/>
+                </div>
+                <div class="col-2">
+                    <input type="text" class="form-control" name="valuesQuestion" value="@part.Value"/>
+                </div>
+            </div>
+        }
+    </div>
+    <div class="mb-3">
+        <label asp-for="CorrectAnswer" class="form-label">Correct Answer</label>
+        @foreach(var part in splitCorrectAnswer){
+            <div class="row">
+                <div class="col-1">
+                    <input type="text" class="form-control" name="keysCorrectAnswer" value="@part.Key"/>
+                </div>
+                <div class="col-2">
+                    <input type="text" class="form-control" name="valuesCorrectAnswer" value="@part.Value" />
+                </div>
+            </div>
+        }
+    </div>
+    <button type="submit" class="btn btn-primary">Update</button>
+</form>

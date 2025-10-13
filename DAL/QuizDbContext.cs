@@ -1,27 +1,46 @@
 using Microsoft.EntityFrameworkCore;
 using QuizApp.Models;
 
-namespace QuizApp.DAL
+namespace QuizApp.DAL;
+
+public class QuizDbContext : DbContext
 {
-    public class QuizDbContext : DbContext
+    public QuizDbContext(DbContextOptions<QuizDbContext> options) : base(options)
     {
-        public QuizDbContext(DbContextOptions<QuizDbContext> options) : base(options)
-        {
-        }
+        Database.EnsureCreated();
+    }
 
-        public DbSet<QuestionText> Questions { get; set; }              
-        public DbSet<MultipleChoice> MultipleChoices { get; set; }     
-        public DbSet<TrueFalseQuestion> TrueFalseQuestions { get; set; }
-        public DbSet<Option> Options { get; set; }                      
- 
-        protected override void OnModelCreating(ModelBuilder modelBuilder)
-        {
-            base.OnModelCreating(modelBuilder);
+    public DbSet<Quiz> Quizzes { get; set; }
+    public DbSet<Matching> MatchingQuestions { get; set; }
+    public DbSet<Sequence> SequenceQuestions { get; set; }
+    public DbSet<Ranking> RankingQuestions { get; set; }
+    public DbSet<FillInTheBlank> FillInTheBlankQuestions { get; set; }
+    public DbSet<FlashCardQuiz> FlashCardQuizzes { get; set; }
+    public DbSet<FlashCard> FlashCards { get; set; }
+    public DbSet<QuestionText> Questions { get; set; }              
+    public DbSet<MultipleChoice> MultipleChoices { get; set; }     
+    public DbSet<TrueFalseQuestion> TrueFalseQuestions { get; set; }
+    public DbSet<Option> Options { get; set; } 
 
-            modelBuilder.Entity<QuestionText>()
-                .HasDiscriminator<string>("Discriminator")
-                .HasValue<MultipleChoice>("MultipleChoice")
-                .HasValue<TrueFalseQuestion>("TrueFalse");
-        }
+    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+    {
+        optionsBuilder.UseLazyLoadingProxies();
+    }
+
+    // Configures cascaded delete 
+    // Ensures that all FlashCards belonging to 
+    // deleted FlashCardQuiz are also deleted
+    protected override void OnModelCreating(ModelBuilder modelBuilder)
+    {
+        modelBuilder.Entity<FlashCard>()
+            .HasOne(fc => fc.Quiz)
+            .WithMany(q => q.FlashCards)
+            .HasForeignKey(fc => fc.QuizId)
+            .OnDelete(DeleteBehavior.Cascade);
+            
+        modelBuilder.Entity<QuestionText>()
+            .HasDiscriminator<string>("Discriminator")
+            .HasValue<MultipleChoice>("MultipleChoice")
+            .HasValue<TrueFalseQuestion>("TrueFalse");
     }
 }

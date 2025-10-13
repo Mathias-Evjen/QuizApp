@@ -1,0 +1,177 @@
+2025-10-08 21:27:58.243 +02:00 [INF] User profile is available. Using '/home/tobias/.aspnet/DataProtection-Keys' as key repository; keys will not be encrypted at rest.
+2025-10-08 21:27:58.358 +02:00 [INF] Now listening on: http://localhost:5155
+2025-10-08 21:27:58.363 +02:00 [INF] Application started. Press Ctrl+C to shut down.
+2025-10-08 21:27:58.363 +02:00 [INF] Hosting environment: Development
+2025-10-08 21:27:58.364 +02:00 [INF] Content root path: /home/tobias/Dokumenter/GitHub/QuizApp
+2025-10-08 21:28:02.722 +02:00 [INF] Request starting HTTP/1.1 GET http://localhost:5155/favicon.ico - null null
+2025-10-08 21:28:02.751 +02:00 [INF] Request finished HTTP/1.1 GET http://localhost:5155/favicon.ico - 499 null null 30.3128ms
+2025-10-08 21:28:02.753 +02:00 [INF] Request reached the end of the middleware pipeline without being handled by application code. Request path: GET http://localhost:5155/favicon.ico, Response status code: 499
+2025-10-08 21:28:08.239 +02:00 [INF] Request starting HTTP/1.1 GET http://localhost:5155/ - null null
+2025-10-08 21:28:08.242 +02:00 [INF] Executing endpoint 'QuizApp.Controllers.HomeController.Index (QuizApp)'
+2025-10-08 21:28:08.256 +02:00 [INF] Route matched with {action = "Index", controller = "Home"}. Executing controller action with signature Microsoft.AspNetCore.Mvc.IActionResult Index() on controller QuizApp.Controllers.HomeController (QuizApp).
+2025-10-08 21:28:08.264 +02:00 [INF] Executing ViewResult, running view Index.
+2025-10-08 21:28:08.315 +02:00 [INF] Executed ViewResult - view Index executed in 51.854ms.
+2025-10-08 21:28:08.316 +02:00 [INF] Executed action QuizApp.Controllers.HomeController.Index (QuizApp) in 59.7115ms
+2025-10-08 21:28:08.316 +02:00 [INF] Executed endpoint 'QuizApp.Controllers.HomeController.Index (QuizApp)'
+2025-10-08 21:28:08.318 +02:00 [INF] Request finished HTTP/1.1 GET http://localhost:5155/ - 200 null text/html; charset=utf-8 79.5095ms
+2025-10-08 21:28:11.502 +02:00 [INF] Request starting HTTP/1.1 GET http://localhost:5155/FillInTheBlank/Questions - null null
+2025-10-08 21:28:11.504 +02:00 [INF] Executing endpoint 'QuizApp.Controllers.FillInTheBlankController.Questions (QuizApp)'
+2025-10-08 21:28:11.510 +02:00 [INF] Route matched with {action = "Questions", controller = "FillInTheBlank"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] Questions() on controller QuizApp.Controllers.FillInTheBlankController (QuizApp).
+2025-10-08 21:28:11.577 +02:00 [INF] Executing ViewResult, running view Questions.
+2025-10-08 21:28:11.616 +02:00 [INF] Executed ViewResult - view Questions executed in 39.9784ms.
+2025-10-08 21:28:11.617 +02:00 [INF] Executed action QuizApp.Controllers.FillInTheBlankController.Questions (QuizApp) in 105.9908ms
+2025-10-08 21:28:11.617 +02:00 [INF] Executed endpoint 'QuizApp.Controllers.FillInTheBlankController.Questions (QuizApp)'
+2025-10-08 21:28:11.621 +02:00 [INF] Request finished HTTP/1.1 GET http://localhost:5155/FillInTheBlank/Questions - 200 null text/html; charset=utf-8 118.8431ms
+2025-10-08 21:28:20.519 +02:00 [INF] Request starting HTTP/1.1 GET http://localhost:5155/FillInTheBlank/Question/1 - null null
+2025-10-08 21:28:20.521 +02:00 [INF] Executing endpoint 'QuizApp.Controllers.FillInTheBlankController.Question (QuizApp)'
+2025-10-08 21:28:20.529 +02:00 [INF] Route matched with {action = "Question", controller = "FillInTheBlank"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] Question(Int32) on controller QuizApp.Controllers.FillInTheBlankController (QuizApp).
+2025-10-08 21:28:20.612 +02:00 [INF] Executing ViewResult, running view Question.
+2025-10-08 21:28:20.616 +02:00 [INF] Executed ViewResult - view Question executed in 5.329ms.
+2025-10-08 21:28:20.616 +02:00 [INF] Executed action QuizApp.Controllers.FillInTheBlankController.Question (QuizApp) in 86.943ms
+2025-10-08 21:28:20.616 +02:00 [INF] Executed endpoint 'QuizApp.Controllers.FillInTheBlankController.Question (QuizApp)'
+2025-10-08 21:28:20.617 +02:00 [INF] Request finished HTTP/1.1 GET http://localhost:5155/FillInTheBlank/Question/1 - 200 null text/html; charset=utf-8 97.4055ms
+2025-10-08 21:28:29.053 +02:00 [INF] Request starting HTTP/1.1 GET http://localhost:5155/FlashCardQuiz/Quizzes - null null
+2025-10-08 21:28:29.054 +02:00 [INF] Executing endpoint 'QuizApp.Controllers.FlashCardQuizController.Quizzes (QuizApp)'
+2025-10-08 21:28:29.057 +02:00 [INF] Route matched with {action = "Quizzes", controller = "FlashCardQuiz"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] Quizzes() on controller QuizApp.Controllers.FlashCardQuizController (QuizApp).
+2025-10-08 21:28:29.083 +02:00 [INF] Executing ViewResult, running view Quizzes.
+2025-10-08 21:28:29.092 +02:00 [INF] Executed ViewResult - view Quizzes executed in 10.5018ms.
+2025-10-08 21:28:29.093 +02:00 [INF] Executed action QuizApp.Controllers.FlashCardQuizController.Quizzes (QuizApp) in 35.3214ms
+2025-10-08 21:28:29.093 +02:00 [INF] Executed endpoint 'QuizApp.Controllers.FlashCardQuizController.Quizzes (QuizApp)'
+2025-10-08 21:28:29.093 +02:00 [INF] Request finished HTTP/1.1 GET http://localhost:5155/FlashCardQuiz/Quizzes - 200 null text/html; charset=utf-8 40.0103ms
+2025-10-08 21:28:39.864 +02:00 [INF] Request starting HTTP/1.1 GET http://localhost:5155/FlashCard/FlashCards?quizId=1&quizName=Capitals%20of%20Scandinavia&quizDescription=Flashcards%20with%20questions%20about%20the%20captial%20cities%20of%20Scandinavia - null null
+2025-10-08 21:28:39.865 +02:00 [INF] Executing endpoint 'QuizApp.Controllers.FlashCardController.FlashCards (QuizApp)'
+2025-10-08 21:28:39.869 +02:00 [INF] Route matched with {action = "FlashCards", controller = "FlashCard"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] FlashCards(Int32, System.String, System.String) on controller QuizApp.Controllers.FlashCardController (QuizApp).
+2025-10-08 21:28:39.892 +02:00 [INF] Executing ViewResult, running view FlashCards.
+2025-10-08 21:28:39.917 +02:00 [INF] Executed ViewResult - view FlashCards executed in 25.727ms.
+2025-10-08 21:28:39.917 +02:00 [INF] Executed action QuizApp.Controllers.FlashCardController.FlashCards (QuizApp) in 47.8489ms
+2025-10-08 21:28:39.917 +02:00 [INF] Executed endpoint 'QuizApp.Controllers.FlashCardController.FlashCards (QuizApp)'
+2025-10-08 21:28:39.918 +02:00 [INF] Request finished HTTP/1.1 GET http://localhost:5155/FlashCard/FlashCards?quizId=1&quizName=Capitals%20of%20Scandinavia&quizDescription=Flashcards%20with%20questions%20about%20the%20captial%20cities%20of%20Scandinavia - 200 null text/html; charset=utf-8 53.4723ms
+2025-10-08 21:28:49.476 +02:00 [INF] Request starting HTTP/1.1 POST http://localhost:5155/FlashCard/NextFlashCard - application/x-www-form-urlencoded 952
+2025-10-08 21:28:49.478 +02:00 [INF] Executing endpoint 'QuizApp.Controllers.FlashCardController.NextFlashCard (QuizApp)'
+2025-10-08 21:28:49.486 +02:00 [INF] Route matched with {action = "NextFlashCard", controller = "FlashCard"}. Executing controller action with signature Microsoft.AspNetCore.Mvc.IActionResult NextFlashCard(QuizApp.ViewModels.FlashCardsViewModel) on controller QuizApp.Controllers.FlashCardController (QuizApp).
+2025-10-08 21:28:49.506 +02:00 [INF] Executing ViewResult, running view FlashCards.
+2025-10-08 21:28:49.508 +02:00 [INF] Executed ViewResult - view FlashCards executed in 2.5772ms.
+2025-10-08 21:28:49.509 +02:00 [INF] Executed action QuizApp.Controllers.FlashCardController.NextFlashCard (QuizApp) in 21.9324ms
+2025-10-08 21:28:49.509 +02:00 [INF] Executed endpoint 'QuizApp.Controllers.FlashCardController.NextFlashCard (QuizApp)'
+2025-10-08 21:28:49.509 +02:00 [INF] Request finished HTTP/1.1 POST http://localhost:5155/FlashCard/NextFlashCard - 200 null text/html; charset=utf-8 33.3739ms
+2025-10-08 21:28:50.401 +02:00 [INF] Request starting HTTP/1.1 POST http://localhost:5155/FlashCard/NextFlashCard - application/x-www-form-urlencoded 952
+2025-10-08 21:28:50.401 +02:00 [INF] Executing endpoint 'QuizApp.Controllers.FlashCardController.NextFlashCard (QuizApp)'
+2025-10-08 21:28:50.402 +02:00 [INF] Route matched with {action = "NextFlashCard", controller = "FlashCard"}. Executing controller action with signature Microsoft.AspNetCore.Mvc.IActionResult NextFlashCard(QuizApp.ViewModels.FlashCardsViewModel) on controller QuizApp.Controllers.FlashCardController (QuizApp).
+2025-10-08 21:28:50.408 +02:00 [INF] Executing ViewResult, running view FlashCards.
+2025-10-08 21:28:50.410 +02:00 [INF] Executed ViewResult - view FlashCards executed in 2.4325ms.
+2025-10-08 21:28:50.411 +02:00 [INF] Executed action QuizApp.Controllers.FlashCardController.NextFlashCard (QuizApp) in 8.939ms
+2025-10-08 21:28:50.411 +02:00 [INF] Executed endpoint 'QuizApp.Controllers.FlashCardController.NextFlashCard (QuizApp)'
+2025-10-08 21:28:50.411 +02:00 [INF] Request finished HTTP/1.1 POST http://localhost:5155/FlashCard/NextFlashCard - 200 null text/html; charset=utf-8 10.1387ms
+2025-10-08 21:28:51.819 +02:00 [INF] Request starting HTTP/1.1 POST http://localhost:5155/FlashCard/PrevFlashCard - application/x-www-form-urlencoded 952
+2025-10-08 21:28:51.819 +02:00 [INF] Executing endpoint 'QuizApp.Controllers.FlashCardController.PrevFlashCard (QuizApp)'
+2025-10-08 21:28:51.821 +02:00 [INF] Route matched with {action = "PrevFlashCard", controller = "FlashCard"}. Executing controller action with signature Microsoft.AspNetCore.Mvc.IActionResult PrevFlashCard(QuizApp.ViewModels.FlashCardsViewModel) on controller QuizApp.Controllers.FlashCardController (QuizApp).
+2025-10-08 21:28:51.824 +02:00 [INF] Executing ViewResult, running view FlashCards.
+2025-10-08 21:28:51.826 +02:00 [INF] Executed ViewResult - view FlashCards executed in 2.1251ms.
+2025-10-08 21:28:51.826 +02:00 [INF] Executed action QuizApp.Controllers.FlashCardController.PrevFlashCard (QuizApp) in 5.0128ms
+2025-10-08 21:28:51.826 +02:00 [INF] Executed endpoint 'QuizApp.Controllers.FlashCardController.PrevFlashCard (QuizApp)'
+2025-10-08 21:28:51.827 +02:00 [INF] Request finished HTTP/1.1 POST http://localhost:5155/FlashCard/PrevFlashCard - 200 null text/html; charset=utf-8 7.8877ms
+2025-10-08 21:28:53.443 +02:00 [INF] Request starting HTTP/1.1 POST http://localhost:5155/FlashCard/PrevFlashCard - application/x-www-form-urlencoded 952
+2025-10-08 21:28:53.443 +02:00 [INF] Executing endpoint 'QuizApp.Controllers.FlashCardController.PrevFlashCard (QuizApp)'
+2025-10-08 21:28:53.444 +02:00 [INF] Route matched with {action = "PrevFlashCard", controller = "FlashCard"}. Executing controller action with signature Microsoft.AspNetCore.Mvc.IActionResult PrevFlashCard(QuizApp.ViewModels.FlashCardsViewModel) on controller QuizApp.Controllers.FlashCardController (QuizApp).
+2025-10-08 21:28:53.446 +02:00 [INF] Executing ViewResult, running view FlashCards.
+2025-10-08 21:28:53.448 +02:00 [INF] Executed ViewResult - view FlashCards executed in 1.5623ms.
+2025-10-08 21:28:53.448 +02:00 [INF] Executed action QuizApp.Controllers.FlashCardController.PrevFlashCard (QuizApp) in 4.141ms
+2025-10-08 21:28:53.448 +02:00 [INF] Executed endpoint 'QuizApp.Controllers.FlashCardController.PrevFlashCard (QuizApp)'
+2025-10-08 21:28:53.448 +02:00 [INF] Request finished HTTP/1.1 POST http://localhost:5155/FlashCard/PrevFlashCard - 200 null text/html; charset=utf-8 4.9605ms
+2025-10-08 21:28:56.757 +02:00 [INF] Request starting HTTP/1.1 POST http://localhost:5155/FlashCard/RevealFlashCardAnswer - application/x-www-form-urlencoded 952
+2025-10-08 21:28:56.758 +02:00 [INF] Executing endpoint 'QuizApp.Controllers.FlashCardController.RevealFlashCardAnswer (QuizApp)'
+2025-10-08 21:28:56.760 +02:00 [INF] Route matched with {action = "RevealFlashCardAnswer", controller = "FlashCard"}. Executing controller action with signature Microsoft.AspNetCore.Mvc.IActionResult RevealFlashCardAnswer(QuizApp.ViewModels.FlashCardsViewModel) on controller QuizApp.Controllers.FlashCardController (QuizApp).
+2025-10-08 21:28:56.762 +02:00 [INF] Executing ViewResult, running view FlashCards.
+2025-10-08 21:28:56.764 +02:00 [INF] Executed ViewResult - view FlashCards executed in 1.2873ms.
+2025-10-08 21:28:56.764 +02:00 [INF] Executed action QuizApp.Controllers.FlashCardController.RevealFlashCardAnswer (QuizApp) in 3.9233ms
+2025-10-08 21:28:56.764 +02:00 [INF] Executed endpoint 'QuizApp.Controllers.FlashCardController.RevealFlashCardAnswer (QuizApp)'
+2025-10-08 21:28:56.764 +02:00 [INF] Request finished HTTP/1.1 POST http://localhost:5155/FlashCard/RevealFlashCardAnswer - 200 null text/html; charset=utf-8 6.5827ms
+2025-10-08 21:28:57.966 +02:00 [INF] Request starting HTTP/1.1 POST http://localhost:5155/FlashCard/RevealFlashCardAnswer - application/x-www-form-urlencoded 951
+2025-10-08 21:28:57.967 +02:00 [INF] Executing endpoint 'QuizApp.Controllers.FlashCardController.RevealFlashCardAnswer (QuizApp)'
+2025-10-08 21:28:57.967 +02:00 [INF] Route matched with {action = "RevealFlashCardAnswer", controller = "FlashCard"}. Executing controller action with signature Microsoft.AspNetCore.Mvc.IActionResult RevealFlashCardAnswer(QuizApp.ViewModels.FlashCardsViewModel) on controller QuizApp.Controllers.FlashCardController (QuizApp).
+2025-10-08 21:28:57.970 +02:00 [INF] Executing ViewResult, running view FlashCards.
+2025-10-08 21:28:57.972 +02:00 [INF] Executed ViewResult - view FlashCards executed in 1.6351ms.
+2025-10-08 21:28:57.972 +02:00 [INF] Executed action QuizApp.Controllers.FlashCardController.RevealFlashCardAnswer (QuizApp) in 4.4924ms
+2025-10-08 21:28:57.972 +02:00 [INF] Executed endpoint 'QuizApp.Controllers.FlashCardController.RevealFlashCardAnswer (QuizApp)'
+2025-10-08 21:28:57.972 +02:00 [INF] Request finished HTTP/1.1 POST http://localhost:5155/FlashCard/RevealFlashCardAnswer - 200 null text/html; charset=utf-8 5.618ms
+2025-10-08 21:28:59.875 +02:00 [INF] Request starting HTTP/1.1 POST http://localhost:5155/FlashCard/RevealFlashCardAnswer - application/x-www-form-urlencoded 952
+2025-10-08 21:28:59.875 +02:00 [INF] Executing endpoint 'QuizApp.Controllers.FlashCardController.RevealFlashCardAnswer (QuizApp)'
+2025-10-08 21:28:59.875 +02:00 [INF] Route matched with {action = "RevealFlashCardAnswer", controller = "FlashCard"}. Executing controller action with signature Microsoft.AspNetCore.Mvc.IActionResult RevealFlashCardAnswer(QuizApp.ViewModels.FlashCardsViewModel) on controller QuizApp.Controllers.FlashCardController (QuizApp).
+2025-10-08 21:28:59.878 +02:00 [INF] Executing ViewResult, running view FlashCards.
+2025-10-08 21:28:59.880 +02:00 [INF] Executed ViewResult - view FlashCards executed in 1.7631ms.
+2025-10-08 21:28:59.880 +02:00 [INF] Executed action QuizApp.Controllers.FlashCardController.RevealFlashCardAnswer (QuizApp) in 4.5767ms
+2025-10-08 21:28:59.880 +02:00 [INF] Executed endpoint 'QuizApp.Controllers.FlashCardController.RevealFlashCardAnswer (QuizApp)'
+2025-10-08 21:28:59.880 +02:00 [INF] Request finished HTTP/1.1 POST http://localhost:5155/FlashCard/RevealFlashCardAnswer - 200 null text/html; charset=utf-8 5.3386ms
+2025-10-08 21:29:00.809 +02:00 [INF] Request starting HTTP/1.1 POST http://localhost:5155/FlashCard/RevealFlashCardAnswer - application/x-www-form-urlencoded 951
+2025-10-08 21:29:00.809 +02:00 [INF] Executing endpoint 'QuizApp.Controllers.FlashCardController.RevealFlashCardAnswer (QuizApp)'
+2025-10-08 21:29:00.810 +02:00 [INF] Route matched with {action = "RevealFlashCardAnswer", controller = "FlashCard"}. Executing controller action with signature Microsoft.AspNetCore.Mvc.IActionResult RevealFlashCardAnswer(QuizApp.ViewModels.FlashCardsViewModel) on controller QuizApp.Controllers.FlashCardController (QuizApp).
+2025-10-08 21:29:00.812 +02:00 [INF] Executing ViewResult, running view FlashCards.
+2025-10-08 21:29:00.813 +02:00 [INF] Executed ViewResult - view FlashCards executed in 1.228ms.
+2025-10-08 21:29:00.814 +02:00 [INF] Executed action QuizApp.Controllers.FlashCardController.RevealFlashCardAnswer (QuizApp) in 3.9291ms
+2025-10-08 21:29:00.814 +02:00 [INF] Executed endpoint 'QuizApp.Controllers.FlashCardController.RevealFlashCardAnswer (QuizApp)'
+2025-10-08 21:29:00.814 +02:00 [INF] Request finished HTTP/1.1 POST http://localhost:5155/FlashCard/RevealFlashCardAnswer - 200 null text/html; charset=utf-8 4.6623ms
+2025-10-08 21:29:06.667 +02:00 [INF] Request starting HTTP/1.1 GET http://localhost:5155/FlashCardQuiz/Quizzes - null null
+2025-10-08 21:29:06.669 +02:00 [INF] Executing endpoint 'QuizApp.Controllers.FlashCardQuizController.Quizzes (QuizApp)'
+2025-10-08 21:29:06.669 +02:00 [INF] Route matched with {action = "Quizzes", controller = "FlashCardQuiz"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] Quizzes() on controller QuizApp.Controllers.FlashCardQuizController (QuizApp).
+2025-10-08 21:29:06.674 +02:00 [INF] Executing ViewResult, running view Quizzes.
+2025-10-08 21:29:06.676 +02:00 [INF] Executed ViewResult - view Quizzes executed in 2.0654ms.
+2025-10-08 21:29:06.677 +02:00 [INF] Executed action QuizApp.Controllers.FlashCardQuizController.Quizzes (QuizApp) in 7.8383ms
+2025-10-08 21:29:06.677 +02:00 [INF] Executed endpoint 'QuizApp.Controllers.FlashCardQuizController.Quizzes (QuizApp)'
+2025-10-08 21:29:06.677 +02:00 [INF] Request finished HTTP/1.1 GET http://localhost:5155/FlashCardQuiz/Quizzes - 200 null text/html; charset=utf-8 9.9612ms
+2025-10-08 21:29:11.862 +02:00 [INF] Request starting HTTP/1.1 GET http://localhost:5155/FlashCard/FlashCards?quizId=2&quizName=Which%20band%3F&quizDescription=Which%20band%20wrote%20the%20song%20on%20the%20card%3F - null null
+2025-10-08 21:29:11.863 +02:00 [INF] Executing endpoint 'QuizApp.Controllers.FlashCardController.FlashCards (QuizApp)'
+2025-10-08 21:29:11.863 +02:00 [INF] Route matched with {action = "FlashCards", controller = "FlashCard"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] FlashCards(Int32, System.String, System.String) on controller QuizApp.Controllers.FlashCardController (QuizApp).
+2025-10-08 21:29:11.867 +02:00 [INF] Executing ViewResult, running view FlashCards.
+2025-10-08 21:29:11.868 +02:00 [INF] Executed ViewResult - view FlashCards executed in 1.5163ms.
+2025-10-08 21:29:11.868 +02:00 [INF] Executed action QuizApp.Controllers.FlashCardController.FlashCards (QuizApp) in 5.3594ms
+2025-10-08 21:29:11.868 +02:00 [INF] Executed endpoint 'QuizApp.Controllers.FlashCardController.FlashCards (QuizApp)'
+2025-10-08 21:29:11.869 +02:00 [INF] Request finished HTTP/1.1 GET http://localhost:5155/FlashCard/FlashCards?quizId=2&quizName=Which%20band%3F&quizDescription=Which%20band%20wrote%20the%20song%20on%20the%20card%3F - 200 null text/html; charset=utf-8 6.3549ms
+2025-10-08 21:29:17.200 +02:00 [INF] Request starting HTTP/1.1 POST http://localhost:5155/FlashCard/RevealFlashCardAnswer - application/x-www-form-urlencoded 1401
+2025-10-08 21:29:17.200 +02:00 [INF] Executing endpoint 'QuizApp.Controllers.FlashCardController.RevealFlashCardAnswer (QuizApp)'
+2025-10-08 21:29:17.200 +02:00 [INF] Route matched with {action = "RevealFlashCardAnswer", controller = "FlashCard"}. Executing controller action with signature Microsoft.AspNetCore.Mvc.IActionResult RevealFlashCardAnswer(QuizApp.ViewModels.FlashCardsViewModel) on controller QuizApp.Controllers.FlashCardController (QuizApp).
+2025-10-08 21:29:17.203 +02:00 [INF] Executing ViewResult, running view FlashCards.
+2025-10-08 21:29:17.204 +02:00 [INF] Executed ViewResult - view FlashCards executed in 1.4562ms.
+2025-10-08 21:29:17.205 +02:00 [INF] Executed action QuizApp.Controllers.FlashCardController.RevealFlashCardAnswer (QuizApp) in 4.2361ms
+2025-10-08 21:29:17.205 +02:00 [INF] Executed endpoint 'QuizApp.Controllers.FlashCardController.RevealFlashCardAnswer (QuizApp)'
+2025-10-08 21:29:17.205 +02:00 [INF] Request finished HTTP/1.1 POST http://localhost:5155/FlashCard/RevealFlashCardAnswer - 200 null text/html; charset=utf-8 4.9596ms
+2025-10-08 21:29:20.525 +02:00 [INF] Request starting HTTP/1.1 POST http://localhost:5155/FlashCard/NextFlashCard - application/x-www-form-urlencoded 1400
+2025-10-08 21:29:20.525 +02:00 [INF] Executing endpoint 'QuizApp.Controllers.FlashCardController.NextFlashCard (QuizApp)'
+2025-10-08 21:29:20.526 +02:00 [INF] Route matched with {action = "NextFlashCard", controller = "FlashCard"}. Executing controller action with signature Microsoft.AspNetCore.Mvc.IActionResult NextFlashCard(QuizApp.ViewModels.FlashCardsViewModel) on controller QuizApp.Controllers.FlashCardController (QuizApp).
+2025-10-08 21:29:20.528 +02:00 [INF] Executing ViewResult, running view FlashCards.
+2025-10-08 21:29:20.530 +02:00 [INF] Executed ViewResult - view FlashCards executed in 1.3394ms.
+2025-10-08 21:29:20.530 +02:00 [INF] Executed action QuizApp.Controllers.FlashCardController.NextFlashCard (QuizApp) in 3.9934ms
+2025-10-08 21:29:20.530 +02:00 [INF] Executed endpoint 'QuizApp.Controllers.FlashCardController.NextFlashCard (QuizApp)'
+2025-10-08 21:29:20.530 +02:00 [INF] Request finished HTTP/1.1 POST http://localhost:5155/FlashCard/NextFlashCard - 200 null text/html; charset=utf-8 4.8741ms
+2025-10-08 21:29:29.019 +02:00 [INF] Request starting HTTP/1.1 POST http://localhost:5155/FlashCard/NextFlashCard - application/x-www-form-urlencoded 1400
+2025-10-08 21:29:29.019 +02:00 [INF] Executing endpoint 'QuizApp.Controllers.FlashCardController.NextFlashCard (QuizApp)'
+2025-10-08 21:29:29.019 +02:00 [INF] Route matched with {action = "NextFlashCard", controller = "FlashCard"}. Executing controller action with signature Microsoft.AspNetCore.Mvc.IActionResult NextFlashCard(QuizApp.ViewModels.FlashCardsViewModel) on controller QuizApp.Controllers.FlashCardController (QuizApp).
+2025-10-08 21:29:29.022 +02:00 [INF] Executing ViewResult, running view FlashCards.
+2025-10-08 21:29:29.024 +02:00 [INF] Executed ViewResult - view FlashCards executed in 1.5827ms.
+2025-10-08 21:29:29.024 +02:00 [INF] Executed action QuizApp.Controllers.FlashCardController.NextFlashCard (QuizApp) in 4.4145ms
+2025-10-08 21:29:29.024 +02:00 [INF] Executed endpoint 'QuizApp.Controllers.FlashCardController.NextFlashCard (QuizApp)'
+2025-10-08 21:29:29.024 +02:00 [INF] Request finished HTTP/1.1 POST http://localhost:5155/FlashCard/NextFlashCard - 200 null text/html; charset=utf-8 5.3551ms
+2025-10-08 21:29:30.255 +02:00 [INF] Request starting HTTP/1.1 POST http://localhost:5155/FlashCard/NextFlashCard - application/x-www-form-urlencoded 1400
+2025-10-08 21:29:30.255 +02:00 [INF] Executing endpoint 'QuizApp.Controllers.FlashCardController.NextFlashCard (QuizApp)'
+2025-10-08 21:29:30.255 +02:00 [INF] Route matched with {action = "NextFlashCard", controller = "FlashCard"}. Executing controller action with signature Microsoft.AspNetCore.Mvc.IActionResult NextFlashCard(QuizApp.ViewModels.FlashCardsViewModel) on controller QuizApp.Controllers.FlashCardController (QuizApp).
+2025-10-08 21:29:30.257 +02:00 [INF] Executing ViewResult, running view FlashCards.
+2025-10-08 21:29:30.258 +02:00 [INF] Executed ViewResult - view FlashCards executed in 1.1354ms.
+2025-10-08 21:29:30.259 +02:00 [INF] Executed action QuizApp.Controllers.FlashCardController.NextFlashCard (QuizApp) in 3.1601ms
+2025-10-08 21:29:30.259 +02:00 [INF] Executed endpoint 'QuizApp.Controllers.FlashCardController.NextFlashCard (QuizApp)'
+2025-10-08 21:29:30.259 +02:00 [INF] Request finished HTTP/1.1 POST http://localhost:5155/FlashCard/NextFlashCard - 200 null text/html; charset=utf-8 3.8633ms
+2025-10-08 21:29:31.861 +02:00 [INF] Request starting HTTP/1.1 POST http://localhost:5155/FlashCard/NextFlashCard - application/x-www-form-urlencoded 1400
+2025-10-08 21:29:31.861 +02:00 [INF] Executing endpoint 'QuizApp.Controllers.FlashCardController.NextFlashCard (QuizApp)'
+2025-10-08 21:29:31.861 +02:00 [INF] Route matched with {action = "NextFlashCard", controller = "FlashCard"}. Executing controller action with signature Microsoft.AspNetCore.Mvc.IActionResult NextFlashCard(QuizApp.ViewModels.FlashCardsViewModel) on controller QuizApp.Controllers.FlashCardController (QuizApp).
+2025-10-08 21:29:31.863 +02:00 [INF] Executing ViewResult, running view FlashCards.
+2025-10-08 21:29:31.865 +02:00 [INF] Executed ViewResult - view FlashCards executed in 1.1789ms.
+2025-10-08 21:29:31.865 +02:00 [INF] Executed action QuizApp.Controllers.FlashCardController.NextFlashCard (QuizApp) in 3.4345ms
+2025-10-08 21:29:31.865 +02:00 [INF] Executed endpoint 'QuizApp.Controllers.FlashCardController.NextFlashCard (QuizApp)'
+2025-10-08 21:29:31.865 +02:00 [INF] Request finished HTTP/1.1 POST http://localhost:5155/FlashCard/NextFlashCard - 200 null text/html; charset=utf-8 4.2066ms
+2025-10-08 21:29:34.039 +02:00 [INF] Request starting HTTP/1.1 GET http://localhost:5155/FlashCardQuiz/Quizzes - null null
+2025-10-08 21:29:34.039 +02:00 [INF] Executing endpoint 'QuizApp.Controllers.FlashCardQuizController.Quizzes (QuizApp)'
+2025-10-08 21:29:34.039 +02:00 [INF] Route matched with {action = "Quizzes", controller = "FlashCardQuiz"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] Quizzes() on controller QuizApp.Controllers.FlashCardQuizController (QuizApp).
+2025-10-08 21:29:34.043 +02:00 [INF] Executing ViewResult, running view Quizzes.
+2025-10-08 21:29:34.045 +02:00 [INF] Executed ViewResult - view Quizzes executed in 1.6421ms.
+2025-10-08 21:29:34.045 +02:00 [INF] Executed action QuizApp.Controllers.FlashCardQuizController.Quizzes (QuizApp) in 5.5215ms
+2025-10-08 21:29:34.045 +02:00 [INF] Executed endpoint 'QuizApp.Controllers.FlashCardQuizController.Quizzes (QuizApp)'
+2025-10-08 21:29:34.045 +02:00 [INF] Request finished HTTP/1.1 GET http://localhost:5155/FlashCardQuiz/Quizzes - 200 null text/html; charset=utf-8 6.1689ms
+2025-10-08 21:30:00.805 +02:00 [INF] Application is shutting down...

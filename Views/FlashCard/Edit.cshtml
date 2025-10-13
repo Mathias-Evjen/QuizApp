@@ -1,0 +1,21 @@
+@model FlashCard
+
+<h2>Edit Flash Card</h2>
+
+<form asp-action="Edit" method="post">
+    <input type="hidden" asp-for="FlashCardId" />
+    <input type="hidden" asp-for="QuizId" />
+    <input type="hidden" asp-for="QuizQuestionNum" />
+    <div class="form-group">
+        <label asp-for="Question">Question:</label>
+        <input asp-for="Question" class="form-control" />
+        <span asp-validation-for="Question" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="Answer">Answer:</label>
+        <input asp-for="Answer" class="form-control" />
+        <span asp-validation-for="Answer" class="text-danger"></span>
+    </div>
+    <button type="submit" class="btn btn-primary mt-1">Save changes</button>
+    <a asp-controller="FlashCardQuiz" asp-action="ManageQuiz" asp-route-quizId="@Model.QuizId" class="btn btn-secondary mt-1">Cancel</a>
+</form>

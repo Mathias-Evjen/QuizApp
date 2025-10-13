@@ -5,12 +5,11 @@ using System.Security.Cryptography.X509Certificates;
 
 namespace QuizApp.Models
 {
-    public class Matching
+    public class Matching : Question
     {
-        [Key] // Marker dette som primærnøkkel
-        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
-
+        public int QuizId { get; set; }
+        public virtual Quiz? Quiz { get; set; } = default!;
         public string Question { get; set; } = string.Empty;
         public string Answer { get; set; } = string.Empty;
         public string CorrectAnswer { get; set; } = string.Empty;

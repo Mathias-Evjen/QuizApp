@@ -48,7 +48,7 @@ namespace QuizApp.Controllers
                 await _repo.AddAsync(question);
                 await _repo.SaveAsync();
 
-                _logger.LogInformation("TrueFalse created: {Question}", question.QuestionTexts);
+                _logger.LogInformation("TrueFalse created: {Question}", question.TrueFalseQuestionId);
                 return RedirectToAction(nameof(Index));
             }
             catch (Exception ex)
@@ -84,7 +84,7 @@ namespace QuizApp.Controllers
         {
             if (!ModelState.IsValid)
             {
-                _logger.LogWarning("Invalid model state on TrueFalse Edit. Id={Id}", question.Id);
+                _logger.LogWarning("Invalid model state on TrueFalse Edit. Id={Id}", question.TrueFalseQuestionId);
                 return View(question);
             }
 
@@ -93,12 +93,12 @@ namespace QuizApp.Controllers
                 await _repo.UpdateAsync(question);
                 await _repo.SaveAsync();
 
-                _logger.LogInformation("TrueFalse updated: Id={Id}", question.Id);
+                _logger.LogInformation("TrueFalse updated: Id={Id}", question.TrueFalseQuestionId);
                 return RedirectToAction(nameof(Index));
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "Error updating TrueFalse. Id={Id}", question.Id);
+                _logger.LogError(ex, "Error updating TrueFalse. Id={Id}", question.TrueFalseQuestionId);
                 return View("Error");
             }
         }

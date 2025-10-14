@@ -16,8 +16,7 @@ public class QuizDbContext : DbContext
     public DbSet<Ranking> RankingQuestions { get; set; }
     public DbSet<FillInTheBlank> FillInTheBlankQuestions { get; set; }
     public DbSet<FlashCardQuiz> FlashCardQuizzes { get; set; }
-    public DbSet<FlashCard> FlashCards { get; set; }
-    public DbSet<QuestionText> Questions { get; set; }              
+    public DbSet<FlashCard> FlashCards { get; set; }         
     public DbSet<MultipleChoice> MultipleChoices { get; set; }     
     public DbSet<TrueFalseQuestion> TrueFalseQuestions { get; set; }
     public DbSet<Option> Options { get; set; } 
@@ -37,10 +36,5 @@ public class QuizDbContext : DbContext
             .WithMany(q => q.FlashCards)
             .HasForeignKey(fc => fc.QuizId)
             .OnDelete(DeleteBehavior.Cascade);
-            
-        modelBuilder.Entity<QuestionText>()
-            .HasDiscriminator<string>("Discriminator")
-            .HasValue<MultipleChoice>("MultipleChoice")
-            .HasValue<TrueFalseQuestion>("TrueFalse");
     }
 }

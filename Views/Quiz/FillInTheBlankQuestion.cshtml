@@ -1,0 +1,47 @@
+@using QuizApp.ViewModels
+@model QuizApp.ViewModels.QuizViewModel
+
+<h1>Questions</h1>
+
+<div class="d-flex justify-content-center mt-5">
+    <div class="w-75">
+        @{
+            var question = Model.QuestionViewModels.ElementAt(Model.CurrentQuestionNum) as FillInTheBlankViewModel;
+            var questionNum = question!.QuizQuestionNum;
+            var currentIndex = Model.CurrentQuestionNum;
+        }
+        <h3 class="mb-4">Question @questionNum</h3>
+        <h5 class="text-start">@question.Question</h5>
+
+        <form asp-controller="Quiz" asp-action="NextQuestion" method="post">
+
+            <input type="hidden" name="CurrentQuestionNum" value="@Model.CurrentQuestionNum" />
+            <input type="hidden" name="QuizName" value="@Model.QuizName" />
+            <input type="hidden" name="QuizDescription" value="@Model.QuizDescription" />
+
+            @for (int i = 0; i < Model.QuestionViewModels.Count; i++)
+            {
+                var q = Model.QuestionViewModels[i] as FillInTheBlankViewModel;
+
+                <input type="hidden" name="QuestionViewModels[@i].FillInTheBlankId" value="@q.FillInTheBlankId" />
+                <input type="hidden" name="QuestionViewModels[@i].Question" value="@q.Question" />
+                <input type="hidden" name="QuestionViewModels[@i].QuizQuestionNum" value="@q.QuizQuestionNum" />
+
+                @if (i == Model.CurrentQuestionNum)
+                {
+                    <label>Your answer:</label>
+                    <input type="text"
+                        class="form-control mb-2 w-25"
+                        name="QuestionViewModels[@i].UserAnswer"
+                        value="@q.UserAnswer" />
+                }
+                else
+                {
+                    <input type="hidden" name="QuestionViewModels[@i].UserAnswer" value="@q.UserAnswer" />
+                }
+            }
+
+            <button type="submit" class="btn btn-primary">Next</button>
+        </form>
+    </div>
+</div>

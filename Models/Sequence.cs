@@ -8,6 +8,7 @@ namespace QuizApp.Models
  public class Sequence : Question
     {
         public int Id { get; set; }
+        public override int QuestionId => Id;
         public int QuizId { get; set; }
         public virtual Quiz? Quiz { get; set; } = default!;
         public string Question { get; set; } = string.Empty;

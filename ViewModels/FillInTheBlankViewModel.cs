@@ -3,10 +3,11 @@ using QuizApp.Models;
 
 namespace QuizApp.ViewModels
 {
-    public class FillInTheBlankViewModel
+    public class FillInTheBlankViewModel : QuestionViewModel
     {
         public int FillInTheBlankId { get; set; }
         public string Question { get; set; } = string.Empty;
+        public int QuizQuestionNum { get; set; }
 
         [Required(ErrorMessage = "Must answer")]
         public string UserAnswer { get; set; } = string.Empty;
@@ -15,10 +16,11 @@ namespace QuizApp.ViewModels
 
         public FillInTheBlankViewModel() {}
 
-        public FillInTheBlankViewModel(int id, string question)
+        public FillInTheBlankViewModel(FillInTheBlank question)
         {
-            FillInTheBlankId = id;
-            Question = question;
+            FillInTheBlankId = question.FillInTheBlankId;
+            Question = question.Question;
+            QuizQuestionNum = question.QuizQuestionNum;
         }
     }
 }

@@ -3,7 +3,7 @@ using QuizApp.Models;
 
 namespace QuizApp.ViewModels
 {
-    public class RankingViewModel
+    public class RankingViewModel : QuestionViewModel
     {
         public int Id { get; set; }
         public string Question { get; set; } = string.Empty;

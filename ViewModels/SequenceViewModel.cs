@@ -2,7 +2,7 @@ using QuizApp.Models;
 
 namespace QuizApp.ViewModels
 {
-    public class SequenceViewModel
+    public class SequenceViewModel : QuestionViewModel
     {
         public int Id { get; set; }
         public string Question { get; set; } = string.Empty;

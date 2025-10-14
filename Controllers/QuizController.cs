@@ -51,52 +51,67 @@ public class QuizController : Controller
             _logger.LogError("[QuizController - Get Quiz By Id] Quiz not found for the Id {Id: 0000}", id);
             return NotFound("Quiz not found.");
         }
-        var quizViewModel = new QuizzesViewModel(quiz);
-        string questionType = "";
-        switch (quizViewModel.Questions.ElementAt(quizViewModel.CurrentQuizNum).QuestionType)
-        {
-            case "Matching":
-                questionType = "Matching";
-                break;
-            case "Ranking":
-                questionType = "Ranking";
-                break;
-            case "Sequence":
-                questionType = "Sequence";
-                break;
-            case "FillInTheBlank":
-                questionType = "FillInTheBlank";
-                break;
-            default:
-                _logger.LogError("[QuizController - Open Quiz] Question type not found");
-                break;
-        }
+        var quizViewModel = new QuizViewModel(quiz);
+        // string questionType = "";
+        // switch (quizViewModel.Questions.ElementAt(quizViewModel.CurrentQuizNum).QuestionType)
+        // {
+        //     case "Matching":
+        //         questionType = "Matching";
+        //         break;
+        //     case "Ranking":
+        //         questionType = "Ranking";
+        //         break;
+        //     case "Sequence":
+        //         questionType = "Sequence";
+        //         break;
+        //     case "FillInTheBlank":
+        //         questionType = "FillInTheBlank";
+        //         break;
+        //     default:
+        //         _logger.LogError("[QuizController - Open Quiz] Question type not found");
+        //         break;
+        // }
 
         // Har ikke helt funnet ut hva hvordan det kan brukes her, men kan nok være nyttig:
         // Vi trenger ikke QuestionType, vi kan bruke:
-        if (quizViewModel.Questions.ElementAt(quizViewModel.CurrentQuizNum) is FillInTheBlank)
+        if (quizViewModel.QuestionViewModels.ElementAt(quizViewModel.CurrentQuestionNum) is FillInTheBlankViewModel)
         {
-            // return view("FillInTheBlank", quizViewModel)
+            return View("FillInTheBlankQuestion", quizViewModel);
         }
         // På denne måten slipper vi unødvendige kall og atributter
 
-        return View(questionType,quizViewModel);
+        return RedirectToAction(nameof(Quizzes));
     }
 
     [HttpPost]
-    public IActionResult NextQuestion(FlashCardsViewModel model)
+    public IActionResult NextQuestion(QuizViewModel model)
     {
-        if (model.CurrentFlashCardNum + 1 < model.FlashCards.Count())
-            model.CurrentFlashCardNum += 1;
+        if (model.CurrentQuestionNum + 1 < model.QuestionViewModels.Count())
+            model.CurrentQuestionNum += 1;
+
+        _logger.LogError("Amount of quetsions: {qs}", model.QuestionViewModels.Count);
+        _logger.LogError("Current q: {q}", model.CurrentQuestionNum);
+
+        if (model.QuestionViewModels.ElementAt(model.CurrentQuestionNum) is FillInTheBlankViewModel)
+        {
+            return View("FillInTheBlankQuestion", model);
+        }
+
         return View("FlashCards", model);
     }
 
     [HttpPost]
-    public IActionResult PrevFlashCard(FlashCardsViewModel model)
+    public IActionResult PrevQuestion(QuizViewModel model)
     {
-        if (model.CurrentFlashCardNum - 1 >= 0)
-            model.CurrentFlashCardNum -= 1;
+        if (model.CurrentQuestionNum - 1 >= 0)
+            model.CurrentQuestionNum -= 1;
         return View("FlashCards", model);
+    }
+
+    [HttpGet]
+    public IActionResult FillInTheBlankQuestion(QuizViewModel model)
+    {      
+        return View(model);
     }
 
     [HttpGet]

@@ -1,0 +1,16 @@
+@using QuizApp.ViewModels
+@model QuizApp.ViewModels.QuizViewModel
+
+<input type="hidden" asp-for="@Model.CurrentQuestionNum" />
+<input type="hidden" asp-for="@Model.QuizName" />
+<input type="hidden" asp-for="@Model.QuizDescription" />
+
+@for(int i = 0; i < Model.QuestionViewModels.Count; i++) {
+    if (i == Model.CurrentQuestionNum) continue;
+    if (Model.QuestionViewModels[i] is FillInTheBlankViewModel fibVm) {
+        <input type="hidden" name="QuestionViewModels[@i].FillInTheBlankId" value="@fibVm.FillInTheBlankId" />
+        <input type="hidden" name="QuestionViewModels[@i].Question" value="@fibVm.Question" />
+        <input type="hidden" name="QuestionViewModels[@i].UserAnswer" value="@fibVm.UserAnswer" />
+        <input type="hidden" name="QuestionViewModels[@i].QuizQuestionNum" value="@fibVm.QuizQuestionNum" />
+    }
+}

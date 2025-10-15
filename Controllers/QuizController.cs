@@ -4,17 +4,21 @@ using QuizApp.ViewModels;
 using QuizApp.DAL;
 using Serilog;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
+using Newtonsoft.Json;
+using Microsoft.CodeAnalysis.CSharp.Syntax;
 
 namespace QuizApp.Controllers;
 
 public class QuizController : Controller
 {
     private readonly IQuizRepository _quizRepository;
+    private readonly IFillInTheBlankRepository _fillInTheBlankRepository;
     private readonly ILogger<QuizController> _logger;
     
-    public QuizController(IQuizRepository quizRepository, ILogger<QuizController> logger)
+    public QuizController(IQuizRepository quizRepository, IFillInTheBlankRepository fillInTheBlankRepository, ILogger<QuizController> logger)
     {
         _quizRepository = quizRepository;
+        _fillInTheBlankRepository = fillInTheBlankRepository;
         _logger = logger;
     }
 
@@ -74,6 +78,7 @@ public class QuizController : Controller
 
         // Har ikke helt funnet ut hva hvordan det kan brukes her, men kan nok være nyttig:
         // Vi trenger ikke QuestionType, vi kan bruke:
+        Console.WriteLine(quizViewModel.QuizId);
         if (quizViewModel.QuestionViewModels.ElementAt(quizViewModel.CurrentQuestionNum) is FillInTheBlankViewModel)
         {
             return View("FillInTheBlankQuestion", quizViewModel);
@@ -84,12 +89,19 @@ public class QuizController : Controller
     }
 
     [HttpPost]
-    public IActionResult NextQuestion(QuizViewModel model)
+    public async Task<IActionResult> NextQuestion(int quizId, int quizQuestionNum, int quizTypeId, string userAnswer)
     {
+        Console.WriteLine($"{quizId}, {quizTypeId}, {userAnswer}");
+        
+        var quiz = await _quizRepository.GetQuizById(quizId);
+        var model = new QuizViewModel(quiz);
+        model.CurrentQuestionNum = quizQuestionNum;
         if (model.CurrentQuestionNum + 1 < model.QuestionViewModels.Count())
             model.CurrentQuestionNum += 1;
 
-        _logger.LogError("Amount of quetsions: {qs}", model.QuestionViewModels.Count);
+        
+        Console.WriteLine($"{model.CurrentQuestionNum}, {model.QuizName}");
+        _logger.LogError("Amount of questions: {qs}", model.QuestionViewModels.Count);
         _logger.LogError("Current q: {q}", model.CurrentQuestionNum);
 
         if (model.QuestionViewModels.ElementAt(model.CurrentQuestionNum) is FillInTheBlankViewModel)

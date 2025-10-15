@@ -4,6 +4,7 @@ namespace QuizApp.ViewModels
 {
     public class QuizViewModel
     {
+        public int QuizId { get; set; }
         public int CurrentQuestionNum { get; set; } = 0;
         public List<QuestionViewModel> QuestionViewModels { get; set; } = new List<QuestionViewModel>();
         public string QuizName { get; set; } = string.Empty;
@@ -12,6 +13,7 @@ namespace QuizApp.ViewModels
         public QuizViewModel() { }
         public QuizViewModel(Quiz quiz)
         {
+            QuizId = quiz.QuizId;
             QuizName = quiz.Name;
             QuizDescription = quiz.Description;
             

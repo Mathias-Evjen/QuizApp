@@ -92,14 +92,23 @@ public class QuizController : Controller
     public async Task<IActionResult> NextQuestion(int quizId, int quizQuestionNum, int quizTypeId, string userAnswer)
     {
         Console.WriteLine($"{quizId}, {quizTypeId}, {userAnswer}");
-        
         var quiz = await _quizRepository.GetQuizById(quizId);
+        if (quiz == null)
+        {
+            _logger.LogError("[QuizController - Get Quiz By Id] Quiz not found for the Id {Id: 0000}", quizId);
+            return NotFound("Quiz not found.");
+        }
+        var fillInTheBlank = await _fillInTheBlankRepository.GetQuestionById(quizTypeId);
+        Console.WriteLine($"Før update: {fillInTheBlank.Answer}");
+        UpdateQuizTypeObject(quiz, quizTypeId, quizQuestionNum, userAnswer);
+        var fillInTheBlank1 = await _fillInTheBlankRepository.GetQuestionById(quizTypeId);
+        Console.WriteLine($"Etter update: {fillInTheBlank1.Answer}");
         var model = new QuizViewModel(quiz);
         model.CurrentQuestionNum = quizQuestionNum;
         if (model.CurrentQuestionNum + 1 < model.QuestionViewModels.Count())
             model.CurrentQuestionNum += 1;
 
-        
+
         Console.WriteLine($"{model.CurrentQuestionNum}, {model.QuizName}");
         _logger.LogError("Amount of questions: {qs}", model.QuestionViewModels.Count);
         _logger.LogError("Current q: {q}", model.CurrentQuestionNum);
@@ -110,6 +119,21 @@ public class QuizController : Controller
         }
 
         return View("FlashCards", model);
+    }
+    
+    private async void UpdateQuizTypeObject(Quiz quiz, int quizTypeId, int quizQuestionNum, string userAnswer)
+    {
+        if (quiz.AllQuestions.ElementAt(quizQuestionNum) is FillInTheBlank)
+        {
+            var fillInTheBlank = await _fillInTheBlankRepository.GetQuestionById(quizTypeId);
+            if (fillInTheBlank == null)
+            {
+                _logger.LogError("[QuizController - Get FillInTheBlank By Id] FIll in the blank not found");
+                return;
+            }
+            fillInTheBlank.Answer = userAnswer;
+            await _fillInTheBlankRepository.UpdateQuestion(fillInTheBlank);
+        }
     }
 
     [HttpPost]

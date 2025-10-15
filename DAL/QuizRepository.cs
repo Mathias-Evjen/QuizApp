@@ -31,7 +31,7 @@ public class QuizRepository : IQuizRepository
     {
         try
         {
-            return await _db.Quizzes.FindAsync(id);
+            return await _db.Quizzes.Include(q => q.FillInTheBlankQuestions).FirstOrDefaultAsync(q => q.QuizId == id);
         }
         catch (Exception e)
         {

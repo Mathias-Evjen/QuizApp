@@ -113,7 +113,7 @@ namespace QuizApp.Controllers
         {
             if (!ModelState.IsValid)
             {
-                _logger.LogWarning("Invalid model state on MultipleChoice Edit. Id={Id}", question.Id);
+                _logger.LogWarning("Invalid model state on MultipleChoice Edit. Id={Id}", question.MultipleChoiceId);
                 return View(question);
             }
 
@@ -122,12 +122,12 @@ namespace QuizApp.Controllers
                 await _repo.UpdateAsync(question);
                 await _repo.SaveAsync();
 
-                _logger.LogInformation("MultipleChoice updated: Id={Id}", question.Id);
+                _logger.LogInformation("MultipleChoice updated: Id={Id}", question.MultipleChoiceId);
                 return RedirectToAction(nameof(Index));
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "Error updating MultipleChoice. Id={Id}", question.Id);
+                _logger.LogError(ex, "Error updating MultipleChoice. Id={Id}", question.MultipleChoiceId);
                 return View("Error");
             }
         }

@@ -53,7 +53,7 @@ namespace QuizApp.DAL
             {
                 return await _context.TrueFalseQuestions
                     .AsNoTracking()
-                    .FirstOrDefaultAsync(q => q.Id == id);
+                    .FirstOrDefaultAsync(q => q.TrueFalseQuestionId == id);
             }
             catch (Exception ex)
             {
@@ -68,7 +68,7 @@ namespace QuizApp.DAL
             try
             {
                 await _context.TrueFalseQuestions.AddAsync(question);
-                _logger.LogInformation("La til nytt True/False-spørsmål: {Text}", question.QuestionTexts);
+                _logger.LogInformation("La til nytt True/False-spørsmål: {Text}", question.QuestionText);
             }
             catch (Exception ex)
             {
@@ -83,12 +83,12 @@ namespace QuizApp.DAL
             try
             {
                 _context.TrueFalseQuestions.Update(question);
-                _logger.LogInformation("Oppdatert True/False-spørsmål med Id={Id}", question.Id);
+                _logger.LogInformation("Oppdatert True/False-spørsmål med Id={Id}", question.TrueFalseQuestionId);
                 await Task.CompletedTask; // behold async-signaturen
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "Feil ved oppdatering av True/False-spørsmål Id={Id}", question.Id);
+                _logger.LogError(ex, "Feil ved oppdatering av True/False-spørsmål Id={Id}", question.TrueFalseQuestionId);
                 throw;
             }
         }

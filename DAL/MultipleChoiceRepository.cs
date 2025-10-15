@@ -38,7 +38,7 @@ namespace QuizApp.DAL
             {
                 return await _context.MultipleChoices
                     .Include(q => q.Options) // Inkluderer alle alternativer
-                    .FirstOrDefaultAsync(q => q.Id == id);
+                    .FirstOrDefaultAsync(q => q.MultipleChoiceId == id);
             }
             catch (Exception ex)
             {
@@ -82,11 +82,11 @@ namespace QuizApp.DAL
                 // Henter eksisterende spørsmål fra databasen
                 var existing = await _context.MultipleChoices
                     .Include(q => q.Options)
-                    .FirstOrDefaultAsync(q => q.Id == question.Id);
+                    .FirstOrDefaultAsync(q => q.MultipleChoiceId == question.MultipleChoiceId);
 
                 if (existing == null)
                 {
-                    _logger.LogWarning("Attempted to update non-existing question Id={Id}", question.Id);
+                    _logger.LogWarning("Attempted to update non-existing question Id={Id}", question.MultipleChoiceId);
                     return;
                 }
 
@@ -104,16 +104,16 @@ namespace QuizApp.DAL
                 // Knytter nye alternativer til spørsmålet
                 foreach (var opt in existing.Options)
                 {
-                    opt.MultipleChoiceId = existing.Id;
+                    opt.MultipleChoiceId = existing.MultipleChoiceId;
                 }
 
                 // Oppdater spørsmålet i databasen
                 _context.MultipleChoices.Update(existing);
-                _logger.LogInformation("Updated question Id={Id}", question.Id);
+                _logger.LogInformation("Updated question Id={Id}", question.MultipleChoiceId);
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "Error updating question Id={Id}", question.Id);
+                _logger.LogError(ex, "Error updating question Id={Id}", question.MultipleChoiceId);
                 throw;
             }
         }
@@ -125,7 +125,7 @@ namespace QuizApp.DAL
             {
                 var question = await _context.MultipleChoices
                     .Include(q => q.Options)
-                    .FirstOrDefaultAsync(q => q.Id == id);
+                    .FirstOrDefaultAsync(q => q.MultipleChoiceId == id);
 
                 if (question != null)
                 {

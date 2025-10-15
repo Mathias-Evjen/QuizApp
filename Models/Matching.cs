@@ -8,8 +8,9 @@ namespace QuizApp.Models
     public class Matching : Question
     {
         public int Id { get; set; }
+        public override int QuestionId => Id;
         public int QuizId { get; set; }
-        public string QuestionType = "Matching";
+        // public override string QuestionType => "Matching";
         public virtual Quiz? Quiz { get; set; } = default!;
         public string Question { get; set; } = string.Empty;
         public string Answer { get; set; } = string.Empty;

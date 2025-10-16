@@ -7,12 +7,12 @@ namespace QuizApp.Models
     {
         public int Id { get; set; }
         public override int QuestionId => Id;
-        public int QuizId { get; set; }
-        public virtual Quiz? Quiz { get; set; } = default!;
         public string Question { get; set; } = string.Empty;
         public string QuestionText { get; set; } = string.Empty;
         public string Answer { get; set; } = string.Empty;
         public string CorrectAnswer { get; set; } = string.Empty;
+        public int QuizId { get; set; }
+        public virtual Quiz? Quiz { get; set; } = default!;
         public string Assemble(List<string> values, int task)
         {
             string questionOrAnswer = "";

@@ -70,46 +70,58 @@ public static class DBInit
             context.AddRange(questions);
             context.SaveChanges();
         }
-        // if (!context.SequenceQuestions.Any())
-        // {
-        //     var questions = new List<Sequence>
-        //     {
-        //         new Sequence {
-        //             Question = "Make an offer,Get pre-approved,Sign the purchase agreement,Find a home,Secure financing",
-        //             QuestionText = "Order the following steps of applying for a home loan from first to last:",
-        //             CorrectAnswer = "Get pre-approved,Find a home,Make an offer,Sign the purchase agreement,Secure financing",
-        //             QuizId = 1
-        //         },
-        //         new Sequence {
-        //             Question = "1801,1345,1814,2009,1918",
-        //             QuestionText = "Sequence these years from earliest to latest:",
-        //             CorrectAnswer = "1345,1801,1814,1918,2009",
-        //             QuizId = 1
-        //         }
-        //     };
-        //     context.AddRange(questions);
-        //     context.SaveChanges();
-        // }
-        // if (!context.RankingQuestions.Any())
-        // {
-        //     var questions = new List<Ranking>
-        //     {
-        //         new Ranking {
-        //             Question = "Service speed,Price,Ambiance,Food quality",
-        //             QuestionText = "Rank these factors from most to least important for a dining experience:",
-        //             CorrectAnswer = "Food quality,Service speed,Ambiance,Price",
-        //             QuizId = 1
-        //         },
-        //         new Ranking {
-        //             Question = "Location,Cleanliness,Price,Amenities",
-        //             QuestionText = "Rank these features from most to least important when choosing a hotel:",
-        //             CorrectAnswer = "Cleanliness,Location,Price,Amenities",
-        //             QuizId = 1
-        //         }
-        //     };
-        //     context.AddRange(questions);
-        //     context.SaveChanges();
-        // }
+        if (!context.SequenceQuestions.Any())
+        {
+            var quiz1 = context.Quizzes.Find(1);
+            var quiz2 = context.Quizzes.Find(2);
+            var questions = new List<Sequence>
+            {
+                new Sequence {
+                    Question = "Make an offer,Get pre-approved,Sign the purchase agreement,Find a home,Secure financing",
+                    QuestionText = "Order the following steps of applying for a home loan from first to last:",
+                    CorrectAnswer = "Get pre-approved,Find a home,Make an offer,Sign the purchase agreement,Secure financing",
+                    QuizId = 1,
+                    Quiz = quiz1,
+                    QuizQuestionNum = 4
+                },
+                new Sequence {
+                    Question = "1801,1345,1814,2009,1918",
+                    QuestionText = "Sequence these years from earliest to latest:",
+                    CorrectAnswer = "1345,1801,1814,1918,2009",
+                    QuizId = 2,
+                    Quiz = quiz2,
+                    QuizQuestionNum = 2
+                }
+            };
+            context.AddRange(questions);
+            context.SaveChanges();
+        }
+        if (!context.RankingQuestions.Any())
+        {
+            var quiz1 = context.Quizzes.Find(1);
+            var quiz2 = context.Quizzes.Find(2);
+            var questions = new List<Ranking>
+            {
+                new Ranking {
+                    Question = "Service speed,Price,Ambiance,Food quality",
+                    QuestionText = "Rank these factors from most to least important for a dining experience:",
+                    CorrectAnswer = "Food quality,Service speed,Ambiance,Price",
+                    QuizId = 1,
+                    Quiz = quiz1,
+                    QuizQuestionNum = 5
+                },
+                new Ranking {
+                    Question = "Location,Cleanliness,Price,Amenities",
+                    QuestionText = "Rank these features from most to least important when choosing a hotel:",
+                    CorrectAnswer = "Cleanliness,Location,Price,Amenities",
+                    QuizId = 1,
+                    Quiz = quiz2,
+                    QuizQuestionNum = 3
+                }
+            };
+            context.AddRange(questions);
+            context.SaveChanges();
+        }
 
         
         if (!context.FlashCardQuizzes.Any())

@@ -32,7 +32,7 @@ public class RankingController : Controller
     }
 
     [HttpPost]
-    public async Task<IActionResult> SubmitRankingQuestion(int id, List<string> values)
+    public async Task<IActionResult> SubmitRankingQuestion(int id, List<string> values, int quizId, int quizQuestionNum)
     {
         var rankingObject = await _rankingRepository.GetRankingById(id);
         if (rankingObject == null)
@@ -52,7 +52,11 @@ public class RankingController : Controller
             Console.WriteLine($"Answer is wrong, correct answer: {rankingObject.CorrectAnswer}");
         }
         await _rankingRepository.UpdateRanking(rankingObject);
-        return RedirectToAction("Index", "Home");
+        return RedirectToAction("NextQuestion", "Quiz", new
+        {
+            quizId = quizId,
+            quizQuestionNum = quizQuestionNum
+        });
     }
 
     [HttpPost]
@@ -78,14 +82,14 @@ public class RankingController : Controller
         return View();
     }
 
-    [HttpGet]
-    public async Task<IActionResult> ShowRankings()
-    {
-        var rankings = await _rankingRepository.GetAll();
+    // [HttpGet]
+    // public async Task<IActionResult> ShowRankings()
+    // {
+    //     var rankings = await _rankingRepository.GetAll();
 
-        var viewModel = new RankingViewModel(rankings);
-        return View(viewModel);
-    }
+    //     var viewModel = new RankingViewModel(rankings);
+    //     return View(viewModel);
+    // }
 
     public async Task<IActionResult> UpdateRankingPage(int id)
     {

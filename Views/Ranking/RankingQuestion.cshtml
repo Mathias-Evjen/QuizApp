@@ -1,14 +1,19 @@
-@model QuizApp.ViewModels.RankingViewModel
+@using QuizApp.ViewModels
+@model QuizApp.ViewModels.QuizViewModel
 
 @{
+    var rankingModel = Model.QuestionViewModels.ElementAt(Model.CurrentQuestionNum) as RankingViewModel;
+    //MÅ LEGGE TIL HVA SOM SKJER VED rankingModel = null 
     ViewData["Title"] = "Ranking Question";
-    var splitQuestion = Model.Question.Split(",");
+    var splitQuestion = rankingModel.Question.Split(",");
 }
 <div class="container">
-    <h3>@Model.QuestionText</h3>
+    <h3>@rankingModel.QuestionText</h3>
     <hr />
     <form asp-controller="Ranking" asp-action="SubmitRankingQuestion" method="post">
-        <input type="hidden" name="id" value="@Model.Id" />
+        <input type="hidden" name="id" value="@rankingModel.Id" />
+        <input type="hidden" name="quizId" value="@Model.QuizId" />
+        <input type="hidden" name="quizQuestionNum" value="@Model.CurrentQuestionNum" />
         <div class="align-items-center justify-content-center w-100">
             <div class="row position-relative align-items-center justify-content-center w-25" style="min-height:120px; border-radius:10px; background-color:rgb(243, 243, 243); padding:10px;margin-top: 50px; padding-top:30px;">
                 <label class="form-label" style="position: absolute; top: 5px; left: 5px; margin-bottom:30px;">Answer:</label>

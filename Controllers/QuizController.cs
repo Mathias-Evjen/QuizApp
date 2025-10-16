@@ -82,9 +82,17 @@ public class QuizController : Controller
         {
             return View("FillInTheBlankQuestion", quizViewModel);
         }
-        else if(quizViewModel.QuestionViewModels.ElementAt(quizViewModel.CurrentQuestionNum) is MatchingViewModel)
+        else if (quizViewModel.QuestionViewModels.ElementAt(quizViewModel.CurrentQuestionNum) is MatchingViewModel)
         {
             return View("~/Views/Matching/MatchingQuestion.cshtml", quizViewModel);
+        }
+        else if (quizViewModel.QuestionViewModels.ElementAt(quizViewModel.CurrentQuestionNum) is SequenceViewModel)
+        {
+            return View("~/Views/Sequence/SequenceQuestion.cshtml", quizViewModel);
+        }
+        else if(quizViewModel.QuestionViewModels.ElementAt(quizViewModel.CurrentQuestionNum) is RankingViewModel)
+        {
+            return View("~/Views/Ranking/RankingQuestion.cshtml", quizViewModel);
         }
         // På denne måten slipper vi unødvendige kall og atributter
 
@@ -110,9 +118,17 @@ public class QuizController : Controller
         {
             return View("FillInTheBlankQuestion", model);
         }
-        else if(model.QuestionViewModels.ElementAt(model.CurrentQuestionNum) is MatchingViewModel)
+        else if (model.QuestionViewModels.ElementAt(model.CurrentQuestionNum) is MatchingViewModel)
         {
             return View("~/Views/Matching/MatchingQuestion.cshtml", model);
+        }
+        else if (model.QuestionViewModels.ElementAt(model.CurrentQuestionNum) is SequenceViewModel)
+        {
+            return View("~/Views/Sequence/SequenceQuestion.cshtml", model);
+        }
+        else if(model.QuestionViewModels.ElementAt(model.CurrentQuestionNum) is RankingViewModel)
+        {
+            return View("~/Views/Ranking/RankingQuestion.cshtml", model);
         }
 
         return View("FlashCards", model);

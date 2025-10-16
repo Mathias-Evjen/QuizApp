@@ -32,7 +32,7 @@ public class SequenceController : Controller
     }
 
     [HttpPost]
-    public async Task<IActionResult> SubmitSequenceQuestion(int id, List<string> values)
+    public async Task<IActionResult> SubmitSequenceQuestion(int id, List<string> values, int quizId, int quizQuestionNum)
     {
         var sequenceObject = await _sequenceRepository.GetSequenceById(id);
         if (sequenceObject == null)
@@ -52,7 +52,11 @@ public class SequenceController : Controller
             Console.WriteLine($"Answer is wrong, correct answer: {sequenceObject.CorrectAnswer}");
         }
         await _sequenceRepository.UpdateSequence(sequenceObject);
-        return RedirectToAction("Index", "Home");
+        return RedirectToAction("NextQuestion", "Quiz", new
+        {
+            quizId = quizId,
+            quizQuestionNum = quizQuestionNum
+        });
     }
 
     [HttpPost]
@@ -78,14 +82,14 @@ public class SequenceController : Controller
         return View();
     }
 
-    [HttpGet]
-    public async Task<IActionResult> ShowSequences()
-    {
-        var sequences = await _sequenceRepository.GetAll();
+    // [HttpGet]
+    // public async Task<IActionResult> ShowSequences()
+    // {
+    //     var sequences = await _sequenceRepository.GetAll();
 
-        var viewModel = new SequenceViewModel(sequences);
-        return View(viewModel);
-    }
+    //     var viewModel = new SequenceViewModel(sequences);
+    //     return View(viewModel);
+    // }
 
     public async Task<IActionResult> UpdateSequencePage(int id)
     {

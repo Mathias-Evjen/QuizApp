@@ -1,5 +1,7 @@
+@using Newtonsoft.Json
 @using QuizApp.ViewModels
 @model QuizApp.ViewModels.QuizViewModel
+
 
 <h1>Questions</h1>
 
@@ -8,11 +10,11 @@
         @* @{
             var question = Model.QuestionViewModels.ElementAt(0) as FillInTheBlankViewModel;
             var questionNum = question!.QuizQuestionNum;
+            
         } *@
-        <h3 class="mb-4">Question @Model.QuestionViewModels.Count</h3>
+        <h3 class="mb-4">Queeestion @Model.QuestionViewModels.Count</h3>
 
         <form asp-controller="Quiz" asp-action="NextQuestion" method="post">
-
             @* @{
                 var question = Model.QuestionViewModels.ElementAt(Model.CurrentQuestionNum) as FillInTheBlankViewModel;
                 var vd = new ViewDataDictionary(ViewData);

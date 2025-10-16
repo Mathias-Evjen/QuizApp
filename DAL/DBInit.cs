@@ -23,24 +23,30 @@ public static class DBInit
             context.SaveChanges();
         }
 
-        // if (!context.MatchingQuestions.Any())
-        // {
-        //     var questions = new List<Matching>
-        //     {
-        //         new Matching {
-        //             Question = "fotball,kake,hjul,knotter,bake,hav,bade,bil",
-        //             CorrectAnswer = "fotball,knotter,hjul,bil,bake,kake,bade,hav",
-        //             QuizId = 1
-        //         },
-        //         new Matching {
-        //             Question = "sol,snø,tre,planet,vinter,blader",
-        //             CorrectAnswer = "sol,planet,tre,blader,vinter,snø",
-        //             QuizId = 2
-        //         }
-        //     };
-        //     context.AddRange(questions);
-        //     context.SaveChanges();
-        // }
+        if (!context.MatchingQuestions.Any())
+        {
+            var quiz1 = context.Quizzes.Find(1);
+            var quiz2 = context.Quizzes.Find(2);
+            var questions = new List<Matching>
+            {
+                new Matching {
+                    Question = "fotball,kake,hjul,knotter,bake,hav,bade,bil",
+                    CorrectAnswer = "fotball,knotter,hjul,bil,bake,kake,bade,hav",
+                    QuizId = 1,
+                    Quiz = quiz1,
+                    QuizQuestionNum = 3
+                },
+                new Matching {
+                    Question = "sol,snø,tre,planet,vinter,blader",
+                    CorrectAnswer = "sol,planet,tre,blader,vinter,snø",
+                    QuizId = 2,
+                    Quiz = quiz2,
+                    QuizQuestionNum = 1
+                }
+            };
+            context.AddRange(questions);
+            context.SaveChanges();
+        }
         if (!context.FillInTheBlankQuestions.Any())
         {
             var quiz1 = context.Quizzes.Find(1);
@@ -48,14 +54,14 @@ public static class DBInit
             {
                 new FillInTheBlank {
                     Question = "What is the capital of Norway?",
-                    Answer = "Oslo",
+                    CorrectAnswer = "Oslo",
                     QuizId = 1,
                     Quiz = quiz1,
                     QuizQuestionNum = 1
                 },
                 new FillInTheBlank {
                     Question = "What is the capital of Sweden?",
-                    Answer = "Stockholm",
+                    CorrectAnswer = "Stockholm",
                     QuizId = 1,
                     Quiz = quiz1,
                     QuizQuestionNum = 2

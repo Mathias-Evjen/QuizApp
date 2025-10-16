@@ -4,6 +4,8 @@ using QuizApp.ViewModels;
 using QuizApp.DAL;
 using Serilog;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
+using Newtonsoft.Json;
+using Microsoft.CodeAnalysis.CSharp.Syntax;
 
 namespace QuizApp.Controllers;
 
@@ -45,6 +47,7 @@ public class QuizController : Controller
     [HttpGet]
     public async Task<IActionResult> OpenQuiz(int id)
     {
+        Console.WriteLine(id);
         var quiz = await _quizRepository.GetQuizById(id);
         if (quiz == null)
         {
@@ -74,31 +77,47 @@ public class QuizController : Controller
 
         // Har ikke helt funnet ut hva hvordan det kan brukes her, men kan nok være nyttig:
         // Vi trenger ikke QuestionType, vi kan bruke:
+        Console.WriteLine(quizViewModel.QuizId);
         if (quizViewModel.QuestionViewModels.ElementAt(quizViewModel.CurrentQuestionNum) is FillInTheBlankViewModel)
         {
             return View("FillInTheBlankQuestion", quizViewModel);
+        }
+        else if(quizViewModel.QuestionViewModels.ElementAt(quizViewModel.CurrentQuestionNum) is MatchingViewModel)
+        {
+            return View("~/Views/Matching/MatchingQuestion.cshtml", quizViewModel);
         }
         // På denne måten slipper vi unødvendige kall og atributter
 
         return RedirectToAction(nameof(Quizzes));
     }
 
-    [HttpPost]
-    public IActionResult NextQuestion(QuizViewModel model)
+    [HttpGet]
+    public async Task<IActionResult> NextQuestion(int quizId, int quizQuestionNum)
     {
+        var quiz = await _quizRepository.GetQuizById(quizId);
+        if (quiz == null)
+        {
+            _logger.LogError("[QuizController - Get Quiz By Id] Quiz not found for the Id {Id: 0000}", quizId);
+            return NotFound("Quiz not found.");
+        }
+        var model = new QuizViewModel(quiz);
+        model.CurrentQuestionNum = quizQuestionNum;
         if (model.CurrentQuestionNum + 1 < model.QuestionViewModels.Count())
+        {
             model.CurrentQuestionNum += 1;
-
-        _logger.LogError("Amount of quetsions: {qs}", model.QuestionViewModels.Count);
-        _logger.LogError("Current q: {q}", model.CurrentQuestionNum);
-
+        }
         if (model.QuestionViewModels.ElementAt(model.CurrentQuestionNum) is FillInTheBlankViewModel)
         {
             return View("FillInTheBlankQuestion", model);
         }
+        else if(model.QuestionViewModels.ElementAt(model.CurrentQuestionNum) is MatchingViewModel)
+        {
+            return View("~/Views/Matching/MatchingQuestion.cshtml", model);
+        }
 
         return View("FlashCards", model);
     }
+
 
     [HttpPost]
     public IActionResult PrevQuestion(QuizViewModel model)

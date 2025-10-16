@@ -1,3 +1,4 @@
+using System.ComponentModel.DataAnnotations;
 using QuizApp.Models;
 
 namespace QuizApp.ViewModels
@@ -6,14 +7,15 @@ namespace QuizApp.ViewModels
     {
         public int Id { get; set; }
         public string Question { get; set; } = string.Empty;
-        public IEnumerable<Matching> Matchings { get; set; } = new List<Matching>();
+        public int QuizQuestionNum { get; set; }
+        
+        [Required(ErrorMessage = "Must answer")]
+        public string UserAnswer { get; set; } = string.Empty;
+        public string CorrectAnswer { get; set; } = string.Empty;
+        public int AmountCorrect { get; set; }
         public List<string> Keys { get; set; } = new List<string>();
         public List<string> Values { get; set; } = new List<string>();
 
-        public MatchingViewModel(IEnumerable<Matching>? matchings)
-        {
-            Matchings = matchings!;
-        }
 
         public MatchingViewModel(Matching question)
         {

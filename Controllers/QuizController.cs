@@ -47,6 +47,7 @@ public class QuizController : Controller
     [HttpGet]
     public async Task<IActionResult> OpenQuiz(int id)
     {
+        Console.WriteLine(id);
         var quiz = await _quizRepository.GetQuizById(id);
         if (quiz == null)
         {
@@ -81,6 +82,10 @@ public class QuizController : Controller
         {
             return View("FillInTheBlankQuestion", quizViewModel);
         }
+        else if(quizViewModel.QuestionViewModels.ElementAt(quizViewModel.CurrentQuestionNum) is MatchingViewModel)
+        {
+            return View("~/Views/Matching/MatchingQuestion.cshtml", quizViewModel);
+        }
         // På denne måten slipper vi unødvendige kall og atributter
 
         return RedirectToAction(nameof(Quizzes));
@@ -104,6 +109,10 @@ public class QuizController : Controller
         if (model.QuestionViewModels.ElementAt(model.CurrentQuestionNum) is FillInTheBlankViewModel)
         {
             return View("FillInTheBlankQuestion", model);
+        }
+        else if(model.QuestionViewModels.ElementAt(model.CurrentQuestionNum) is MatchingViewModel)
+        {
+            return View("~/Views/Matching/MatchingQuestion.cshtml", model);
         }
 
         return View("FlashCards", model);

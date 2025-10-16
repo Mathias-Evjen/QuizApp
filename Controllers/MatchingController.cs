@@ -35,7 +35,7 @@ public class MatchingController : Controller
     }
 
     [HttpPost]
-    public async Task<IActionResult> SubmitMatchingQuestion(int id, List<string> keys, List<string> values)
+    public async Task<IActionResult> SubmitMatchingQuestion(int id, List<string> keys, List<string> values, int quizId, int quizQuestionNum)
     {
         var matchingObject = await _matchingRepository.GetMatchingById(id);
         if (matchingObject == null)
@@ -71,7 +71,11 @@ public class MatchingController : Controller
         }
         matchingObject.AmountCorrect = correctCounter;
         await _matchingRepository.UpdateMatching(matchingObject);
-        return RedirectToAction("Index", "Home");
+        return RedirectToAction("NextQuestion", "Quiz", new
+        {
+            quizId = quizId,
+            quizQuestionNum = quizQuestionNum
+        });
     }
 
     [HttpPost]
@@ -96,7 +100,7 @@ public class MatchingController : Controller
     {
         return View();
     }
-
+/*
     [HttpGet]
     public async Task<IActionResult> ShowMatchings()
     {
@@ -105,7 +109,7 @@ public class MatchingController : Controller
         var viewModel = new MatchingViewModel(matchings);
         return View(viewModel);
     }
-
+*/
     public async Task<IActionResult> UpdateMatchingPage(int id)
     {
         var matching = await _matchingRepository.GetMatchingById(id);

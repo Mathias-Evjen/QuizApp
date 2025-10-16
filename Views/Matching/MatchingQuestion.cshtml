@@ -1,6 +1,9 @@
-@model QuizApp.ViewModels.MatchingViewModel
+@using QuizApp.ViewModels
+@model QuizApp.ViewModels.QuizViewModel
 
 @{
+    var matchingModel = Model.QuestionViewModels.ElementAt(Model.CurrentQuestionNum) as MatchingViewModel;
+    //MÅ LEGGE TIL HVA SOM SKJER VED matchingModel = null
     //var pairQuestions = Model.Question.SplitQuestion();
     //var matching = Model.Questions.ElementAt(Model.CurrentQuizNum);
 }
@@ -10,20 +13,22 @@
     <hr>
 <div class="container">
     <form asp-controller="Matching" asp-action="SubmitMatchingQuestion" method="post">
-        <input type="hidden" name="id" value="@Model.Id" />
+        <input type="hidden" name="id" value="@matchingModel.Id" />
+        <input type="hidden" name="quizId" value="@Model.QuizId" />
+        <input type="hidden" name="quizQuestionNum" value="@Model.CurrentQuestionNum" />
         <table class="table table-bordered" style="width: 400px;">
-            @for (int i = 0; i < Model.Keys.Count; i++){
+            @for (int i = 0; i < matchingModel.Keys.Count; i++){
                 <tr class="text-center align-items-center justify-content-center">
                     <td>
-                        <label>@Model.Keys[i]</label>
-                        <input type="hidden" name="keys" value="@Model.Keys[i]" />
+                        <label>@matchingModel.Keys[i]</label>
+                        <input type="hidden" name="keys" value="@matchingModel.Keys[i]" />
                     </td>
                     <td>
                         <select class="form-select" name="values">
-                            <option value="@Model.Values[i]">@Model.Values[i]</option>
-                            @for(int j = 0; j < Model.Values.Count; j++){
-                                if (Model.Values[j] != Model.Keys[i] && Model.Values[j] != Model.Values[i]){
-                                    <option value="@Model.Values[j]">@Model.Values[j]</option>
+                            <option value="@matchingModel.Values[i]">@matchingModel.Values[i]</option>
+                            @for(int j = 0; j < matchingModel.Values.Count; j++){
+                                if (matchingModel.Values[j] != matchingModel.Keys[i] && matchingModel.Values[j] != matchingModel.Values[i]){
+                                    <option value="@matchingModel.Values[j]">@matchingModel.Values[j]</option>
                                 }
                             }
                         </select>

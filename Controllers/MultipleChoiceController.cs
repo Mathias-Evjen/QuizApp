@@ -2,174 +2,108 @@ using Microsoft.AspNetCore.Mvc;
 using QuizApp.DAL;
 using QuizApp.Models;
 
-namespace QuizApp.Controllers
+namespace QuizApp.Controllers;
+
+public class MultipleChoiceController : Controller
 {
-    public class MultipleChoiceController : Controller
+    private readonly IMultipleChoiceRepository _multipleChoiceRepository;
+    private readonly ILogger<MultipleChoiceController> _logger;
+
+    public MultipleChoiceController(IMultipleChoiceRepository multipleChoiceRepository, ILogger<MultipleChoiceController> logger)
     {
-        private readonly IMultipleChoiceRepository _repo;
-        private readonly ILogger<MultipleChoiceController> _logger;
+        _multipleChoiceRepository = multipleChoiceRepository;
+        _logger = logger;
+    }
 
-        public MultipleChoiceController(IMultipleChoiceRepository repo, ILogger<MultipleChoiceController> logger)
+    public async Task<IActionResult> Index()
+    {
+        var questions = await _multipleChoiceRepository.GetAll();
+        if (questions == null)
         {
-            _repo = repo;
-            _logger = logger;
+            _logger.LogError("[MultipleChoiceController] Could not fetch MultipleChoice questions from repository.");
+            return NotFound("Questions not found");
         }
 
-        // GET: /MultipleChoice
-        public async Task<IActionResult> Index()
-        {
-            try
-            {
-                var questions = await _repo.GetAllAsync();
-                return View(questions);
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError(ex, "Failed to load Multiple Choice list.");
-                return View("Error");
-            }
-        }
+        return View(questions);
+    }
 
-        // GET: /Create
-        public IActionResult Create()
-        {
+    [HttpGet]
+    public IActionResult CreateMultipleChoiceQuestion()
+    {
+        return View();
+    }
 
-            var question = new MultipleChoice
-            {
-                Options = new List<Option>
-                {
-                    new Option(),
-                    new Option(),
-                    new Option(),
-                    new Option()
-                }
-            };
+    [HttpPost]
+    public async Task<IActionResult> CreateMultipleChoiceQuestion(MultipleChoice question)
+    {
+        if (!ModelState.IsValid)
+        {
             return View(question);
         }
 
-        // POST: /Create
-        [HttpPost]
-        public async Task<IActionResult> Create(MultipleChoice question)
+        var ok = await _multipleChoiceRepository.Create(question);
+        if (!ok)
         {
-            if (!ModelState.IsValid)
-            {
-                _logger.LogWarning("Invalid model state on MultipleChoice Create.");
-                return View(question);
-            }
-
-            try
-            {
-                question.Options = (question.Options ?? new List<Option>())
-                    .Where(o => !string.IsNullOrWhiteSpace(o.Text))
-                    .ToList();
-
-                foreach (var opt in question.Options)
-                {
-                    opt.MultipleChoice = question;
-                }
-
-                await _repo.AddAsync(question);
-                await _repo.SaveAsync();
-
-                _logger.LogInformation("MultipleChoice created: {Question}", question.QuestionTexts);
-                return RedirectToAction(nameof(Index));
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError(ex, "Error creating MultipleChoice question.");
-                return View("Error");
-            }
+            _logger.LogError("[MultipleChoiceController] Failed to create question {@Question}", question);
+            return View(question);
         }
 
-        // GET: /Edit
-        public async Task<IActionResult> Edit(int id)
+        return RedirectToAction("Index");
+    }
+
+    [HttpGet]
+    public async Task<IActionResult> EditMultipleChoiceQuestion(int id)
+    {
+        var question = await _multipleChoiceRepository.GetById(id);
+        if (question == null)
         {
-            try
-            {
-                var question = await _repo.GetDetailedAsync(id);
-                if (question == null)
-                {
-                    _logger.LogWarning("Edit requested for non-existing MultipleChoice Id={Id}", id);
-                    return NotFound();
-                }
-
-                while (question.Options.Count < 4)
-                {
-                    question.Options.Add(new Option());
-                }
-
-                return View(question);
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError(ex, "Failed to load MultipleChoice for edit. Id={Id}", id);
-                return View("Error");
-            }
+            _logger.LogError("[MultipleChoiceController] Question not found, Id={Id:0000}", id);
+            return NotFound("Question not found");
         }
 
-        // POST: /Edit
-        [HttpPost]
-        public async Task<IActionResult> Edit(MultipleChoice question)
+        return View(question);
+    }
+
+    [HttpPost]
+    public async Task<IActionResult> EditMultipleChoiceQuestion(MultipleChoice question)
+    {
+        if (!ModelState.IsValid)
         {
-            if (!ModelState.IsValid)
-            {
-                _logger.LogWarning("Invalid model state on MultipleChoice Edit. Id={Id}", question.MultipleChoiceId);
-                return View(question);
-            }
-
-            try
-            {
-                await _repo.UpdateAsync(question);
-                await _repo.SaveAsync();
-
-                _logger.LogInformation("MultipleChoice updated: Id={Id}", question.MultipleChoiceId);
-                return RedirectToAction(nameof(Index));
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError(ex, "Error updating MultipleChoice. Id={Id}", question.MultipleChoiceId);
-                return View("Error");
-            }
+            return View(question);
         }
 
-        // GET: /Delete
-        public async Task<IActionResult> Delete(int id)
+        var ok = await _multipleChoiceRepository.Update(question);
+        if (!ok)
         {
-            try
-            {
-                var question = await _repo.GetDetailedAsync(id);
-                if (question == null)
-                {
-                    _logger.LogWarning("Delete requested for non-existing MultipleChoice Id={Id}", id);
-                    return NotFound();
-                }
-
-                return View(question);
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError(ex, "Failed to load MultipleChoice for delete. Id={Id}", id);
-                return View("Error");
-            }
+            _logger.LogError("[MultipleChoiceController] Failed to update question {@Question}", question);
+            return View(question);
         }
 
-        // POST: /DeleteConfirmed
-        [HttpPost, ActionName("Delete")]
-        public async Task<IActionResult> DeleteConfirmed(int id)
-        {
-            try
-            {
-                await _repo.DeleteAsync(id);
-                await _repo.SaveAsync();
+        return RedirectToAction("Index");
+    }
 
-                _logger.LogInformation("MultipleChoice deleted: Id={Id}", id);
-                return RedirectToAction(nameof(Index));
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError(ex, "Error deleting MultipleChoice. Id={Id}", id);
-                return View("Error");
-            }
+    [HttpGet]
+    public async Task<IActionResult> DeleteMultipleChoiceQuestion(int id)
+    {
+        var question = await _multipleChoiceRepository.GetById(id);
+        if (question == null)
+        {
+            _logger.LogError("[MultipleChoiceController] Question not found for deletion, Id={Id:0000}", id);
+            return NotFound();
         }
+
+        return View(question);
+    }
+
+    [HttpPost, ActionName("DeleteMultipleChoiceQuestion")]
+    public async Task<IActionResult> ConfirmDelete(int id)
+    {
+        var ok = await _multipleChoiceRepository.Delete(id);
+        if (!ok)
+        {
+            _logger.LogError("[MultipleChoiceController] Failed to delete question Id={Id:0000}", id);
+        }
+
+        return RedirectToAction("Index");
     }
 }

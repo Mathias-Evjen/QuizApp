@@ -6,140 +6,115 @@ namespace QuizApp.Controllers
 {
     public class TrueFalseController : Controller
     {
-        private readonly ITrueFalseRepository _repo;
+        private readonly ITrueFalseRepository _trueFalseRepository;
         private readonly ILogger<TrueFalseController> _logger;
 
-        public TrueFalseController(ITrueFalseRepository repo, ILogger<TrueFalseController> logger)
+        public TrueFalseController(ITrueFalseRepository trueFalseRepository, ILogger<TrueFalseController> logger)
         {
-            _repo = repo;
+            _trueFalseRepository = trueFalseRepository;
             _logger = logger;
         }
 
         // GET: /TrueFalse
         public async Task<IActionResult> Index()
         {
-            try
+            var questions = await _trueFalseRepository.GetAll();
+            if (questions == null)
             {
-                var questions = await _repo.GetAllAsync();
-                return View(questions);
+                _logger.LogError("[TrueFalseController] Could not fetch True/False questions from repository.");
+                return NotFound("Questions not found");
             }
-            catch (Exception ex)
-            {
-                _logger.LogError(ex, "Failed to load TrueFalse list.");
-                return View("Error");
-            }
+
+            return View(questions);
         }
 
         // GET: /Create
-        public IActionResult Create() => View();
+        [HttpGet]
+        public IActionResult CreateTrueFalseQuestion()
+        {
+            return View();
+        }
 
         // POST: /Create
         [HttpPost]
-        public async Task<IActionResult> Create(TrueFalseQuestion question)
+        public async Task<IActionResult> CreateTrueFalseQuestion(TrueFalseQuestion question)
         {
             if (!ModelState.IsValid)
             {
-                _logger.LogWarning("Invalid model state on TrueFalse Create.");
+                _logger.LogWarning("[TrueFalseController] Invalid model state while creating question");
                 return View(question);
             }
 
-            try
+            var ok = await _trueFalseRepository.Create(question);
+            if (!ok)
             {
-                await _repo.AddAsync(question);
-                await _repo.SaveAsync();
+                _logger.LogError("[TrueFalseController] Failed to create question {@Question}", question);
+                return View(question);
+            }
 
-                _logger.LogInformation("TrueFalse created: {Question}", question.TrueFalseQuestionId);
-                return RedirectToAction(nameof(Index));
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError(ex, "Error creating TrueFalse.");
-                return View("Error");
-            }
+            return RedirectToAction("Index");
         }
 
         // GET: /Edit
-        public async Task<IActionResult> Edit(int id)
+        [HttpGet]
+        public async Task<IActionResult> EditTrueFalseQuestion(int id)
         {
-            try
             {
-                var question = await _repo.GetByIdAsync(id);
+                var question = await _trueFalseRepository.GetById(id);
                 if (question == null)
                 {
-                    _logger.LogWarning("Edit requested for non-existing TrueFalse Id={Id}", id);
-                    return NotFound();
+                    _logger.LogWarning("[TrueFalseController] Question not found for Id {Id:0000}", id);
+                    return NotFound("Question not found");
                 }
+
                 return View(question);
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError(ex, "Failed to load TrueFalse for edit. Id={Id}", id);
-                return View("Error");
             }
         }
 
         // POST: /Edit
         [HttpPost]
-        public async Task<IActionResult> Edit(TrueFalseQuestion question)
+        public async Task<IActionResult> EditTrueFalseQuestion(TrueFalseQuestion question)
         {
             if (!ModelState.IsValid)
             {
-                _logger.LogWarning("Invalid model state on TrueFalse Edit. Id={Id}", question.TrueFalseQuestionId);
                 return View(question);
             }
 
-            try
+            var ok = await _trueFalseRepository.Update(question);
+            if (!ok)
             {
-                await _repo.UpdateAsync(question);
-                await _repo.SaveAsync();
+                _logger.LogError("[TrueFalseController] Failed to update question with Id {Id:0000}", question.Id);
+                return View(question);
+            }
 
-                _logger.LogInformation("TrueFalse updated: Id={Id}", question.TrueFalseQuestionId);
-                return RedirectToAction(nameof(Index));
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError(ex, "Error updating TrueFalse. Id={Id}", question.TrueFalseQuestionId);
-                return View("Error");
-            }
+            return RedirectToAction("Index");
         }
 
         // GET: /Delete
-        public async Task<IActionResult> Delete(int id)
+        [HttpGet]
+        public async Task<IActionResult> DeleteTrueFalseQuestion(int id)
         {
-            try
+            
+            var question = await _trueFalseRepository.GetById(id);
+            if (question == null)
             {
-                var question = await _repo.GetByIdAsync(id);
-                if (question == null)
-                {
-                    _logger.LogWarning("Delete requested for non-existing TrueFalse Id={Id}", id);
-                    return NotFound();
-                }
-                return View(question);
+                _logger.LogWarning("[TrueFalseController] Question not found for deletion, Id={Id:0000}", id);
+                return NotFound();
             }
-            catch (Exception ex)
-            {
-                _logger.LogError(ex, "Failed to load TrueFalse for delete. Id={Id}", id);
-                return View("Error");
-            }
+            return View(question);
         }
 
         // POST: /Delete
-        [HttpPost, ActionName("Delete")]
-        public async Task<IActionResult> DeleteConfirmed(int id)
+        [HttpPost, ActionName("DeleteTrueFalseQuestion")]
+        public async Task<IActionResult> ConfirmDelete(int id)
         {
-            try
+            var ok = await _trueFalseRepository.Delete(id);
+            if (!ok)
             {
-                await _repo.DeleteAsync(id);
-                await _repo.SaveAsync();
+                _logger.LogError("[TrueFalseController] Failed to delete question with Id={Id:0000}", id);
+            }
 
-                _logger.LogInformation("TrueFalse deleted: Id={Id}", id);
-                return RedirectToAction(nameof(Index));
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError(ex, "Error deletinSg TrueFalse. Id={Id}", id);
-                return View("Error");
-            }
+            return RedirectToAction("Index");
         }
     }
 }

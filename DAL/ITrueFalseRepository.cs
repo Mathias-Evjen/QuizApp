@@ -1,17 +1,13 @@
 using QuizApp.Models;
-using System.Collections.Generic;
-using System.Threading.Tasks;
 
-namespace QuizApp.DAL
+namespace QuizApp.DAL;
+
+public interface ITrueFalseRepository
 {
-    public interface ITrueFalseRepository
-    {
-        Task<List<TrueFalseQuestion>> GetAllAsync();
-        Task<TrueFalseQuestion?> GetByIdAsync(int id);
-        Task<TrueFalseQuestion?> GetDetailedAsync(int id);
-        Task AddAsync(TrueFalseQuestion question);
-        Task UpdateAsync(TrueFalseQuestion question);
-        Task DeleteAsync(int id);
-        Task SaveAsync();
-    }
+    Task<IEnumerable<TrueFalseQuestion>?> GetAll();
+    Task<TrueFalseQuestion?> GetById(int id);
+    Task<bool> Create(TrueFalseQuestion question);
+    Task<bool> Update(TrueFalseQuestion question);
+    Task<bool> Delete(int id);
 }
+

@@ -1,134 +1,105 @@
 using Microsoft.EntityFrameworkCore;
 using QuizApp.Models;
 
-namespace QuizApp.DAL
+namespace QuizApp.DAL;
+
+public class TrueFalseRepository : ITrueFalseRepository
 {
-    // Repository som håndterer alle databaseoperasjoner for True/False-spørsmål
-    public class TrueFalseRepository : ITrueFalseRepository
+    private readonly QuizDbContext _db;
+    private readonly ILogger<TrueFalseRepository> _logger;
+
+    public TrueFalseRepository(QuizDbContext db, ILogger<TrueFalseRepository> logger)
     {
-        private readonly QuizDbContext _context;                       // Databasekontekst
-        private readonly ILogger<TrueFalseRepository> _logger;         // Logger for feilhåndtering og sporing
+        _db = db;
+        _logger = logger;
+    }
 
-        // Konstruktør som mottar databasekonteksten og loggeren via dependency injection
-        public TrueFalseRepository(QuizDbContext context, ILogger<TrueFalseRepository> logger)
+    // Henter alle True/False-spørsmål
+    public async Task<IEnumerable<TrueFalseQuestion>?> GetAll()
+    {
+        try
         {
-            _context = context;
-            _logger = logger;
+            return await _db.TrueFalseQuestions.AsNoTracking().ToListAsync();
         }
-
-        // Henter alle True/False-spørsmål fra databasen uten sporing
-        public async Task<List<TrueFalseQuestion>> GetAllAsync()
+        catch (Exception e)
         {
-            try
-            {
-                return await _context.TrueFalseQuestions
-                    .AsNoTracking()
-                    .ToListAsync();
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError(ex, "Feil ved henting av alle True/False-spørsmål.");
-                return new List<TrueFalseQuestion>();
-            }
+            _logger.LogError("[TrueFalseRepository] ToListAsync() failed in GetAll(), error: {e}", e.Message);
+            return null;
         }
+    }
 
-        // Henter ett True/False-spørsmål basert på ID
-        public async Task<TrueFalseQuestion?> GetByIdAsync(int id)
+    // Henter ett spørsmål basert på ID
+    public async Task<TrueFalseQuestion?> GetById(int id)
+    {
+        try
         {
-            try
-            {
-                return await _context.TrueFalseQuestions.FindAsync(id);
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError(ex, "Feil ved henting av True/False-spørsmål med Id={Id}", id);
-                return null;
-            }
+            return await _db.TrueFalseQuestions.FindAsync(id);
         }
-
-        // Henter detaljert informasjon om et True/False-spørsmål
-        public async Task<TrueFalseQuestion?> GetDetailedAsync(int id)
+        catch (Exception e)
         {
-            try
-            {
-                return await _context.TrueFalseQuestions
-                    .AsNoTracking()
-                    .FirstOrDefaultAsync(q => q.TrueFalseQuestionId == id);
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError(ex, "Feil ved henting av detaljert True/False-spørsmål med Id={Id}", id);
-                return null;
-            }
+            _logger.LogError("[TrueFalseRepository] FindAsync(id) failed for Id={Id}, error: {e}", id, e.Message);
+            return null;
         }
+    }
 
-        // Legger til et nytt True/False-spørsmål i databasen
-        public async Task AddAsync(TrueFalseQuestion question)
+    // Opprett nytt spørsmål
+    public async Task<bool> Create(TrueFalseQuestion question)
+    {
+        try
         {
-            try
-            {
-                await _context.TrueFalseQuestions.AddAsync(question);
-                _logger.LogInformation("La til nytt True/False-spørsmål: {Text}", question.QuestionText);
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError(ex, "Feil ved lagring av nytt True/False-spørsmål.");
-                throw;
-            }
+            _db.TrueFalseQuestions.Add(question);
+            await _db.SaveChangesAsync();
+
+            _logger.LogInformation("[TrueFalseRepository] Created TrueFalseQuestion {@Question}", question);
+            return true;
         }
-
-        // Oppdaterer et eksisterende True/False-spørsmål
-        public async Task UpdateAsync(TrueFalseQuestion question)
+        catch (Exception e)
         {
-            try
-            {
-                _context.TrueFalseQuestions.Update(question);
-                _logger.LogInformation("Oppdatert True/False-spørsmål med Id={Id}", question.TrueFalseQuestionId);
-                await Task.CompletedTask; // behold async-signaturen
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError(ex, "Feil ved oppdatering av True/False-spørsmål Id={Id}", question.TrueFalseQuestionId);
-                throw;
-            }
+            _logger.LogError("[TrueFalseRepository] Creation failed for {@Question}, error: {e}", question, e.Message);
+            return false;
         }
+    }
 
-        // Sletter et spørsmål hvis det finnes i databasen
-        public async Task DeleteAsync(int id)
+    // Oppdater eksisterende spørsmål
+    public async Task<bool> Update(TrueFalseQuestion question)
+    {
+        try
         {
-            try
-            {
-                var question = await _context.TrueFalseQuestions.FindAsync(id);
-                if (question != null)
-                {
-                    _context.TrueFalseQuestions.Remove(question);
-                    _logger.LogInformation("Slettet True/False-spørsmål med Id={Id}", id);
-                }
-                else
-                {
-                    _logger.LogWarning("Forsøkte å slette ikke-eksisterende True/False-spørsmål Id={Id}", id);
-                }
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError(ex, "Feil ved sletting av True/False-spørsmål Id={Id}", id);
-                throw;
-            }
+            _db.TrueFalseQuestions.Update(question);
+            await _db.SaveChangesAsync();
+
+            _logger.LogInformation("[TrueFalseRepository] Updated TrueFalseQuestion Id={Id}", question.Id);
+            return true;
         }
-
-        // Lagrer alle endringer i databasen
-        public async Task SaveAsync()
+        catch (Exception e)
         {
-            try
+            _logger.LogError("[TrueFalseRepository] Update failed for {@Question}, error: {e}", question, e.Message);
+            return false;
+        }
+    }
+
+    // Slett spørsmål basert på ID
+    public async Task<bool> Delete(int id)
+    {
+        try
+        {
+            var question = await _db.TrueFalseQuestions.FindAsync(id);
+            if (question == null)
             {
-                await _context.SaveChangesAsync();
-                _logger.LogInformation("Endringer lagret til databasen.");
+                _logger.LogWarning("[TrueFalseRepository] Tried to delete non-existing question Id={Id}", id);
+                return false;
             }
-            catch (Exception ex)
-            {
-                _logger.LogError(ex, "Feil ved lagring av endringer til databasen.");
-                throw;
-            }
+
+            _db.TrueFalseQuestions.Remove(question);
+            await _db.SaveChangesAsync();
+
+            _logger.LogInformation("[TrueFalseRepository] Deleted TrueFalseQuestion Id={Id}", id);
+            return true;
+        }
+        catch (Exception e)
+        {
+            _logger.LogError("[TrueFalseRepository] Deletion failed for Id={Id}, error: {e}", id, e.Message);
+            return false;
         }
     }
 }

@@ -21,6 +21,7 @@ namespace QuizApp.ViewModels
             FillInTheBlankId = question.FillInTheBlankId;
             Question = question.Question;
             QuizQuestionNum = question.QuizQuestionNum;
+            UserAnswer = question.Answer;
         }
     }
 }

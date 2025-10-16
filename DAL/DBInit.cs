@@ -48,14 +48,14 @@ public static class DBInit
             {
                 new FillInTheBlank {
                     Question = "What is the capital of Norway?",
-                    Answer = "Oslo",
+                    CorrectAnswer = "Oslo",
                     QuizId = 1,
                     Quiz = quiz1,
                     QuizQuestionNum = 1
                 },
                 new FillInTheBlank {
                     Question = "What is the capital of Sweden?",
-                    Answer = "Stockholm",
+                    CorrectAnswer = "Stockholm",
                     QuizId = 1,
                     Quiz = quiz1,
                     QuizQuestionNum = 2

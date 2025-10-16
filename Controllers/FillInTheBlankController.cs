@@ -78,6 +78,25 @@ public class FillInTheBlankController : Controller
         return View(model);
     }
 
+    [HttpPost]
+    public async Task<IActionResult> SubmitQuestion(int quizId, int quizTypeId, int quizQuestionNum, string userAnswer)
+    {
+        var fillInTheBlank = await _fillInTheBlankRepository.GetQuestionById(quizTypeId);
+        if (fillInTheBlank == null)
+        {
+            _logger.LogError("[FillInTheBlankController - Submit question] FillInTheBlank question not found for the Id {Id: 0000}", quizTypeId);
+            return NotFound("FillInTheBlank question not found.");
+        }
+        fillInTheBlank.Answer = userAnswer;
+        await _fillInTheBlankRepository.UpdateQuestion(fillInTheBlank);
+
+        return RedirectToAction("NextQuestion", "Quiz", new
+        {
+            quizId = quizId,
+            quizQuestionNum = quizQuestionNum
+        });
+    }
+
     // [HttpGet]
     // public IActionResult Create()
     // {

@@ -1,0 +1,81 @@
+using Microsoft.EntityFrameworkCore;
+using QuizApp.Models;
+using Serilog;
+
+namespace QuizApp.DAL;
+
+public class MatchingAttemptRepository : IMatchingAttemptRepository
+{
+    private readonly QuizDbContext _db;
+    private readonly ILogger<MatchingAttemptRepository> _logger;
+
+    public MatchingAttemptRepository(QuizDbContext db, ILogger<MatchingAttemptRepository> logger)
+    {
+        _db = db;
+        _logger = logger;
+    }
+
+    public async Task<MatchingAttempt?> GetMatchingAttemptById(int id)
+    {
+        try
+        {
+            return await _db.MatchingAttempts.FindAsync();
+        }
+        catch (Exception e)
+        {
+            _logger.LogError("[MatchingAttemptRepository] MatchingAttempt FindAsync(id) failed when GetMatchingAttemptId {MatchingAttemptId:0000}, error message: {e}", id, e.Message);
+            return null;
+        }
+    }
+
+    public async Task<bool> CreateMatchingAttempt(MatchingAttempt matchingAttempt)
+    {
+        try
+        {
+            _db.MatchingAttempts.Add(matchingAttempt);
+            await _db.SaveChangesAsync();
+            return true;
+        }
+        catch (Exception e)
+        {
+            _logger.LogError("[MatchingAttemptRepository] MatchingAttempt creation failed for MatchingAttempt {@MatchingAttempt}, error message: {e}", matchingAttempt, e.Message);
+            return false;
+        }
+    }
+
+    public async Task<bool> UpdateMatchingAttempt(MatchingAttempt matchingAttempt)
+    {
+        try
+        {
+            _db.MatchingAttempts.Update(matchingAttempt);
+            await _db.SaveChangesAsync();
+            return true;
+        }
+        catch (Exception e)
+        {
+            _logger.LogError("[MatchingAttemptRepository] MatchingAttempt update failed for MatchingAttempt {@MatchingAttempt}, error message: {e}", matchingAttempt, e.Message);
+            return false;
+        }
+    }
+
+    public async Task<bool> DeleteMatchingAttempt(int id)
+    {
+        try
+        {
+            var MatchingAttempt = await _db.MatchingAttempts.FindAsync(id);
+            if (MatchingAttempt == null)
+            {
+                return false;
+            }
+
+            _db.MatchingAttempts.Remove(MatchingAttempt);
+            await _db.SaveChangesAsync();
+            return true;
+        }
+        catch (Exception e)
+        {
+            _logger.LogError("[MatchingAttemptRepository] MatchingAttempt deletion failed for the MatchingAttemptId {MatchingAttemptId:0000}, error message: {e}", id, e.Message);
+            return false;
+        }
+    }
+}

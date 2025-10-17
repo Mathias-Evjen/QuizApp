@@ -8,12 +8,14 @@ namespace QuizApp.Controllers;
 public class SequenceController : Controller
 {
     private readonly ISequenceRepository _sequenceRepository;
+    private readonly ISequenceAttemptRepository _sequenceAttemptRepository;
 
     private readonly ILogger<SequenceController> _logger;
 
-    public SequenceController(ISequenceRepository sequenceRepository, ILogger<SequenceController> logger)
+    public SequenceController(ISequenceRepository sequenceRepository, ISequenceAttemptRepository sequenceAttemptRepository, ILogger<SequenceController> logger)
     {
         _sequenceRepository = sequenceRepository;
+        _sequenceAttemptRepository = sequenceAttemptRepository;
         _logger = logger;
     }
 
@@ -32,7 +34,7 @@ public class SequenceController : Controller
     }
 
     [HttpPost]
-    public async Task<IActionResult> SubmitSequenceQuestion(int id, List<string> values, int quizId, int quizQuestionNum)
+    public async Task<IActionResult> SubmitSequenceQuestion(int id, List<string> values, int quizId, int quizQuestionNum, int quizAttemptId)
     {
         var sequenceObject = await _sequenceRepository.GetSequenceById(id);
         if (sequenceObject == null)
@@ -42,19 +44,21 @@ public class SequenceController : Controller
         }
 
         string answer = sequenceObject.Assemble(values, 2);
-        Console.WriteLine("Answer: " + answer);
-        if (answer == sequenceObject.CorrectAnswer)
+        var sequenceAttempt = new SequenceAttempt();
+        sequenceAttempt.SequenceId = sequenceObject.Id;
+        sequenceAttempt.QuizAttemptId = quizAttemptId;
+        sequenceAttempt.UserAnswer = answer;
+
+        var returnOk = await _sequenceAttemptRepository.CreateSequenceAttempt(sequenceAttempt);
+        if (!returnOk)
         {
-            Console.WriteLine("Answer is correct!");
+            _logger.LogError("[SequenceController] Question attempt creation failed {@attempt}", sequenceAttempt);
+            return RedirectToAction("Quizzes", "Quiz");
         }
-        else
-        {
-            Console.WriteLine($"Answer is wrong, correct answer: {sequenceObject.CorrectAnswer}");
-        }
-        await _sequenceRepository.UpdateSequence(sequenceObject);
         return RedirectToAction("NextQuestion", "Quiz", new
         {
             quizId = quizId,
+            quizAttemptId = quizAttemptId,
             quizQuestionNum = quizQuestionNum
         });
     }

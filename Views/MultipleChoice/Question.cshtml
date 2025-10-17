@@ -1,0 +1,36 @@
+@using QuizApp.ViewModels
+@model QuizApp.ViewModels.QuizViewModel
+
+<h1>@Model.QuizName</h1>
+
+<div class="card mb-3 shadow-sm">
+    <div class="card-body">
+        @{
+            var question = Model.QuestionViewModels.ElementAt(Model.CurrentQuestionNum) as MultipleChoiceViewModel;
+            var questionNum = question!.QuizQuestionNum;
+        }
+
+        <!-- Spørsmålstekst -->
+        <h3 class="mb-4">Question @questionNum</h3>
+        <h5 class="card-title">@question.QuestionText</h5>
+
+        <form asp-controller="MultipleChoice" asp-action="SubmitQuestion" method="post">
+            <div>
+                @foreach(var option in question.Options) {
+                    <input type="hidden" name="quizId" value="@Model.QuizId" />
+                    <input type="hidden" name="quizAttemptId" value="@Model.QuizAttemptId" />
+                    <input type="hidden" name="quizQuestionNum" value="@Model.CurrentQuestionNum" />
+                    <input type="hidden" name="quizQuestionId" value="@question.MultipleChoiceId"/>
+
+                    <label>@option.Text</label>
+                    <input type="radio" 
+                        name="userAnswer"
+                        value="@option.Text"/>
+                }
+            </div>
+            <button type="submit" class="btn btn-primary">Next</button>
+        </form>
+
+        
+    </div>
+</div>

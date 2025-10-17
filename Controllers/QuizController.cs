@@ -12,11 +12,13 @@ namespace QuizApp.Controllers;
 public class QuizController : Controller
 {
     private readonly IQuizRepository _quizRepository;
+    private readonly IQuizAttemptRepository _quizAttemptRepository;
     private readonly ILogger<QuizController> _logger;
     
-    public QuizController(IQuizRepository quizRepository, ILogger<QuizController> logger)
+    public QuizController(IQuizRepository quizRepository, IQuizAttemptRepository quizAttemptRepository, ILogger<QuizController> logger)
     {
         _quizRepository = quizRepository;
+        _quizAttemptRepository = quizAttemptRepository;
         _logger = logger;
     }
 
@@ -54,33 +56,17 @@ public class QuizController : Controller
             _logger.LogError("[QuizController - Get Quiz By Id] Quiz not found for the Id {Id: 0000}", id);
             return NotFound("Quiz not found.");
         }
-        var quizViewModel = new QuizViewModel(quiz);
-        // string questionType = "";
-        // switch (quizViewModel.Questions.ElementAt(quizViewModel.CurrentQuizNum).QuestionType)
-        // {
-        //     case "Matching":
-        //         questionType = "Matching";
-        //         break;
-        //     case "Ranking":
-        //         questionType = "Ranking";
-        //         break;
-        //     case "Sequence":
-        //         questionType = "Sequence";
-        //         break;
-        //     case "FillInTheBlank":
-        //         questionType = "FillInTheBlank";
-        //         break;
-        //     default:
-        //         _logger.LogError("[QuizController - Open Quiz] Question type not found");
-        //         break;
-        // }
 
-        // Har ikke helt funnet ut hva hvordan det kan brukes her, men kan nok være nyttig:
-        // Vi trenger ikke QuestionType, vi kan bruke:
+        var quizAttemptId = await CreateAttempt(quiz);
+        if (quizAttemptId == 0)
+            return RedirectToAction(nameof(Quizzes));
+
+        var quizViewModel = new QuizViewModel(quiz, quizAttemptId);
+
         Console.WriteLine(quizViewModel.QuizId);
         if (quizViewModel.QuestionViewModels.ElementAt(quizViewModel.CurrentQuestionNum) is FillInTheBlankViewModel)
         {
-            return View("FillInTheBlankQuestion", quizViewModel);
+            return View("~/Views/FillInTheBlank/Question.cshtml", quizViewModel);
         }
         else if (quizViewModel.QuestionViewModels.ElementAt(quizViewModel.CurrentQuestionNum) is MatchingViewModel)
         {
@@ -90,17 +76,24 @@ public class QuizController : Controller
         {
             return View("~/Views/Sequence/SequenceQuestion.cshtml", quizViewModel);
         }
-        else if(quizViewModel.QuestionViewModels.ElementAt(quizViewModel.CurrentQuestionNum) is RankingViewModel)
+        else if (quizViewModel.QuestionViewModels.ElementAt(quizViewModel.CurrentQuestionNum) is RankingViewModel)
         {
             return View("~/Views/Ranking/RankingQuestion.cshtml", quizViewModel);
         }
-        // På denne måten slipper vi unødvendige kall og atributter
-
+        else if (quizViewModel.QuestionViewModels.ElementAt(quizViewModel.CurrentQuestionNum) is TrueFalseViewModel)
+        {
+            return View("~/Views/TrueFalse/Question.cshtml", quizViewModel);
+        }
+        else if (quizViewModel.QuestionViewModels.ElementAt(quizViewModel.CurrentQuestionNum) is MultipleChoiceViewModel)
+        {
+            return View("~/Views/MultipleChoice/Question.cshtml", quizViewModel);
+        }
+        
         return RedirectToAction(nameof(Quizzes));
     }
 
     [HttpGet]
-    public async Task<IActionResult> NextQuestion(int quizId, int quizQuestionNum)
+    public async Task<IActionResult> NextQuestion(int quizId, int quizAttemptId, int quizQuestionNum)
     {
         var quiz = await _quizRepository.GetQuizById(quizId);
         if (quiz == null)
@@ -108,15 +101,17 @@ public class QuizController : Controller
             _logger.LogError("[QuizController - Get Quiz By Id] Quiz not found for the Id {Id: 0000}", quizId);
             return NotFound("Quiz not found.");
         }
-        var model = new QuizViewModel(quiz);
+
+        var model = new QuizViewModel(quiz, quizAttemptId);
         model.CurrentQuestionNum = quizQuestionNum;
+
         if (model.CurrentQuestionNum + 1 < model.QuestionViewModels.Count())
         {
             model.CurrentQuestionNum += 1;
         }
         if (model.QuestionViewModels.ElementAt(model.CurrentQuestionNum) is FillInTheBlankViewModel)
         {
-            return View("FillInTheBlankQuestion", model);
+            return View("~/Views/FillInTheBlank/Question.cshtml", model);
         }
         else if (model.QuestionViewModels.ElementAt(model.CurrentQuestionNum) is MatchingViewModel)
         {
@@ -126,9 +121,17 @@ public class QuizController : Controller
         {
             return View("~/Views/Sequence/SequenceQuestion.cshtml", model);
         }
-        else if(model.QuestionViewModels.ElementAt(model.CurrentQuestionNum) is RankingViewModel)
+        else if (model.QuestionViewModels.ElementAt(model.CurrentQuestionNum) is RankingViewModel)
         {
             return View("~/Views/Ranking/RankingQuestion.cshtml", model);
+        }
+        else if (model.QuestionViewModels.ElementAt(model.CurrentQuestionNum) is TrueFalseViewModel)
+        {
+            return View("~/Views/TrueFalse/Question.cshtml", model);
+        }
+        else if (model.QuestionViewModels.ElementAt(model.CurrentQuestionNum) is MultipleChoiceViewModel)
+        {
+            return View("~/Views/MultipleChoice/Question.cshtml", model);
         }
 
         return View("FlashCards", model);
@@ -141,12 +144,6 @@ public class QuizController : Controller
         if (model.CurrentQuestionNum - 1 >= 0)
             model.CurrentQuestionNum -= 1;
         return View("FlashCards", model);
-    }
-
-    [HttpGet]
-    public IActionResult FillInTheBlankQuestion(QuizViewModel model)
-    {      
-        return View(model);
     }
 
     [HttpGet]
@@ -164,8 +161,21 @@ public class QuizController : Controller
             if (returnOk)
                 return RedirectToAction(nameof(Quizzes));
         }
-        _logger.LogError("[QuizController] Quiz creation failed {@question}", quiz);
+        _logger.LogError("[QuizController] Quiz creation failed {@quiz}", quiz);
         return View(quiz);
+    }
+
+    public async Task<int> CreateAttempt(Quiz quiz)
+    {
+        var quizAttempt = new QuizAttempt();
+        quizAttempt.QuizId = quiz.QuizId;
+
+        bool returnOk = await _quizAttemptRepository.CreateQuizAttempt(quizAttempt);
+        if (returnOk)
+            return quizAttempt.QuizAttemptId;
+
+        _logger.LogError("QuizController] QuizAttempt creation failed {@quizAttempt}", quizAttempt);
+        return 0;
     }
 
     [HttpGet]

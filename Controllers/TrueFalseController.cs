@@ -1,17 +1,22 @@
 using Microsoft.AspNetCore.Mvc;
 using QuizApp.DAL;
 using QuizApp.Models;
+using QuizApp.ViewModels;
 
 namespace QuizApp.Controllers
 {
     public class TrueFalseController : Controller
     {
         private readonly ITrueFalseRepository _trueFalseRepository;
+        private readonly ITrueFalseAttemptRepository _trueFalseAttemptRepository;
         private readonly ILogger<TrueFalseController> _logger;
 
-        public TrueFalseController(ITrueFalseRepository trueFalseRepository, ILogger<TrueFalseController> logger)
+        public TrueFalseController(ITrueFalseRepository trueFalseRepository,
+                                   ITrueFalseAttemptRepository trueFalseAttemptRepository,
+                                   ILogger<TrueFalseController> logger)
         {
             _trueFalseRepository = trueFalseRepository;
+            _trueFalseAttemptRepository = trueFalseAttemptRepository;
             _logger = logger;
         }
 
@@ -21,23 +26,60 @@ namespace QuizApp.Controllers
             var questions = await _trueFalseRepository.GetAll();
             if (questions == null)
             {
-                _logger.LogError("[TrueFalseController] Could not fetch True/False questions from repository.");
-                return NotFound("Questions not found");
+                var questions = await _trueFalseRepository.GetAllAsync();
+                return View(questions);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Failed to load TrueFalse list.");
+                return View("Error");
             }
 
             return View(questions);
         }
 
+        public IActionResult Question(QuizViewModel model)
+        {
+            return View(model);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> SubmitQuestion(int quizId, int quizAttemptId, int quizQuestionId, int quizQuestionNum, bool userAnswer)
+        {
+            var trueFalse = await _trueFalseRepository.GetByIdAsync(quizQuestionId);
+            if (trueFalse == null)
+            {
+                _logger.LogError("[TrueFalseController - Submit question] TrueFalse question not found for the Id {Id: 0000}", quizQuestionId);
+                return NotFound("TrueFalse question not found.");
+            }
+
+            var trueFalseAttempt = new TrueFalseAttempt();
+            trueFalseAttempt.TrueFalseId = trueFalse.TrueFalseId;
+            trueFalseAttempt.QuizAttemptId = quizAttemptId;
+            trueFalseAttempt.UserAnswer = userAnswer;
+
+            var returnOk = await _trueFalseAttemptRepository.CreateTrueFalseAttempt(trueFalseAttempt);
+            if (!returnOk)
+            {
+                _logger.LogError("[TrueFalseController] Question attempt creation failed {@attempt}", trueFalseAttempt);
+                return RedirectToAction("Quizzes", "Quiz");
+            }
+
+            return RedirectToAction("NextQuestion", "Quiz", new
+            {
+                quizId = quizId,
+                quizAttemptId = quizAttemptId,
+                quizQuestionNum = quizQuestionNum
+            });
+        }
+
         // GET: /Create
         [HttpGet]
-        public IActionResult CreateTrueFalseQuestion()
-        {
-            return View();
-        }
+        public IActionResult Create() => View();
 
         // POST: /Create
         [HttpPost]
-        public async Task<IActionResult> CreateTrueFalseQuestion(TrueFalseQuestion question)
+        public async Task<IActionResult> Create(TrueFalse question)
         {
             if (!ModelState.IsValid)
             {
@@ -48,19 +90,25 @@ namespace QuizApp.Controllers
             var ok = await _trueFalseRepository.Create(question);
             if (!ok)
             {
-                _logger.LogError("[TrueFalseController] Failed to create question {@Question}", question);
-                return View(question);
-            }
+                await _trueFalseRepository.AddAsync(question);
+                await _trueFalseRepository.SaveAsync();
 
-            return RedirectToAction("Index");
+                _logger.LogInformation("TrueFalse created: {Question}", question.TrueFalseId);
+                return RedirectToAction(nameof(Index));
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error creating TrueFalse.");
+                return View("Error");
+            }
         }
 
         // GET: /Edit
         [HttpGet]
-        public async Task<IActionResult> EditTrueFalseQuestion(int id)
+        public async Task<IActionResult> Edit(int id)
         {
             {
-                var question = await _trueFalseRepository.GetById(id);
+                var question = await _trueFalseRepository.GetByIdAsync(id);
                 if (question == null)
                 {
                     _logger.LogWarning("[TrueFalseController] Question not found for Id {Id:0000}", id);
@@ -73,33 +121,50 @@ namespace QuizApp.Controllers
 
         // POST: /Edit
         [HttpPost]
-        public async Task<IActionResult> EditTrueFalseQuestion(TrueFalseQuestion question)
+        public async Task<IActionResult> Edit(TrueFalse question)
         {
             if (!ModelState.IsValid)
             {
+                _logger.LogWarning("Invalid model state on TrueFalse Edit. Id={Id}", question.TrueFalseId);
                 return View(question);
             }
 
             var ok = await _trueFalseRepository.Update(question);
             if (!ok)
             {
-                _logger.LogError("[TrueFalseController] Failed to update question with Id {Id:0000}", question.Id);
-                return View(question);
-            }
+                await _trueFalseRepository.UpdateAsync(question);
+                await _trueFalseRepository.SaveAsync();
 
-            return RedirectToAction("Index");
+                _logger.LogInformation("TrueFalse updated: Id={Id}", question.TrueFalseId);
+                return RedirectToAction(nameof(Index));
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error updating TrueFalse. Id={Id}", question.TrueFalseId);
+                return View("Error");
+            }
         }
 
         // GET: /Delete
         [HttpGet]
-        public async Task<IActionResult> DeleteTrueFalseQuestion(int id)
+        public async Task<IActionResult> Delete(int id)
         {
             
             var question = await _trueFalseRepository.GetById(id);
             if (question == null)
             {
-                _logger.LogWarning("[TrueFalseController] Question not found for deletion, Id={Id:0000}", id);
-                return NotFound();
+                var question = await _trueFalseRepository.GetByIdAsync(id);
+                if (question == null)
+                {
+                    _logger.LogWarning("Delete requested for non-existing TrueFalse Id={Id}", id);
+                    return NotFound();
+                }
+                return View(question);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Failed to load TrueFalse for delete. Id={Id}", id);
+                return View("Error");
             }
             return View(question);
         }
@@ -111,8 +176,8 @@ namespace QuizApp.Controllers
             var ok = await _trueFalseRepository.Delete(id);
             if (!ok)
             {
-                _logger.LogError("[TrueFalseController] Failed to delete question with Id={Id:0000}", id);
-            }
+                await _trueFalseRepository.DeleteAsync(id);
+                await _trueFalseRepository.SaveAsync();
 
             return RedirectToAction("Index");
         }

@@ -19,13 +19,30 @@ namespace QuizApp.DAL
         {
             try
             {
-                return await _db.MultipleChoices
-                    .Include(q => q.Options)
+                return await _context.MultipleChoiceQuestions
+                    .Include(q => q.Options) // Laster inn alle alternativer sammen med spørsmålet
+                    .AsNoTracking() // Gjør at resultatet ikke spores av EF for bedre ytelse ved kun lesing
                     .ToListAsync();
             }
             catch (Exception e)
             {
-                _logger.LogError("[MultipleChoiceRepository] ToListAsync() failed in GetAll(), error: {e}", e.Message);
+                _logger.LogError(ex, "Error fetching all multiple choice questions.");
+                return new List<MultipleChoice>();
+            }
+        }
+
+        // Henter ett spesifikt spørsmål med alle alternativer
+        public async Task<MultipleChoice?> GetDetailedAsync(int id)
+        {
+            try
+            {
+                return await _context.MultipleChoiceQuestions
+                    .Include(q => q.Options) // Inkluderer alle alternativer
+                    .FirstOrDefaultAsync(q => q.MultipleChoiceId == id);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error fetching multiple choice question with id {Id}", id);
                 return null;
             }
         }
@@ -62,11 +79,9 @@ namespace QuizApp.DAL
                     opt.MultipleChoice = question;
                 }
 
-                _db.MultipleChoices.Add(question);
-                await _db.SaveChangesAsync();
-
-                _logger.LogInformation("[MultipleChoiceRepository] Created new MultipleChoice: {@Question}", question);
-                return true;
+                // Legg til spørsmålet i databasen
+                await _context.MultipleChoiceQuestions.AddAsync(question);
+                _logger.LogInformation("Added new multiple choice question: {Text}", question.QuestionText);
             }
             catch (Exception e)
             {
@@ -80,7 +95,8 @@ namespace QuizApp.DAL
         {
             try
             {
-                var existing = await _db.MultipleChoices
+                // Henter eksisterende spørsmål fra databasen
+                var existing = await _context.MultipleChoiceQuestions
                     .Include(q => q.Options)
                     .FirstOrDefaultAsync(q => q.Id == question.Id);
 
@@ -90,6 +106,7 @@ namespace QuizApp.DAL
                     return false;
                 }
 
+                // Oppdaterer spørsmålets tekst
                 existing.QuestionText = question.QuestionText;
 
                 // Fjern gamle alternativer
@@ -105,11 +122,9 @@ namespace QuizApp.DAL
                     opt.MultipleChoiceId = existing.Id;
                 }
 
-                _db.MultipleChoices.Update(existing);
-                await _db.SaveChangesAsync();
-
-                _logger.LogInformation("[MultipleChoiceRepository] Updated MultipleChoice Id={Id}", question.Id);
-                return true;
+                // Oppdater spørsmålet i databasen
+                _context.MultipleChoiceQuestions.Update(existing);
+                _logger.LogInformation("Updated question Id={Id}", question.MultipleChoiceId);
             }
             catch (Exception e)
             {
@@ -123,14 +138,23 @@ namespace QuizApp.DAL
         {
             try
             {
-                var question = await _db.MultipleChoices
+                var question = await _context.MultipleChoiceQuestions
                     .Include(q => q.Options)
                     .FirstOrDefaultAsync(q => q.Id == id);
 
                 if (question == null)
                 {
-                    _logger.LogWarning("[MultipleChoiceRepository] Tried to delete non-existing question Id={Id}", id);
-                    return false;
+                    // Fjern alle alternativer som hører til spørsmålet
+                    _context.Options.RemoveRange(question.Options);
+
+                    // Slett selve spørsmålet
+                    _context.MultipleChoiceQuestions.Remove(question);
+
+                    _logger.LogInformation("Deleted multiple choice question Id={Id}", id);
+                }
+                else
+                {
+                    _logger.LogWarning("Attempted to delete non-existing question Id={Id}", id);
                 }
 
                 _db.Options.RemoveRange(question.Options);

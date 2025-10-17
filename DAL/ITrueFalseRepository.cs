@@ -4,10 +4,15 @@ namespace QuizApp.DAL;
 
 public interface ITrueFalseRepository
 {
-    Task<IEnumerable<TrueFalseQuestion>?> GetAll();
-    Task<TrueFalseQuestion?> GetById(int id);
-    Task<bool> Create(TrueFalseQuestion question);
-    Task<bool> Update(TrueFalseQuestion question);
-    Task<bool> Delete(int id);
+    public interface ITrueFalseRepository
+    {
+        Task<List<TrueFalse>> GetAllAsync();
+        Task<TrueFalse?> GetByIdAsync(int id);
+        Task<TrueFalse?> GetDetailedAsync(int id);
+        Task AddAsync(TrueFalse question);
+        Task UpdateAsync(TrueFalse question);
+        Task DeleteAsync(int id);
+        Task SaveAsync();
+    }
 }
 

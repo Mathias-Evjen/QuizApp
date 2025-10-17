@@ -8,12 +8,14 @@ namespace QuizApp.Controllers;
 public class RankingController : Controller
 {
     private readonly IRankingRepository _rankingRepository;
+    private readonly IRankingAttemptRepository _rankingAttemptRepository;
 
     private readonly ILogger<RankingController> _logger;
 
-    public RankingController(IRankingRepository rankingRepository, ILogger<RankingController> logger)
+    public RankingController(IRankingRepository rankingRepository, IRankingAttemptRepository rankingAttemptRepository, ILogger<RankingController> logger)
     {
         _rankingRepository = rankingRepository;
+        _rankingAttemptRepository = rankingAttemptRepository;
         _logger = logger;
     }
 
@@ -32,7 +34,7 @@ public class RankingController : Controller
     }
 
     [HttpPost]
-    public async Task<IActionResult> SubmitRankingQuestion(int id, List<string> values, int quizId, int quizQuestionNum)
+    public async Task<IActionResult> SubmitRankingQuestion(int id, List<string> values, int quizId, int quizQuestionNum, int quizAttemptId)
     {
         var rankingObject = await _rankingRepository.GetRankingById(id);
         if (rankingObject == null)
@@ -42,19 +44,21 @@ public class RankingController : Controller
         }
 
         string answer = rankingObject.Assemble(values, 2);
-        Console.WriteLine("Answer: " + answer);
-        if (answer == rankingObject.CorrectAnswer)
+        var rankingAttempt = new RankingAttempt();
+        rankingAttempt.RankingId = rankingObject.Id;
+        rankingAttempt.QuizAttemptId = quizAttemptId;
+        rankingAttempt.UserAnswer = answer;
+
+        var returnOk = await _rankingAttemptRepository.CreateRankingAttempt(rankingAttempt);
+        if (!returnOk)
         {
-            Console.WriteLine("Answer is correct!");
+            _logger.LogError("[RankingController] Question attempt creation failed {@attempt}", rankingAttempt);
+            return RedirectToAction("Quizzes", "Quiz");
         }
-        else
-        {
-            Console.WriteLine($"Answer is wrong, correct answer: {rankingObject.CorrectAnswer}");
-        }
-        await _rankingRepository.UpdateRanking(rankingObject);
         return RedirectToAction("NextQuestion", "Quiz", new
         {
             quizId = quizId,
+            quizAttemptId = quizAttemptId,
             quizQuestionNum = quizQuestionNum
         });
     }

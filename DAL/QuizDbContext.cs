@@ -17,9 +17,17 @@ public class QuizDbContext : DbContext
     public DbSet<FillInTheBlank> FillInTheBlankQuestions { get; set; }
     public DbSet<FlashCardQuiz> FlashCardQuizzes { get; set; }
     public DbSet<FlashCard> FlashCards { get; set; }         
-    public DbSet<MultipleChoice> MultipleChoices { get; set; }     
-    public DbSet<TrueFalseQuestion> TrueFalseQuestions { get; set; }
+    public DbSet<MultipleChoice> MultipleChoiceQuestions { get; set; }     
+    public DbSet<TrueFalse> TrueFalseQuestions { get; set; }
     public DbSet<Option> Options { get; set; } 
+
+    public DbSet<QuizAttempt> QuizAttempts { get; set; }
+    public DbSet<FillInTheBlankAttempt> FillInTheBlankAttempts { get; set; }
+    public DbSet<TrueFalseAttempt> TrueFalseAttempts { get; set; }
+    public DbSet<MultipleChoiceAttempt> MultipleChoiceAttempts { get; set; }
+    public DbSet<MatchingAttempt> MatchingAttempts { get; set; }
+    public DbSet<SequenceAttempt> SequenceAttempts { get; set; }
+    public DbSet<RankingAttempt> RankingAttempts { get; set; }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
@@ -35,6 +43,12 @@ public class QuizDbContext : DbContext
             .HasOne(fc => fc.Quiz)
             .WithMany(q => q.FlashCards)
             .HasForeignKey(fc => fc.QuizId)
+            .OnDelete(DeleteBehavior.Cascade);
+        
+        modelBuilder.Entity<MultipleChoice>()
+            .HasOne(mc => mc.Quiz)
+            .WithMany(q => q.MultipleChoiceQuestions)
+            .HasForeignKey(mc => mc.QuizId)
             .OnDelete(DeleteBehavior.Cascade);
     }
 }

@@ -11,12 +11,14 @@ public class MatchingController : Controller
 {
 
     private readonly IMatchingRepository _matchingRepository;
+    private readonly IMatchingAttemptRepository _matchingAttemptRepository;
 
     private readonly ILogger<MatchingController> _logger;
 
-    public MatchingController(IMatchingRepository matchingRepository, ILogger<MatchingController> logger)
+    public MatchingController(IMatchingRepository matchingRepository, IMatchingAttemptRepository matchingAttemptRepository, ILogger<MatchingController> logger)
     {
         _matchingRepository = matchingRepository;
+        _matchingAttemptRepository = matchingAttemptRepository;
         _logger = logger;
     }
 
@@ -35,7 +37,7 @@ public class MatchingController : Controller
     }
 
     [HttpPost]
-    public async Task<IActionResult> SubmitMatchingQuestion(int id, List<string> keys, List<string> values, int quizId, int quizQuestionNum)
+    public async Task<IActionResult> SubmitMatchingQuestion(int id, List<string> keys, List<string> values, int quizId, int quizQuestionNum, int quizAttemptId)
     {
         var matchingObject = await _matchingRepository.GetMatchingById(id);
         if (matchingObject == null)
@@ -43,37 +45,33 @@ public class MatchingController : Controller
             _logger.LogError("[MatchingController - Get Question] Matching question not found for the Id {Id: 0000}", id);
             return NotFound("Matching question not found.");
         }
-
-        for (int i = 0; i < keys.Count; i++)
-        {
-            Console.WriteLine($"Key: {keys[i]}, Answer: {values[i]}, Id: {id}");
-        }
-        string correctAnswer = matchingObject.CorrectAnswer;
         string questionAnswer = matchingObject.Assemble(keys, values, 2);
-        matchingObject.Answer = questionAnswer;
-        Console.WriteLine($"Answer: {questionAnswer}, Correct Answer: {correctAnswer}");
-        if (questionAnswer == correctAnswer)
-        {
-            Console.WriteLine("Answer is correct!");
-        }
-        else
-        {
-            Console.WriteLine($"Answer is wrong! Correct answer is: {correctAnswer}");
-        }
         int correctCounter = 0;
-        KeyValuePair<string, string>[] corretAnswerSplit = matchingObject.SplitCorrectAnswer();
-        for (int i = 0; i < corretAnswerSplit.Length; i++)
+        KeyValuePair<string, string>[] correctAnswerSplit = matchingObject.SplitCorrectAnswer();
+        for (int i = 0; i < correctAnswerSplit.Length; i++)
         {
-            if (corretAnswerSplit[i].Value == values[i])
+            if (correctAnswerSplit[i].Value == values[i])
             {
                 correctCounter++;
             }
         }
-        matchingObject.AmountCorrect = correctCounter;
-        await _matchingRepository.UpdateMatching(matchingObject);
+        var matchingAttempt = new MatchingAttempt();
+        matchingAttempt.MatchingId = matchingObject.Id;
+        matchingAttempt.QuizAttemptId = quizAttemptId;
+        matchingAttempt.UserAnswer = questionAnswer;
+        matchingAttempt.AmountCorrect = correctCounter;
+
+        var returnOk = await _matchingAttemptRepository.CreateMatchingAttempt(matchingAttempt);
+        if (!returnOk)
+        {
+            _logger.LogError("[MatchingController] Question attempt creation failed {@attempt}", matchingAttempt);
+            return RedirectToAction("Quizzes", "Quiz");
+        }
+
         return RedirectToAction("NextQuestion", "Quiz", new
         {
             quizId = quizId,
+            quizAttemptId = quizAttemptId,
             quizQuestionNum = quizQuestionNum
         });
     }

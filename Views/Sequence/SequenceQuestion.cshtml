@@ -3,6 +3,13 @@
 
 @{
     var sequenceModel = Model.QuestionViewModels.ElementAt(Model.CurrentQuestionNum) as SequenceViewModel;
+    if (sequenceModel == null)
+    {
+        <div class="alert alert-danger" role="alert">
+            An error occurred: The question could not be loaded. Please try again!
+        </div>
+        return; // Stopper videre rendering av viewet
+    }
     //MÅ LEGGE TIL HVA SOM SKJER VED sequenceModel = null 
     ViewData["Title"] = "Sequence Question";
     var splitQuestion = sequenceModel.Question.Split(",");
@@ -13,6 +20,7 @@
     <form asp-controller="Sequence" asp-action="SubmitSequenceQuestion" method="post">
         <input type="hidden" name="id" value="@sequenceModel.Id" />
         <input type="hidden" name="quizId" value="@Model.QuizId" />
+        <input type="hidden" name="quizAttemptId" value="@Model.QuizAttemptId" />
         <input type="hidden" name="quizQuestionNum" value="@Model.CurrentQuestionNum" />
         <div class="row position-relative align-items-center justify-content-center" style="min-height:120px; border-radius:10px; background-color:rgb(243, 243, 243); padding:10px;margin-top: 50px;">
             <label class="form-label" style="position: absolute; top: 5px; left: 5px;">Answer:</label>

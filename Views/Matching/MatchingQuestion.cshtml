@@ -3,6 +3,13 @@
 
 @{
     var matchingModel = Model.QuestionViewModels.ElementAt(Model.CurrentQuestionNum) as MatchingViewModel;
+    if (matchingModel == null)
+    {
+        <div class="alert alert-danger" role="alert">
+            An error occurred: The question could not be loaded. Please try again!
+        </div>
+        return; // Stopper videre rendering av viewet
+    }
     //MÅ LEGGE TIL HVA SOM SKJER VED matchingModel = null
     //var pairQuestions = Model.Question.SplitQuestion();
     //var matching = Model.Questions.ElementAt(Model.CurrentQuizNum);
@@ -15,6 +22,7 @@
     <form asp-controller="Matching" asp-action="SubmitMatchingQuestion" method="post">
         <input type="hidden" name="id" value="@matchingModel.Id" />
         <input type="hidden" name="quizId" value="@Model.QuizId" />
+        <input type="hidden" name="quizAttemptId" value="@Model.QuizAttemptId" />
         <input type="hidden" name="quizQuestionNum" value="@Model.CurrentQuestionNum" />
         <table class="table table-bordered" style="width: 400px;">
             @for (int i = 0; i < matchingModel.Keys.Count; i++){

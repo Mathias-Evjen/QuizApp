@@ -24,6 +24,7 @@ public class QuizRepository : IQuizRepository
                             .Include(q => q.SequenceQuestions)
                             .Include(q => q.RankingQuestions)
                             .Include(q => q.TrueFalseQuestions)
+                            .Include(q => q.MultipleChoiceQuestions)
                             .ToListAsync();
         }
         catch (Exception e)
@@ -43,6 +44,7 @@ public class QuizRepository : IQuizRepository
                             .Include(q => q.SequenceQuestions)
                             .Include(q => q.RankingQuestions)
                             .Include(q => q.TrueFalseQuestions)
+                            .Include(q => q.MultipleChoiceQuestions)
                             .FirstOrDefaultAsync(q => q.QuizId == id);
         }
         catch (Exception e)

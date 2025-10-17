@@ -7,6 +7,7 @@ namespace QuizApp.ViewModels
         public int QuizId { get; set; }
         public int QuizAttemptId { get; set; }
         public int CurrentQuestionNum { get; set; } = 0;
+        public int NumOfQuestions { get; set; }
         public List<QuestionViewModel> QuestionViewModels { get; set; } = new List<QuestionViewModel>();
         public string QuizName { get; set; } = string.Empty;
         public string QuizDescription { get; set; } = string.Empty;
@@ -18,6 +19,7 @@ namespace QuizApp.ViewModels
             QuizAttemptId = quizAttemptId;
             QuizName = quiz.Name;
             QuizDescription = quiz.Description;
+            NumOfQuestions = quiz.NumOfQuestions;
             
             foreach(var question in quiz.AllQuestions)
             {

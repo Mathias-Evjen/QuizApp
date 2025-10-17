@@ -81,7 +81,7 @@ public class FillInTheBlankController : Controller
     }
 
     [HttpPost]
-    public async Task<IActionResult> SubmitQuestion(int quizId, int quizAttemptId, int quizQuestionId, int quizQuestionNum, string userAnswer)
+    public async Task<IActionResult> SubmitQuestion(int quizId, int quizAttemptId, int quizQuestionId, int quizQuestionNum, int numOfQuestions, string userAnswer)
     {
         var fillInTheBlank = await _fillInTheBlankRepository.GetQuestionById(quizQuestionId);
         if (fillInTheBlank == null)
@@ -101,6 +101,9 @@ public class FillInTheBlankController : Controller
             _logger.LogError("[FillInTheBlankController] Question attempt creation failed {@attempt}", fillInTheBlankAttempt);
             return RedirectToAction("Quizzes", "Quiz");
         }
+
+        if (fillInTheBlank.QuizQuestionNum == numOfQuestions)
+            return RedirectToAction("Results", "Quiz", new { quizAttemptId = quizAttemptId });
 
         return RedirectToAction("NextQuestion", "Quiz", new
         {

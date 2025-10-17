@@ -41,7 +41,7 @@ namespace QuizApp.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> SubmitQuestion(int quizId, int quizAttemptId, int quizQuestionId, int quizQuestionNum, bool userAnswer)
+        public async Task<IActionResult> SubmitQuestion(int quizId, int quizAttemptId, int quizQuestionId, int quizQuestionNum, int numOfQuestions, bool userAnswer)
         {
             var trueFalse = await _trueFalseRepository.GetByIdAsync(quizQuestionId);
             if (trueFalse == null)
@@ -61,6 +61,9 @@ namespace QuizApp.Controllers
                 _logger.LogError("[TrueFalseController] Question attempt creation failed {@attempt}", trueFalseAttempt);
                 return RedirectToAction("Quizzes", "Quiz");
             }
+
+            if (trueFalse.QuizQuestionNum == numOfQuestions)
+                return RedirectToAction("Results", "Quiz", new { quizAttemptId = quizAttemptId });
 
             return RedirectToAction("NextQuestion", "Quiz", new
             {

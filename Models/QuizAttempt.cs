@@ -19,9 +19,9 @@ namespace QuizApp.Models
 
         [NotMapped]
         public IEnumerable<QuestionAttempt> AllQuestionAttempts =>
-                FillInTheBlankAttempts.Cast<QuestionAttempt>()
-            .Concat(TrueFalseQuestionAttempts)
-            .Concat(MultipleChoiceAttempts)
+            FillInTheBlankAttempts.Cast<QuestionAttempt>()
+                .Concat(TrueFalseQuestionAttempts)
+                .Concat(MultipleChoiceAttempts)
                 .Concat(MatchingAttempts)
                 .Concat(SequenceAttempts)
                 .Concat(RankingAttempts);

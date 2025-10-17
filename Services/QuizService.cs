@@ -40,6 +40,11 @@ public class QuizService
             );
     }
 
+    public bool CheckAnswer(bool correctAnswer, bool userAnswer)
+    {
+        return correctAnswer == userAnswer;
+    }
+
     public async Task ChangeQuestionCount(int quizId, bool increment)
     {
         var quiz = await _quizRepository.GetQuizById(quizId);

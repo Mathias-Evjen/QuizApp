@@ -22,6 +22,10 @@ public class QuizAttemptRepository : IQuizAttemptRepository
             return await _db.QuizAttempts
                                 .Include(q => q.FillInTheBlankAttempts)
                                 .Include(q => q.TrueFalseQuestionAttempts)
+                                .Include(q => q.MultipleChoiceAttempts)
+                                .Include(q => q.MatchingAttempts)
+                                .Include(q => q.RankingAttempts)
+                                .Include(q => q.SequenceAttempts)
                                 .ToListAsync();
         }
         catch (Exception e)
@@ -38,6 +42,10 @@ public class QuizAttemptRepository : IQuizAttemptRepository
             return await _db.QuizAttempts
                                 .Include(q => q.FillInTheBlankAttempts)
                                 .Include(q => q.TrueFalseQuestionAttempts)
+                                .Include(q => q.MultipleChoiceAttempts)
+                                .Include(q => q.MatchingAttempts)
+                                .Include(q => q.RankingAttempts)
+                                .Include(q => q.SequenceAttempts)
                                 .FirstOrDefaultAsync(q => q.QuizAttemptId == id);
         }
         catch (Exception e)

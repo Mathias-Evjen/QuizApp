@@ -18,8 +18,8 @@ public static class DBInit
             {
                 new Quiz {Name = "Example quiz", Description = "Quiz with examples"},
                 new Quiz {Name = "Also example quiz", Description = "This is also a quiz with examples"},
-                new Quiz {Name = "True/False test", Description = "Test for True/False questions"},
-                new Quiz {Name = "Multiple choice test", Description = "Bla bla bla"}
+                new Quiz {Name = "True/False and MultipleChoice test", Description = "Test for True/False og MultipleChoice questions"},
+                new Quiz {Name = "QuizResults test", Description = "Bla bla bla"}
             };
             context.AddRange(quiz);
             context.SaveChanges();
@@ -56,15 +56,17 @@ public static class DBInit
             {
                 new MultipleChoice {
                     QuestionText = "Which is the biggest planet in our solar system?",
+                    CorrectAnswer = "Jupiter",
                     QuizId = 3,
                     Quiz = quiz!,
                     QuizQuestionNum = 3
                 },
                 new MultipleChoice {
                     QuestionText = "Which season is warmest?",
+                    CorrectAnswer = "Summer",
                     QuizId = 3,
                     Quiz = quiz!,
-                    QuizQuestionNum = 3
+                    QuizQuestionNum = 4
                 }
             };
             context.AddRange(questions);
@@ -147,6 +149,7 @@ public static class DBInit
         if (!context.FillInTheBlankQuestions.Any())
         {
             var quiz1 = context.Quizzes.Find(1);
+            var quiz4 = context.Quizzes.Find(4);
             var questions = new List<FillInTheBlank>
             {
                 new FillInTheBlank {
@@ -162,7 +165,21 @@ public static class DBInit
                     QuizId = 1,
                     Quiz = quiz1,
                     QuizQuestionNum = 2
-                }
+                },
+                new FillInTheBlank {
+                    Question = "What is the capital of Norway?",
+                    CorrectAnswer = "Oslo",
+                    QuizId = 4,
+                    Quiz = quiz4,
+                    QuizQuestionNum = 1
+                },
+                new FillInTheBlank {
+                    Question = "What is the capital of Sweden?",
+                    CorrectAnswer = "Stockholm",
+                    QuizId = 4,
+                    Quiz = quiz4,
+                    QuizQuestionNum = 2
+                },
             };
             context.AddRange(questions);
             context.SaveChanges();

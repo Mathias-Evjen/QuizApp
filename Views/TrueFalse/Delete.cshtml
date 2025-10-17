@@ -1,4 +1,4 @@
-@model QuizApp.Models.TrueFalseQuestion
+@model QuizApp.Models.TrueFalse
 
 @{
     ViewData["Title"] = "Delete True/False Question";
@@ -22,7 +22,7 @@
     </div>
 
     <form asp-action="Delete" method="post" class="text-end">
-        <input type="hidden" asp-for="TrueFalseQuestionId" />
+        <input type="hidden" asp-for="TrueFalseId" />
         <button type="submit" class="btn btn-danger me-2">Delete</button>
         <a asp-action="Index" class="btn btn-secondary">Cancel</a>
     </form>

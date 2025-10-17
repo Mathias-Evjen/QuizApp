@@ -1,4 +1,4 @@
-@model QuizApp.Models.TrueFalseQuestion
+@model QuizApp.Models.TrueFalse
 
 @{
     ViewData["Title"] = "Edit True/False Question";
@@ -8,7 +8,7 @@
     <h2 class="mb-4 text-center">Edit True/False Question</h2>
 
     <form asp-action="Edit" method="post" class="card p-4 shadow-sm">
-        <input type="hidden" asp-for="TrueFalseQuestionId" />
+        <input type="hidden" asp-for="TrueFalseId" />
 
         <div class="mb-3">
             <label asp-for="QuestionText" class="form-label fw-bold">Question</label>

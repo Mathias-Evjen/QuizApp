@@ -1,29 +1,29 @@
-@using Newtonsoft.Json
 @using QuizApp.ViewModels
 @model QuizApp.ViewModels.QuizViewModel
 
-
-<h1>Questions</h1>
+<h1>@Model.QuizName</h1>
 
 <div class="d-flex justify-content-center mt-5">
     <div class="w-75">
-        @* @{
-            var question = Model.QuestionViewModels.ElementAt(0) as FillInTheBlankViewModel;
+        @{
+            var question = Model.QuestionViewModels.ElementAt(Model.CurrentQuestionNum) as FillInTheBlankViewModel;
             var questionNum = question!.QuizQuestionNum;
-            
-        } *@
-        <h3 class="mb-4">Queeestion @Model.QuestionViewModels.Count</h3>
+        }
+        <h3 class="mb-4">Question @questionNum</h3>
+        <h5 class="text-start">@question.Question</h5>
 
-        <form asp-controller="Quiz" asp-action="NextQuestion" method="post">
-            @* @{
-                var question = Model.QuestionViewModels.ElementAt(Model.CurrentQuestionNum) as FillInTheBlankViewModel;
-                var vd = new ViewDataDictionary(ViewData);
-                vd.TemplateInfo.HtmlFieldPrefix = $"QuestionViewModels[{Model.CurrentQuestionNum}]";
-            }
+        <form asp-controller="FillInTheBlank" asp-action="SubmitQuestion" method="post">
+            <input type="hidden" name="quizId" value="@Model.QuizId" />
+            <input type="hidden" name="quizAttemptId" value="@Model.QuizAttemptId" />
+            <input type="hidden" name="quizQuestionNum" value="@Model.CurrentQuestionNum" />
+            <input type="hidden" name="quizQestionId" value="@question.FillInTheBlankId"/>
+            <label>Your answer:</label>
+            <input type="text"
+                class="form-control mb-2 w-25"
+                name="userAnswer"
+                value="@question.UserAnswer" />
 
-            <partial name="_FillInTheBlankCard" model="question" view-data="vd" /> *@
-
-            <button type="submit" class="btn btn-primary me-2">Next</button>
+            <button type="submit" class="btn btn-primary">Next</button>
         </form>
     </div>
 </div>

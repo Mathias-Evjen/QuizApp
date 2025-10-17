@@ -66,7 +66,7 @@ public class QuizController : Controller
         Console.WriteLine(quizViewModel.QuizId);
         if (quizViewModel.QuestionViewModels.ElementAt(quizViewModel.CurrentQuestionNum) is FillInTheBlankViewModel)
         {
-            return View("FillInTheBlankQuestion", quizViewModel);
+            return View("~/Views/FillInTheBlank/Question.cshtml", quizViewModel);
         }
         else if (quizViewModel.QuestionViewModels.ElementAt(quizViewModel.CurrentQuestionNum) is MatchingViewModel)
         {
@@ -79,6 +79,14 @@ public class QuizController : Controller
         else if (quizViewModel.QuestionViewModels.ElementAt(quizViewModel.CurrentQuestionNum) is RankingViewModel)
         {
             return View("~/Views/Ranking/RankingQuestion.cshtml", quizViewModel);
+        }
+        else if (quizViewModel.QuestionViewModels.ElementAt(quizViewModel.CurrentQuestionNum) is TrueFalseViewModel)
+        {
+            return View("~/Views/TrueFalse/Question.cshtml", quizViewModel);
+        }
+        else if (quizViewModel.QuestionViewModels.ElementAt(quizViewModel.CurrentQuestionNum) is MultipleChoiceViewModel)
+        {
+            return View("~/Views/MultipleChoice/Question.cshtml", quizViewModel);
         }
         
         return RedirectToAction(nameof(Quizzes));
@@ -96,14 +104,14 @@ public class QuizController : Controller
 
         var model = new QuizViewModel(quiz, quizAttemptId);
         model.CurrentQuestionNum = quizQuestionNum;
-        
+
         if (model.CurrentQuestionNum + 1 < model.QuestionViewModels.Count())
         {
             model.CurrentQuestionNum += 1;
         }
         if (model.QuestionViewModels.ElementAt(model.CurrentQuestionNum) is FillInTheBlankViewModel)
         {
-            return View("FillInTheBlankQuestion", model);
+            return View("~/Views/FillInTheBlank/Question.cshtml", model);
         }
         else if (model.QuestionViewModels.ElementAt(model.CurrentQuestionNum) is MatchingViewModel)
         {
@@ -113,9 +121,17 @@ public class QuizController : Controller
         {
             return View("~/Views/Sequence/SequenceQuestion.cshtml", model);
         }
-        else if(model.QuestionViewModels.ElementAt(model.CurrentQuestionNum) is RankingViewModel)
+        else if (model.QuestionViewModels.ElementAt(model.CurrentQuestionNum) is RankingViewModel)
         {
             return View("~/Views/Ranking/RankingQuestion.cshtml", model);
+        }
+        else if (model.QuestionViewModels.ElementAt(model.CurrentQuestionNum) is TrueFalseViewModel)
+        {
+            return View("~/Views/TrueFalse/Question.cshtml", model);
+        }
+        else if (model.QuestionViewModels.ElementAt(model.CurrentQuestionNum) is MultipleChoiceViewModel)
+        {
+            return View("~/Views/MultipleChoice/Question.cshtml", model);
         }
 
         return View("FlashCards", model);
@@ -128,12 +144,6 @@ public class QuizController : Controller
         if (model.CurrentQuestionNum - 1 >= 0)
             model.CurrentQuestionNum -= 1;
         return View("FlashCards", model);
-    }
-
-    [HttpGet]
-    public IActionResult FillInTheBlankQuestion(QuizViewModel model)
-    {      
-        return View(model);
     }
 
     [HttpGet]

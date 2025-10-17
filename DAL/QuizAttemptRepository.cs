@@ -19,7 +19,10 @@ public class QuizAttemptRepository : IQuizAttemptRepository
     {
         try
         {
-            return await _db.QuizAttempts.ToListAsync();
+            return await _db.QuizAttempts
+                                .Include(q => q.FillInTheBlankAttempts)
+                                .Include(q => q.TrueFalseQuestionAttempts)
+                                .ToListAsync();
         }
         catch (Exception e)
         {
@@ -32,7 +35,10 @@ public class QuizAttemptRepository : IQuizAttemptRepository
     {
         try
         {
-            return await _db.QuizAttempts.Include(q => q.FillInTheBlankAttempts).FirstOrDefaultAsync(q => q.QuizAttemptId == id);
+            return await _db.QuizAttempts
+                                .Include(q => q.FillInTheBlankAttempts)
+                                .Include(q => q.TrueFalseQuestionAttempts)
+                                .FirstOrDefaultAsync(q => q.QuizAttemptId == id);
         }
         catch (Exception e)
         {

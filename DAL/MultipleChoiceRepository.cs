@@ -19,7 +19,7 @@ namespace QuizApp.DAL
         {
             try
             {
-                return await _context.MultipleChoices
+                return await _context.MultipleChoiceQuestions
                     .Include(q => q.Options) // Laster inn alle alternativer sammen med spørsmålet
                     .AsNoTracking() // Gjør at resultatet ikke spores av EF for bedre ytelse ved kun lesing
                     .ToListAsync();
@@ -36,7 +36,7 @@ namespace QuizApp.DAL
         {
             try
             {
-                return await _context.MultipleChoices
+                return await _context.MultipleChoiceQuestions
                     .Include(q => q.Options) // Inkluderer alle alternativer
                     .FirstOrDefaultAsync(q => q.MultipleChoiceId == id);
             }
@@ -64,8 +64,8 @@ namespace QuizApp.DAL
                 }
 
                 // Legg til spørsmålet i databasen
-                await _context.MultipleChoices.AddAsync(question);
-                _logger.LogInformation("Added new multiple choice question: {Text}", question.QuestionTexts);
+                await _context.MultipleChoiceQuestions.AddAsync(question);
+                _logger.LogInformation("Added new multiple choice question: {Text}", question.QuestionText);
             }
             catch (Exception ex)
             {
@@ -80,7 +80,7 @@ namespace QuizApp.DAL
             try
             {
                 // Henter eksisterende spørsmål fra databasen
-                var existing = await _context.MultipleChoices
+                var existing = await _context.MultipleChoiceQuestions
                     .Include(q => q.Options)
                     .FirstOrDefaultAsync(q => q.MultipleChoiceId == question.MultipleChoiceId);
 
@@ -91,7 +91,7 @@ namespace QuizApp.DAL
                 }
 
                 // Oppdaterer spørsmålets tekst
-                existing.QuestionTexts = question.QuestionTexts;
+                existing.QuestionText = question.QuestionText;
 
                 // Fjerner gamle alternativer før nye legges til
                 _context.Options.RemoveRange(existing.Options);
@@ -108,7 +108,7 @@ namespace QuizApp.DAL
                 }
 
                 // Oppdater spørsmålet i databasen
-                _context.MultipleChoices.Update(existing);
+                _context.MultipleChoiceQuestions.Update(existing);
                 _logger.LogInformation("Updated question Id={Id}", question.MultipleChoiceId);
             }
             catch (Exception ex)
@@ -123,7 +123,7 @@ namespace QuizApp.DAL
         {
             try
             {
-                var question = await _context.MultipleChoices
+                var question = await _context.MultipleChoiceQuestions
                     .Include(q => q.Options)
                     .FirstOrDefaultAsync(q => q.MultipleChoiceId == id);
 
@@ -133,7 +133,7 @@ namespace QuizApp.DAL
                     _context.Options.RemoveRange(question.Options);
 
                     // Slett selve spørsmålet
-                    _context.MultipleChoices.Remove(question);
+                    _context.MultipleChoiceQuestions.Remove(question);
 
                     _logger.LogInformation("Deleted multiple choice question Id={Id}", id);
                 }

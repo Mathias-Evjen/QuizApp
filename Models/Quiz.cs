@@ -14,13 +14,16 @@ namespace QuizApp.Models
         public virtual List<Matching> MatchingQuestions { get; set; } = new();
         public virtual List<Sequence> SequenceQuestions { get; set; } = new();
         public virtual List<Ranking> RankingQuestions { get; set; } = new();
+        public virtual List<TrueFalse> TrueFalseQuestions { get; set; } = new();
+        public virtual List<MultipleChoice> MultipleChoiceQuestions { get; set; } = new();
 
         [NotMapped]
         public IEnumerable<Question> AllQuestions =>
             FillInTheBlankQuestions.Cast<Question>()
             .Concat(MatchingQuestions)
             .Concat(SequenceQuestions)
-            .Concat(RankingQuestions);
-
+            .Concat(RankingQuestions)
+            .Concat(TrueFalseQuestions)
+            .Concat(MultipleChoiceQuestions);
         }
 }

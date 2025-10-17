@@ -18,7 +18,13 @@ public class QuizRepository : IQuizRepository
     {
         try
         {
-            return await _db.Quizzes.ToListAsync();
+            return await _db.Quizzes
+                            .Include(q => q.FillInTheBlankQuestions)
+                            .Include(q => q.MatchingQuestions)
+                            .Include(q => q.SequenceQuestions)
+                            .Include(q => q.RankingQuestions)
+                            .Include(q => q.TrueFalseQuestions)
+                            .ToListAsync();
         }
         catch (Exception e)
         {
@@ -31,7 +37,13 @@ public class QuizRepository : IQuizRepository
     {
         try
         {
-            return await _db.Quizzes.Include(q => q.FillInTheBlankQuestions).FirstOrDefaultAsync(q => q.QuizId == id);
+            return await _db.Quizzes
+                            .Include(q => q.FillInTheBlankQuestions)
+                            .Include(q => q.MatchingQuestions)
+                            .Include(q => q.SequenceQuestions)
+                            .Include(q => q.RankingQuestions)
+                            .Include(q => q.TrueFalseQuestions)
+                            .FirstOrDefaultAsync(q => q.QuizId == id);
         }
         catch (Exception e)
         {

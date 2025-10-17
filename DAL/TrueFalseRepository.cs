@@ -17,7 +17,7 @@ namespace QuizApp.DAL
         }
 
         // Henter alle True/False-spørsmål fra databasen uten sporing
-        public async Task<List<TrueFalseQuestion>> GetAllAsync()
+        public async Task<List<TrueFalse>> GetAllAsync()
         {
             try
             {
@@ -28,12 +28,12 @@ namespace QuizApp.DAL
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Feil ved henting av alle True/False-spørsmål.");
-                return new List<TrueFalseQuestion>();
+                return new List<TrueFalse>();
             }
         }
 
         // Henter ett True/False-spørsmål basert på ID
-        public async Task<TrueFalseQuestion?> GetByIdAsync(int id)
+        public async Task<TrueFalse?> GetByIdAsync(int id)
         {
             try
             {
@@ -47,13 +47,13 @@ namespace QuizApp.DAL
         }
 
         // Henter detaljert informasjon om et True/False-spørsmål
-        public async Task<TrueFalseQuestion?> GetDetailedAsync(int id)
+        public async Task<TrueFalse?> GetDetailedAsync(int id)
         {
             try
             {
                 return await _context.TrueFalseQuestions
                     .AsNoTracking()
-                    .FirstOrDefaultAsync(q => q.TrueFalseQuestionId == id);
+                    .FirstOrDefaultAsync(q => q.TrueFalseId == id);
             }
             catch (Exception ex)
             {
@@ -63,7 +63,7 @@ namespace QuizApp.DAL
         }
 
         // Legger til et nytt True/False-spørsmål i databasen
-        public async Task AddAsync(TrueFalseQuestion question)
+        public async Task AddAsync(TrueFalse question)
         {
             try
             {
@@ -78,17 +78,17 @@ namespace QuizApp.DAL
         }
 
         // Oppdaterer et eksisterende True/False-spørsmål
-        public async Task UpdateAsync(TrueFalseQuestion question)
+        public async Task UpdateAsync(TrueFalse question)
         {
             try
             {
                 _context.TrueFalseQuestions.Update(question);
-                _logger.LogInformation("Oppdatert True/False-spørsmål med Id={Id}", question.TrueFalseQuestionId);
+                _logger.LogInformation("Oppdatert True/False-spørsmål med Id={Id}", question.TrueFalseId);
                 await Task.CompletedTask; // behold async-signaturen
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "Feil ved oppdatering av True/False-spørsmål Id={Id}", question.TrueFalseQuestionId);
+                _logger.LogError(ex, "Feil ved oppdatering av True/False-spørsmål Id={Id}", question.TrueFalseId);
                 throw;
             }
         }

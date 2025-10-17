@@ -90,7 +90,7 @@ namespace QuizApp.DAL
                     return false;
                 }
 
-                existing.QuestionTexts = question.QuestionTexts;
+                existing.QuestionText = question.QuestionText;
 
                 // Fjern gamle alternativer
                 _db.Options.RemoveRange(existing.Options);

@@ -9,13 +9,13 @@
 
     <form asp-action="Edit" method="post" class="card p-4 shadow-sm">
         <!-- Skjult ID (brukes for å finne spørsmålet ved lagring) -->
-        <input type="hidden" asp-for="MultipleChoiceId" />
+        <input type="hidden" asp-for="Id" />
 
         <!-- Spørsmålstekst -->
         <div class="mb-3">
-            <label asp-for="QuestionTexts" class="form-label fw-bold">Question</label>
-            <input asp-for="QuestionTexts" class="form-control" placeholder="Enter question text..." />
-            <span asp-validation-for="QuestionTexts" class="text-danger"></span>
+            <label asp-for="QuestionText" class="form-label fw-bold">Question</label>
+            <input asp-for="QuestionText" class="form-control" placeholder="Enter question text..." />
+            <span asp-validation-for="QuestionText" class="text-danger"></span>
         </div>
 
         <!-- Alternativer -->

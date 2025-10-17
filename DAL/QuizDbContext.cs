@@ -23,6 +23,9 @@ public class QuizDbContext : DbContext
 
     public DbSet<QuizAttempt> QuizAttempts { get; set; }
     public DbSet<FillInTheBlankAttempt> FillInTheBlankAttempts { get; set; }
+    public DbSet<MatchingAttempt> MatchingAttempts { get; set; }
+    public DbSet<SequenceAttempt> SequenceAttempts { get; set; }
+    public DbSet<RankingAttempt> RankingAttempts { get; set; }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {

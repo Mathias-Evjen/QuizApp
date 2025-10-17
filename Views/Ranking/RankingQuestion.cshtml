@@ -3,6 +3,13 @@
 
 @{
     var rankingModel = Model.QuestionViewModels.ElementAt(Model.CurrentQuestionNum) as RankingViewModel;
+    if (rankingModel == null)
+    {
+        <div class="alert alert-danger" role="alert">
+            An error occurred: The question could not be loaded. Please try again!
+        </div>
+        return; // Stopper videre rendering av viewet
+    }
     //MÅ LEGGE TIL HVA SOM SKJER VED rankingModel = null 
     ViewData["Title"] = "Ranking Question";
     var splitQuestion = rankingModel.Question.Split(",");
@@ -13,6 +20,7 @@
     <form asp-controller="Ranking" asp-action="SubmitRankingQuestion" method="post">
         <input type="hidden" name="id" value="@rankingModel.Id" />
         <input type="hidden" name="quizId" value="@Model.QuizId" />
+        <input type="hidden" name="quizAttemptId" value="@Model.QuizAttemptId" />
         <input type="hidden" name="quizQuestionNum" value="@Model.CurrentQuestionNum" />
         <div class="align-items-center justify-content-center w-100">
             <div class="row position-relative align-items-center justify-content-center w-25" style="min-height:120px; border-radius:10px; background-color:rgb(243, 243, 243); padding:10px;margin-top: 50px; padding-top:30px;">

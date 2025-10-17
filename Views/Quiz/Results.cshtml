@@ -1,0 +1,32 @@
+@using QuizApp.ViewModels
+@model QuizResultViewModel
+
+<h1>Results</h1>
+
+@{
+    var questions = Model.Quiz.AllQuestions;
+    var attempts = Model.QuizAttempt.AllQuestionAttempts;
+}
+
+<div>
+    @for (int i = 0; i < questions.Count(); i++) 
+    {
+        var question = questions.ElementAt(i);
+        var attempt = attempts.ElementAt(i);
+
+        if (question is FillInTheBlank fib && attempt is FillInTheBlankAttempt fibAttempt) {
+            <div>
+                <h3>Question @fib.QuizQuestionNum</h3>
+
+                <h5>Your answer: @fibAttempt.UserAnswer</h5>
+
+                @if (fibAttempt.AnsweredCorrectly.HasValue) 
+                {
+                    <div class="mt-3 alert @(fibAttempt.AnsweredCorrectly.Value ? "alert-success" : "alert-danger")">
+                        @(fibAttempt.AnsweredCorrectly.Value ? "Correct!" : $"Wrong. The correct answer was '{fib.CorrectAnswer}'")
+                    </div>
+                } 
+            </div>
+        }
+    }
+</div>

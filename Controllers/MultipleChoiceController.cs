@@ -1,17 +1,22 @@
 using Microsoft.AspNetCore.Mvc;
 using QuizApp.DAL;
 using QuizApp.Models;
+using QuizApp.ViewModels;
 
 namespace QuizApp.Controllers
 {
     public class MultipleChoiceController : Controller
     {
-        private readonly IMultipleChoiceRepository _repo;
+        private readonly IMultipleChoiceRepository _multipleChoiceRepository;
+        private readonly IMultipleChoiceAttemptRepository _multipleChoiceAttemptRepository;
         private readonly ILogger<MultipleChoiceController> _logger;
 
-        public MultipleChoiceController(IMultipleChoiceRepository repo, ILogger<MultipleChoiceController> logger)
+        public MultipleChoiceController(IMultipleChoiceRepository multipleChoiceRepository,
+                                        IMultipleChoiceAttemptRepository multipleChoiceAttemptRepository,
+                                        ILogger<MultipleChoiceController> logger)
         {
-            _repo = repo;
+            _multipleChoiceRepository = multipleChoiceRepository;
+            _multipleChoiceAttemptRepository = multipleChoiceAttemptRepository;
             _logger = logger;
         }
 
@@ -20,7 +25,7 @@ namespace QuizApp.Controllers
         {
             try
             {
-                var questions = await _repo.GetAllAsync();
+                var questions = await _multipleChoiceRepository.GetAllAsync();
                 return View(questions);
             }
             catch (Exception ex)
@@ -28,6 +33,41 @@ namespace QuizApp.Controllers
                 _logger.LogError(ex, "Failed to load Multiple Choice list.");
                 return View("Error");
             }
+        }
+
+        public IActionResult Question(QuizViewModel model)
+        {
+            return View(model);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> SubmitQuestion(int quizId, int quizAttemptId, int quizQuestionId, int quizQuestionNum, string userAnswer)
+        {
+            var multipleChoice = await _multipleChoiceRepository.GetDetailedAsync(quizQuestionId);
+            if (multipleChoice == null)
+            {
+                _logger.LogError("[MultipleChoiceController - Submit question] MultipleChoice question not found for the Id {Id: 0000}", quizQuestionId);
+                return NotFound("MultipleChoice question not found.");
+            }
+
+            var multipleChoiceAttempt = new MultipleChoiceAttempt();
+            multipleChoiceAttempt.MultiplechoiceId = multipleChoice.MultipleChoiceId;
+            multipleChoiceAttempt.QuizAttemptId = quizAttemptId;
+            multipleChoiceAttempt.UserAnswer = userAnswer;
+
+            var returnOk = await _multipleChoiceAttemptRepository.CreateMultipleChoiceAttempt(multipleChoiceAttempt);
+            if (!returnOk)
+            {
+                _logger.LogError("[MultipleChoiceController] Question attempt creation failed {@attempt}", multipleChoiceAttempt);
+                return RedirectToAction("Quizzes", "Quiz");
+            }
+
+            return RedirectToAction("NextQuestion", "Quiz", new
+            {
+                quizId = quizId,
+                quizAttemptId = quizAttemptId,
+                quizQuestionNum = quizQuestionNum
+            });
         }
 
         // GET: /Create
@@ -68,10 +108,10 @@ namespace QuizApp.Controllers
                     opt.MultipleChoice = question;
                 }
 
-                await _repo.AddAsync(question);
-                await _repo.SaveAsync();
+                await _multipleChoiceRepository.AddAsync(question);
+                await _multipleChoiceRepository.SaveAsync();
 
-                _logger.LogInformation("MultipleChoice created: {Question}", question.QuestionTexts);
+                _logger.LogInformation("MultipleChoice created: {Question}", question.QuestionText);
                 return RedirectToAction(nameof(Index));
             }
             catch (Exception ex)
@@ -86,7 +126,7 @@ namespace QuizApp.Controllers
         {
             try
             {
-                var question = await _repo.GetDetailedAsync(id);
+                var question = await _multipleChoiceRepository.GetDetailedAsync(id);
                 if (question == null)
                 {
                     _logger.LogWarning("Edit requested for non-existing MultipleChoice Id={Id}", id);
@@ -119,8 +159,8 @@ namespace QuizApp.Controllers
 
             try
             {
-                await _repo.UpdateAsync(question);
-                await _repo.SaveAsync();
+                await _multipleChoiceRepository.UpdateAsync(question);
+                await _multipleChoiceRepository.SaveAsync();
 
                 _logger.LogInformation("MultipleChoice updated: Id={Id}", question.MultipleChoiceId);
                 return RedirectToAction(nameof(Index));
@@ -137,7 +177,7 @@ namespace QuizApp.Controllers
         {
             try
             {
-                var question = await _repo.GetDetailedAsync(id);
+                var question = await _multipleChoiceRepository.GetDetailedAsync(id);
                 if (question == null)
                 {
                     _logger.LogWarning("Delete requested for non-existing MultipleChoice Id={Id}", id);
@@ -159,8 +199,8 @@ namespace QuizApp.Controllers
         {
             try
             {
-                await _repo.DeleteAsync(id);
-                await _repo.SaveAsync();
+                await _multipleChoiceRepository.DeleteAsync(id);
+                await _multipleChoiceRepository.SaveAsync();
 
                 _logger.LogInformation("MultipleChoice deleted: Id={Id}", id);
                 return RedirectToAction(nameof(Index));

@@ -19,7 +19,7 @@ public class TrueFalseAttemptRepository : ITrueFalseAttemptRepository
     {
         try
         {
-            return await _db.TrueFalseQuestionAttempts.FindAsync();
+            return await _db.TrueFalseAttempts.FindAsync(id);
         }
         catch (Exception e)
         {
@@ -32,7 +32,7 @@ public class TrueFalseAttemptRepository : ITrueFalseAttemptRepository
     {
         try
         {
-            _db.TrueFalseQuestionAttempts.Add(trueFalseAttempt);
+            _db.TrueFalseAttempts.Add(trueFalseAttempt);
             await _db.SaveChangesAsync();
             return true;
         }
@@ -47,7 +47,7 @@ public class TrueFalseAttemptRepository : ITrueFalseAttemptRepository
     {
         try
         {
-            _db.TrueFalseQuestionAttempts.Update(trueFalseAttempt);
+            _db.TrueFalseAttempts.Update(trueFalseAttempt);
             await _db.SaveChangesAsync();
             return true;
         }
@@ -62,13 +62,13 @@ public class TrueFalseAttemptRepository : ITrueFalseAttemptRepository
     {
         try
         {
-            var trueFalseAttempt = await _db.TrueFalseQuestionAttempts.FindAsync(id);
+            var trueFalseAttempt = await _db.TrueFalseAttempts.FindAsync(id);
             if (trueFalseAttempt == null)
             {
                 return false;
             }
 
-            _db.TrueFalseQuestionAttempts.Remove(trueFalseAttempt);
+            _db.TrueFalseAttempts.Remove(trueFalseAttempt);
             await _db.SaveChangesAsync();
             return true;
         }

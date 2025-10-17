@@ -31,6 +31,8 @@ namespace QuizApp.ViewModels
                     QuestionViewModels.Add(new RankingViewModel(rQuestion));
                 if (question is TrueFalse tfQuestion)
                     QuestionViewModels.Add(new TrueFalseViewModel(tfQuestion));
+                if (question is MultipleChoice mcQuestion)
+                    QuestionViewModels.Add(new MultipleChoiceViewModel(mcQuestion));
             }
         }
 

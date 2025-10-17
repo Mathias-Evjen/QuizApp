@@ -19,7 +19,7 @@ public class FillInTheBlankAttemptRepository : IFillInTheBlankAttemptRepository
     {
         try
         {
-            return await _db.FillInTheBlankAttempts.FindAsync();
+            return await _db.FillInTheBlankAttempts.FindAsync(id);
         }
         catch (Exception e)
         {

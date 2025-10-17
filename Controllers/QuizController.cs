@@ -84,6 +84,10 @@ public class QuizController : Controller
         {
             return View("~/Views/TrueFalse/Question.cshtml", quizViewModel);
         }
+        else if (quizViewModel.QuestionViewModels.ElementAt(quizViewModel.CurrentQuestionNum) is MultipleChoiceViewModel)
+        {
+            return View("~/Views/MultipleChoice/Question.cshtml", quizViewModel);
+        }
         
         return RedirectToAction(nameof(Quizzes));
     }
@@ -124,6 +128,10 @@ public class QuizController : Controller
         else if (model.QuestionViewModels.ElementAt(model.CurrentQuestionNum) is TrueFalseViewModel)
         {
             return View("~/Views/TrueFalse/Question.cshtml", model);
+        }
+        else if (model.QuestionViewModels.ElementAt(model.CurrentQuestionNum) is MultipleChoiceViewModel)
+        {
+            return View("~/Views/MultipleChoice/Question.cshtml", model);
         }
 
         return View("FlashCards", model);

@@ -18,7 +18,8 @@ public static class DBInit
             {
                 new Quiz {Name = "Example quiz", Description = "Quiz with examples"},
                 new Quiz {Name = "Also example quiz", Description = "This is also a quiz with examples"},
-                new Quiz {Name = "True/False test", Description = "Test for True/False questions"}
+                new Quiz {Name = "True/False test", Description = "Test for True/False questions"},
+                new Quiz {Name = "Multiple choice test", Description = "Bla bla bla"}
             };
             context.AddRange(quiz);
             context.SaveChanges();
@@ -45,6 +46,77 @@ public static class DBInit
                 }
             };
             context.AddRange(qustions);
+            context.SaveChanges();
+        }
+
+        if (!context.MultipleChoiceQuestions.Any())
+        {
+            var quiz = context.Quizzes.Find(3);
+            var questions = new List<MultipleChoice>
+            {
+                new MultipleChoice {
+                    QuestionText = "Which is the biggest planet in our solar system?",
+                    QuizId = 3,
+                    Quiz = quiz!,
+                    QuizQuestionNum = 3
+                },
+                new MultipleChoice {
+                    QuestionText = "Which season is warmest?",
+                    QuizId = 3,
+                    Quiz = quiz!,
+                    QuizQuestionNum = 3
+                }
+            };
+            context.AddRange(questions);
+            context.SaveChanges();
+        }
+
+        if (!context.Options.Any())
+        {
+            var options = new List<Option>
+            {
+                new Option {
+                    Text = "Earth",
+                    IsCorrect = false,
+                    MultipleChoiceId = 1
+                },
+                new Option {
+                    Text = "Saturn",
+                    IsCorrect = false,
+                    MultipleChoiceId = 1
+                },
+                new Option {
+                    Text = "Jupiter",
+                    IsCorrect = true,
+                    MultipleChoiceId = 1
+                },
+                new Option {
+                    Text = "Uranus",
+                    IsCorrect = false,
+                    MultipleChoiceId = 1
+                },
+                new Option {
+                    Text = "Spring",
+                    IsCorrect = false,
+                    MultipleChoiceId = 2
+                },
+                new Option {
+                    Text = "Summer",
+                    IsCorrect = true,
+                    MultipleChoiceId = 2
+                },
+                new Option {
+                    Text = "Autumn",
+                    IsCorrect = false,
+                    MultipleChoiceId = 2
+                },
+                new Option {
+                    Text = "Winter",
+                    IsCorrect = false,
+                    MultipleChoiceId = 2
+                },
+            };
+            context.AddRange(options);
             context.SaveChanges();
         }
 
@@ -232,6 +304,7 @@ public static class DBInit
                                 .Include(q => q.RankingQuestions)
                                 .Include(q => q.SequenceQuestions)
                                 .Include(q => q.TrueFalseQuestions)
+                                .Include(q => q.MultipleChoiceQuestions)
                                 .ToList();
         foreach (var quiz in quizzes)
         {

@@ -15,6 +15,7 @@ namespace QuizApp.Models
         public virtual List<Sequence> SequenceQuestions { get; set; } = new();
         public virtual List<Ranking> RankingQuestions { get; set; } = new();
         public virtual List<TrueFalse> TrueFalseQuestions { get; set; } = new();
+        public virtual List<MultipleChoice> MultipleChoiceQuestions { get; set; } = new();
 
         [NotMapped]
         public IEnumerable<Question> AllQuestions =>
@@ -22,6 +23,7 @@ namespace QuizApp.Models
             .Concat(MatchingQuestions)
             .Concat(SequenceQuestions)
             .Concat(RankingQuestions)
-            .Concat(TrueFalseQuestions);
+            .Concat(TrueFalseQuestions)
+            .Concat(MultipleChoiceQuestions);
         }
 }

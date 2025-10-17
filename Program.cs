@@ -35,6 +35,7 @@ builder.Services.AddScoped<ITrueFalseRepository, TrueFalseRepository>();
 builder.Services.AddScoped<IQuizAttemptRepository, QuizAttemptRepository>();
 builder.Services.AddScoped<IFillInTheBlankAttemptRepository, FillInTheBlankAttemptRepository>();
 builder.Services.AddScoped<ITrueFalseAttemptRepository, TrueFalseAttemptRepository>();
+builder.Services.AddScoped<IMultipleChoiceAttemptRepository, MultipleChoiceAttemptRepository>();
 
 builder.Services.AddRazorPages();
 

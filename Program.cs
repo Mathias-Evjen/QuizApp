@@ -32,6 +32,9 @@ builder.Services.AddScoped<IFlashCardQuizService, FlashCardQuizService>();
 builder.Services.AddScoped<IMultipleChoiceRepository, MultipleChoiceRepository>();
 builder.Services.AddScoped<ITrueFalseRepository, TrueFalseRepository>();
 
+builder.Services.AddScoped<IQuizAttemptRepository, QuizAttemptRepository>();
+builder.Services.AddScoped<IFillInTheBlankAttemptRepository, FillInTheBlankAttemptRepository>();
+
 builder.Services.AddRazorPages();
 
 var loggerConfiguration = new LoggerConfiguration()

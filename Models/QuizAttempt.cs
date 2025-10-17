@@ -1,0 +1,18 @@
+using System;
+using System.ComponentModel.DataAnnotations.Schema;
+
+namespace QuizApp.Models
+{
+    public class QuizAttempt
+    {
+        public int QuizAttemptId { get; set; }
+        public int QuizId { get; set; }
+        public virtual Quiz Quiz { get; set; } = default!;
+        public int NumOfCorrectAnswers { get; set; }
+        public virtual List<FillInTheBlankAttempt> FillInTheBlankAttempts { get; set; } = new List<FillInTheBlankAttempt>();
+
+        [NotMapped]
+        public IEnumerable<QuestionAttempt> AllQuestionAttempts =>
+        FillInTheBlankAttempts.Cast<QuestionAttempt>();
+    }
+}

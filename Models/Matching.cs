@@ -8,7 +8,7 @@ namespace QuizApp.Models
     public class Matching : Question
     {
         public int Id { get; set; }
-        public override int QuestionId => Id;
+        // public override int QuestionId => Id;
         public string Question { get; set; } = string.Empty;
         public string Answer { get; set; } = string.Empty;
         public string CorrectAnswer { get; set; } = string.Empty;

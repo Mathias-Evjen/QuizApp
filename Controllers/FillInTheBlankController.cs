@@ -11,12 +11,14 @@ namespace QuizApp.Controllers;
 public class FillInTheBlankController : Controller
 {
     private readonly IFillInTheBlankRepository _fillInTheBlankRepository;
+    private readonly IFillInTheBlankAttemptRepository _fillInTheBlankAttemptRepository;
     private readonly QuizService _quizService;
     private readonly ILogger<FillInTheBlankController> _logger;
 
-    public FillInTheBlankController(IFillInTheBlankRepository fillInTheBlankRepository, QuizService quizService, ILogger<FillInTheBlankController> logger)
+    public FillInTheBlankController(IFillInTheBlankRepository fillInTheBlankRepository, IFillInTheBlankAttemptRepository fillInTheBlankAttemptRepository, QuizService quizService, ILogger<FillInTheBlankController> logger)
     {
         _fillInTheBlankRepository = fillInTheBlankRepository;
+        _fillInTheBlankAttemptRepository = fillInTheBlankAttemptRepository;
         _quizService = quizService;
         _logger = logger;
     }
@@ -79,7 +81,7 @@ public class FillInTheBlankController : Controller
     }
 
     [HttpPost]
-    public async Task<IActionResult> SubmitQuestion(int quizId, int quizTypeId, int quizQuestionNum, string userAnswer)
+    public async Task<IActionResult> SubmitQuestion(int quizId, int quizAttemptId, int quizTypeId, int quizQuestionNum, string userAnswer)
     {
         var fillInTheBlank = await _fillInTheBlankRepository.GetQuestionById(quizTypeId);
         if (fillInTheBlank == null)
@@ -87,12 +89,23 @@ public class FillInTheBlankController : Controller
             _logger.LogError("[FillInTheBlankController - Submit question] FillInTheBlank question not found for the Id {Id: 0000}", quizTypeId);
             return NotFound("FillInTheBlank question not found.");
         }
-        fillInTheBlank.Answer = userAnswer;
-        await _fillInTheBlankRepository.UpdateQuestion(fillInTheBlank);
+
+        var fillInTheBlankAttempt = new FillInTheBlankAttempt();
+        fillInTheBlankAttempt.FillInTheBlankId = fillInTheBlank.FillInTheBlankId;
+        fillInTheBlankAttempt.QuizAttemptId = quizAttemptId;
+        fillInTheBlankAttempt.UserAnswer = userAnswer;
+
+        var returnOk = await _fillInTheBlankAttemptRepository.CreateFillInTheBlankAttempt(fillInTheBlankAttempt);
+        if (!returnOk)
+        {
+            _logger.LogError("[FillInTheBlankController] Question attempt creation failed {@attempt}", fillInTheBlankAttempt);
+            return RedirectToAction("Quizzes", "Quiz");
+        }
 
         return RedirectToAction("NextQuestion", "Quiz", new
         {
             quizId = quizId,
+            quizAttemptId = quizAttemptId,
             quizQuestionNum = quizQuestionNum
         });
     }

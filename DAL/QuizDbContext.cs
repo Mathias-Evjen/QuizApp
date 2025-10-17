@@ -21,6 +21,9 @@ public class QuizDbContext : DbContext
     public DbSet<TrueFalseQuestion> TrueFalseQuestions { get; set; }
     public DbSet<Option> Options { get; set; } 
 
+    public DbSet<QuizAttempt> QuizAttempts { get; set; }
+    public DbSet<FillInTheBlankAttempt> FillInTheBlankAttempts { get; set; }
+
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
         optionsBuilder.UseLazyLoadingProxies();

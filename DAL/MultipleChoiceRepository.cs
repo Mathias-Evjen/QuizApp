@@ -14,159 +14,93 @@ namespace QuizApp.DAL
             _logger = logger;
         }
 
-        // Hent alle MultipleChoice-spørsmål
+        // Henter alle MultipleChoice-spørsmål
         public async Task<IEnumerable<MultipleChoice>?> GetAll()
         {
             try
             {
-                return await _context.MultipleChoiceQuestions
-                    .Include(q => q.Options) // Laster inn alle alternativer sammen med spørsmålet
-                    .AsNoTracking() // Gjør at resultatet ikke spores av EF for bedre ytelse ved kun lesing
+                return await _db.MultipleChoices
+                    .Include(mc => mc.Options)
+                    .AsNoTracking()
                     .ToListAsync();
             }
             catch (Exception e)
             {
-                _logger.LogError(ex, "Error fetching all multiple choice questions.");
-                return new List<MultipleChoice>();
-            }
-        }
-
-        // Henter ett spesifikt spørsmål med alle alternativer
-        public async Task<MultipleChoice?> GetDetailedAsync(int id)
-        {
-            try
-            {
-                return await _context.MultipleChoiceQuestions
-                    .Include(q => q.Options) // Inkluderer alle alternativer
-                    .FirstOrDefaultAsync(q => q.MultipleChoiceId == id);
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError(ex, "Error fetching multiple choice question with id {Id}", id);
+                _logger.LogError("[MultipleChoiceRepository] GetAll() failed: {Message}", e.Message);
                 return null;
             }
         }
 
-        // Hent ett MultipleChoice-spørsmål basert på ID
+        // Henter et spørsmål basert på ID
         public async Task<MultipleChoice?> GetById(int id)
         {
             try
             {
                 return await _db.MultipleChoices
-                    .Include(q => q.Options)
-                    .FirstOrDefaultAsync(q => q.Id == id);
+                    .Include(mc => mc.Options)
+                    .FirstOrDefaultAsync(mc => mc.Id == id);
             }
             catch (Exception e)
             {
-                _logger.LogError("[MultipleChoiceRepository] FindAsync(id) failed for Id={Id}, error: {e}", id, e.Message);
+                _logger.LogError("[MultipleChoiceRepository] GetById({Id}) failed: {Message}", id, e.Message);
                 return null;
             }
         }
 
-        // Opprett nytt spørsmål
+        // Oppretter nytt spørsmål
         public async Task<bool> Create(MultipleChoice question)
         {
             try
             {
-                // Fjern tomme alternativer
-                question.Options = (question.Options ?? new List<Option>())
-                    .Where(o => !string.IsNullOrWhiteSpace(o.Text))
-                    .ToList();
-
-                // Knytt alternativer til spørsmålet
-                foreach (var opt in question.Options)
-                {
-                    opt.MultipleChoice = question;
-                }
-
-                // Legg til spørsmålet i databasen
-                await _context.MultipleChoiceQuestions.AddAsync(question);
-                _logger.LogInformation("Added new multiple choice question: {Text}", question.QuestionText);
+                _db.MultipleChoices.Add(question);
+                await _db.SaveChangesAsync();
+                _logger.LogInformation("[MultipleChoiceRepository] Created MultipleChoice: {Question}", question.QuestionText);
+                return true;
             }
             catch (Exception e)
             {
-                _logger.LogError("[MultipleChoiceRepository] Creation failed for MultipleChoice {@Question}, error: {e}", question, e.Message);
+                _logger.LogError("[MultipleChoiceRepository] Create() failed: {Message}", e.Message);
                 return false;
             }
         }
 
-        // Oppdater eksisterende spørsmål
+        // Oppdaterer eksisterende spørsmål
         public async Task<bool> Update(MultipleChoice question)
         {
             try
             {
-                // Henter eksisterende spørsmål fra databasen
-                var existing = await _context.MultipleChoiceQuestions
-                    .Include(q => q.Options)
-                    .FirstOrDefaultAsync(q => q.Id == question.Id);
-
-                if (existing == null)
-                {
-                    _logger.LogWarning("[MultipleChoiceRepository] Tried to update non-existing question Id={Id}", question.Id);
-                    return false;
-                }
-
-                // Oppdaterer spørsmålets tekst
-                existing.QuestionText = question.QuestionText;
-
-                // Fjern gamle alternativer
-                _db.Options.RemoveRange(existing.Options);
-
-                // Legg til nye alternativer
-                existing.Options = question.Options
-                    .Where(o => !string.IsNullOrWhiteSpace(o.Text))
-                    .ToList();
-
-                foreach (var opt in existing.Options)
-                {
-                    opt.MultipleChoiceId = existing.Id;
-                }
-
-                // Oppdater spørsmålet i databasen
-                _context.MultipleChoiceQuestions.Update(existing);
-                _logger.LogInformation("Updated question Id={Id}", question.MultipleChoiceId);
+                _db.MultipleChoices.Update(question);
+                await _db.SaveChangesAsync();
+                _logger.LogInformation("[MultipleChoiceRepository] Updated MultipleChoice Id={Id}", question.Id);
+                return true;
             }
             catch (Exception e)
             {
-                _logger.LogError("[MultipleChoiceRepository] Update failed for MultipleChoice {@Question}, error: {e}", question, e.Message);
+                _logger.LogError("[MultipleChoiceRepository] Update() failed for Id={Id}: {Message}", question.Id, e.Message);
                 return false;
             }
         }
 
-        // Slett spørsmål
+        // Sletter spørsmål
         public async Task<bool> Delete(int id)
         {
             try
             {
-                var question = await _context.MultipleChoiceQuestions
-                    .Include(q => q.Options)
-                    .FirstOrDefaultAsync(q => q.Id == id);
-
+                var question = await _db.MultipleChoices.FindAsync(id);
                 if (question == null)
                 {
-                    // Fjern alle alternativer som hører til spørsmålet
-                    _context.Options.RemoveRange(question.Options);
-
-                    // Slett selve spørsmålet
-                    _context.MultipleChoiceQuestions.Remove(question);
-
-                    _logger.LogInformation("Deleted multiple choice question Id={Id}", id);
-                }
-                else
-                {
-                    _logger.LogWarning("Attempted to delete non-existing question Id={Id}", id);
+                    _logger.LogWarning("[MultipleChoiceRepository] Tried to delete non-existing Id={Id}", id);
+                    return false;
                 }
 
-                _db.Options.RemoveRange(question.Options);
                 _db.MultipleChoices.Remove(question);
                 await _db.SaveChangesAsync();
-
                 _logger.LogInformation("[MultipleChoiceRepository] Deleted MultipleChoice Id={Id}", id);
                 return true;
             }
             catch (Exception e)
             {
-                _logger.LogError("[MultipleChoiceRepository] Deletion failed for Id={Id}, error: {e}", id, e.Message);
+                _logger.LogError("[MultipleChoiceRepository] Delete() failed for Id={Id}: {Message}", id, e.Message);
                 return false;
             }
         }

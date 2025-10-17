@@ -3,14 +3,9 @@ using QuizApp.DAL;
 using QuizApp.Models;
 using QuizApp.ViewModels;
 
-namespace QuizApp.Controllers;
-
-public class MultipleChoiceController : Controller
+namespace QuizApp.Controllers
 {
-    private readonly IMultipleChoiceRepository _multipleChoiceRepository;
-    private readonly ILogger<MultipleChoiceController> _logger;
-
-    public MultipleChoiceController(IMultipleChoiceRepository multipleChoiceRepository, ILogger<MultipleChoiceController> logger)
+    public class MultipleChoiceController : Controller
     {
         private readonly IMultipleChoiceRepository _multipleChoiceRepository;
         private readonly IMultipleChoiceAttemptRepository _multipleChoiceAttemptRepository;
@@ -30,7 +25,7 @@ public class MultipleChoiceController : Controller
         {
             try
             {
-                var questions = await _multipleChoiceRepository.GetAllAsync();
+                var questions = await _multipleChoiceRepository.GetAll();
                 return View(questions);
             }
             catch (Exception ex)
@@ -48,7 +43,7 @@ public class MultipleChoiceController : Controller
         [HttpPost]
         public async Task<IActionResult> SubmitQuestion(int quizId, int quizAttemptId, int quizQuestionId, int quizQuestionNum, string userAnswer)
         {
-            var multipleChoice = await _multipleChoiceRepository.GetDetailedAsync(quizQuestionId);
+            var multipleChoice = await _multipleChoiceRepository.GetById(quizQuestionId);
             if (multipleChoice == null)
             {
                 _logger.LogError("[MultipleChoiceController - Submit question] MultipleChoice question not found for the Id {Id: 0000}", quizQuestionId);
@@ -79,16 +74,22 @@ public class MultipleChoiceController : Controller
         public IActionResult Create()
         {
 
-    [HttpPost]
-    public async Task<IActionResult> CreateMultipleChoiceQuestion(MultipleChoice question)
-    {
-        if (!ModelState.IsValid)
-        {
+            var question = new MultipleChoice
+            {
+                Options = new List<Option>
+                {
+                    new Option(),
+                    new Option(),
+                    new Option(),
+                    new Option()
+                }
+            };
             return View(question);
         }
 
-        var ok = await _multipleChoiceRepository.Create(question);
-        if (!ok)
+        // POST: /Create
+        [HttpPost]
+        public async Task<IActionResult> Create(MultipleChoice question)
         {
             if (!ModelState.IsValid)
             {
@@ -103,14 +104,16 @@ public class MultipleChoiceController : Controller
                     .ToList();
 
                 foreach (var opt in question.Options)
-                {
                     opt.MultipleChoice = question;
+
+                var ok = await _multipleChoiceRepository.Create(question);
+                if (!ok)
+                {
+                    _logger.LogError("Failed to create MultipleChoice question.");
+                    return View("Error");
                 }
 
-                await _multipleChoiceRepository.AddAsync(question);
-                await _multipleChoiceRepository.SaveAsync();
-
-                _logger.LogInformation("MultipleChoice created: {Question}", question.QuestionText);
+                _logger.LogInformation("Created MultipleChoice question: {Question}", question.QuestionText);
                 return RedirectToAction(nameof(Index));
             }
             catch (Exception ex)
@@ -120,18 +123,12 @@ public class MultipleChoiceController : Controller
             }
         }
 
-        return RedirectToAction("Index");
-    }
-
-    [HttpGet]
-    public async Task<IActionResult> EditMultipleChoiceQuestion(int id)
-    {
-        var question = await _multipleChoiceRepository.GetById(id);
-        if (question == null)
+        // GET: /Edit
+        public async Task<IActionResult> Edit(int id)
         {
             try
             {
-                var question = await _multipleChoiceRepository.GetDetailedAsync(id);
+                var question = await _multipleChoiceRepository.GetById(id);
                 if (question == null)
                 {
                     _logger.LogWarning("Edit requested for non-existing MultipleChoice Id={Id}", id);
@@ -152,13 +149,9 @@ public class MultipleChoiceController : Controller
             }
         }
 
-        return View(question);
-    }
-
-    [HttpPost]
-    public async Task<IActionResult> EditMultipleChoiceQuestion(MultipleChoice question)
-    {
-        if (!ModelState.IsValid)
+        // POST: /Edit
+        [HttpPost]
+        public async Task<IActionResult> Edit(MultipleChoice question)
         {
             if (!ModelState.IsValid)
             {
@@ -166,27 +159,31 @@ public class MultipleChoiceController : Controller
                 return View(question);
             }
 
-            try
+             try
             {
-                await _multipleChoiceRepository.UpdateAsync(question);
-                await _multipleChoiceRepository.SaveAsync();
+                var ok = await _multipleChoiceRepository.Update(question);
+                if (!ok)
+                {
+                    _logger.LogError("Failed to update MultipleChoice question Id={Id}", question.MultipleChoiceId);
+                    return View("Error");
+                }
 
-                _logger.LogInformation("MultipleChoice updated: Id={Id}", question.MultipleChoiceId);
+                _logger.LogInformation("Updated MultipleChoice question Id={Id}", question.MultipleChoiceId);
                 return RedirectToAction(nameof(Index));
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "Error updating MultipleChoice. Id={Id}", question.MultipleChoiceId);
+                _logger.LogError(ex, "Error updating MultipleChoice question Id={Id}", question.MultipleChoiceId);
                 return View("Error");
             }
         }
 
-        var ok = await _multipleChoiceRepository.Update(question);
-        if (!ok)
+        // GET: /Delete
+        public async Task<IActionResult> Delete(int id)
         {
             try
             {
-                var question = await _multipleChoiceRepository.GetDetailedAsync(id);
+                var question = await _multipleChoiceRepository.GetById(id);
                 if (question == null)
                 {
                     _logger.LogWarning("Delete requested for non-existing MultipleChoice Id={Id}", id);
@@ -208,31 +205,21 @@ public class MultipleChoiceController : Controller
         {
             try
             {
-                await _multipleChoiceRepository.DeleteAsync(id);
-                await _multipleChoiceRepository.SaveAsync();
+                var ok = await _multipleChoiceRepository.Delete(id);
+                if (!ok)
+                {
+                    _logger.LogError("Failed to delete MultipleChoice question Id={Id}", id);
+                    return View("Error");
+                }
 
-    [HttpGet]
-    public async Task<IActionResult> DeleteMultipleChoiceQuestion(int id)
-    {
-        var question = await _multipleChoiceRepository.GetById(id);
-        if (question == null)
-        {
-            _logger.LogError("[MultipleChoiceController] Question not found for deletion, Id={Id:0000}", id);
-            return NotFound();
+                _logger.LogInformation("Deleted MultipleChoice question Id={Id}", id);
+                return RedirectToAction(nameof(Index));
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error deleting MultipleChoice question Id={Id}", id);
+                return View("Error");
+            }
         }
-
-        return View(question);
-    }
-
-    [HttpPost, ActionName("DeleteMultipleChoiceQuestion")]
-    public async Task<IActionResult> ConfirmDelete(int id)
-    {
-        var ok = await _multipleChoiceRepository.Delete(id);
-        if (!ok)
-        {
-            _logger.LogError("[MultipleChoiceController] Failed to delete question Id={Id:0000}", id);
-        }
-
-        return RedirectToAction("Index");
     }
 }

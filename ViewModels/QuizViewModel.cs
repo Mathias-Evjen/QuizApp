@@ -29,6 +29,8 @@ namespace QuizApp.ViewModels
                     QuestionViewModels.Add(new SequenceViewModel(sQuestion));
                 if (question is Ranking rQuestion)
                     QuestionViewModels.Add(new RankingViewModel(rQuestion));
+                if (question is TrueFalse tfQuestion)
+                    QuestionViewModels.Add(new TrueFalseViewModel(tfQuestion));
             }
         }
 

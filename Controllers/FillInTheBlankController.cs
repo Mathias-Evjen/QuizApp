@@ -81,12 +81,12 @@ public class FillInTheBlankController : Controller
     }
 
     [HttpPost]
-    public async Task<IActionResult> SubmitQuestion(int quizId, int quizAttemptId, int quizTypeId, int quizQuestionNum, string userAnswer)
+    public async Task<IActionResult> SubmitQuestion(int quizId, int quizAttemptId, int quizQuestionId, int quizQuestionNum, string userAnswer)
     {
-        var fillInTheBlank = await _fillInTheBlankRepository.GetQuestionById(quizTypeId);
+        var fillInTheBlank = await _fillInTheBlankRepository.GetQuestionById(quizQuestionId);
         if (fillInTheBlank == null)
         {
-            _logger.LogError("[FillInTheBlankController - Submit question] FillInTheBlank question not found for the Id {Id: 0000}", quizTypeId);
+            _logger.LogError("[FillInTheBlankController - Submit question] FillInTheBlank question not found for the Id {Id: 0000}", quizQuestionId);
             return NotFound("FillInTheBlank question not found.");
         }
 

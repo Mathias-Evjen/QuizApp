@@ -1,4 +1,4 @@
-@model IEnumerable<QuizApp.Models.TrueFalseQuestion>
+@model IEnumerable<QuizApp.Models.TrueFalse>
 
 @{
     ViewData["Title"] = "True / False Questions";
@@ -40,10 +40,10 @@
                                     }
                                 </td>
                                 <td class="text-end">
-                                    <a asp-action="Edit" asp-route-id="@q.TrueFalseQuestionId" class="btn btn-sm btn-warning me-2">
+                                    <a asp-action="Edit" asp-route-id="@q.TrueFalseId" class="btn btn-sm btn-warning me-2">
                                         Edit
                                     </a>
-                                    <a asp-action="Delete" asp-route-id="@q.TrueFalseQuestionId" class="btn btn-sm btn-danger">
+                                    <a asp-action="Delete" asp-route-id="@q.TrueFalseId" class="btn btn-sm btn-danger">
                                         Delete
                                     </a>
                                 </td>

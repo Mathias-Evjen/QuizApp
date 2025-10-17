@@ -17,9 +17,34 @@ public static class DBInit
             var quiz = new List<Quiz>
             {
                 new Quiz {Name = "Example quiz", Description = "Quiz with examples"},
-                new Quiz {Name = "Also example quiz", Description = "This is also a quiz with examples"}
+                new Quiz {Name = "Also example quiz", Description = "This is also a quiz with examples"},
+                new Quiz {Name = "True/False test", Description = "Test for True/False questions"}
             };
             context.AddRange(quiz);
+            context.SaveChanges();
+        }
+
+        if (!context.TrueFalseQuestions.Any())
+        {
+            var quiz = context.Quizzes.Find(3);
+            var qustions = new List<TrueFalse>
+            {
+                new TrueFalse {
+                    QuestionText = "Norge ligger i Europa",
+                    CorrectAnswer = true,
+                    QuizId = 3,
+                    Quiz = quiz!,
+                    QuizQuestionNum = 1
+                },
+                new TrueFalse {
+                    QuestionText = "Jorda går i bane rundt månen",
+                    CorrectAnswer = false,
+                    QuizId = 3,
+                    Quiz = quiz!,
+                    QuizQuestionNum = 2
+                }
+            };
+            context.AddRange(qustions);
             context.SaveChanges();
         }
 
@@ -201,7 +226,13 @@ public static class DBInit
         }
         context.SaveChanges();
 
-        var quizzes = context.Quizzes.Include(q => q.FillInTheBlankQuestions).ToList();
+        var quizzes = context.Quizzes
+                                .Include(q => q.FillInTheBlankQuestions)
+                                .Include(q => q.MatchingQuestions)
+                                .Include(q => q.RankingQuestions)
+                                .Include(q => q.SequenceQuestions)
+                                .Include(q => q.TrueFalseQuestions)
+                                .ToList();
         foreach (var quiz in quizzes)
         {
             quiz.NumOfQuestions = quiz.AllQuestions != null ? quiz.AllQuestions.Count() : 0;

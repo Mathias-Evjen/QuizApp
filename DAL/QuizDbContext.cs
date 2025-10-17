@@ -18,11 +18,12 @@ public class QuizDbContext : DbContext
     public DbSet<FlashCardQuiz> FlashCardQuizzes { get; set; }
     public DbSet<FlashCard> FlashCards { get; set; }         
     public DbSet<MultipleChoice> MultipleChoices { get; set; }     
-    public DbSet<TrueFalseQuestion> TrueFalseQuestions { get; set; }
+    public DbSet<TrueFalse> TrueFalseQuestions { get; set; }
     public DbSet<Option> Options { get; set; } 
 
     public DbSet<QuizAttempt> QuizAttempts { get; set; }
     public DbSet<FillInTheBlankAttempt> FillInTheBlankAttempts { get; set; }
+    public DbSet<TrueFalseAttempt> TrueFalseQuestionAttempts { get; set; }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {

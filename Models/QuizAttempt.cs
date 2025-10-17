@@ -10,9 +10,11 @@ namespace QuizApp.Models
         public virtual Quiz Quiz { get; set; } = default!;
         public int NumOfCorrectAnswers { get; set; }
         public virtual List<FillInTheBlankAttempt> FillInTheBlankAttempts { get; set; } = new List<FillInTheBlankAttempt>();
+        public virtual List<TrueFalseAttempt> TrueFalseQuestionAttempts { get; set; } = new List<TrueFalseAttempt>();
 
         [NotMapped]
         public IEnumerable<QuestionAttempt> AllQuestionAttempts =>
-        FillInTheBlankAttempts.Cast<QuestionAttempt>();
+            FillInTheBlankAttempts.Cast<QuestionAttempt>()
+            .Concat(TrueFalseQuestionAttempts);
     }
 }

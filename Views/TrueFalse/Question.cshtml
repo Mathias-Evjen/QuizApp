@@ -1,0 +1,36 @@
+@using QuizApp.ViewModels
+@model QuizApp.ViewModels.QuizViewModel;
+
+<h1>@Model.QuizName</h1>
+
+<div class="d-flex justify-content-center mt-5">
+    <div class="w-75">
+        @{
+            var question = Model.QuestionViewModels.ElementAt(Model.CurrentQuestionNum) as TrueFalseViewModel;
+            var questionNum = question!.QuizQuestionNum;
+        }
+        
+        <h3 class="mb-4">Question @questionNum</h3>
+        <h5 class="text-start">@question.QuestionText</h5>
+
+        <form asp-controller="TrueFalse" asp-action="SubmitQuestion" method="post">
+            <input type="hidden" name="quizId" value="@Model.QuizId" />
+            <input type="hidden" name="quizAttemptId" value="@Model.QuizAttemptId" />
+            <input type="hidden" name="quizQuestionNum" value="@Model.CurrentQuestionNum" />
+            <input type="hidden" name="quizQuestionId" value="@question.TrueFalseId"/>
+            
+            <p>Your answer:</p>
+            
+            <label>False</label>
+            <input type="radio"
+                   name="userAnswer"
+                   value="false" />
+            <label>True</label>
+            <input type="radio"
+                   name="userAnswer"
+                   value="true" />
+
+            <button type="submit" class="btn btn-primary">Next</button>
+        </form>
+    </div>
+</div>

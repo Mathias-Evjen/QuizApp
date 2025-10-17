@@ -5,15 +5,17 @@ namespace QuizApp.ViewModels
     public class QuizViewModel
     {
         public int QuizId { get; set; }
+        public int QuizAttemptId { get; set; }
         public int CurrentQuestionNum { get; set; } = 0;
         public List<QuestionViewModel> QuestionViewModels { get; set; } = new List<QuestionViewModel>();
         public string QuizName { get; set; } = string.Empty;
         public string QuizDescription { get; set; } = string.Empty;
 
         public QuizViewModel() { }
-        public QuizViewModel(Quiz quiz)
+        public QuizViewModel(Quiz quiz, int quizAttemptId)
         {
             QuizId = quiz.QuizId;
+            QuizAttemptId = quizAttemptId;
             QuizName = quiz.Name;
             QuizDescription = quiz.Description;
             

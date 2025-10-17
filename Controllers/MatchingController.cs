@@ -55,17 +55,39 @@ public class MatchingController : Controller
                 correctCounter++;
             }
         }
-        var matchingAttempt = new MatchingAttempt();
-        matchingAttempt.MatchingId = matchingObject.Id;
-        matchingAttempt.QuizAttemptId = quizAttemptId;
-        matchingAttempt.UserAnswer = questionAnswer;
-        matchingAttempt.AmountCorrect = correctCounter;
-
-        var returnOk = await _matchingAttemptRepository.CreateMatchingAttempt(matchingAttempt);
-        if (!returnOk)
+        if (!CheckAttempt(quizAttemptId))
         {
-            _logger.LogError("[MatchingController] Question attempt creation failed {@attempt}", matchingAttempt);
-            return RedirectToAction("Quizzes", "Quiz");
+            var matchingAttempt = new MatchingAttempt();
+            matchingAttempt.MatchingId = matchingObject.Id;
+            matchingAttempt.QuizAttemptId = quizAttemptId;
+            matchingAttempt.UserAnswer = questionAnswer;
+            matchingAttempt.AmountCorrect = correctCounter;
+
+            var returnOk = await _matchingAttemptRepository.CreateMatchingAttempt(matchingAttempt);
+            if (!returnOk)
+            {
+                _logger.LogError("[MatchingController] Question attempt creation failed {@attempt}", matchingAttempt);
+                return RedirectToAction("Quizzes", "Quiz");
+            }
+        }
+        else
+        {
+            var matchingAttempt = await _matchingAttemptRepository.GetMatchingAttemptById(quizAttemptId);
+            if (matchingAttempt == null)
+            {
+                _logger.LogError("[MatchingController - Get Attempt] Matching attempt not found for the Id {Id: 0000}", id);
+                return NotFound("Matching attempt not found.");
+            }
+            matchingAttempt.MatchingId = matchingObject.Id;
+            matchingAttempt.QuizAttemptId = quizAttemptId;
+            matchingAttempt.UserAnswer = questionAnswer;
+            matchingAttempt.AmountCorrect = correctCounter;
+            var returnOk = await _matchingAttemptRepository.UpdateMatchingAttempt(matchingAttempt);
+            if (!returnOk)
+            {
+                _logger.LogError("[MatchingController] Question attempt creation failed {@attempt}", matchingAttempt);
+                return RedirectToAction("Quizzes", "Quiz");
+            }
         }
 
         return RedirectToAction("NextQuestion", "Quiz", new
@@ -74,6 +96,19 @@ public class MatchingController : Controller
             quizAttemptId = quizAttemptId,
             quizQuestionNum = quizQuestionNum
         });
+    }
+    
+    public bool CheckAttempt(int quizAttemptId)
+    {
+        var attempt =  _matchingAttemptRepository.GetMatchingAttemptById(quizAttemptId);
+        if (attempt != null)
+        {
+            return true;
+        }
+        else
+        {
+            return false; 
+        }
     }
 
     [HttpPost]

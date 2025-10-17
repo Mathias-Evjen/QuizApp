@@ -1,0 +1,13 @@
+@model (TrueFalse tf, TrueFalseAttempt tfAttempt)
+
+<div>
+    <h3>Question @Model.tf.QuizQuestionNum</h3>
+    <h4>@Model.tf.QuestionText</h4>
+    <h5>Your answer: @Model.tfAttempt.UserAnswer</h5>
+    @if (Model.tfAttempt.AnsweredCorrectly.HasValue) 
+    {
+        <div class="mt-3 alert @(Model.tfAttempt.AnsweredCorrectly.Value ? "alert-success" : "alert-danger")">
+            @(Model.tfAttempt.AnsweredCorrectly.Value ? "Correct!" : $"Wrong. The correct answer was '{Model.tf.CorrectAnswer}'")
+        </div>
+    }
+</div>

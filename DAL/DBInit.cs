@@ -56,15 +56,17 @@ public static class DBInit
             {
                 new MultipleChoice {
                     QuestionText = "Which is the biggest planet in our solar system?",
+                    CorrectAnswer = "Jupiter",
                     QuizId = 3,
                     Quiz = quiz!,
                     QuizQuestionNum = 3
                 },
                 new MultipleChoice {
                     QuestionText = "Which season is warmest?",
+                    CorrectAnswer = "Summer",
                     QuizId = 3,
                     Quiz = quiz!,
-                    QuizQuestionNum = 3
+                    QuizQuestionNum = 4
                 }
             };
             context.AddRange(questions);

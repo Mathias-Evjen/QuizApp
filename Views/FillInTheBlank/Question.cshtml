@@ -13,8 +13,6 @@
         <h3 class="mb-4">Question @questionNum</h3>
         <h5 class="text-start">@question.Question</h5>
 
-        <p>Debug: @question.FillInTheBlankId</p>
-
         <form asp-controller="FillInTheBlank" asp-action="SubmitQuestion" method="post">
             <input type="hidden" name="quizId" value="@Model.QuizId" />
             <input type="hidden" name="quizAttemptId" value="@Model.QuizAttemptId" />

@@ -183,8 +183,17 @@ public class QuizController : Controller
         {
             var question = quiz.AllQuestions.ElementAt(i);
             var questionAttempt = quizAttempt.AllQuestionAttempts.ElementAt(i);
-            if (question is FillInTheBlank fib && questionAttempt is FillInTheBlankAttempt fibAttempt) {
+            if (question is FillInTheBlank fib && questionAttempt is FillInTheBlankAttempt fibAttempt)
+            {
                 fibAttempt.AnsweredCorrectly = _quizService.CheckAnswer(fib.CorrectAnswer, fibAttempt.UserAnswer);
+            }
+            if (question is TrueFalse tf && questionAttempt is TrueFalseAttempt tfAttempt)
+            {
+                tfAttempt.AnsweredCorrectly = _quizService.CheckAnswer(tf.CorrectAnswer, tfAttempt.UserAnswer);
+            }
+            if (question is MultipleChoice mc && questionAttempt is MultipleChoiceAttempt mcAttempt)
+            {
+                mcAttempt.AnsweredCorrectly = _quizService.CheckAnswer(mc.CorrectAnswer, mcAttempt.UserAnswer);   
             }
         }
 

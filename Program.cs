@@ -36,6 +36,9 @@ builder.Services.AddScoped<IQuizAttemptRepository, QuizAttemptRepository>();
 builder.Services.AddScoped<IFillInTheBlankAttemptRepository, FillInTheBlankAttemptRepository>();
 builder.Services.AddScoped<ITrueFalseAttemptRepository, TrueFalseAttemptRepository>();
 builder.Services.AddScoped<IMultipleChoiceAttemptRepository, MultipleChoiceAttemptRepository>();
+builder.Services.AddScoped<IMatchingAttemptRepository, MatchingAttemptRepository>();
+builder.Services.AddScoped<ISequenceAttemptRepository, SequenceAttemptRepository>();
+builder.Services.AddScoped<IRankingAttemptRepository, RankingAttemptRepository>();
 
 builder.Services.AddRazorPages();
 

@@ -12,11 +12,18 @@ namespace QuizApp.Models
         public virtual List<FillInTheBlankAttempt> FillInTheBlankAttempts { get; set; } = new List<FillInTheBlankAttempt>();
         public virtual List<TrueFalseAttempt> TrueFalseQuestionAttempts { get; set; } = new List<TrueFalseAttempt>();
         public virtual List<MultipleChoiceAttempt> MultipleChoiceAttempts { get; set; } = new List<MultipleChoiceAttempt>();
+        public virtual List<MatchingAttempt> MatchingAttempts { get; set; } = new List<MatchingAttempt>();
+        public virtual List<SequenceAttempt> SequenceAttempts { get; set; } = new List<SequenceAttempt>();
+        public virtual List<RankingAttempt> RankingAttempts { get; set; } = new List<RankingAttempt>();
+
 
         [NotMapped]
         public IEnumerable<QuestionAttempt> AllQuestionAttempts =>
-            FillInTheBlankAttempts.Cast<QuestionAttempt>()
+                FillInTheBlankAttempts.Cast<QuestionAttempt>()
             .Concat(TrueFalseQuestionAttempts)
-            .Concat(MultipleChoiceAttempts);
+            .Concat(MultipleChoiceAttempts)
+                .Concat(MatchingAttempts)
+                .Concat(SequenceAttempts)
+                .Concat(RankingAttempts);
     }
 }

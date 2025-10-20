@@ -50,10 +50,12 @@ namespace QuizApp.Controllers
                 return NotFound("MultipleChoice question not found.");
             }
 
-            var multipleChoiceAttempt = new MultipleChoiceAttempt();
-            multipleChoiceAttempt.MultiplechoiceId = multipleChoice.MultipleChoiceId;
-            multipleChoiceAttempt.QuizAttemptId = quizAttemptId;
-            multipleChoiceAttempt.UserAnswer = userAnswer;
+            var multipleChoiceAttempt = new MultipleChoiceAttempt
+            {
+                MultiplechoiceId = multipleChoice.MultipleChoiceId,
+                QuizAttemptId = quizAttemptId,
+                UserAnswer = userAnswer
+            };
 
             var returnOk = await _multipleChoiceAttemptRepository.CreateMultipleChoiceAttempt(multipleChoiceAttempt);
             if (!returnOk)
@@ -79,13 +81,13 @@ namespace QuizApp.Controllers
 
             var question = new MultipleChoice
             {
-                Options = new List<Option>
-                {
+                Options =
+                [
                     new Option(),
                     new Option(),
                     new Option(),
                     new Option()
-                }
+                ]
             };
             return View(question);
         }

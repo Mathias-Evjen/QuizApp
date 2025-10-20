@@ -12,8 +12,8 @@ namespace QuizApp.ViewModels
         
         [Required(ErrorMessage = "Must answer")]
         public string UserAnswer { get; set; } = string.Empty;
-        public List<string> Keys { get; set; } = new List<string>();
-        public List<string> Values { get; set; } = new List<string>();
+        public List<string> Keys { get; set; } = [];
+        public List<string> Values { get; set; } = [];
 
         public RankingViewModel(Ranking ranking)
         {

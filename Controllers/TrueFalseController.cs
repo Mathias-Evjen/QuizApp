@@ -50,10 +50,12 @@ namespace QuizApp.Controllers
                 return NotFound("TrueFalse question not found.");
             }
 
-            var trueFalseAttempt = new TrueFalseAttempt();
-            trueFalseAttempt.TrueFalseId = trueFalse.TrueFalseId;
-            trueFalseAttempt.QuizAttemptId = quizAttemptId;
-            trueFalseAttempt.UserAnswer = userAnswer;
+            var trueFalseAttempt = new TrueFalseAttempt
+            {
+                TrueFalseId = trueFalse.TrueFalseId,
+                QuizAttemptId = quizAttemptId,
+                UserAnswer = userAnswer
+            };
 
             var returnOk = await _trueFalseAttemptRepository.CreateTrueFalseAttempt(trueFalseAttempt);
             if (!returnOk)

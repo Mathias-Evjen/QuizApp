@@ -13,8 +13,8 @@ namespace QuizApp.ViewModels
         public string UserAnswer { get; set; } = string.Empty;
         public string CorrectAnswer { get; set; } = string.Empty;
         public int AmountCorrect { get; set; }
-        public List<string> Keys { get; set; } = new List<string>();
-        public List<string> Values { get; set; } = new List<string>();
+        public List<string> Keys { get; set; } = [];
+        public List<string> Values { get; set; } = [];
 
 
         public MatchingViewModel(Matching question)

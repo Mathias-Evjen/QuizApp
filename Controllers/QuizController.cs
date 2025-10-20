@@ -110,8 +110,10 @@ public class QuizController : Controller
             return NotFound("Quiz not found.");
         }
 
-        var model = new QuizViewModel(quiz, quizAttemptId);
-        model.CurrentQuestionNum = quizQuestionNum;
+        var model = new QuizViewModel(quiz, quizAttemptId)
+        {
+            CurrentQuestionNum = quizQuestionNum
+        };
 
         if (model.CurrentQuestionNum + 1 < model.QuestionViewModels.Count())
         {
@@ -217,8 +219,10 @@ public class QuizController : Controller
 
     public async Task<int> CreateAttempt(Quiz quiz)
     {
-        var quizAttempt = new QuizAttempt();
-        quizAttempt.QuizId = quiz.QuizId;
+        var quizAttempt = new QuizAttempt
+        {
+            QuizId = quiz.QuizId
+        };
 
         bool returnOk = await _quizAttemptRepository.CreateQuizAttempt(quizAttempt);
         if (returnOk)

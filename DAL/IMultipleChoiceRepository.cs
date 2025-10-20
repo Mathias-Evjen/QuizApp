@@ -4,11 +4,10 @@ namespace QuizApp.DAL
 {
     public interface IMultipleChoiceRepository
     {
-        Task<List<MultipleChoice>> GetAllAsync();
-        Task<MultipleChoice?> GetDetailedAsync(int id);
-        Task AddAsync(MultipleChoice question);
-        Task UpdateAsync(MultipleChoice question);
-        Task DeleteAsync(int id);
-        Task SaveAsync();
+        Task<IEnumerable<MultipleChoice>?> GetAll();
+        Task<MultipleChoice?> GetById(int id);
+        Task<bool> Create(MultipleChoice question);
+        Task<bool> Update(MultipleChoice question);
+        Task<bool> Delete(int id);
     }
 }

@@ -25,7 +25,7 @@ namespace QuizApp.Controllers
         {
             try
             {
-                var questions = await _trueFalseRepository.GetAllAsync();
+                var questions = await _trueFalseRepository.GetAll();
                 return View(questions);
             }
             catch (Exception ex)
@@ -43,7 +43,7 @@ namespace QuizApp.Controllers
         [HttpPost]
         public async Task<IActionResult> SubmitQuestion(int quizId, int quizAttemptId, int quizQuestionId, int quizQuestionNum, int numOfQuestions, bool userAnswer)
         {
-            var trueFalse = await _trueFalseRepository.GetByIdAsync(quizQuestionId);
+            var trueFalse = await _trueFalseRepository.GetById(quizQuestionId);
             if (trueFalse == null)
             {
                 _logger.LogError("[TrueFalseController - Submit question] TrueFalse question not found for the Id {Id: 0000}", quizQuestionId);
@@ -91,8 +91,7 @@ namespace QuizApp.Controllers
 
             try
             {
-                await _trueFalseRepository.AddAsync(question);
-                await _trueFalseRepository.SaveAsync();
+                await _trueFalseRepository.Create(question);
 
                 _logger.LogInformation("TrueFalse created: {Question}", question.TrueFalseId);
                 return RedirectToAction(nameof(Index));
@@ -110,7 +109,7 @@ namespace QuizApp.Controllers
         {
             try
             {
-                var question = await _trueFalseRepository.GetByIdAsync(id);
+                var question = await _trueFalseRepository.GetById(id);
                 if (question == null)
                 {
                     _logger.LogWarning("Edit requested for non-existing TrueFalse Id={Id}", id);
@@ -137,9 +136,7 @@ namespace QuizApp.Controllers
 
             try
             {
-                await _trueFalseRepository.UpdateAsync(question);
-                await _trueFalseRepository.SaveAsync();
-
+                await _trueFalseRepository.Update(question);
                 _logger.LogInformation("TrueFalse updated: Id={Id}", question.TrueFalseId);
                 return RedirectToAction(nameof(Index));
             }
@@ -156,7 +153,7 @@ namespace QuizApp.Controllers
         {
             try
             {
-                var question = await _trueFalseRepository.GetByIdAsync(id);
+                var question = await _trueFalseRepository.GetById(id);
                 if (question == null)
                 {
                     _logger.LogWarning("Delete requested for non-existing TrueFalse Id={Id}", id);
@@ -177,8 +174,7 @@ namespace QuizApp.Controllers
         {
             try
             {
-                await _trueFalseRepository.DeleteAsync(id);
-                await _trueFalseRepository.SaveAsync();
+                await _trueFalseRepository.Delete(id);
 
                 _logger.LogInformation("TrueFalse deleted: Id={Id}", id);
                 return RedirectToAction(nameof(Index));

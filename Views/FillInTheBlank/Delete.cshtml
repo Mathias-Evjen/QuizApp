@@ -17,7 +17,11 @@
         <dd class="col-sm-10">@Model.CorrectAnswer</dd>
     </dl>
 
-    <form asp-action="DeleteConfirmed" asp-route-id="@Model.FillInTheBlankId">
+    <form 
+        asp-action="DeleteConfirmed" 
+        asp-route-questionId="@Model.FillInTheBlankId"
+        asp-route-qNum="@Model.QuizQuestionNum"
+        asp-route-quizId="@Model.QuizId">
         <button type="submit" class="btn btn-danger">Delete</button>
         <a asp-action="Questions" class="btn btn-secondary">Cancel</a>
     </form>

@@ -83,8 +83,18 @@ public class FlashCardQuizController : Controller
     }
 
     [HttpPost]
-    public async Task<IActionResult> Edit(FlashCardQuiz quiz)
+    public async Task<IActionResult> Edit(int flashCardQuizId, string name, string description)
     {
+        var quiz = await _flashCardQuizRepository.GetFlashCardQuizById(flashCardQuizId);
+        if (quiz == null)
+        {
+            _logger.LogError("[FlashCardQuizcontroller] ManageQuiz not found for the Id {Id: 0000}", flashCardQuizId);
+            return NotFound("FlashCardQuiz not found for the FlashCardQuizId");
+        }
+
+        quiz.Name = name;
+        quiz.Description = description;
+
         if (ModelState.IsValid)
         {
             bool returnOk = await _flashCardQuizRepository.UpdateFlashCardQuiz(quiz);

@@ -85,7 +85,7 @@ public class FlashCardController : Controller
             bool returnOk = await _flashCardRepository.CreateFlashCard(flashCard);
             if (returnOk)
                 await _flashCardQuizService.ChangeQuestionCount(flashCard.QuizId, true);
-            return RedirectToAction("ManageQuiz", "FlashCardQuiz", new { quizId = flashCard.QuizId });
+                return RedirectToAction("ManageQuiz", "FlashCardQuiz", new { quizId = flashCard.QuizId });
         }
         _logger.LogError("[FlashCardController] FlashCard creation failed {@flashCard}", flashCard);
         return RedirectToAction("ManageQuiz", "FlashCardQuiz", new { quizId = flashCard.QuizId });
@@ -139,7 +139,7 @@ public class FlashCardController : Controller
         }
         await _flashCardQuizService.ChangeQuestionCount(quizId, false);
         await _flashCardQuizService.UpdateFlashCardQuestionNumbers(qNum, quizId);
-        return RedirectToAction("ManageQuiz", "FlashCardQuiz", new { quizId = quizId });
+        return RedirectToAction("ManageQuiz", "FlashCardQuiz", new { quizId });
     }
 
     // Flashcard dectoration

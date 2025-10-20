@@ -253,8 +253,18 @@ public class QuizController : Controller
     }
 
     [HttpPost]
-    public async Task<IActionResult> Edit(Quiz quiz)
+    public async Task<IActionResult> Edit(int quizId, string name, string description)
     {
+        var quiz = await _quizRepository.GetQuizById(quizId);
+        if (quiz == null)
+        {
+            _logger.LogError("[Quizcontroller] ManageQuiz not found for the Id {Id: 0000}", quizId);
+            return NotFound("Quiz not found for the QuizId");
+        }
+
+        quiz.Name = name;
+        quiz.Description = description;
+
         if (ModelState.IsValid)
         {
             bool returnOk = await _quizRepository.UpdateQuiz(quiz);

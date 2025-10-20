@@ -4,6 +4,8 @@
 
 <form asp-action="Edit" method="post">
     <input type="hidden" asp-for="FillInTheBlankId" />
+    <input type="hidden" asp-for="QuizId" />
+    <input type="hidden" asp-for="QuizQuestionNum" />
     <div class="form-group">
         <label asp-for="Question">Question:</label>
         <input asp-for="Question" class="form-control" />
@@ -13,5 +15,5 @@
         <input asp-for="CorrectAnswer" class="form-control" />
     </div>
     <button type="submit" class="btn btn-primary">Save changes</button>
-    <a asp-action="Questions" class="btn btn-secondary">Cancel</a>
+    <a asp-controller="Quiz" asp-action="ManageQuiz" asp-route-quizId="@Model.QuizId" class="btn btn-secondary">Cancel</a>
 </form>

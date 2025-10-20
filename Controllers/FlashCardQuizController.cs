@@ -1,9 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 using QuizApp.Models;
-using QuizApp.ViewModels;
 using QuizApp.DAL;
-using Serilog;
-using Microsoft.EntityFrameworkCore.Metadata.Internal;
 
 namespace QuizApp.Controllers;
 

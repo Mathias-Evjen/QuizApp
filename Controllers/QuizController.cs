@@ -2,10 +2,6 @@ using Microsoft.AspNetCore.Mvc;
 using QuizApp.Models;
 using QuizApp.ViewModels;
 using QuizApp.DAL;
-using Serilog;
-using Microsoft.EntityFrameworkCore.Metadata.Internal;
-using Newtonsoft.Json;
-using Microsoft.CodeAnalysis.CSharp.Syntax;
 using QuizApp.Services;
 
 namespace QuizApp.Controllers;
@@ -96,7 +92,7 @@ public class QuizController : Controller
         {
             return View("~/Views/MultipleChoice/Question.cshtml", quizViewModel);
         }
-        
+
         return RedirectToAction(nameof(Quizzes));
     }
 
@@ -146,7 +142,7 @@ public class QuizController : Controller
             return View("~/Views/MultipleChoice/Question.cshtml", model);
         }
 
-        return View("FlashCards", model);
+        return View("s", model);
     }
 
 
@@ -155,7 +151,7 @@ public class QuizController : Controller
     {
         if (model.CurrentQuestionNum - 1 >= 0)
             model.CurrentQuestionNum -= 1;
-        return View("FlashCards", model);
+        return View("s", model);
     }
 
     [HttpGet]
@@ -238,7 +234,7 @@ public class QuizController : Controller
         var quiz = await _quizRepository.GetQuizById(quizId);
         if (quiz == null)
         {
-            _logger.LogError("[Quizcontroller] ManageQuiz not found for the Id {Id: 0000}", quizId);
+            _logger.LogError("[QuizController] ManageQuiz not found for the Id {Id: 0000}", quizId);
             return NotFound("Quiz not found for the QuizId");
         }
         return View(quiz);

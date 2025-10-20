@@ -1,7 +1,5 @@
 using QuizApp.Models;
 using QuizApp.DAL;
-using QuizApp.Controllers;
-using System.Numerics;
 
 namespace QuizApp.Services;
 

@@ -3,8 +3,6 @@ using QuizApp.DAL;
 using QuizApp.Models;
 using QuizApp.ViewModels;
 using QuizApp.Services;
-using Microsoft.EntityFrameworkCore.Metadata.Internal;
-using System.Threading.Tasks;
 
 namespace QuizApp.Controllers;
 
@@ -76,7 +74,7 @@ public class FillInTheBlankController : Controller
         }
 
         // Set the answer to correct or false in the model
-        model.IsAnswerCorrect = _quizService.CheckAnswer(questionFromDb.Answer, model.UserAnswer);
+        model.IsAnswerCorrect = _quizService.CheckAnswer(questionFromDb.CorrectAnswer, model.UserAnswer);
         return View(model);
     }
 

@@ -19,7 +19,7 @@ namespace QuizApp.DAL
         {
             try
             {
-                return await _db.MultipleChoices
+                return await _db.MultipleChoiceQuestions
                     .Include(mc => mc.Options)
                     .AsNoTracking()
                     .ToListAsync();
@@ -36,9 +36,9 @@ namespace QuizApp.DAL
         {
             try
             {
-                return await _db.MultipleChoices
+                return await _db.MultipleChoiceQuestions
                     .Include(mc => mc.Options)
-                    .FirstOrDefaultAsync(mc => mc.Id == id);
+                    .FirstOrDefaultAsync(mc => mc.MultipleChoiceId == id);
             }
             catch (Exception e)
             {
@@ -52,7 +52,7 @@ namespace QuizApp.DAL
         {
             try
             {
-                _db.MultipleChoices.Add(question);
+                _db.MultipleChoiceQuestions.Add(question);
                 await _db.SaveChangesAsync();
                 _logger.LogInformation("[MultipleChoiceRepository] Created MultipleChoice: {Question}", question.QuestionText);
                 return true;
@@ -69,14 +69,14 @@ namespace QuizApp.DAL
         {
             try
             {
-                _db.MultipleChoices.Update(question);
+                _db.MultipleChoiceQuestions.Update(question);
                 await _db.SaveChangesAsync();
-                _logger.LogInformation("[MultipleChoiceRepository] Updated MultipleChoice Id={Id}", question.Id);
+                _logger.LogInformation("[MultipleChoiceRepository] Updated MultipleChoice Id={Id}", question.MultipleChoiceId);
                 return true;
             }
             catch (Exception e)
             {
-                _logger.LogError("[MultipleChoiceRepository] Update() failed for Id={Id}: {Message}", question.Id, e.Message);
+                _logger.LogError("[MultipleChoiceRepository] Update() failed for Id={Id}: {Message}", question.MultipleChoiceId, e.Message);
                 return false;
             }
         }
@@ -86,14 +86,14 @@ namespace QuizApp.DAL
         {
             try
             {
-                var question = await _db.MultipleChoices.FindAsync(id);
+                var question = await _db.MultipleChoiceQuestions.FindAsync(id);
                 if (question == null)
                 {
                     _logger.LogWarning("[MultipleChoiceRepository] Tried to delete non-existing Id={Id}", id);
                     return false;
                 }
 
-                _db.MultipleChoices.Remove(question);
+                _db.MultipleChoiceQuestions.Remove(question);
                 await _db.SaveChangesAsync();
                 _logger.LogInformation("[MultipleChoiceRepository] Deleted MultipleChoice Id={Id}", id);
                 return true;

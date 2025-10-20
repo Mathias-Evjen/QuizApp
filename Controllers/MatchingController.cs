@@ -117,8 +117,10 @@ public class MatchingController : Controller
     [HttpPost]
     public IActionResult UpdateMatching(int id, List<string> keysQuestion, List<string> valuesQuestion, List<string> keysCorrectAnswer, List<string> valuesCorrectAnswer)
     {
-        Matching updatetMatching = new Matching();
-        updatetMatching.Id = id;
+        Matching updatetMatching = new()
+        {
+            Id = id
+        };
         updatetMatching.Assemble(keysQuestion, valuesQuestion, 3);
         updatetMatching.Assemble(keysCorrectAnswer, valuesCorrectAnswer, 1);
         _matchingRepository.UpdateMatching(updatetMatching);

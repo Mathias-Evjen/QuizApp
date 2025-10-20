@@ -1,0 +1,13 @@
+@model (FillInTheBlank fib, FillInTheBlankAttempt fibAttempt)
+
+<div>
+    <h3>Question @Model.fib.QuizQuestionNum</h3>
+    <h4>@Model.fib.Question</h4>
+    <h5>Your answer: @Model.fibAttempt.UserAnswer</h5>
+    @if (Model.fibAttempt.AnsweredCorrectly.HasValue) 
+    {
+        <div class="mt-3 alert @(Model.fibAttempt.AnsweredCorrectly.Value ? "alert-success" : "alert-dagner")">
+            @(Model.fibAttempt.AnsweredCorrectly.Value ? "Correct!" : $"Wrong. The correct answer was '{Model.fib.CorrectAnswer}'")
+        </div>
+    }
+</div>

@@ -1,0 +1,27 @@
+@using QuizApp.ViewModels
+@model QuizResultViewModel
+
+<h1>Results</h1>
+
+@{
+    var questions = Model.Quiz.AllQuestions;
+    var attempts = Model.QuizAttempt.AllQuestionAttempts;
+}
+
+<div>
+    @for (int i = 0; i < questions.Count(); i++) 
+    {
+        var question = questions.ElementAt(i);
+        var attempt = attempts.ElementAt(i);
+
+        if (question is FillInTheBlank fib && attempt is FillInTheBlankAttempt fibAttempt) {
+            <partial name="_FillInTheBlankResult" model="(fib, fibAttempt)" />
+        }
+        if (question is TrueFalse tf && attempt is TrueFalseAttempt tfAttempt) {
+            <partial name="_TrueFalseResult" model="(tf, tfAttempt)" />
+        }
+        if (question is MultipleChoice mc && attempt is MultipleChoiceAttempt mcAttempt) {
+            <partial name="_MultipleChoiceResult" model="(mc, mcAttempt)" />
+        }
+    }
+</div>

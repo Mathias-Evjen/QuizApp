@@ -44,10 +44,12 @@ public class RankingController : Controller
         }
 
         string answer = rankingObject.Assemble(values, 2);
-        var rankingAttempt = new RankingAttempt();
-        rankingAttempt.RankingId = rankingObject.Id;
-        rankingAttempt.QuizAttemptId = quizAttemptId;
-        rankingAttempt.UserAnswer = answer;
+        var rankingAttempt = new RankingAttempt
+        {
+            RankingId = rankingObject.Id,
+            QuizAttemptId = quizAttemptId,
+            UserAnswer = answer
+        };
 
         var returnOk = await _rankingAttemptRepository.CreateRankingAttempt(rankingAttempt);
         if (!returnOk)
@@ -71,8 +73,10 @@ public class RankingController : Controller
             ModelState.AddModelError("", "Values can not be empty.");
             return View();
         }
-        var rankingQuestion = new Ranking();
-        rankingQuestion.QuestionText = questionText;
+        var rankingQuestion = new Ranking
+        {
+            QuestionText = questionText
+        };
         rankingQuestion.Assemble(Values, 1);
         rankingQuestion.ShuffleQuestion(Values);
         await _rankingRepository.CreateRanking(rankingQuestion);
@@ -104,9 +108,11 @@ public class RankingController : Controller
     [HttpPost]
     public IActionResult UpdateRanking(int id, string questionText, List<string> question, List<string> correctAnswer)
     {
-        Ranking updatetRanking = new Ranking();
-        updatetRanking.Id = id;
-        updatetRanking.QuestionText = questionText;
+        Ranking updatetRanking = new Ranking
+        {
+            Id = id,
+            QuestionText = questionText
+        };
         updatetRanking.Assemble(question, 3);
         updatetRanking.Assemble(correctAnswer, 1);
 

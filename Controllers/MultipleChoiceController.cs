@@ -41,7 +41,7 @@ namespace QuizApp.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> SubmitQuestion(int quizId, int quizAttemptId, int quizQuestionId, int quizQuestionNum, string userAnswer)
+        public async Task<IActionResult> SubmitQuestion(int quizId, int quizAttemptId, int quizQuestionId, int quizQuestionNum, int numOfQuestions, string userAnswer)
         {
             var multipleChoice = await _multipleChoiceRepository.GetById(quizQuestionId);
             if (multipleChoice == null)
@@ -50,10 +50,12 @@ namespace QuizApp.Controllers
                 return NotFound("MultipleChoice question not found.");
             }
 
-            var multipleChoiceAttempt = new MultipleChoiceAttempt();
-            multipleChoiceAttempt.MultiplechoiceId = multipleChoice.MultipleChoiceId;
-            multipleChoiceAttempt.QuizAttemptId = quizAttemptId;
-            multipleChoiceAttempt.UserAnswer = userAnswer;
+            var multipleChoiceAttempt = new MultipleChoiceAttempt
+            {
+                MultiplechoiceId = multipleChoice.MultipleChoiceId,
+                QuizAttemptId = quizAttemptId,
+                UserAnswer = userAnswer
+            };
 
             var returnOk = await _multipleChoiceAttemptRepository.CreateMultipleChoiceAttempt(multipleChoiceAttempt);
             if (!returnOk)
@@ -61,6 +63,9 @@ namespace QuizApp.Controllers
                 _logger.LogError("[MultipleChoiceController] Question attempt creation failed {@attempt}", multipleChoiceAttempt);
                 return RedirectToAction("Quizzes", "Quiz");
             }
+
+            if (multipleChoice.QuizQuestionNum == numOfQuestions)
+                return RedirectToAction("Results", "Quiz", new { quizAttemptId = quizAttemptId });
 
             return RedirectToAction("NextQuestion", "Quiz", new
             {
@@ -76,13 +81,13 @@ namespace QuizApp.Controllers
 
             var question = new MultipleChoice
             {
-                Options = new List<Option>
-                {
+                Options =
+                [
                     new Option(),
                     new Option(),
                     new Option(),
                     new Option()
-                }
+                ]
             };
             return View(question);
         }

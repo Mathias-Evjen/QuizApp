@@ -9,19 +9,19 @@ namespace QuizApp.Models
         public int QuizId { get; set; }
         public virtual Quiz Quiz { get; set; } = default!;
         public int NumOfCorrectAnswers { get; set; }
-        public virtual List<FillInTheBlankAttempt> FillInTheBlankAttempts { get; set; } = new List<FillInTheBlankAttempt>();
-        public virtual List<TrueFalseAttempt> TrueFalseQuestionAttempts { get; set; } = new List<TrueFalseAttempt>();
-        public virtual List<MultipleChoiceAttempt> MultipleChoiceAttempts { get; set; } = new List<MultipleChoiceAttempt>();
-        public virtual List<MatchingAttempt> MatchingAttempts { get; set; } = new List<MatchingAttempt>();
-        public virtual List<SequenceAttempt> SequenceAttempts { get; set; } = new List<SequenceAttempt>();
-        public virtual List<RankingAttempt> RankingAttempts { get; set; } = new List<RankingAttempt>();
+        public virtual List<FillInTheBlankAttempt> FillInTheBlankAttempts { get; set; } = [];
+        public virtual List<TrueFalseAttempt> TrueFalseQuestionAttempts { get; set; } = [];
+        public virtual List<MultipleChoiceAttempt> MultipleChoiceAttempts { get; set; } = [];
+        public virtual List<MatchingAttempt> MatchingAttempts { get; set; } = [];
+        public virtual List<SequenceAttempt> SequenceAttempts { get; set; } = [];
+        public virtual List<RankingAttempt> RankingAttempts { get; set; } = [];
 
 
         [NotMapped]
         public IEnumerable<QuestionAttempt> AllQuestionAttempts =>
-                FillInTheBlankAttempts.Cast<QuestionAttempt>()
-            .Concat(TrueFalseQuestionAttempts)
-            .Concat(MultipleChoiceAttempts)
+            FillInTheBlankAttempts.Cast<QuestionAttempt>()
+                .Concat(TrueFalseQuestionAttempts)
+                .Concat(MultipleChoiceAttempts)
                 .Concat(MatchingAttempts)
                 .Concat(SequenceAttempts)
                 .Concat(RankingAttempts);

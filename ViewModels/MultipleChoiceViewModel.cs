@@ -12,11 +12,11 @@ namespace QuizApp.ViewModels
         [Required(ErrorMessage = "Question text is required")]
         public string QuestionText { get; set; } = string.Empty;
 
-        public List<Option> Options { get; set; } = new();
+        public List<Option> Options { get; set; } = [];
 
-        public List<string> OptionAnswers { get; set; } = new();
+        public List<string> OptionAnswers { get; set; } = [];
 
-        public List<int> CorrectOptionIndexes { get; set; } = new();
+        public List<int> CorrectOptionIndexes { get; set; } = [];
 
         public MultipleChoiceViewModel() { }
 

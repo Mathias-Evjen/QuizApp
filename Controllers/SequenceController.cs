@@ -44,10 +44,12 @@ public class SequenceController : Controller
         }
 
         string answer = sequenceObject.Assemble(values, 2);
-        var sequenceAttempt = new SequenceAttempt();
-        sequenceAttempt.SequenceId = sequenceObject.Id;
-        sequenceAttempt.QuizAttemptId = quizAttemptId;
-        sequenceAttempt.UserAnswer = answer;
+        var sequenceAttempt = new SequenceAttempt
+        {
+            SequenceId = sequenceObject.Id,
+            QuizAttemptId = quizAttemptId,
+            UserAnswer = answer
+        };
 
         var returnOk = await _sequenceAttemptRepository.CreateSequenceAttempt(sequenceAttempt);
         if (!returnOk)
@@ -71,8 +73,10 @@ public class SequenceController : Controller
             ModelState.AddModelError("", "Ugyldige inndata: Må ha values.");
             return View();
         }
-        var sequenceQuestion = new Sequence();
-        sequenceQuestion.QuestionText = questionText;
+        var sequenceQuestion = new Sequence
+        {
+            QuestionText = questionText
+        };
         sequenceQuestion.Assemble(Values, 1);
         sequenceQuestion.ShuffleQuestion(Values);
         await _sequenceRepository.CreateSequence(sequenceQuestion);

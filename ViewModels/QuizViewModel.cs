@@ -8,7 +8,7 @@ namespace QuizApp.ViewModels
         public int QuizAttemptId { get; set; }
         public int CurrentQuestionNum { get; set; } = 0;
         public int NumOfQuestions { get; set; }
-        public List<QuestionViewModel> QuestionViewModels { get; set; } = new List<QuestionViewModel>();
+        public List<QuestionViewModel> QuestionViewModels { get; set; } = [];
         public string QuizName { get; set; } = string.Empty;
         public string QuizDescription { get; set; } = string.Empty;
 

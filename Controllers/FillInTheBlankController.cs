@@ -90,10 +90,12 @@ public class FillInTheBlankController : Controller
             return NotFound("FillInTheBlank question not found.");
         }
 
-        var fillInTheBlankAttempt = new FillInTheBlankAttempt();
-        fillInTheBlankAttempt.FillInTheBlankId = fillInTheBlank.FillInTheBlankId;
-        fillInTheBlankAttempt.QuizAttemptId = quizAttemptId;
-        fillInTheBlankAttempt.UserAnswer = userAnswer;
+        var fillInTheBlankAttempt = new FillInTheBlankAttempt
+        {
+            FillInTheBlankId = fillInTheBlank.FillInTheBlankId,
+            QuizAttemptId = quizAttemptId,
+            UserAnswer = userAnswer
+        };
 
         var returnOk = await _fillInTheBlankAttemptRepository.CreateFillInTheBlankAttempt(fillInTheBlankAttempt);
         if (!returnOk)

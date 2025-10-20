@@ -35,7 +35,7 @@ public class FlashCardController : Controller
         // Decorate the flashcards
         foreach (var flashCard in flashCards)
         {
-            flashCard.BackgroundColor = pickRandomFlashCardColor();
+            flashCard.BackgroundColor = PickRandomFlashCardColor();
         }
 
         var flashCardsViewModel = new FlashCardsViewModel(flashCards, quizName, quizDescription);       
@@ -146,7 +146,7 @@ public class FlashCardController : Controller
     }
 
     // Flashcard dectoration
-    public string pickRandomFlashCardColor()
+    public string PickRandomFlashCardColor()
     {
         var flashCardColors = new List<string>{
             "#FFF9C4", "#FFE0B2", "#F8BBD0",
@@ -155,7 +155,7 @@ public class FlashCardController : Controller
         };
 
         var random = new Random();
-        int randomIndex = random.Next(flashCardColors.Count());
+        int randomIndex = random.Next(flashCardColors.Count);
         return flashCardColors[randomIndex];
     }
 }

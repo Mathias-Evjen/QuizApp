@@ -10,12 +10,12 @@ namespace QuizApp.Models
         public int NumOfQuestions { get; set; } = 0;
         public string Description { get; set; } = string.Empty;
 
-        public virtual List<FillInTheBlank> FillInTheBlankQuestions { get; set; } = new();
-        public virtual List<Matching> MatchingQuestions { get; set; } = new();
-        public virtual List<Sequence> SequenceQuestions { get; set; } = new();
-        public virtual List<Ranking> RankingQuestions { get; set; } = new();
-        public virtual List<TrueFalse> TrueFalseQuestions { get; set; } = new();
-        public virtual List<MultipleChoice> MultipleChoiceQuestions { get; set; } = new();
+        public virtual List<FillInTheBlank> FillInTheBlankQuestions { get; set; } = [];
+        public virtual List<Matching> MatchingQuestions { get; set; } = [];
+        public virtual List<Sequence> SequenceQuestions { get; set; } = [];
+        public virtual List<Ranking> RankingQuestions { get; set; } = [];
+        public virtual List<TrueFalse> TrueFalseQuestions { get; set; } = [];
+        public virtual List<MultipleChoice> MultipleChoiceQuestions { get; set; } = [];
 
         [NotMapped]
         public IEnumerable<Question> AllQuestions =>

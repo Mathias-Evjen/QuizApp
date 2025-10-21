@@ -25,7 +25,7 @@ builder.Services.AddScoped<IRepository<Matching>, MatchingRepository>();
 builder.Services.AddScoped<IRepository<Sequence>, SequenceRepository>();
 builder.Services.AddScoped<IRepository<Ranking>, RankingRepository>();
 builder.Services.AddScoped<IRepository<FillInTheBlank>, FillInTheBlankRepository>();
-builder.Services.AddScoped<IRepository<FlashCard>, FlashCardRepository>();
+builder.Services.AddScoped<IFlashCardRepository, FlashCardRepository>();
 builder.Services.AddScoped<IRepository<FlashCardQuiz>, FlashCardQuizRepository>();
 builder.Services.AddScoped<IRepository<MultipleChoice>, MultipleChoiceRepository>();
 builder.Services.AddScoped<IRepository<TrueFalse>, TrueFalseRepository>();

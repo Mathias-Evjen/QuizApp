@@ -30,8 +30,11 @@ else
     <p class="text-muted">No options for this question.</p>
 }
 
-<form asp-action="Delete" method="post">
-    <input type="hidden" asp-for="MultipleChoiceId" />
+<form 
+    asp-action="DeleteConfirmed" 
+    asp-route-questionId="@Model.MultipleChoiceId"
+    asp-route-qNum="@Model.QuizQuestionNum"
+    asp-route-quizId="@Model.QuizId">
     <button type="submit" class="btn btn-danger">Delete</button>
     <a asp-action="Index" class="btn btn-secondary">Cancel</a>
 </form>

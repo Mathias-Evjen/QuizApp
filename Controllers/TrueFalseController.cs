@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
 using QuizApp.DAL;
 using QuizApp.Models;
+using QuizApp.Services;
 using QuizApp.ViewModels;
 
 namespace QuizApp.Controllers
@@ -9,14 +10,17 @@ namespace QuizApp.Controllers
     {
         private readonly IRepository<TrueFalse> _trueFalseRepository;
         private readonly IAttemptRepository<TrueFalseAttempt> _trueFalseAttemptRepository;
+        private readonly QuizService _quizService;
         private readonly ILogger<TrueFalseController> _logger;
 
         public TrueFalseController(IRepository<TrueFalse> trueFalseRepository,
                                    IAttemptRepository<TrueFalseAttempt> trueFalseAttemptRepository,
+                                   QuizService quizService,
                                    ILogger<TrueFalseController> logger)
         {
             _trueFalseRepository = trueFalseRepository;
             _trueFalseAttemptRepository = trueFalseAttemptRepository;
+            _quizService = quizService;
             _logger = logger;
         }
 
@@ -169,19 +173,27 @@ namespace QuizApp.Controllers
         }
 
         // POST: /Delete
-        [HttpPost, ActionName("Delete")]
-        public async Task<IActionResult> DeleteConfirmed(int id)
+        [HttpPost]
+        public async Task<IActionResult> DeleteConfirmed(int questionId, int qNum, int quizId)
         {
             try
             {
-                await _trueFalseRepository.Delete(id);
+                bool returnOk = await _trueFalseRepository.Delete(questionId);
+                if (!returnOk)
+                {
+                    _logger.LogError("Error deletinSg TrueFalse. Id={Id}", questionId);
+                    return BadRequest("Question deletion failed");
+                }
 
-                _logger.LogInformation("TrueFalse deleted: Id={Id}", id);
-                return RedirectToAction(nameof(Index));
+                _logger.LogInformation("TrueFalse deleted: Id={Id}", questionId);
+
+                await _quizService.ChangeQuestionCount(quizId, false);
+                await _quizService.UpdateQuestionNumbers(qNum, quizId);
+                return RedirectToAction("ManageQuiz", "Quiz", new { quizId });
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "Error deletinSg TrueFalse. Id={Id}", id);
+                _logger.LogError(ex, "Error deletinSg TrueFalse. Id={Id}", questionId);
                 return View("Error");
             }
         }

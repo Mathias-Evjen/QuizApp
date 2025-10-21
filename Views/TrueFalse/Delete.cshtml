@@ -21,9 +21,12 @@
         </div>
     </div>
 
-    <form asp-action="Delete" method="post" class="text-end">
-        <input type="hidden" asp-for="TrueFalseId" />
+    <form 
+        asp-action="DeleteConfirmed" 
+        asp-route-questionId="@Model.TrueFalseId"
+        asp-route-qNum="@Model.QuizQuestionNum"
+        asp-route-quizId="@Model.QuizId"> 
         <button type="submit" class="btn btn-danger me-2">Delete</button>
-        <a asp-action="Index" class="btn btn-secondary">Cancel</a>
+        <a asp-action="Question" class="btn btn-secondary">Cancel</a>
     </form>
 </div>

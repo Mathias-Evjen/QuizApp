@@ -54,7 +54,7 @@ public class QuizService
         var quiz = await _quizRepository.GetById(quizId);
         if (quiz == null)
         {
-            _logger.LogError("[FlashCardQuizService] FlashCardQuiz not found for the Id {Id: 0000}", quizId);
+            _logger.LogError("[QuizService] Quiz not found for the Id {Id: 0000}", quizId);
             return;
         }
 
@@ -64,7 +64,7 @@ public class QuizService
         bool returnOk = await _quizRepository.Update(quiz);
         if (!returnOk)
         {
-            _logger.LogError("[FlashCardQuizService] FlashCardQuiz update failed for {@quiz}", quiz);
+            _logger.LogError("[QuizService] Quiz update failed for {@quiz}", quiz);
         }
     }
 
@@ -73,7 +73,7 @@ public class QuizService
         var quiz = await _quizRepository.GetById(quizId);
         if (quiz == null)
         {
-            _logger.LogError("[FlashCardQuizService] FlashCardQuiz not found for the Id {Id: 0000}", quizId);
+            _logger.LogError("[QuizService] Quiz not found for the Id {Id: 0000}", quizId);
             return;
         }
 
@@ -85,7 +85,7 @@ public class QuizService
         }
     }
 
-    public async Task<bool> UpdateQuizQuestionNumbers(Question question)
+    private async Task<bool> UpdateQuizQuestionNumbers(Question question)
     {
         // Finds the question-model, decrements QuizQuestionNum, and updates the database
 

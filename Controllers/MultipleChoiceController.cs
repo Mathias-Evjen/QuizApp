@@ -25,7 +25,7 @@ namespace QuizApp.Controllers
         {
             try
             {
-                var questions = await _multipleChoiceRepository.GetAllAsync();
+                var questions = await _multipleChoiceRepository.GetAll();
                 return View(questions);
             }
             catch (Exception ex)
@@ -43,7 +43,7 @@ namespace QuizApp.Controllers
         [HttpPost]
         public async Task<IActionResult> SubmitQuestion(int quizId, int quizAttemptId, int quizQuestionId, int quizQuestionNum, int numOfQuestions, string userAnswer)
         {
-            var multipleChoice = await _multipleChoiceRepository.GetDetailedAsync(quizQuestionId);
+            var multipleChoice = await _multipleChoiceRepository.GetById(quizQuestionId);
             if (multipleChoice == null)
             {
                 _logger.LogError("[MultipleChoiceController - Submit question] MultipleChoice question not found for the Id {Id: 0000}", quizQuestionId);
@@ -109,14 +109,16 @@ namespace QuizApp.Controllers
                     .ToList();
 
                 foreach (var opt in question.Options)
-                {
                     opt.MultipleChoice = question;
+
+                var ok = await _multipleChoiceRepository.Create(question);
+                if (!ok)
+                {
+                    _logger.LogError("Failed to create MultipleChoice question.");
+                    return View("Error");
                 }
 
-                await _multipleChoiceRepository.AddAsync(question);
-                await _multipleChoiceRepository.SaveAsync();
-
-                _logger.LogInformation("MultipleChoice created: {Question}", question.QuestionText);
+                _logger.LogInformation("Created MultipleChoice question: {Question}", question.QuestionText);
                 return RedirectToAction(nameof(Index));
             }
             catch (Exception ex)
@@ -131,7 +133,7 @@ namespace QuizApp.Controllers
         {
             try
             {
-                var question = await _multipleChoiceRepository.GetDetailedAsync(id);
+                var question = await _multipleChoiceRepository.GetById(id);
                 if (question == null)
                 {
                     _logger.LogWarning("Edit requested for non-existing MultipleChoice Id={Id}", id);
@@ -162,17 +164,21 @@ namespace QuizApp.Controllers
                 return View(question);
             }
 
-            try
+             try
             {
-                await _multipleChoiceRepository.UpdateAsync(question);
-                await _multipleChoiceRepository.SaveAsync();
+                var ok = await _multipleChoiceRepository.Update(question);
+                if (!ok)
+                {
+                    _logger.LogError("Failed to update MultipleChoice question Id={Id}", question.MultipleChoiceId);
+                    return View("Error");
+                }
 
-                _logger.LogInformation("MultipleChoice updated: Id={Id}", question.MultipleChoiceId);
+                _logger.LogInformation("Updated MultipleChoice question Id={Id}", question.MultipleChoiceId);
                 return RedirectToAction(nameof(Index));
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "Error updating MultipleChoice. Id={Id}", question.MultipleChoiceId);
+                _logger.LogError(ex, "Error updating MultipleChoice question Id={Id}", question.MultipleChoiceId);
                 return View("Error");
             }
         }
@@ -182,7 +188,7 @@ namespace QuizApp.Controllers
         {
             try
             {
-                var question = await _multipleChoiceRepository.GetDetailedAsync(id);
+                var question = await _multipleChoiceRepository.GetById(id);
                 if (question == null)
                 {
                     _logger.LogWarning("Delete requested for non-existing MultipleChoice Id={Id}", id);
@@ -204,15 +210,19 @@ namespace QuizApp.Controllers
         {
             try
             {
-                await _multipleChoiceRepository.DeleteAsync(id);
-                await _multipleChoiceRepository.SaveAsync();
+                var ok = await _multipleChoiceRepository.Delete(id);
+                if (!ok)
+                {
+                    _logger.LogError("Failed to delete MultipleChoice question Id={Id}", id);
+                    return View("Error");
+                }
 
-                _logger.LogInformation("MultipleChoice deleted: Id={Id}", id);
+                _logger.LogInformation("Deleted MultipleChoice question Id={Id}", id);
                 return RedirectToAction(nameof(Index));
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "Error deleting MultipleChoice. Id={Id}", id);
+                _logger.LogError(ex, "Error deleting MultipleChoice question Id={Id}", id);
                 return View("Error");
             }
         }

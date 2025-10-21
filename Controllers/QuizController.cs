@@ -155,12 +155,6 @@ public class QuizController : Controller
     }
 
     [HttpGet]
-    public IActionResult Create()
-    {
-        return View();
-    }
-
-    [HttpGet]
     public async Task<IActionResult> Results(int quizAttemptId)
     {
         var quizAttempt = await _quizAttemptRepository.GetById(quizAttemptId);
@@ -191,13 +185,19 @@ public class QuizController : Controller
             }
             if (question is MultipleChoice mc && questionAttempt is MultipleChoiceAttempt mcAttempt)
             {
-                mcAttempt.AnsweredCorrectly = _quizService.CheckAnswer(mc.CorrectAnswer, mcAttempt.UserAnswer);   
+                mcAttempt.AnsweredCorrectly = _quizService.CheckAnswer(mc.CorrectAnswer, mcAttempt.UserAnswer);
             }
         }
 
         var quizResultViewModel = new QuizResultViewModel(quiz, quizAttempt);
 
         return View(quizResultViewModel);
+    }
+    
+    [HttpGet]
+    public IActionResult Create()
+    {
+        return View();
     }
 
     [HttpPost]
@@ -207,7 +207,7 @@ public class QuizController : Controller
         {
             bool returnOk = await _quizRepository.Create(quiz);
             if (returnOk)
-                return RedirectToAction(nameof(Quizzes));
+                return View("ManageQuiz", quiz);
         }
         _logger.LogError("[QuizController] Quiz creation failed {@quiz}", quiz);
         return View(quiz);

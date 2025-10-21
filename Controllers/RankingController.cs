@@ -2,6 +2,7 @@ using QuizApp.DAL;
 using QuizApp.Models;
 using QuizApp.ViewModels;
 using Microsoft.AspNetCore.Mvc;
+using QuizApp.Services;
 
 namespace QuizApp.Controllers;
 
@@ -9,13 +10,18 @@ public class RankingController : Controller
 {
     private readonly IRepository<Ranking> _rankingRepository;
     private readonly IAttemptRepository<RankingAttempt> _rankingAttemptRepository;
-
+    private readonly QuizService _quizService;
     private readonly ILogger<RankingController> _logger;
 
-    public RankingController(IRepository<Ranking> rankingRepository, IAttemptRepository<RankingAttempt> rankingAttemptRepository, ILogger<RankingController> logger)
+    public RankingController(
+        IRepository<Ranking> rankingRepository,
+        IAttemptRepository<RankingAttempt> rankingAttemptRepository,
+        QuizService quizService,
+        ILogger<RankingController> logger)
     {
         _rankingRepository = rankingRepository;
         _rankingAttemptRepository = rankingAttemptRepository;
+        _quizService = quizService;
         _logger = logger;
     }
 
@@ -119,10 +125,29 @@ public class RankingController : Controller
         _rankingRepository.Update(updatetRanking);
         return RedirectToAction("ShowRankings");
     }
-    
-    public IActionResult DeleteRanking(int id)
+
+    public async Task<IActionResult> Delete(int id)
     {
-        _rankingRepository.Delete(id);
-        return RedirectToAction("ShowRankings");
+        var question = await _rankingRepository.GetById(id);
+        if (question == null)
+        {
+            _logger.LogError("[RankingController] Question deletion failed for the QuestionId {QuestionId:0000}", id);
+            return BadRequest("Question not found for the QuestionId");
+        }
+        return View(question);
+    }
+    
+    [HttpPost]
+    public async Task<IActionResult> DeleteConfirmed(int questionId, int qNum, int quizId)
+    {
+        bool returnOk = await _rankingRepository.Delete(questionId);
+        if (!returnOk)
+        {
+            _logger.LogError("[RankingController] Question deletion failed for QuestionId {QuestionId:0000}", questionId);
+            return BadRequest("Question deletion failed");
+        }
+        await _quizService.ChangeQuestionCount(quizId, false);
+        await _quizService.UpdateQuestionNumbers(qNum, quizId);
+        return RedirectToAction("ManageQuiz", "Quiz", new { quizId });
     }
 }

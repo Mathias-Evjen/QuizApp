@@ -2,6 +2,7 @@ using QuizApp.DAL;
 using QuizApp.Models;
 using QuizApp.ViewModels;
 using Microsoft.AspNetCore.Mvc;
+using QuizApp.Services;
 
 namespace QuizApp.Controllers;
 
@@ -9,13 +10,18 @@ public class SequenceController : Controller
 {
     private readonly IRepository<Sequence> _sequenceRepository;
     private readonly IAttemptRepository<SequenceAttempt> _sequenceAttemptRepository;
-
+    private readonly QuizService _quizService;
     private readonly ILogger<SequenceController> _logger;
 
-    public SequenceController(IRepository<Sequence> sequenceRepository, IAttemptRepository<SequenceAttempt> sequenceAttemptRepository, ILogger<SequenceController> logger)
+    public SequenceController(
+        IRepository<Sequence> sequenceRepository,
+        IAttemptRepository<SequenceAttempt> sequenceAttemptRepository,
+        QuizService quizService,
+        ILogger<SequenceController> logger)
     {
         _sequenceRepository = sequenceRepository;
         _sequenceAttemptRepository = sequenceAttemptRepository;
+        _quizService = quizService;
         _logger = logger;
     }
 
@@ -117,10 +123,29 @@ public class SequenceController : Controller
         _sequenceRepository.Update(updatetSequence);
         return RedirectToAction("ShowSequences");
     }
-    
-    public IActionResult DeleteSequence(int id)
+
+    public async Task<IActionResult> Delete(int id)
     {
-        _sequenceRepository.Delete(id);
-        return RedirectToAction("ShowSequences");
+        var question = await _sequenceRepository.GetById(id);
+        if (question == null)
+        {
+            _logger.LogError("[SequenceController] Question deletion failed for the QuestionId {QuestionId:0000}", id);
+            return BadRequest("Question not found for the QuestionId");
+        }
+        return View(question);
+    }
+    
+    [HttpPost]
+    public async Task<IActionResult> DeleteConfirmed(int questionId, int qNum, int quizId)
+    {
+        bool returnOk = await _sequenceRepository.Delete(questionId);
+        if (!returnOk)
+        {
+            _logger.LogError("[SequenceController] Question deletion failed for QuestionId {QuestionId:0000}", questionId);
+            return BadRequest("Question deletion failed");
+        }
+        await _quizService.ChangeQuestionCount(quizId, false);
+        await _quizService.UpdateQuestionNumbers(qNum, quizId);
+        return RedirectToAction("ManageQuiz", "Quiz", new { quizId });
     }
 }

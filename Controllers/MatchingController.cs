@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
 using QuizApp.DAL;
 using QuizApp.Models;
+using QuizApp.Services;
 using QuizApp.ViewModels;
 
 namespace QuizApp.Controllers;
@@ -10,13 +11,18 @@ public class MatchingController : Controller
 
     private readonly IRepository<Matching> _matchingRepository;
     private readonly IAttemptRepository<MatchingAttempt> _matchingAttemptRepository;
-
+    private readonly QuizService _quizService;
     private readonly ILogger<MatchingController> _logger;
 
-    public MatchingController(IRepository<Matching> matchingRepository, IAttemptRepository<MatchingAttempt> matchingAttemptRepository, ILogger<MatchingController> logger)
+    public MatchingController(
+        IRepository<Matching> matchingRepository,
+        IAttemptRepository<MatchingAttempt> matchingAttemptRepository,
+        QuizService quizService,
+        ILogger<MatchingController> logger)
     {
         _matchingRepository = matchingRepository;
         _matchingAttemptRepository = matchingAttemptRepository;
+        _quizService = quizService;
         _logger = logger;
     }
 
@@ -124,10 +130,29 @@ public class MatchingController : Controller
         _matchingRepository.Update(updatetMatching);
         return RedirectToAction("ShowMatchings");
     }
-    
-    public IActionResult DeleteMatching(int id)
+
+    public async Task<IActionResult> Delete(int id)
     {
-        _matchingRepository.Delete(id);
-        return RedirectToAction("ShowMatchings");
+        var question = await _matchingRepository.GetById(id);
+        if (question == null)
+        {
+            _logger.LogError("[MatchingController] Question deletion failed for the QuestionId {QuestionId:0000}", id);
+            return BadRequest("Question not found for the QuestionId");
+        }
+        return View(question);
+    }
+    
+    [HttpPost]
+    public async Task<IActionResult> DeleteConfirmed(int questionId, int qNum, int quizId)
+    {
+        bool returnOk = await _matchingRepository.Delete(questionId);
+        if (!returnOk)
+        {
+            _logger.LogError("[MatchingController] Question deletion failed for QuestionId {QuestionId:0000}", questionId);
+            return BadRequest("Question deletion failed");
+        }
+        await _quizService.ChangeQuestionCount(quizId, false);
+        await _quizService.UpdateQuestionNumbers(qNum, quizId);
+        return RedirectToAction("ManageQuiz", "Quiz", new { quizId });
     }
 }

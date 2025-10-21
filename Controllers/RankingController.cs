@@ -2,20 +2,26 @@ using QuizApp.DAL;
 using QuizApp.Models;
 using QuizApp.ViewModels;
 using Microsoft.AspNetCore.Mvc;
+using QuizApp.Services;
 
 namespace QuizApp.Controllers;
 
 public class RankingController : Controller
 {
-    private readonly IRankingRepository _rankingRepository;
-    private readonly IRankingAttemptRepository _rankingAttemptRepository;
-
+    private readonly IRepository<Ranking> _rankingRepository;
+    private readonly IAttemptRepository<RankingAttempt> _rankingAttemptRepository;
+    private readonly QuizService _quizService;
     private readonly ILogger<RankingController> _logger;
 
-    public RankingController(IRankingRepository rankingRepository, IRankingAttemptRepository rankingAttemptRepository, ILogger<RankingController> logger)
+    public RankingController(
+        IRepository<Ranking> rankingRepository,
+        IAttemptRepository<RankingAttempt> rankingAttemptRepository,
+        QuizService quizService,
+        ILogger<RankingController> logger)
     {
         _rankingRepository = rankingRepository;
         _rankingAttemptRepository = rankingAttemptRepository;
+        _quizService = quizService;
         _logger = logger;
     }
 
@@ -36,7 +42,7 @@ public class RankingController : Controller
     [HttpPost]
     public async Task<IActionResult> SubmitRankingQuestion(int id, List<string> values, int quizId, int quizQuestionNum, int quizAttemptId)
     {
-        var rankingObject = await _rankingRepository.GetRankingById(id);
+        var rankingObject = await _rankingRepository.GetById(id);
         if (rankingObject == null)
         {
             _logger.LogError("[RankingController - Get Question] Ranking question not found for the Id {Id: 0000}", id);
@@ -51,7 +57,7 @@ public class RankingController : Controller
             UserAnswer = answer
         };
 
-        var returnOk = await _rankingAttemptRepository.CreateRankingAttempt(rankingAttempt);
+        var returnOk = await _rankingAttemptRepository.Create(rankingAttempt);
         if (!returnOk)
         {
             _logger.LogError("[RankingController] Question attempt creation failed {@attempt}", rankingAttempt);
@@ -79,7 +85,7 @@ public class RankingController : Controller
         };
         rankingQuestion.Assemble(Values, 1);
         rankingQuestion.ShuffleQuestion(Values);
-        await _rankingRepository.CreateRanking(rankingQuestion);
+        await _rankingRepository.Create(rankingQuestion);
 
         return RedirectToAction("Index", "Home");
     }
@@ -101,7 +107,7 @@ public class RankingController : Controller
 
     public async Task<IActionResult> UpdateRankingPage(int id)
     {
-        var ranking = await _rankingRepository.GetRankingById(id);
+        var ranking = await _rankingRepository.GetById(id);
         return View(ranking);
     }
 
@@ -116,13 +122,32 @@ public class RankingController : Controller
         updatetRanking.Assemble(question, 3);
         updatetRanking.Assemble(correctAnswer, 1);
 
-        _rankingRepository.UpdateRanking(updatetRanking);
+        _rankingRepository.Update(updatetRanking);
         return RedirectToAction("ShowRankings");
     }
-    
-    public IActionResult DeleteRanking(int id)
+
+    public async Task<IActionResult> Delete(int id)
     {
-        _rankingRepository.DeleteRanking(id);
-        return RedirectToAction("ShowRankings");
+        var question = await _rankingRepository.GetById(id);
+        if (question == null)
+        {
+            _logger.LogError("[RankingController] Question deletion failed for the QuestionId {QuestionId:0000}", id);
+            return BadRequest("Question not found for the QuestionId");
+        }
+        return View(question);
+    }
+    
+    [HttpPost]
+    public async Task<IActionResult> DeleteConfirmed(int questionId, int qNum, int quizId)
+    {
+        bool returnOk = await _rankingRepository.Delete(questionId);
+        if (!returnOk)
+        {
+            _logger.LogError("[RankingController] Question deletion failed for QuestionId {QuestionId:0000}", questionId);
+            return BadRequest("Question deletion failed");
+        }
+        await _quizService.ChangeQuestionCount(quizId, false);
+        await _quizService.UpdateQuestionNumbers(qNum, quizId);
+        return RedirectToAction("ManageQuiz", "Quiz", new { quizId });
     }
 }

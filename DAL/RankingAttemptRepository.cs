@@ -4,7 +4,7 @@ using Serilog;
 
 namespace QuizApp.DAL;
 
-public class RankingAttemptRepository : IRankingAttemptRepository
+public class RankingAttemptRepository : IAttemptRepository<RankingAttempt>
 {
     private readonly QuizDbContext _db;
     private readonly ILogger<RankingAttemptRepository> _logger;
@@ -15,7 +15,7 @@ public class RankingAttemptRepository : IRankingAttemptRepository
         _logger = logger;
     }
 
-    public async Task<RankingAttempt?> GetRankingAttemptById(int id)
+    public async Task<RankingAttempt?> GetById(int id)
     {
         try
         {
@@ -28,7 +28,7 @@ public class RankingAttemptRepository : IRankingAttemptRepository
         }
     }
 
-    public async Task<bool> CreateRankingAttempt(RankingAttempt rankingAttempt)
+    public async Task<bool> Create(RankingAttempt rankingAttempt)
     {
         try
         {
@@ -43,7 +43,7 @@ public class RankingAttemptRepository : IRankingAttemptRepository
         }
     }
 
-    public async Task<bool> UpdateRankingAttempt(RankingAttempt rankingAttempt)
+    public async Task<bool> Update(RankingAttempt rankingAttempt)
     {
         try
         {
@@ -58,7 +58,7 @@ public class RankingAttemptRepository : IRankingAttemptRepository
         }
     }
 
-    public async Task<bool> DeleteRankingAttempt(int id)
+    public async Task<bool> Delete(int id)
     {
         try
         {

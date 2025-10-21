@@ -4,7 +4,7 @@ using Serilog;
 
 namespace QuizApp.DAL;
 
-public class MultipleChoiceAttemptRepository : IMultipleChoiceAttemptRepository
+public class MultipleChoiceAttemptRepository : IAttemptRepository<MultipleChoiceAttempt>
 {
     private readonly QuizDbContext _db;
     private readonly ILogger<MultipleChoiceAttemptRepository> _logger;
@@ -15,7 +15,7 @@ public class MultipleChoiceAttemptRepository : IMultipleChoiceAttemptRepository
         _logger = logger;
     }
 
-    public async Task<MultipleChoiceAttempt?> GetMultipleChoiceAttemptById(int id)
+    public async Task<MultipleChoiceAttempt?> GetById(int id)
     {
         try
         {
@@ -28,7 +28,7 @@ public class MultipleChoiceAttemptRepository : IMultipleChoiceAttemptRepository
         }
     }
 
-    public async Task<bool> CreateMultipleChoiceAttempt(MultipleChoiceAttempt MultipleChoiceAttempt)
+    public async Task<bool> Create(MultipleChoiceAttempt MultipleChoiceAttempt)
     {
         try
         {
@@ -43,7 +43,7 @@ public class MultipleChoiceAttemptRepository : IMultipleChoiceAttemptRepository
         }
     }
 
-    public async Task<bool> UpdateMultipleChoiceAttempt(MultipleChoiceAttempt MultipleChoiceAttempt)
+    public async Task<bool> Update(MultipleChoiceAttempt MultipleChoiceAttempt)
     {
         try
         {
@@ -58,7 +58,7 @@ public class MultipleChoiceAttemptRepository : IMultipleChoiceAttemptRepository
         }
     }
 
-    public async Task<bool> DeleteMultipleChoiceAttempt(int id)
+    public async Task<bool> Delete(int id)
     {
         try
         {

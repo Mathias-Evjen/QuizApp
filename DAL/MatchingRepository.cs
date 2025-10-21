@@ -3,7 +3,7 @@ using QuizApp.Models;
 
 namespace QuizApp.DAL;
 
-public class MatchingRepository : IMatchingRepository
+public class MatchingRepository : IRepository<Matching>
 {
     private readonly QuizDbContext _db;
     private readonly ILogger<MatchingRepository> _logger;
@@ -27,7 +27,7 @@ public class MatchingRepository : IMatchingRepository
         }
     }
 
-    public async Task<Matching?> GetMatchingById(int id)
+    public async Task<Matching?> GetById(int id)
     {
         try
         {
@@ -40,7 +40,7 @@ public class MatchingRepository : IMatchingRepository
         }
     }
 
-    public async Task<bool> CreateMatching(Matching Matching)
+    public async Task<bool> Create(Matching Matching)
     {
         try
         {
@@ -55,7 +55,7 @@ public class MatchingRepository : IMatchingRepository
         }
     }
 
-    public async Task<bool> UpdateMatching(Matching Matching)
+    public async Task<bool> Update(Matching Matching)
     {
         try
         {
@@ -70,7 +70,7 @@ public class MatchingRepository : IMatchingRepository
         }
     }
 
-    public async Task<bool> DeleteMatching(int id)
+    public async Task<bool> Delete(int id)
     {
         try
         {

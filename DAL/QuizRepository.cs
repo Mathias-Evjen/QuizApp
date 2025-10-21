@@ -3,7 +3,7 @@ using QuizApp.Models;
 
 namespace QuizApp.DAL;
 
-public class QuizRepository : IQuizRepository
+public class QuizRepository : IRepository<Quiz>
 {
     private readonly QuizDbContext _db;
     private readonly ILogger<QuizRepository> _logger;
@@ -34,7 +34,7 @@ public class QuizRepository : IQuizRepository
         }
     }
 
-    public async Task<Quiz?> GetQuizById(int id)
+    public async Task<Quiz?> GetById(int id)
     {
         try
         {
@@ -54,7 +54,7 @@ public class QuizRepository : IQuizRepository
         }
     }
 
-    public async Task<bool> CreateQuiz(Quiz Quiz)
+    public async Task<bool> Create(Quiz Quiz)
     {
         try
         {
@@ -69,7 +69,7 @@ public class QuizRepository : IQuizRepository
         }
     }
 
-    public async Task<bool> UpdateQuiz(Quiz Quiz)
+    public async Task<bool> Update(Quiz Quiz)
     {
         try
         {
@@ -84,7 +84,7 @@ public class QuizRepository : IQuizRepository
         }
     }
 
-    public async Task<bool> DeleteQuiz(int id)
+    public async Task<bool> Delete(int id)
     {
         try
         {

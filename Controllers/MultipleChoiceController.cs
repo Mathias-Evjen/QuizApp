@@ -1,22 +1,26 @@
 using Microsoft.AspNetCore.Mvc;
 using QuizApp.DAL;
 using QuizApp.Models;
+using QuizApp.Services;
 using QuizApp.ViewModels;
 
 namespace QuizApp.Controllers
 {
     public class MultipleChoiceController : Controller
     {
-        private readonly IMultipleChoiceRepository _multipleChoiceRepository;
-        private readonly IMultipleChoiceAttemptRepository _multipleChoiceAttemptRepository;
+        private readonly IRepository<MultipleChoice> _multipleChoiceRepository;
+        private readonly IAttemptRepository<MultipleChoiceAttempt> _multipleChoiceAttemptRepository;
+        private readonly QuizService _quizService;
         private readonly ILogger<MultipleChoiceController> _logger;
 
-        public MultipleChoiceController(IMultipleChoiceRepository multipleChoiceRepository,
-                                        IMultipleChoiceAttemptRepository multipleChoiceAttemptRepository,
+        public MultipleChoiceController(IRepository<MultipleChoice> multipleChoiceRepository,
+                                        IAttemptRepository<MultipleChoiceAttempt> multipleChoiceAttemptRepository,
+                                        QuizService quizService,
                                         ILogger<MultipleChoiceController> logger)
         {
             _multipleChoiceRepository = multipleChoiceRepository;
             _multipleChoiceAttemptRepository = multipleChoiceAttemptRepository;
+            _quizService = quizService;
             _logger = logger;
         }
 
@@ -57,7 +61,7 @@ namespace QuizApp.Controllers
                 UserAnswer = userAnswer
             };
 
-            var returnOk = await _multipleChoiceAttemptRepository.CreateMultipleChoiceAttempt(multipleChoiceAttempt);
+            var returnOk = await _multipleChoiceAttemptRepository.Create(multipleChoiceAttempt);
             if (!returnOk)
             {
                 _logger.LogError("[MultipleChoiceController] Question attempt creation failed {@attempt}", multipleChoiceAttempt);
@@ -166,15 +170,15 @@ namespace QuizApp.Controllers
 
              try
             {
-                var ok = await _multipleChoiceRepository.Update(question);
-                if (!ok)
+                var returnOk = await _multipleChoiceRepository.Update(question);
+                if (!returnOk)
                 {
                     _logger.LogError("Failed to update MultipleChoice question Id={Id}", question.MultipleChoiceId);
                     return View("Error");
                 }
 
                 _logger.LogInformation("Updated MultipleChoice question Id={Id}", question.MultipleChoiceId);
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction("ManageQuiz", "Quiz", new { quizId = question.QuizId });
             }
             catch (Exception ex)
             {
@@ -205,24 +209,26 @@ namespace QuizApp.Controllers
         }
 
         // POST: /DeleteConfirmed
-        [HttpPost, ActionName("Delete")]
-        public async Task<IActionResult> DeleteConfirmed(int id)
+        [HttpPost]
+        public async Task<IActionResult> DeleteConfirmed(int questionId, int qNum, int quizId)
         {
             try
             {
-                var ok = await _multipleChoiceRepository.Delete(id);
-                if (!ok)
+                var returnOk = await _multipleChoiceRepository.Delete(questionId);
+                if (!returnOk)
                 {
-                    _logger.LogError("Failed to delete MultipleChoice question Id={Id}", id);
+                    _logger.LogError("Failed to delete MultipleChoice question Id={Id}", questionId);
                     return View("Error");
                 }
 
-                _logger.LogInformation("Deleted MultipleChoice question Id={Id}", id);
-                return RedirectToAction(nameof(Index));
+                await _quizService.ChangeQuestionCount(quizId, false);
+                await _quizService.UpdateQuestionNumbers(qNum, quizId);
+                _logger.LogInformation("Deleted MultipleChoice question Id={Id}", questionId);
+                return RedirectToAction("ManageQuiz", "Quiz", new { quizId });
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "Error deleting MultipleChoice question Id={Id}", id);
+                _logger.LogError(ex, "Error deleting MultipleChoice question Id={Id}", questionId);
                 return View("Error");
             }
         }

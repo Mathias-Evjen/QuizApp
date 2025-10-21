@@ -3,7 +3,7 @@ using QuizApp.Models;
 
 namespace QuizApp.DAL;
 
-public class FillInTheBlankRepository : IFillInTheBlankRepository
+public class FillInTheBlankRepository : IRepository<FillInTheBlank>
 {
     private readonly QuizDbContext _db;
     private readonly ILogger<FillInTheBlankRepository> _logger;
@@ -26,7 +26,7 @@ public class FillInTheBlankRepository : IFillInTheBlankRepository
         }
     }
 
-    public async Task<FillInTheBlank?> GetQuestionById(int id)
+    public async Task<FillInTheBlank?> GetById(int id)
     {
         try
         {
@@ -39,7 +39,7 @@ public class FillInTheBlankRepository : IFillInTheBlankRepository
         }
     }
 
-    public async Task<bool> CreateQuestion(FillInTheBlank fillQuestion)
+    public async Task<bool> Create(FillInTheBlank fillQuestion)
     {
         try
         {
@@ -54,7 +54,7 @@ public class FillInTheBlankRepository : IFillInTheBlankRepository
         }
     }
 
-    public async Task<bool> UpdateQuestion(FillInTheBlank fillQuestion)
+    public async Task<bool> Update(FillInTheBlank fillQuestion)
     {
         try
         {
@@ -69,7 +69,7 @@ public class FillInTheBlankRepository : IFillInTheBlankRepository
         }
     }
 
-    public async Task<bool> DeleteQuestion(int id) {
+    public async Task<bool> Delete(int id) {
         try
         {
             var fillQuestion = await _db.FillInTheBlankQuestions.FindAsync(id);

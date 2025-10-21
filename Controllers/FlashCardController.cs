@@ -2,9 +2,6 @@ using Microsoft.AspNetCore.Mvc;
 using QuizApp.Models;
 using QuizApp.ViewModels;
 using QuizApp.DAL;
-using Microsoft.EntityFrameworkCore.Metadata.Internal;
-using System.Threading.Tasks;
-using Serilog;
 using QuizApp.Services;
 
 namespace QuizApp.Controllers;
@@ -85,10 +82,10 @@ public class FlashCardController : Controller
     {
         if (ModelState.IsValid)
         {
-            bool returnOk = await _flashCardRepository.CreateFlashCard(flashCard);
+            bool returnOk = await _flashCardRepository.Create(flashCard);
             if (returnOk)
                 await _flashCardQuizService.ChangeQuestionCount(flashCard.QuizId, true);
-            return RedirectToAction("ManageQuiz", "FlashCardQuiz", new { quizId = flashCard.QuizId });
+                return RedirectToAction("ManageQuiz", "FlashCardQuiz", new { quizId = flashCard.QuizId });
         }
         _logger.LogError("[FlashCardController] FlashCard creation failed {@flashCard}", flashCard);
         return RedirectToAction("ManageQuiz", "FlashCardQuiz", new { quizId = flashCard.QuizId });
@@ -97,7 +94,7 @@ public class FlashCardController : Controller
     [HttpGet]
     public async Task<IActionResult> Edit(int id)
     {
-        var flashCard = await _flashCardRepository.GetFlashCardById(id);
+        var flashCard = await _flashCardRepository.GetById(id);
         if (flashCard == null)
         {
             _logger.LogError("[FlashCardController] FlashCard not found when updating FlashCardId {FlashCardId: 0000}", id);
@@ -111,7 +108,7 @@ public class FlashCardController : Controller
     {
         if (ModelState.IsValid)
         {
-            bool returnOk = await _flashCardRepository.UpdateFlashCard(flashCard);
+            bool returnOk = await _flashCardRepository.Update(flashCard);
             if (returnOk)
                 return RedirectToAction("ManageQuiz", "FlashCardQuiz", new { quizId = flashCard.QuizId });
         }
@@ -122,7 +119,7 @@ public class FlashCardController : Controller
     [HttpGet]
     public async Task<IActionResult> Delete(int id)
     {
-        var flashCard = await _flashCardRepository.GetFlashCardById(id);
+        var flashCard = await _flashCardRepository.GetById(id);
         if (flashCard == null)
         {
             _logger.LogError("[FlashCardController] FlashCard deletion failed for the FlashCardId {FlashCardId:0000}", id);
@@ -134,7 +131,7 @@ public class FlashCardController : Controller
     [HttpPost]
     public async Task<IActionResult> DeleteConfirmed(int flashCardId, int qNum, int quizId)
     {
-        bool returnOk = await _flashCardRepository.DeleteFlashCard(flashCardId);
+        bool returnOk = await _flashCardRepository.Delete(flashCardId);
         if (!returnOk)
         {
             _logger.LogError("[FlashCardController] FlashCard deletion failed for FlashCardId {FlashCardId:0000}", flashCardId);
@@ -142,7 +139,7 @@ public class FlashCardController : Controller
         }
         await _flashCardQuizService.ChangeQuestionCount(quizId, false);
         await _flashCardQuizService.UpdateFlashCardQuestionNumbers(qNum, quizId);
-        return RedirectToAction("ManageQuiz", "FlashCardQuiz", new { quizId = quizId });
+        return RedirectToAction("ManageQuiz", "FlashCardQuiz", new { quizId });
     }
 
     // Flashcard dectoration

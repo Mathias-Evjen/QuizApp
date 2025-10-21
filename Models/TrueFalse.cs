@@ -7,6 +7,6 @@ namespace QuizApp.Models
         public string QuestionText { get; set; } = string.Empty;
         public bool CorrectAnswer { get; set; }
         public int QuizId { get; set; }
-        public virtual Quiz Quiz { get; set; } = default!;
+        public virtual Quiz? Quiz { get; set; } = default!;
     }
 }

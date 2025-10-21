@@ -3,58 +3,23 @@ using QuizApp.DAL;
 using QuizApp.Models;
 using QuizApp.ViewModels;
 using QuizApp.Services;
-using Microsoft.EntityFrameworkCore.Metadata.Internal;
-using System.Threading.Tasks;
 
 namespace QuizApp.Controllers;
 
 public class FillInTheBlankController : Controller
 {
-    private readonly IFillInTheBlankRepository _fillInTheBlankRepository;
-    private readonly IFillInTheBlankAttemptRepository _fillInTheBlankAttemptRepository;
+    private readonly IRepository<FillInTheBlank> _fillInTheBlankRepository;
+    private readonly IAttemptRepository<FillInTheBlankAttempt> _fillInTheBlankAttemptRepository;
     private readonly QuizService _quizService;
     private readonly ILogger<FillInTheBlankController> _logger;
 
-    public FillInTheBlankController(IFillInTheBlankRepository fillInTheBlankRepository, IFillInTheBlankAttemptRepository fillInTheBlankAttemptRepository, QuizService quizService, ILogger<FillInTheBlankController> logger)
+    public FillInTheBlankController(IRepository<FillInTheBlank> fillInTheBlankRepository, IAttemptRepository<FillInTheBlankAttempt> fillInTheBlankAttemptRepository, QuizService quizService, ILogger<FillInTheBlankController> logger)
     {
         _fillInTheBlankRepository = fillInTheBlankRepository;
         _fillInTheBlankAttemptRepository = fillInTheBlankAttemptRepository;
         _quizService = quizService;
         _logger = logger;
     }
-
-    // [HttpGet]
-    // public async Task<IActionResult> Questions()
-    // {
-    //     var questions = await _fillInTheBlankRepository.GetAll();
-    //     if (questions == null)
-    //     {
-    //         _logger.LogError("[FillInTheBlankController] Questions list not found while executing _fillInTheBlankRepository.GetAll()");
-    //         return NotFound("Questions not found");
-    //     }
-    //     var questionsViewModelList = new QuestionsViewModel(questions);
-    //     return View(questionsViewModelList);
-    // }
-
-    // [HttpPost]
-    // public async Task<IActionResult> Questions(QuestionsViewModel model)
-    // {
-    //     foreach (var question in model.Questions)
-    //     {
-    //         if (!ModelState.IsValid) return View(model);   // Check if the model state is valid
-
-    //         var questionFromDb = await _fillInTheBlankRepository.GetQuestionById(question.FillInTheBlankId);
-    //         if (questionFromDb == null)
-    //         {
-    //             _logger.LogError("[FillInTheBlankController - Post Question] FillInTheBlank question not found for the Id {Id: 0000}", question.FillInTheBlankId);
-    //             return NotFound("FillInTheBlank question not found.");
-    //         }
-
-    //         question.IsAnswerCorrect = _quizService.CheckAnswer(questionFromDb.Answer, question.UserAnswer);
-    //         question.CorrectAnswer = questionFromDb.Answer;
-    //     }
-    //     return View(model);
-    // }
 
     [HttpGet]
     public IActionResult Question(QuizViewModel model)
@@ -63,27 +28,9 @@ public class FillInTheBlankController : Controller
     }
 
     [HttpPost]
-    public async Task<IActionResult> Question(FillInTheBlankViewModel model)
-    {
-        if (!ModelState.IsValid) return View(model); // Check if the model is correct
-
-        // Get the question from the database
-        var questionFromDb = await _fillInTheBlankRepository.GetQuestionById(model.FillInTheBlankId);
-        if (questionFromDb == null)
-        {
-            _logger.LogError("[FillInTheBlankController - Post Question] FillInTheBlank question not found for the Id {Id: 0000}", model.FillInTheBlankId);
-            return NotFound("FillInTheBlank question not found.");
-        }
-
-        // Set the answer to correct or false in the model
-        model.IsAnswerCorrect = _quizService.CheckAnswer(questionFromDb.Answer, model.UserAnswer);
-        return View(model);
-    }
-
-    [HttpPost]
     public async Task<IActionResult> SubmitQuestion(int quizId, int quizAttemptId, int quizQuestionId, int quizQuestionNum, int numOfQuestions, string userAnswer)
     {
-        var fillInTheBlank = await _fillInTheBlankRepository.GetQuestionById(quizQuestionId);
+        var fillInTheBlank = await _fillInTheBlankRepository.GetById(quizQuestionId);
         if (fillInTheBlank == null)
         {
             _logger.LogError("[FillInTheBlankController - Submit question] FillInTheBlank question not found for the Id {Id: 0000}", quizQuestionId);
@@ -97,7 +44,7 @@ public class FillInTheBlankController : Controller
             UserAnswer = userAnswer
         };
 
-        var returnOk = await _fillInTheBlankAttemptRepository.CreateFillInTheBlankAttempt(fillInTheBlankAttempt);
+        var returnOk = await _fillInTheBlankAttemptRepository.Create(fillInTheBlankAttempt);
         if (!returnOk)
         {
             _logger.LogError("[FillInTheBlankController] Question attempt creation failed {@attempt}", fillInTheBlankAttempt);
@@ -115,29 +62,35 @@ public class FillInTheBlankController : Controller
         });
     }
 
-    // [HttpGet]
-    // public IActionResult Create()
-    // {
-    //     return View();
-    // }
+    [HttpGet]
+    public IActionResult Create(int quizId, int numOfQuestions)
+    {
+        var question = new FillInTheBlank
+        {
+            QuizId = quizId,
+            QuizQuestionNum = numOfQuestions + 1
+        };
+        return View(question);
+    }
 
-    // [HttpPost]
-    // public async Task<IActionResult> Create(FillInTheBlank fillQuestion)
-    // {
-    //     if (ModelState.IsValid)
-    //     {
-    //         bool returnOk = await _fillInTheBlankRepository.CreateQuestion(fillQuestion);
-    //         if (returnOk)
-    //             return RedirectToAction(nameof(Questions));
-    //     }
-    //     _logger.LogError("[FillInTheBlankController] Question creation failed {@question}", fillQuestion);
-    //     return View(fillQuestion);
-    // }
+    [HttpPost]
+    public async Task<IActionResult> Create(FillInTheBlank fillQuestion)
+    {
+        if (ModelState.IsValid)
+        {
+            bool returnOk = await _fillInTheBlankRepository.Create(fillQuestion);
+            if (returnOk)
+                await _quizService.ChangeQuestionCount(fillQuestion.QuizId, true);
+                return RedirectToAction("ManageQuiz", "Quiz", new { quizId = fillQuestion.QuizId});
+        }
+        _logger.LogError("[FillInTheBlankController] Question creation failed {@question}", fillQuestion);
+        return View(fillQuestion);
+    }
 
     [HttpGet]
     public async Task<IActionResult> Edit(int id)
     {
-        var question = await _fillInTheBlankRepository.GetQuestionById(id);
+        var question = await _fillInTheBlankRepository.GetById(id);
         if (question == null)
         {
             _logger.LogError("[FillInTheBlankController] Question not found when updating QuestionId {QuestionId: 0000}", id);
@@ -146,40 +99,42 @@ public class FillInTheBlankController : Controller
         return View(question);
     }
 
-    // [HttpPost]
-    // public async Task<IActionResult> Edit(FillInTheBlank fillQuestion)
-    // {
-    //     if (ModelState.IsValid)
-    //     {
-    //         bool returnOk = await _fillInTheBlankRepository.UpdateQuestion(fillQuestion);
-    //         if (returnOk)
-    //             return RedirectToAction(nameof(Questions));
-    //     }
-    //     _logger.LogError("[FillInTheBlankController] Question update failed {@question}", fillQuestion);
-    //     return View(fillQuestion);
-    // }
+    [HttpPost]
+    public async Task<IActionResult> Edit(FillInTheBlank fillQuestion)
+    {
+        if (ModelState.IsValid)
+        {
+            bool returnOk = await _fillInTheBlankRepository.Update(fillQuestion);
+            if (returnOk)
+                return RedirectToAction("ManageQuiz", "Quiz", new { quizId = fillQuestion.QuizId });
+        }
+        _logger.LogError("[FillInTheBlankController] Question update failed {@question}", fillQuestion);
+        return View(fillQuestion);
+    }
 
-    // [HttpGet]
-    // public async Task<IActionResult> Delete(int id)
-    // {
-    //     var question = await _fillInTheBlankRepository.GetQuestionById(id);
-    //     if (question == null)
-    //     {
-    //         _logger.LogError("[FillInTheBlankController] Question deletion failed for the QuestionId {QuestionId:0000}", id);
-    //         return BadRequest("Question not found for the QuestionId");
-    //     }
-    //     return View(question);
-    // }
+    [HttpGet]
+    public async Task<IActionResult> Delete(int id)
+    {
+        var question = await _fillInTheBlankRepository.GetById(id);
+        if (question == null)
+        {
+            _logger.LogError("[FillInTheBlankController] Question deletion failed for the QuestionId {QuestionId:0000}", id);
+            return BadRequest("Question not found for the QuestionId");
+        }
+        return View(question);
+    }
 
-//     [HttpPost]
-//     public async Task<IActionResult> DeleteConfirmed(int id)
-//     {
-//         bool returnOk = await _fillInTheBlankRepository.DeleteQuestion(id);
-//         if (!returnOk)
-//         {
-//             _logger.LogError("[FillInTheBlankController] Question deletion failed for QuestionId {QuestionId:0000}", id);
-//             return BadRequest("Question deletion failed");
-//         }
-//         return RedirectToAction(nameof(Questions));
-//     }
+    [HttpPost]
+    public async Task<IActionResult> DeleteConfirmed(int questionId, int qNum, int quizId)
+    {
+        bool returnOk = await _fillInTheBlankRepository.Delete(questionId);
+        if (!returnOk)
+        {
+            _logger.LogError("[FillInTheBlankController] Question deletion failed for QuestionId {QuestionId:0000}", questionId);
+            return BadRequest("Question deletion failed");
+        }
+        await _quizService.ChangeQuestionCount(quizId, false);
+        await _quizService.UpdateQuestionNumbers(qNum, quizId);
+        return RedirectToAction("ManageQuiz", "Quiz", new { quizId });
+    }
 }

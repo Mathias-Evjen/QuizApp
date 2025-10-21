@@ -3,7 +3,7 @@ using QuizApp.Models;
 
 namespace QuizApp.DAL;
 
-public class SequenceRepository : ISequenceRepository
+public class SequenceRepository : IRepository<Sequence>
 {
     private readonly QuizDbContext _db;
     private readonly ILogger<SequenceRepository> _logger;
@@ -27,7 +27,7 @@ public class SequenceRepository : ISequenceRepository
         }
     }
 
-    public async Task<Sequence?> GetSequenceById(int id)
+    public async Task<Sequence?> GetById(int id)
     {
         try
         {
@@ -40,7 +40,7 @@ public class SequenceRepository : ISequenceRepository
         }
     }
 
-    public async Task<bool> CreateSequence(Sequence Sequence)
+    public async Task<bool> Create(Sequence Sequence)
     {
         try
         {
@@ -55,7 +55,7 @@ public class SequenceRepository : ISequenceRepository
         }
     }
 
-    public async Task<bool> UpdateSequence(Sequence Sequence)
+    public async Task<bool> Update(Sequence Sequence)
     {
         try
         {
@@ -70,7 +70,7 @@ public class SequenceRepository : ISequenceRepository
         }
     }
 
-    public async Task<bool> DeleteSequence(int id)
+    public async Task<bool> Delete(int id)
     {
         try
         {

@@ -1,22 +1,26 @@
 using Microsoft.AspNetCore.Mvc;
 using QuizApp.DAL;
 using QuizApp.Models;
+using QuizApp.Services;
 using QuizApp.ViewModels;
 
 namespace QuizApp.Controllers
 {
     public class TrueFalseController : Controller
     {
-        private readonly ITrueFalseRepository _trueFalseRepository;
-        private readonly ITrueFalseAttemptRepository _trueFalseAttemptRepository;
+        private readonly IRepository<TrueFalse> _trueFalseRepository;
+        private readonly IAttemptRepository<TrueFalseAttempt> _trueFalseAttemptRepository;
+        private readonly QuizService _quizService;
         private readonly ILogger<TrueFalseController> _logger;
 
-        public TrueFalseController(ITrueFalseRepository trueFalseRepository,
-                                   ITrueFalseAttemptRepository trueFalseAttemptRepository,
+        public TrueFalseController(IRepository<TrueFalse> trueFalseRepository,
+                                   IAttemptRepository<TrueFalseAttempt> trueFalseAttemptRepository,
+                                   QuizService quizService,
                                    ILogger<TrueFalseController> logger)
         {
             _trueFalseRepository = trueFalseRepository;
             _trueFalseAttemptRepository = trueFalseAttemptRepository;
+            _quizService = quizService;
             _logger = logger;
         }
 
@@ -57,7 +61,7 @@ namespace QuizApp.Controllers
                 UserAnswer = userAnswer
             };
 
-            var returnOk = await _trueFalseAttemptRepository.CreateTrueFalseAttempt(trueFalseAttempt);
+            var returnOk = await _trueFalseAttemptRepository.Create(trueFalseAttempt);
             if (!returnOk)
             {
                 _logger.LogError("[TrueFalseController] Question attempt creation failed {@attempt}", trueFalseAttempt);
@@ -136,14 +140,14 @@ namespace QuizApp.Controllers
 
             try
             {
-                await _trueFalseRepository.Update(question);
+                bool returnOk = await _trueFalseRepository.Update(question);
                 _logger.LogInformation("TrueFalse updated: Id={Id}", question.TrueFalseId);
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction("ManageQuiz", "Quiz", new { quizId = question.QuizId });
             }
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Error updating TrueFalse. Id={Id}", question.TrueFalseId);
-                return View("Error");
+                return View(question);
             }
         }
 
@@ -169,19 +173,27 @@ namespace QuizApp.Controllers
         }
 
         // POST: /Delete
-        [HttpPost, ActionName("Delete")]
-        public async Task<IActionResult> DeleteConfirmed(int id)
+        [HttpPost]
+        public async Task<IActionResult> DeleteConfirmed(int questionId, int qNum, int quizId)
         {
             try
             {
-                await _trueFalseRepository.Delete(id);
+                bool returnOk = await _trueFalseRepository.Delete(questionId);
+                if (!returnOk)
+                {
+                    _logger.LogError("Error deletinSg TrueFalse. Id={Id}", questionId);
+                    return BadRequest("Question deletion failed");
+                }
 
-                _logger.LogInformation("TrueFalse deleted: Id={Id}", id);
-                return RedirectToAction(nameof(Index));
+                _logger.LogInformation("TrueFalse deleted: Id={Id}", questionId);
+
+                await _quizService.ChangeQuestionCount(quizId, false);
+                await _quizService.UpdateQuestionNumbers(qNum, quizId);
+                return RedirectToAction("ManageQuiz", "Quiz", new { quizId });
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "Error deletinSg TrueFalse. Id={Id}", id);
+                _logger.LogError(ex, "Error deletinSg TrueFalse. Id={Id}", questionId);
                 return View("Error");
             }
         }

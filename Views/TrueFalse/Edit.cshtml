@@ -9,6 +9,8 @@
 
     <form asp-action="Edit" method="post" class="card p-4 shadow-sm">
         <input type="hidden" asp-for="TrueFalseId" />
+        <input type="hidden" asp-for="QuizId" />
+        <input type="hidden" asp-for="QuizQuestionNum" />
 
         <div class="mb-3">
             <label asp-for="QuestionText" class="form-label fw-bold">Question</label>
@@ -23,7 +25,7 @@
 
         <div class="text-end">
             <button type="submit" class="btn btn-primary me-2">Save Changes</button>
-            <a asp-action="Index" class="btn btn-secondary">Cancel</a>
+            <a asp-controller="Quiz" asp-action="ManageQuiz" asp-route-quizid="@Model.QuizId" class="btn btn-secondary">Cancel</a>
         </div>
     </form>
 </div>

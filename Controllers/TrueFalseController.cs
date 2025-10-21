@@ -136,14 +136,14 @@ namespace QuizApp.Controllers
 
             try
             {
-                await _trueFalseRepository.Update(question);
+                bool returnOk = await _trueFalseRepository.Update(question);
                 _logger.LogInformation("TrueFalse updated: Id={Id}", question.TrueFalseId);
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction("ManageQuiz", "Quiz", new { quizId = question.QuizId });
             }
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Error updating TrueFalse. Id={Id}", question.TrueFalseId);
-                return View("Error");
+                return View(question);
             }
         }
 

@@ -3,7 +3,7 @@ using QuizApp.Models;
 
 namespace QuizApp.DAL;
 
-public class RankingRepository : IRankingRepository
+public class RankingRepository : IRepository<Ranking>
 {
     private readonly QuizDbContext _db;
     private readonly ILogger<RankingRepository> _logger;
@@ -27,7 +27,7 @@ public class RankingRepository : IRankingRepository
         }
     }
 
-    public async Task<Ranking?> GetRankingById(int id)
+    public async Task<Ranking?> GetById(int id)
     {
         try
         {
@@ -40,7 +40,7 @@ public class RankingRepository : IRankingRepository
         }
     }
 
-    public async Task<bool> CreateRanking(Ranking Ranking)
+    public async Task<bool> Create(Ranking Ranking)
     {
         try
         {
@@ -55,7 +55,7 @@ public class RankingRepository : IRankingRepository
         }
     }
 
-    public async Task<bool> UpdateRanking(Ranking Ranking)
+    public async Task<bool> Update(Ranking Ranking)
     {
         try
         {
@@ -70,7 +70,7 @@ public class RankingRepository : IRankingRepository
         }
     }
 
-    public async Task<bool> DeleteRanking(int id)
+    public async Task<bool> Delete(int id)
     {
         try
         {

@@ -3,7 +3,7 @@ using QuizApp.Models;
 
 namespace QuizApp.DAL;
 
-public class FlashCardQuizRepository : IFlashCardQuizRepository 
+public class FlashCardQuizRepository : IRepository<FlashCardQuiz> 
 {
     private readonly QuizDbContext _db;
     private readonly ILogger<FlashCardQuizRepository> _logger;
@@ -29,7 +29,7 @@ public class FlashCardQuizRepository : IFlashCardQuizRepository
         }
     }
 
-    public async Task<FlashCardQuiz?> GetFlashCardQuizById(int id) {
+    public async Task<FlashCardQuiz?> GetById(int id) {
         try
         {
             return await _db.FlashCardQuizzes
@@ -43,7 +43,7 @@ public class FlashCardQuizRepository : IFlashCardQuizRepository
         }
     }
 
-    public async Task<bool> CreateFlashCardQuiz(FlashCardQuiz quiz)
+    public async Task<bool> Create(FlashCardQuiz quiz)
     {
         try
         {
@@ -58,7 +58,7 @@ public class FlashCardQuizRepository : IFlashCardQuizRepository
         }
     }
 
-    public async Task<bool> UpdateFlashCardQuiz(FlashCardQuiz quiz)
+    public async Task<bool> Update(FlashCardQuiz quiz)
     {
         try
         {
@@ -73,7 +73,7 @@ public class FlashCardQuizRepository : IFlashCardQuizRepository
         }
     }
 
-    public async Task<bool> DeleteFlashCardQuiz(int id) 
+    public async Task<bool> Delete(int id) 
     {
         try
         {

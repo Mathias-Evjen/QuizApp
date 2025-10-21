@@ -8,12 +8,12 @@ namespace QuizApp.Controllers;
 public class MatchingController : Controller
 {
 
-    private readonly IMatchingRepository _matchingRepository;
-    private readonly IMatchingAttemptRepository _matchingAttemptRepository;
+    private readonly IRepository<Matching> _matchingRepository;
+    private readonly IAttemptRepository<MatchingAttempt> _matchingAttemptRepository;
 
     private readonly ILogger<MatchingController> _logger;
 
-    public MatchingController(IMatchingRepository matchingRepository, IMatchingAttemptRepository matchingAttemptRepository, ILogger<MatchingController> logger)
+    public MatchingController(IRepository<Matching> matchingRepository, IAttemptRepository<MatchingAttempt> matchingAttemptRepository, ILogger<MatchingController> logger)
     {
         _matchingRepository = matchingRepository;
         _matchingAttemptRepository = matchingAttemptRepository;
@@ -37,7 +37,7 @@ public class MatchingController : Controller
     [HttpPost]
     public async Task<IActionResult> SubmitMatchingQuestion(int id, List<string> keys, List<string> values, int quizId, int quizQuestionNum, int quizAttemptId)
     {
-        var matchingObject = await _matchingRepository.GetMatchingById(id);
+        var matchingObject = await _matchingRepository.GetById(id);
         if (matchingObject == null)
         {
             _logger.LogError("[MatchingController - Get Question] Matching question not found for the Id {Id: 0000}", id);
@@ -59,7 +59,7 @@ public class MatchingController : Controller
         matchingAttempt.UserAnswer = questionAnswer;
         matchingAttempt.AmountCorrect = correctCounter;
 
-        var returnOk = await _matchingAttemptRepository.CreateMatchingAttempt(matchingAttempt);
+        var returnOk = await _matchingAttemptRepository.Create(matchingAttempt);
         if (!returnOk)
         {
             _logger.LogError("[MatchingController] Question attempt creation failed {@attempt}", matchingAttempt);
@@ -86,7 +86,7 @@ public class MatchingController : Controller
         var matchingQuestion = new Matching();
         matchingQuestion.Assemble(Keys, Values, 1);
         matchingQuestion.ShuffleQuestion(Keys, Values);
-        await _matchingRepository.CreateMatching(matchingQuestion);
+        await _matchingRepository.Create(matchingQuestion);
 
         return RedirectToAction("Index", "Home");
     }
@@ -108,7 +108,7 @@ public class MatchingController : Controller
 */
     public async Task<IActionResult> UpdateMatchingPage(int id)
     {
-        var matching = await _matchingRepository.GetMatchingById(id);
+        var matching = await _matchingRepository.GetById(id);
         return View(matching);
     }
 
@@ -121,13 +121,13 @@ public class MatchingController : Controller
         };
         updatetMatching.Assemble(keysQuestion, valuesQuestion, 3);
         updatetMatching.Assemble(keysCorrectAnswer, valuesCorrectAnswer, 1);
-        _matchingRepository.UpdateMatching(updatetMatching);
+        _matchingRepository.Update(updatetMatching);
         return RedirectToAction("ShowMatchings");
     }
     
     public IActionResult DeleteMatching(int id)
     {
-        _matchingRepository.DeleteMatching(id);
+        _matchingRepository.Delete(id);
         return RedirectToAction("ShowMatchings");
     }
 }

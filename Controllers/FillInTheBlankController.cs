@@ -8,12 +8,12 @@ namespace QuizApp.Controllers;
 
 public class FillInTheBlankController : Controller
 {
-    private readonly IFillInTheBlankRepository _fillInTheBlankRepository;
-    private readonly IFillInTheBlankAttemptRepository _fillInTheBlankAttemptRepository;
+    private readonly IRepository<FillInTheBlank> _fillInTheBlankRepository;
+    private readonly IAttemptRepository<FillInTheBlankAttempt> _fillInTheBlankAttemptRepository;
     private readonly QuizService _quizService;
     private readonly ILogger<FillInTheBlankController> _logger;
 
-    public FillInTheBlankController(IFillInTheBlankRepository fillInTheBlankRepository, IFillInTheBlankAttemptRepository fillInTheBlankAttemptRepository, QuizService quizService, ILogger<FillInTheBlankController> logger)
+    public FillInTheBlankController(IRepository<FillInTheBlank> fillInTheBlankRepository, IAttemptRepository<FillInTheBlankAttempt> fillInTheBlankAttemptRepository, QuizService quizService, ILogger<FillInTheBlankController> logger)
     {
         _fillInTheBlankRepository = fillInTheBlankRepository;
         _fillInTheBlankAttemptRepository = fillInTheBlankAttemptRepository;
@@ -30,7 +30,7 @@ public class FillInTheBlankController : Controller
     [HttpPost]
     public async Task<IActionResult> SubmitQuestion(int quizId, int quizAttemptId, int quizQuestionId, int quizQuestionNum, int numOfQuestions, string userAnswer)
     {
-        var fillInTheBlank = await _fillInTheBlankRepository.GetQuestionById(quizQuestionId);
+        var fillInTheBlank = await _fillInTheBlankRepository.GetById(quizQuestionId);
         if (fillInTheBlank == null)
         {
             _logger.LogError("[FillInTheBlankController - Submit question] FillInTheBlank question not found for the Id {Id: 0000}", quizQuestionId);
@@ -44,7 +44,7 @@ public class FillInTheBlankController : Controller
             UserAnswer = userAnswer
         };
 
-        var returnOk = await _fillInTheBlankAttemptRepository.CreateFillInTheBlankAttempt(fillInTheBlankAttempt);
+        var returnOk = await _fillInTheBlankAttemptRepository.Create(fillInTheBlankAttempt);
         if (!returnOk)
         {
             _logger.LogError("[FillInTheBlankController] Question attempt creation failed {@attempt}", fillInTheBlankAttempt);
@@ -78,7 +78,7 @@ public class FillInTheBlankController : Controller
     {
         if (ModelState.IsValid)
         {
-            bool returnOk = await _fillInTheBlankRepository.CreateQuestion(fillQuestion);
+            bool returnOk = await _fillInTheBlankRepository.Create(fillQuestion);
             if (returnOk)
                 await _quizService.ChangeQuestionCount(fillQuestion.QuizId, true);
                 return RedirectToAction("ManageQuiz", "Quiz", new { quizId = fillQuestion.QuizId});
@@ -90,7 +90,7 @@ public class FillInTheBlankController : Controller
     [HttpGet]
     public async Task<IActionResult> Edit(int id)
     {
-        var question = await _fillInTheBlankRepository.GetQuestionById(id);
+        var question = await _fillInTheBlankRepository.GetById(id);
         if (question == null)
         {
             _logger.LogError("[FillInTheBlankController] Question not found when updating QuestionId {QuestionId: 0000}", id);
@@ -104,7 +104,7 @@ public class FillInTheBlankController : Controller
     {
         if (ModelState.IsValid)
         {
-            bool returnOk = await _fillInTheBlankRepository.UpdateQuestion(fillQuestion);
+            bool returnOk = await _fillInTheBlankRepository.Update(fillQuestion);
             if (returnOk)
                 return RedirectToAction("ManageQuiz", "Quiz", new { quizId = fillQuestion.QuizId });
         }
@@ -115,7 +115,7 @@ public class FillInTheBlankController : Controller
     [HttpGet]
     public async Task<IActionResult> Delete(int id)
     {
-        var question = await _fillInTheBlankRepository.GetQuestionById(id);
+        var question = await _fillInTheBlankRepository.GetById(id);
         if (question == null)
         {
             _logger.LogError("[FillInTheBlankController] Question deletion failed for the QuestionId {QuestionId:0000}", id);
@@ -127,7 +127,7 @@ public class FillInTheBlankController : Controller
     [HttpPost]
     public async Task<IActionResult> DeleteConfirmed(int questionId, int qNum, int quizId)
     {
-        bool returnOk = await _fillInTheBlankRepository.DeleteQuestion(questionId);
+        bool returnOk = await _fillInTheBlankRepository.Delete(questionId);
         if (!returnOk)
         {
             _logger.LogError("[FillInTheBlankController] Question deletion failed for QuestionId {QuestionId:0000}", questionId);

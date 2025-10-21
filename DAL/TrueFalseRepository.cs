@@ -3,7 +3,7 @@ using QuizApp.Models;
 
 namespace QuizApp.DAL
 {
-    public class TrueFalseRepository : ITrueFalseRepository
+    public class TrueFalseRepository : IRepository<TrueFalse>
     {
         private readonly QuizDbContext _db;
         private readonly ILogger<TrueFalseRepository> _logger;

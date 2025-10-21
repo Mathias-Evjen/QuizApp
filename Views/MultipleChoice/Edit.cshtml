@@ -10,6 +10,8 @@
     <form asp-action="Edit" method="post" class="card p-4 shadow-sm">
         <!-- Skjult ID (brukes for å finne spørsmålet ved lagring) -->
         <input type="hidden" asp-for="MultipleChoiceId" />
+        <input type="hidden" asp-for="QuizId" />
+        <input type="hidden" asp-for="QuizQuestionNum" />
 
         <!-- Spørsmålstekst -->
         <div class="mb-3">
@@ -42,7 +44,7 @@
         <!-- Handlingsknapper -->
         <div class="mt-4 text-end">
             <button type="submit" class="btn btn-primary me-2">Save Changes</button>
-            <a asp-action="Index" class="btn btn-secondary">Cancel</a>
+            <a aasp-controller="Quiz" asp-action="ManageQuiz" asp-route-quizId="@Model.QuizId" class="btn btn-secondary">Cancel</a>
         </div>
     </form>
 </div>

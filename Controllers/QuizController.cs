@@ -8,13 +8,13 @@ namespace QuizApp.Controllers;
 
 public class QuizController : Controller
 {
-    private readonly IQuizRepository _quizRepository;
-    private readonly IQuizAttemptRepository _quizAttemptRepository;
+    private readonly IRepository<Quiz> _quizRepository;
+    private readonly IAttemptRepository<QuizAttempt> _quizAttemptRepository;
     private readonly QuizService _quizService;
     private readonly ILogger<QuizController> _logger;
     
-    public QuizController(IQuizRepository quizRepository,
-                          IQuizAttemptRepository quizAttemptRepository,
+    public QuizController(IRepository<Quiz> quizRepository,
+                          IAttemptRepository<QuizAttempt> quizAttemptRepository,
                           QuizService quizService,
                           ILogger<QuizController> logger)
     {
@@ -39,7 +39,7 @@ public class QuizController : Controller
     [HttpGet]
     public async Task<IActionResult> Quiz(int id)
     {
-        var quiz = await _quizRepository.GetQuizById(id);
+        var quiz = await _quizRepository.GetById(id);
         if (quiz == null)
         {
             _logger.LogError("[QuizController] Quiz not found for the Id {Id: 0000}", id);
@@ -52,7 +52,7 @@ public class QuizController : Controller
     public async Task<IActionResult> OpenQuiz(int id)
     {
         Console.WriteLine(id);
-        var quiz = await _quizRepository.GetQuizById(id);
+        var quiz = await _quizRepository.GetById(id);
         if (quiz == null)
         {
             _logger.LogError("[QuizController - Get Quiz By Id] Quiz not found for the Id {Id: 0000}", id);
@@ -99,7 +99,7 @@ public class QuizController : Controller
     [HttpGet]
     public async Task<IActionResult> NextQuestion(int quizId, int quizAttemptId, int quizQuestionNum)
     {
-        var quiz = await _quizRepository.GetQuizById(quizId);
+        var quiz = await _quizRepository.GetById(quizId);
         if (quiz == null)
         {
             _logger.LogError("[QuizController - Get Quiz By Id] Quiz not found for the Id {Id: 0000}", quizId);
@@ -163,14 +163,14 @@ public class QuizController : Controller
     [HttpGet]
     public async Task<IActionResult> Results(int quizAttemptId)
     {
-        var quizAttempt = await _quizAttemptRepository.GetQuizAttemptById(quizAttemptId);
+        var quizAttempt = await _quizAttemptRepository.GetById(quizAttemptId);
         if (quizAttempt == null)
         {
             _logger.LogError("[QuizController - GetQuizAttemptById] Quiz attempt not found for the Id {Id: 0000}", quizAttemptId);
             return NotFound("Quiz not found.");
         }
 
-        var quiz = await _quizRepository.GetQuizById(quizAttempt.QuizId);
+        var quiz = await _quizRepository.GetById(quizAttempt.QuizId);
         if (quiz == null)
         {
             _logger.LogError("[QuizController - Get Quiz By Id] Quiz not found for the Id {Id: 0000}", quizAttempt.QuizId);
@@ -205,7 +205,7 @@ public class QuizController : Controller
     {
         if (ModelState.IsValid)
         {
-            bool returnOk = await _quizRepository.CreateQuiz(quiz);
+            bool returnOk = await _quizRepository.Create(quiz);
             if (returnOk)
                 return RedirectToAction(nameof(Quizzes));
         }
@@ -220,7 +220,7 @@ public class QuizController : Controller
             QuizId = quiz.QuizId
         };
 
-        bool returnOk = await _quizAttemptRepository.CreateQuizAttempt(quizAttempt);
+        bool returnOk = await _quizAttemptRepository.Create(quizAttempt);
         if (returnOk)
             return quizAttempt.QuizAttemptId;
 
@@ -231,7 +231,7 @@ public class QuizController : Controller
     [HttpGet]
     public async Task<IActionResult> ManageQuiz(int quizId)
     {
-        var quiz = await _quizRepository.GetQuizById(quizId);
+        var quiz = await _quizRepository.GetById(quizId);
         if (quiz == null)
         {
             _logger.LogError("[QuizController] ManageQuiz not found for the Id {Id: 0000}", quizId);
@@ -243,7 +243,7 @@ public class QuizController : Controller
     [HttpGet]
     public async Task<IActionResult> Edit(int quizId)
     {
-        var quiz = await _quizRepository.GetQuizById(quizId);
+        var quiz = await _quizRepository.GetById(quizId);
         if (quiz == null)
         {
             _logger.LogError("[Quizcontroller] ManageQuiz not found for the Id {Id: 0000}", quizId);
@@ -255,7 +255,7 @@ public class QuizController : Controller
     [HttpPost]
     public async Task<IActionResult> Edit(int quizId, string name, string description)
     {
-        var quiz = await _quizRepository.GetQuizById(quizId);
+        var quiz = await _quizRepository.GetById(quizId);
         if (quiz == null)
         {
             _logger.LogError("[Quizcontroller] ManageQuiz not found for the Id {Id: 0000}", quizId);
@@ -267,7 +267,7 @@ public class QuizController : Controller
 
         if (ModelState.IsValid)
         {
-            bool returnOk = await _quizRepository.UpdateQuiz(quiz);
+            bool returnOk = await _quizRepository.Update(quiz);
             if (returnOk)
                 return RedirectToAction("ManageQuiz", new { quizId = quiz.QuizId });
         }
@@ -278,7 +278,7 @@ public class QuizController : Controller
     [HttpGet]
     public async Task<IActionResult> Delete(int id)
     {
-        var quiz = await _quizRepository.GetQuizById(id);
+        var quiz = await _quizRepository.GetById(id);
         if (quiz == null)
         {
             _logger.LogError("[QuizController] lashCardQuiz not found for the Id {Id: 0000}", id);
@@ -290,7 +290,7 @@ public class QuizController : Controller
     [HttpPost]
     public async Task<IActionResult> DeleteConfirmed(int id)
     {
-        bool returnOk = await _quizRepository.DeleteQuiz(id);
+        bool returnOk = await _quizRepository.Delete(id);
         if (!returnOk)
         {
             _logger.LogError("[QuizController] Quiz deletion failed for QuizId {Id:0000}", id);

@@ -7,12 +7,12 @@ namespace QuizApp.Controllers
 {
     public class MultipleChoiceController : Controller
     {
-        private readonly IMultipleChoiceRepository _multipleChoiceRepository;
-        private readonly IMultipleChoiceAttemptRepository _multipleChoiceAttemptRepository;
+        private readonly IRepository<MultipleChoice> _multipleChoiceRepository;
+        private readonly IAttemptRepository<MultipleChoiceAttempt> _multipleChoiceAttemptRepository;
         private readonly ILogger<MultipleChoiceController> _logger;
 
-        public MultipleChoiceController(IMultipleChoiceRepository multipleChoiceRepository,
-                                        IMultipleChoiceAttemptRepository multipleChoiceAttemptRepository,
+        public MultipleChoiceController(IRepository<MultipleChoice> multipleChoiceRepository,
+                                        IAttemptRepository<MultipleChoiceAttempt> multipleChoiceAttemptRepository,
                                         ILogger<MultipleChoiceController> logger)
         {
             _multipleChoiceRepository = multipleChoiceRepository;
@@ -57,7 +57,7 @@ namespace QuizApp.Controllers
                 UserAnswer = userAnswer
             };
 
-            var returnOk = await _multipleChoiceAttemptRepository.CreateMultipleChoiceAttempt(multipleChoiceAttempt);
+            var returnOk = await _multipleChoiceAttemptRepository.Create(multipleChoiceAttempt);
             if (!returnOk)
             {
                 _logger.LogError("[MultipleChoiceController] Question attempt creation failed {@attempt}", multipleChoiceAttempt);
@@ -166,15 +166,15 @@ namespace QuizApp.Controllers
 
              try
             {
-                var ok = await _multipleChoiceRepository.Update(question);
-                if (!ok)
+                var returnOk = await _multipleChoiceRepository.Update(question);
+                if (!returnOk)
                 {
                     _logger.LogError("Failed to update MultipleChoice question Id={Id}", question.MultipleChoiceId);
                     return View("Error");
                 }
 
                 _logger.LogInformation("Updated MultipleChoice question Id={Id}", question.MultipleChoiceId);
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction("ManageQuiz", "Quiz", new { quizId = question.QuizId });
             }
             catch (Exception ex)
             {

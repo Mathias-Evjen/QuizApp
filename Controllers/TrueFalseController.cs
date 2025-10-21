@@ -7,12 +7,12 @@ namespace QuizApp.Controllers
 {
     public class TrueFalseController : Controller
     {
-        private readonly ITrueFalseRepository _trueFalseRepository;
-        private readonly ITrueFalseAttemptRepository _trueFalseAttemptRepository;
+        private readonly IRepository<TrueFalse> _trueFalseRepository;
+        private readonly IAttemptRepository<TrueFalseAttempt> _trueFalseAttemptRepository;
         private readonly ILogger<TrueFalseController> _logger;
 
-        public TrueFalseController(ITrueFalseRepository trueFalseRepository,
-                                   ITrueFalseAttemptRepository trueFalseAttemptRepository,
+        public TrueFalseController(IRepository<TrueFalse> trueFalseRepository,
+                                   IAttemptRepository<TrueFalseAttempt> trueFalseAttemptRepository,
                                    ILogger<TrueFalseController> logger)
         {
             _trueFalseRepository = trueFalseRepository;
@@ -57,7 +57,7 @@ namespace QuizApp.Controllers
                 UserAnswer = userAnswer
             };
 
-            var returnOk = await _trueFalseAttemptRepository.CreateTrueFalseAttempt(trueFalseAttempt);
+            var returnOk = await _trueFalseAttemptRepository.Create(trueFalseAttempt);
             if (!returnOk)
             {
                 _logger.LogError("[TrueFalseController] Question attempt creation failed {@attempt}", trueFalseAttempt);

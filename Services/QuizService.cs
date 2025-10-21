@@ -5,19 +5,23 @@ namespace QuizApp.Services;
 
 public class QuizService
 {
-    private readonly IQuizRepository _quizRepository;
-    private readonly IFillInTheBlankRepository _fillInTheBlankRepository;
-    private readonly IMatchingRepository _matchingRepository;
-    private readonly IRankingRepository _rankingRepository;
-    private readonly ISequenceRepository _sequenceRepository;
+    private readonly IRepository<Quiz> _quizRepository;
+    private readonly IRepository<FillInTheBlank> _fillInTheBlankRepository;
+    private readonly IRepository<Matching> _matchingRepository;
+    private readonly IRepository<Ranking> _rankingRepository;
+    private readonly IRepository<Sequence> _sequenceRepository;
+    private readonly IRepository<MultipleChoice> _multipleChoiceRepository;
+    private readonly IRepository<TrueFalse> _trueFalseRepository;
     private readonly ILogger<QuizService> _logger;
 
     public QuizService(
-        IQuizRepository quizRepository,
-        IFillInTheBlankRepository fillInTheBlankRepository,
-        IMatchingRepository matchingRepository,
-        IRankingRepository rankingRepository,
-        ISequenceRepository sequenceRepository,
+        IRepository<Quiz> quizRepository,
+        IRepository<FillInTheBlank> fillInTheBlankRepository,
+        IRepository<Matching> matchingRepository,
+        IRepository<Ranking> rankingRepository,
+        IRepository<Sequence> sequenceRepository,
+        IRepository<MultipleChoice> multipleChoiceRepository,
+        IRepository<TrueFalse> trueFalseRepository,
         ILogger<QuizService> logger)
     {
         _quizRepository = quizRepository;
@@ -25,6 +29,8 @@ public class QuizService
         _matchingRepository = matchingRepository;
         _rankingRepository = rankingRepository;
         _sequenceRepository = sequenceRepository;
+        _multipleChoiceRepository = multipleChoiceRepository;
+        _trueFalseRepository = trueFalseRepository;
         _logger = logger;
     }
 
@@ -45,7 +51,7 @@ public class QuizService
 
     public async Task ChangeQuestionCount(int quizId, bool increment)
     {
-        var quiz = await _quizRepository.GetQuizById(quizId);
+        var quiz = await _quizRepository.GetById(quizId);
         if (quiz == null)
         {
             _logger.LogError("[FlashCardQuizService] FlashCardQuiz not found for the Id {Id: 0000}", quizId);
@@ -55,7 +61,7 @@ public class QuizService
         if (increment) quiz.NumOfQuestions += 1;
         else quiz.NumOfQuestions -= 1;
 
-        bool returnOk = await _quizRepository.UpdateQuiz(quiz);
+        bool returnOk = await _quizRepository.Update(quiz);
         if (!returnOk)
         {
             _logger.LogError("[FlashCardQuizService] FlashCardQuiz update failed for {@quiz}", quiz);
@@ -64,7 +70,7 @@ public class QuizService
 
     public async Task UpdateQuestionNumbers(int qNum, int quizId)
     {
-        var quiz = await _quizRepository.GetQuizById(quizId);
+        var quiz = await _quizRepository.GetById(quizId);
         if (quiz == null)
         {
             _logger.LogError("[FlashCardQuizService] FlashCardQuiz not found for the Id {Id: 0000}", quizId);
@@ -86,25 +92,37 @@ public class QuizService
         if (question is FillInTheBlank fib)
         {
             fib.QuizQuestionNum -= 1;
-            return await _fillInTheBlankRepository.UpdateQuestion(fib);
+            return await _fillInTheBlankRepository.Update(fib);
         }
 
         if (question is Matching m)
         {
             m.QuizQuestionNum -= 1;
-            return await _matchingRepository.UpdateMatching(m);
+            return await _matchingRepository.Update(m);
         }
 
         if (question is Sequence sq)
         {
             sq.QuizQuestionNum -= 1;
-            return await _sequenceRepository.UpdateSequence(sq);
+            return await _sequenceRepository.Update(sq);
         }
 
         if (question is Ranking r)
         {
             r.QuizQuestionNum -= 1;
-            return await _rankingRepository.UpdateRanking(r);
+            return await _rankingRepository.Update(r);
+        }
+
+        if (question is MultipleChoice mc)
+        {
+            mc.QuizQuestionNum -= 1;
+            return await _multipleChoiceRepository.Update(mc);
+        }
+
+        if (question is TrueFalse tf)
+        {
+            tf.QuizQuestionNum -= 1;
+            return await _trueFalseRepository.Update(tf);
         }
         return false;
     }

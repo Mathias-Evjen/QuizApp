@@ -4,7 +4,7 @@ using Serilog;
 
 namespace QuizApp.DAL;
 
-public class MatchingAttemptRepository : IMatchingAttemptRepository
+public class MatchingAttemptRepository : IAttemptRepository<MatchingAttempt>
 {
     private readonly QuizDbContext _db;
     private readonly ILogger<MatchingAttemptRepository> _logger;
@@ -15,7 +15,7 @@ public class MatchingAttemptRepository : IMatchingAttemptRepository
         _logger = logger;
     }
 
-    public async Task<MatchingAttempt?> GetMatchingAttemptById(int id)
+    public async Task<MatchingAttempt?> GetById(int id)
     {
         try
         {
@@ -28,7 +28,7 @@ public class MatchingAttemptRepository : IMatchingAttemptRepository
         }
     }
 
-    public async Task<bool> CreateMatchingAttempt(MatchingAttempt matchingAttempt)
+    public async Task<bool> Create(MatchingAttempt matchingAttempt)
     {
         try
         {
@@ -43,7 +43,7 @@ public class MatchingAttemptRepository : IMatchingAttemptRepository
         }
     }
 
-    public async Task<bool> UpdateMatchingAttempt(MatchingAttempt matchingAttempt)
+    public async Task<bool> Update(MatchingAttempt matchingAttempt)
     {
         try
         {
@@ -58,7 +58,7 @@ public class MatchingAttemptRepository : IMatchingAttemptRepository
         }
     }
 
-    public async Task<bool> DeleteMatchingAttempt(int id)
+    public async Task<bool> Delete(int id)
     {
         try
         {

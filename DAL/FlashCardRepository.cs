@@ -14,6 +14,19 @@ public class FlashCardRepository : IFlashCardRepository
         _logger = logger;
     }
 
+    public async Task<IEnumerable<FlashCard>?> GetAll()
+    {
+        try
+        {
+            return await _db.FlashCards.ToListAsync();
+        }
+        catch (Exception e)
+        {
+            _logger.LogError("[FlashCardRepository] ToListAsync() failed when GetAll(), error message: {e}", e.Message);
+            return null;
+        }
+    }
+
     public async Task<IEnumerable<FlashCard>?> GetAll(int quizId)
     {
         try
@@ -29,7 +42,7 @@ public class FlashCardRepository : IFlashCardRepository
         }
     }
 
-    public async Task<FlashCard?> GetFlashCardById(int id)
+    public async Task<FlashCard?> GetById(int id)
     {
         try
         {
@@ -42,7 +55,7 @@ public class FlashCardRepository : IFlashCardRepository
         }
     }
 
-    public async Task<bool> CreateFlashCard(FlashCard flashCard)
+    public async Task<bool> Create(FlashCard flashCard)
     {
         try
         {
@@ -57,7 +70,7 @@ public class FlashCardRepository : IFlashCardRepository
         }
     }
 
-    public async Task<bool> UpdateFlashCard(FlashCard flashCard)
+    public async Task<bool> Update(FlashCard flashCard)
     {
         try
         {
@@ -72,7 +85,7 @@ public class FlashCardRepository : IFlashCardRepository
         }
     }
 
-    public async Task<bool> DeleteFlashCard(int id)
+    public async Task<bool> Delete(int id)
     {
         try
         {
@@ -92,4 +105,9 @@ public class FlashCardRepository : IFlashCardRepository
             return false;
         }
     }
+}
+
+public interface IFlashCardRepository : IRepository<FlashCard>
+{
+    Task<IEnumerable<FlashCard>?> GetAll(int quizId);
 }

@@ -23,5 +23,14 @@
         if (question is MultipleChoice mc && attempt is MultipleChoiceAttempt mcAttempt) {
             <partial name="_MultipleChoiceResult" model="(mc, mcAttempt)" />
         }
+        if (question is Matching m && attempt is MatchingAttempt mAttempt){
+            <partial name="_MatchingResult" model="(m, mAttempt)" />
+        }
+        if (question is Sequence s && attempt is SequenceAttempt sAttempt){
+            <partial name="_SequenceResult" model="(s, sAttempt)" />
+        }
+        if (question is Ranking r && attempt is RankingAttempt rAttempt){
+            <partial name="_RankingResult" model="(r, rAttempt)" />
+        }
     }
 </div>

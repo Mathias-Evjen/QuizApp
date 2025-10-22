@@ -13,6 +13,8 @@
 <hr />
 <form asp-controller="Matching" asp-action="UpdateMatching" method="post">
     <input type="hidden" name="id" asp-for="Id" value="@Model.Id" />
+    <label asp-for="QuestionText" class="form-label">Question text</label><br />
+    <input type="text" class="form-control" name="questionText" asp-for="QuestionText" value="@Model.QuestionText"/><br /><br />
     <div class="mb-3">
         <label asp-for="Question" class="form-label">Question</label>
         @foreach(var part in splitQuestion){

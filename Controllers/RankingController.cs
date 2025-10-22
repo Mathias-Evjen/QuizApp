@@ -40,7 +40,7 @@ public class RankingController : Controller
     }
 
     [HttpPost]
-    public async Task<IActionResult> SubmitRankingQuestion(int id, List<string> values, int quizId, int quizQuestionNum, int quizAttemptId)
+    public async Task<IActionResult> SubmitRankingQuestion(int id, List<string> values, int quizId, int quizQuestionNum, int quizAttemptId, int numOfQuestions)
     {
         var rankingObject = await _rankingRepository.GetById(id);
         if (rankingObject == null)
@@ -50,25 +50,67 @@ public class RankingController : Controller
         }
 
         string answer = rankingObject.Assemble(values, 2);
-        var rankingAttempt = new RankingAttempt
-        {
-            RankingId = rankingObject.Id,
-            QuizAttemptId = quizAttemptId,
-            UserAnswer = answer
-        };
 
-        var returnOk = await _rankingAttemptRepository.Create(rankingAttempt);
-        if (!returnOk)
+        if (!CheckAttempt(quizAttemptId))
         {
-            _logger.LogError("[RankingController] Question attempt creation failed {@attempt}", rankingAttempt);
-            return RedirectToAction("Quizzes", "Quiz");
+            var rankingAttempt = new RankingAttempt();
+            rankingAttempt.RankingId = rankingObject.Id;
+            rankingAttempt.QuizAttemptId = quizAttemptId;
+            rankingAttempt.UserAnswer = answer;
+            if (answer == rankingObject.CorrectAnswer) { rankingAttempt.AnsweredCorrectly = true; }
+            else{ rankingAttempt.AnsweredCorrectly = false; }
+
+            var returnOk = await _rankingAttemptRepository.Create(rankingAttempt);
+            if (!returnOk)
+            {
+                _logger.LogError("[RankingController] Question attempt creation failed {@attempt}", rankingAttempt);
+                return RedirectToAction("Quizzes", "Quiz");
+            }
         }
+        else
+        {
+            var rankingAttempt = await _rankingAttemptRepository.GetById(quizAttemptId);
+            if (rankingAttempt == null)
+            {
+                _logger.LogError("[RankingController - Get Attempt] Ranking attempt not found for the Id {Id: 0000}", id);
+                return NotFound("Ranking attempt not found.");
+            }
+            rankingAttempt.RankingId = rankingObject.Id;
+            rankingAttempt.QuizAttemptId = quizAttemptId;
+            rankingAttempt.UserAnswer = answer;
+            if (answer == rankingObject.CorrectAnswer) { rankingAttempt.AnsweredCorrectly = true; }
+            else{ rankingAttempt.AnsweredCorrectly = false; }
+
+            var returnOk = await _rankingAttemptRepository.Create(rankingAttempt);
+            if (!returnOk)
+            {
+                _logger.LogError("[RankingController] Question attempt creation failed {@attempt}", rankingAttempt);
+                return RedirectToAction("Quizzes", "Quiz");
+            }
+        }
+        if (rankingObject.QuizQuestionNum == numOfQuestions)
+            return RedirectToAction("Results", "Quiz", new { quizAttemptId = quizAttemptId });
+            
         return RedirectToAction("NextQuestion", "Quiz", new
         {
             quizId = quizId,
             quizAttemptId = quizAttemptId,
             quizQuestionNum = quizQuestionNum
         });
+    }
+
+    public bool CheckAttempt(int quizAttemptId)
+    {
+        if(quizAttemptId <= 0){ return false; }
+        var attempt =  _rankingAttemptRepository.Exists(quizAttemptId);
+        if (attempt)
+        {
+            return true;
+        }
+        else
+        {
+            return false; 
+        }
     }
 
     [HttpPost]

@@ -130,6 +130,7 @@ public static class DBInit
             {
                 new() {
                     Question = "fotball,kake,hjul,knotter,bake,hav,bade,bil",
+                    QuestionText = "Match the rows",
                     CorrectAnswer = "fotball,knotter,hjul,bil,bake,kake,bade,hav",
                     QuizId = 1,
                     Quiz = quiz1,
@@ -137,6 +138,7 @@ public static class DBInit
                 },
                 new() {
                     Question = "sol,snø,tre,planet,vinter,blader",
+                    QuestionText = "Match the rows",
                     CorrectAnswer = "sol,planet,tre,blader,vinter,snø",
                     QuizId = 2,
                     Quiz = quiz2,
@@ -228,7 +230,7 @@ public static class DBInit
                     Question = "Location,Cleanliness,Price,Amenities",
                     QuestionText = "Rank these features from most to least important when choosing a hotel:",
                     CorrectAnswer = "Cleanliness,Location,Price,Amenities",
-                    QuizId = 1,
+                    QuizId = 2,
                     Quiz = quiz2,
                     QuizQuestionNum = 3
                 }

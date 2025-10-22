@@ -19,13 +19,17 @@ public class MatchingAttemptRepository : IAttemptRepository<MatchingAttempt>
     {
         try
         {
-            return await _db.MatchingAttempts.FindAsync();
+            return await _db.MatchingAttempts.FindAsync(id);
         }
         catch (Exception e)
         {
             _logger.LogError("[MatchingAttemptRepository] MatchingAttempt FindAsync(id) failed when GetMatchingAttemptId {MatchingAttemptId:0000}, error message: {e}", id, e.Message);
             return null;
         }
+    }
+    public bool Exists(int id)
+    {
+        return _db.MatchingAttempts.Any(m => m.MatchingAttemptId == id);
     }
 
     public async Task<bool> Create(MatchingAttempt matchingAttempt)

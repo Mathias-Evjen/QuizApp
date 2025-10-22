@@ -27,6 +27,10 @@ public class MultipleChoiceAttemptRepository : IAttemptRepository<MultipleChoice
             return null;
         }
     }
+    public bool Exists(int id)
+    {
+        return _db.MultipleChoiceAttempts.Any(mc => mc.MultiplechoiceAttemptId == id);
+    }
 
     public async Task<bool> Create(MultipleChoiceAttempt MultipleChoiceAttempt)
     {

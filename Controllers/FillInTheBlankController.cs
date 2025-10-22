@@ -30,6 +30,7 @@ public class FillInTheBlankController : Controller
     [HttpPost]
     public async Task<IActionResult> SubmitQuestion(int quizId, int quizAttemptId, int quizQuestionId, int quizQuestionNum, int numOfQuestions, string userAnswer)
     {
+        Console.WriteLine(quizAttemptId);
         var fillInTheBlank = await _fillInTheBlankRepository.GetById(quizQuestionId);
         if (fillInTheBlank == null)
         {

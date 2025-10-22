@@ -27,6 +27,10 @@ public class TrueFalseAttemptRepository : IAttemptRepository<TrueFalseAttempt>
             return null;
         }
     }
+    public bool Exists(int id)
+    {
+        return _db.TrueFalseAttempts.Any(tf => tf.TrueFalseAttemptId == id);
+    }
 
     public async Task<bool> Create(TrueFalseAttempt trueFalseAttempt)
     {

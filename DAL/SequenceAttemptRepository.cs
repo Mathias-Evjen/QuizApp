@@ -19,13 +19,17 @@ public class SequenceAttemptRepository : IAttemptRepository<SequenceAttempt>
     {
         try
         {
-            return await _db.SequenceAttempts.FindAsync();
+            return await _db.SequenceAttempts.FindAsync(id);
         }
         catch (Exception e)
         {
             _logger.LogError("[SequenceAttemptRepository] SequenceAttempt FindAsync(id) failed when GetSequenceAttemptId {SequenceAttemptId:0000}, error message: {e}", id, e.Message);
             return null;
         }
+    }
+    public bool Exists(int id)
+    {
+        return _db.SequenceAttempts.Any(s => s.SequenceAttemptId == id);
     }
 
     public async Task<bool> Create(SequenceAttempt sequenceAttempt)

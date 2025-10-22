@@ -23,7 +23,7 @@
     @if (Model.rankingAttempt.AnsweredCorrectly.HasValue) 
     {
         <div class="mt-3 alert @(Model.rankingAttempt.AnsweredCorrectly.Value ? "alert-success" : "alert-dagner")">
-            @(Model.rankingAttempt.AnsweredCorrectly.Value ? "Correct!" : $"Wrong. The correct answer was '{formattedCorrectAnswer}'")
+            @(Model.rankingAttempt.AnsweredCorrectly.Value ? "Correct!" : $"Wrong. The correct answer was \n'{formattedCorrectAnswer}'")
         </div>
     }
 </div>

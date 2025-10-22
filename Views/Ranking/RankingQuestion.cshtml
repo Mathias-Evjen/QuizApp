@@ -10,9 +10,10 @@
         </div>
         return; // Stopper videre rendering av viewet
     }
-    //MÅ LEGGE TIL HVA SOM SKJER VED rankingModel = null 
     ViewData["Title"] = "Ranking Question";
     var splitQuestion = rankingModel.Question.Split(",");
+    var questionNum = rankingModel!.QuizQuestionNum;
+    var lastQuestion = questionNum == Model.NumOfQuestions;
 }
 <div class="container">
     <h3>@rankingModel.QuestionText</h3>
@@ -44,7 +45,13 @@
             }
         </div>
         <br /><br />
-        <button type="submit" class="btn btn-primary" style="float: right;">Neste</button>
+        <button type="submit" class="btn btn-primary" style="">@(lastQuestion ? "Submit quiz" : "Next")</button>
+    </form>
+    <form asp-controller="Quiz" asp-action="PrevQuestion" method="post">
+        <input type="hidden" name="quizId" value="@Model.QuizId" />
+        <input type="hidden" name="quizAttemptId" value="@Model.QuizAttemptId" />
+        <input type="hidden" name="quizQuestionNum" value="@Model.CurrentQuestionNum" />
+        <button type="submit" class="btn btn-secondary" style="margin-top: 10px;">Back</button>
     </form>
 </div>
 <script>

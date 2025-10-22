@@ -147,10 +147,55 @@ public class QuizController : Controller
 
 
     [HttpPost]
-    public IActionResult PrevQuestion(QuizViewModel model)
+    public async Task<IActionResult> PrevQuestion(int quizId, int quizAttemptId, int quizQuestionNum)
     {
-        if (model.CurrentQuestionNum - 1 >= 0)
-            model.CurrentQuestionNum -= 1;
+        Console.WriteLine(quizId + ", "+ quizQuestionNum);
+        var quiz = await _quizRepository.GetById(quizId);
+        if (quiz == null)
+        {
+            _logger.LogError("[QuizController - Get Quiz By Id] Quiz not found for the Id {Id: 0000}", quizId);
+            return NotFound("Quiz not found.");
+        }
+        if(quizQuestionNum > 0)
+        {
+            quizQuestionNum -= 1;
+        }
+        var model = new QuizViewModel(quiz, quizAttemptId)
+        {
+            CurrentQuestionNum = quizQuestionNum
+        };
+
+        /*if (model.CurrentQuestionNum + 1 < model.QuestionViewModels.Count())
+        {
+            model.CurrentQuestionNum += 1;
+        }*/
+
+        var currentQuestionVM = model.QuestionViewModels.ElementAt(model.CurrentQuestionNum);
+        if (currentQuestionVM is FillInTheBlankViewModel)
+        {
+            return View("~/Views/FillInTheBlank/Question.cshtml", model);
+        }
+        else if (currentQuestionVM is MatchingViewModel)
+        {
+            return View("~/Views/Matching/MatchingQuestion.cshtml", model);
+        }
+        else if (currentQuestionVM is SequenceViewModel)
+        {
+            return View("~/Views/Sequence/SequenceQuestion.cshtml", model);
+        }
+        else if (currentQuestionVM is RankingViewModel)
+        {
+            return View("~/Views/Ranking/RankingQuestion.cshtml", model);
+        }
+        else if (currentQuestionVM is TrueFalseViewModel)
+        {
+            return View("~/Views/TrueFalse/Question.cshtml", model);
+        }
+        else if (currentQuestionVM is MultipleChoiceViewModel)
+        {
+            return View("~/Views/MultipleChoice/Question.cshtml", model);
+        }
+
         return View("s", model);
     }
 

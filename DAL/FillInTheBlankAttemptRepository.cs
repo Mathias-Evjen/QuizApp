@@ -27,6 +27,10 @@ public class FillInTheBlankAttemptRepository : IAttemptRepository<FillInTheBlank
             return null;
         }
     }
+    public bool Exists(int id)
+    {
+        return _db.FillInTheBlankAttempts.Any(fib => fib.FillInTheBlankAttemptId == id);
+    }
 
     public async Task<bool> Create(FillInTheBlankAttempt fillInTheBlankAttempt)
     {

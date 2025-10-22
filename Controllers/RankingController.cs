@@ -90,6 +90,7 @@ public class RankingController : Controller
         }
         if (rankingObject.QuizQuestionNum == numOfQuestions)
             return RedirectToAction("Results", "Quiz", new { quizAttemptId = quizAttemptId });
+            
         return RedirectToAction("NextQuestion", "Quiz", new
         {
             quizId = quizId,
@@ -100,8 +101,9 @@ public class RankingController : Controller
 
     public bool CheckAttempt(int quizAttemptId)
     {
-        var attempt =  _rankingAttemptRepository.GetById(quizAttemptId);
-        if (attempt != null)
+        if(quizAttemptId <= 0){ return false; }
+        var attempt =  _rankingAttemptRepository.Exists(quizAttemptId);
+        if (attempt)
         {
             return true;
         }

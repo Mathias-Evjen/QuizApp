@@ -50,6 +50,7 @@ public class MatchingController : Controller
             return NotFound("Matching question not found.");
         }
         string questionAnswer = matchingObject.Assemble(keys, values, 2);
+        matchingObject.TotalRows = keys.Count;
         int correctCounter = 0;
         KeyValuePair<string, string>[] correctAnswerSplit = matchingObject.SplitCorrectAnswer();
         for (int i = 0; i < correctAnswerSplit.Length; i++)
@@ -67,7 +68,7 @@ public class MatchingController : Controller
             matchingAttempt.UserAnswer = questionAnswer;
             matchingAttempt.AmountCorrect = correctCounter;
             if (correctCounter == matchingObject.TotalRows) { matchingAttempt.AnsweredCorrectly = true; }
-            else{ matchingAttempt.AnsweredCorrectly = false; }
+            else { matchingAttempt.AnsweredCorrectly = false; }
 
             var returnOk = await _matchingAttemptRepository.Create(matchingAttempt);
             if (!returnOk)
@@ -90,7 +91,7 @@ public class MatchingController : Controller
             matchingAttempt.AmountCorrect = correctCounter;
             if (correctCounter == matchingObject.TotalRows) { matchingAttempt.AnsweredCorrectly = true; }
             else { matchingAttempt.AnsweredCorrectly = false; }
-            
+
             var returnOk = await _matchingAttemptRepository.Update(matchingAttempt);
             if (!returnOk)
             {
@@ -98,6 +99,9 @@ public class MatchingController : Controller
                 return RedirectToAction("Quizzes", "Quiz");
             }
         }
+        
+        if (matchingObject.QuizQuestionNum == numOfQuestions)
+            return RedirectToAction("Results", "Quiz", new { quizAttemptId = quizAttemptId });
 
         return RedirectToAction("NextQuestion", "Quiz", new
         {
@@ -109,14 +113,18 @@ public class MatchingController : Controller
     
     public bool CheckAttempt(int quizAttemptId)
     {
-        var attempt =  _matchingAttemptRepository.GetById(quizAttemptId);
-        if (attempt != null)
+        
+        if(quizAttemptId <= 0){ return false; }
+        var attempt = _matchingAttemptRepository.Exists(quizAttemptId);
+        if (!attempt)
         {
-            return true;
+            Console.WriteLine("denne er false");
+            return false; 
         }
         else
         {
-            return false; 
+            Console.WriteLine("Denne er true");
+            return true;
         }
     }
 
@@ -132,6 +140,7 @@ public class MatchingController : Controller
         var matchingQuestion = new Matching();
         matchingQuestion.Assemble(Keys, Values, 1);
         matchingQuestion.ShuffleQuestion(Keys, Values);
+        matchingQuestion.TotalRows = Keys.Count;
         await _matchingRepository.Create(matchingQuestion);
 
         return RedirectToAction("Index", "Home");

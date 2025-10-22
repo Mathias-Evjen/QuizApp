@@ -102,8 +102,9 @@ public class SequenceController : Controller
 
     public bool CheckAttempt(int quizAttemptId)
     {
-        var attempt =  _sequenceAttemptRepository.GetById(quizAttemptId);
-        if (attempt != null)
+        if(quizAttemptId <= 0){ return false; }
+        var attempt =  _sequenceAttemptRepository.Exists(quizAttemptId);
+        if (attempt)
         {
             return true;
         }

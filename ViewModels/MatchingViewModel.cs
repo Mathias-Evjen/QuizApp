@@ -22,6 +22,7 @@ namespace QuizApp.ViewModels
         {
             Id = question.Id;
             Question = question.Question;
+            QuestionText = question.QuestionText;
 
 
             foreach (var pair in question.SplitQuestion())

@@ -23,7 +23,7 @@ public class QuizAttemptRepository : IAttemptRepository<QuizAttempt>
                                 .Include(q => q.FillInTheBlankAttempts)
                                 .Include(q => q.TrueFalseQuestionAttempts)
                                 .Include(q => q.MultipleChoiceAttempts)
-                                .Include(q => q.MatchingAttempts)
+                                //.Include(q => q.QuizAttempts)
                                 .Include(q => q.RankingAttempts)
                                 .Include(q => q.SequenceAttempts)
                                 .ToListAsync();
@@ -43,7 +43,7 @@ public class QuizAttemptRepository : IAttemptRepository<QuizAttempt>
                                 .Include(q => q.FillInTheBlankAttempts)
                                 .Include(q => q.TrueFalseQuestionAttempts)
                                 .Include(q => q.MultipleChoiceAttempts)
-                                .Include(q => q.MatchingAttempts)
+                                //.Include(q => q.QuizAttempts)
                                 .Include(q => q.RankingAttempts)
                                 .Include(q => q.SequenceAttempts)
                                 .FirstOrDefaultAsync(q => q.QuizAttemptId == id);
@@ -53,6 +53,10 @@ public class QuizAttemptRepository : IAttemptRepository<QuizAttempt>
             _logger.LogError("[QuizAttemptRepository] QuizAttempt FindAsync(id) failed when GetQuizAttemptId {QuizAttemptId:0000}, error message: {e}", id, e.Message);
             return null;
         }
+    }
+    public bool Exists(int id)
+    {
+        return _db.QuizAttempts.Any(q => q.QuizAttemptId == id);
     }
 
     public async Task<bool> Create(QuizAttempt QuizAttempt)

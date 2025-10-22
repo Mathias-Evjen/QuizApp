@@ -4,7 +4,7 @@ using Serilog;
 
 namespace QuizApp.DAL;
 
-public class SequenceAttemptRepository : ISequenceAttemptRepository
+public class SequenceAttemptRepository : IAttemptRepository<SequenceAttempt>
 {
     private readonly QuizDbContext _db;
     private readonly ILogger<SequenceAttemptRepository> _logger;
@@ -15,7 +15,7 @@ public class SequenceAttemptRepository : ISequenceAttemptRepository
         _logger = logger;
     }
 
-    public async Task<SequenceAttempt?> GetSequenceAttemptById(int id)
+    public async Task<SequenceAttempt?> GetById(int id)
     {
         try
         {
@@ -28,7 +28,7 @@ public class SequenceAttemptRepository : ISequenceAttemptRepository
         }
     }
 
-    public async Task<bool> CreateSequenceAttempt(SequenceAttempt sequenceAttempt)
+    public async Task<bool> Create(SequenceAttempt sequenceAttempt)
     {
         try
         {
@@ -43,7 +43,7 @@ public class SequenceAttemptRepository : ISequenceAttemptRepository
         }
     }
 
-    public async Task<bool> UpdateSequenceAttempt(SequenceAttempt sequenceAttempt)
+    public async Task<bool> Update(SequenceAttempt sequenceAttempt)
     {
         try
         {
@@ -58,7 +58,7 @@ public class SequenceAttemptRepository : ISequenceAttemptRepository
         }
     }
 
-    public async Task<bool> DeleteSequenceAttempt(int id)
+    public async Task<bool> Delete(int id)
     {
         try
         {

@@ -4,7 +4,7 @@ using Serilog;
 
 namespace QuizApp.DAL;
 
-public class FillInTheBlankAttemptRepository : IFillInTheBlankAttemptRepository
+public class FillInTheBlankAttemptRepository : IAttemptRepository<FillInTheBlankAttempt>
 {
     private readonly QuizDbContext _db;
     private readonly ILogger<FillInTheBlankAttemptRepository> _logger;
@@ -15,7 +15,7 @@ public class FillInTheBlankAttemptRepository : IFillInTheBlankAttemptRepository
         _logger = logger;
     }
 
-    public async Task<FillInTheBlankAttempt?> GetFillInTheBlankAttemptById(int id)
+    public async Task<FillInTheBlankAttempt?> GetById(int id)
     {
         try
         {
@@ -28,7 +28,7 @@ public class FillInTheBlankAttemptRepository : IFillInTheBlankAttemptRepository
         }
     }
 
-    public async Task<bool> CreateFillInTheBlankAttempt(FillInTheBlankAttempt fillInTheBlankAttempt)
+    public async Task<bool> Create(FillInTheBlankAttempt fillInTheBlankAttempt)
     {
         try
         {
@@ -43,7 +43,7 @@ public class FillInTheBlankAttemptRepository : IFillInTheBlankAttemptRepository
         }
     }
 
-    public async Task<bool> UpdateFillInTheBlankAttempt(FillInTheBlankAttempt fillInTheBlankAttempt)
+    public async Task<bool> Update(FillInTheBlankAttempt fillInTheBlankAttempt)
     {
         try
         {
@@ -58,7 +58,7 @@ public class FillInTheBlankAttemptRepository : IFillInTheBlankAttemptRepository
         }
     }
 
-    public async Task<bool> DeleteFillInTheBlankAttempt(int id)
+    public async Task<bool> Delete(int id)
     {
         try
         {

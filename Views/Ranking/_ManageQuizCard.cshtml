@@ -1,0 +1,19 @@
+@model Ranking
+
+<div class="card shadow-sm mb-1">
+    <div class="row p-3">
+        <div class="col-1">
+            <p class="pt-1">@Model.QuizQuestionNum</p>
+        </div>
+        <div class="col-5">
+            <p class="pt-1">@Model.Question</p>
+        </div>
+        <div class="col-4">
+            <p class="pt-1">@Model.CorrectAnswer</p>
+        </div>
+        <div class="col-2">
+            <a asp-controller="Ranking" asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-secondary">Edit</a>
+            <a asp-controller="Ranking" asp-action="Delete" asp-route-id="@Model.Id" class="btn btn-danger">Delete</a>
+        </div>
+    </div>
+</div>

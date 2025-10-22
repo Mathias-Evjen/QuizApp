@@ -1,0 +1,45 @@
+@model Quiz
+
+<h3>Name: @Model.Name</h3>
+<h4>Description: @Model.Description</h4>
+
+<div class="border rounded p-3" style="background-color: rgb(230, 230, 230)">
+    <div class="container pt-2">
+        <div class="row p-2">
+            <div class="col-1">
+                <h5>No.</h5>
+            </div>
+            <div class="col-5">
+                <h5>Question</h5>
+            </div>
+            <div class="col-4">
+                <h5>Answer</h5>
+            </div>
+        </div>
+
+        @foreach(var question in Model.AllQuestions) 
+        {
+            if (question is FillInTheBlank fib) {
+                <partial name="../FillInTheBlank/_ManageQuizCard" model="fib" />
+            }
+            if (question is TrueFalse tf) {
+                <partial name="../TrueFalse/_ManageQuizCard" model="tf" />
+            }
+            if (question is MultipleChoice mc) {
+                <partial name="../MultipleChoice/_ManageQuizCard" model="mc" />
+            }            
+            if (question is Matching m) {
+                <partial name="../Matching/_ManageQuizCard" model="m" />
+            }
+            if (question is Ranking r) {
+                <partial name="../Ranking/_ManageQuizCard" model="r" />
+            }
+            if (question is Sequence sq) {
+                <partial name="../Sequence/_ManageQuizCard" model="sq" />
+            }
+        }
+
+        <a asp-controller="Quiz" asp-action="Create" asp-route-quizId="@Model.QuizId" asp-route-numOfQuestions="@Model.NumOfQuestions" class="btn btn-primary mt-2">Add question</a>
+        <a asp-controller="Quiz" asp-action="Edit" asp-route-quizId="@Model.QuizId" class="btn btn-secondary mt-2">Edit quiz</a>
+    </div>
+</div>

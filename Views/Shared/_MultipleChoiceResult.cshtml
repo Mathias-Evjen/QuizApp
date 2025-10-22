@@ -1,0 +1,13 @@
+@model (MultipleChoice mc, MultipleChoiceAttempt mcAttempt)
+
+<div>
+    <h3>Question @Model.mc.QuizQuestionNum</h3>
+    <h4>@Model.mc.QuestionText</h4>
+    <h5>Your answer: @Model.mcAttempt.UserAnswer</h5>
+    @if (Model.mcAttempt.AnsweredCorrectly.HasValue) 
+    {
+        <div class="mt-3 alert @(Model.mcAttempt.AnsweredCorrectly.Value ? "alert-success" : "alert-danger")">
+            @(Model.mcAttempt.AnsweredCorrectly.Value ? "Correct!" : $"Wrong. The correct answer was '{Model.mc.CorrectAnswer}'")
+        </div>
+    }
+</div>

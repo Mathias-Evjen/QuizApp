@@ -20,25 +20,26 @@ builder.Services.AddDbContext<QuizDbContext>(options =>
     );
 });
 
-builder.Services.AddScoped<IQuizRepository, QuizRepository>();
-builder.Services.AddScoped<IMatchingRepository, MatchingRepository>();
-builder.Services.AddScoped<ISequenceRepository, SequenceRepository>();
-builder.Services.AddScoped<IRankingRepository, RankingRepository>();
-builder.Services.AddScoped<IFillInTheBlankRepository, FillInTheBlankRepository>();
+builder.Services.AddScoped<IRepository<Quiz>, QuizRepository>();
+builder.Services.AddScoped<IRepository<Matching>, MatchingRepository>();
+builder.Services.AddScoped<IRepository<Sequence>, SequenceRepository>();
+builder.Services.AddScoped<IRepository<Ranking>, RankingRepository>();
+builder.Services.AddScoped<IRepository<FillInTheBlank>, FillInTheBlankRepository>();
 builder.Services.AddScoped<IFlashCardRepository, FlashCardRepository>();
-builder.Services.AddScoped<IFlashCardQuizRepository, FlashCardQuizRepository>();
+builder.Services.AddScoped<IRepository<FlashCardQuiz>, FlashCardQuizRepository>();
+builder.Services.AddScoped<IRepository<MultipleChoice>, MultipleChoiceRepository>();
+builder.Services.AddScoped<IRepository<TrueFalse>, TrueFalseRepository>();
+
+builder.Services.AddScoped<IAttemptRepository<QuizAttempt>, QuizAttemptRepository>();
+builder.Services.AddScoped<IAttemptRepository<FillInTheBlankAttempt>, FillInTheBlankAttemptRepository>();
+builder.Services.AddScoped<IAttemptRepository<TrueFalseAttempt>, TrueFalseAttemptRepository>();
+builder.Services.AddScoped<IAttemptRepository<MultipleChoiceAttempt>, MultipleChoiceAttemptRepository>();
+builder.Services.AddScoped<IAttemptRepository<MatchingAttempt>, MatchingAttemptRepository>();
+builder.Services.AddScoped<IAttemptRepository<SequenceAttempt>, SequenceAttemptRepository>();
+builder.Services.AddScoped<IAttemptRepository<RankingAttempt>, RankingAttemptRepository>();
+
 builder.Services.AddScoped<QuizService>();
 builder.Services.AddScoped<IFlashCardQuizService, FlashCardQuizService>();
-builder.Services.AddScoped<IMultipleChoiceRepository, MultipleChoiceRepository>();
-builder.Services.AddScoped<ITrueFalseRepository, TrueFalseRepository>();
-
-builder.Services.AddScoped<IQuizAttemptRepository, QuizAttemptRepository>();
-builder.Services.AddScoped<IFillInTheBlankAttemptRepository, FillInTheBlankAttemptRepository>();
-builder.Services.AddScoped<ITrueFalseAttemptRepository, TrueFalseAttemptRepository>();
-builder.Services.AddScoped<IMultipleChoiceAttemptRepository, MultipleChoiceAttemptRepository>();
-builder.Services.AddScoped<IMatchingAttemptRepository, MatchingAttemptRepository>();
-builder.Services.AddScoped<ISequenceAttemptRepository, SequenceAttemptRepository>();
-builder.Services.AddScoped<IRankingAttemptRepository, RankingAttemptRepository>();
 
 builder.Services.AddRazorPages();
 

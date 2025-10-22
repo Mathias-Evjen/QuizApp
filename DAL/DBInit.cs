@@ -16,10 +16,10 @@ public static class DBInit
         {
             var quiz = new List<Quiz>
             {
-                new Quiz {Name = "Example quiz", Description = "Quiz with examples"},
-                new Quiz {Name = "Also example quiz", Description = "This is also a quiz with examples"},
-                new Quiz {Name = "True/False test", Description = "Test for True/False questions"},
-                new Quiz {Name = "Multiple choice test", Description = "Bla bla bla"}
+                new() {Name = "Example quiz", Description = "Quiz with examples"},
+                new() {Name = "Also example quiz", Description = "This is also a quiz with examples"},
+                new() {Name = "True/False and MultipleChoice test", Description = "Test for True/False og MultipleChoice questions"},
+                new() {Name = "QuizResults test", Description = "Bla bla bla"}
             };
             context.AddRange(quiz);
             context.SaveChanges();
@@ -30,14 +30,14 @@ public static class DBInit
             var quiz = context.Quizzes.Find(3);
             var qustions = new List<TrueFalse>
             {
-                new TrueFalse {
+                new() {
                     QuestionText = "Norge ligger i Europa",
                     CorrectAnswer = true,
                     QuizId = 3,
                     Quiz = quiz!,
                     QuizQuestionNum = 1
                 },
-                new TrueFalse {
+                new() {
                     QuestionText = "Jorda går i bane rundt månen",
                     CorrectAnswer = false,
                     QuizId = 3,
@@ -54,17 +54,19 @@ public static class DBInit
             var quiz = context.Quizzes.Find(3);
             var questions = new List<MultipleChoice>
             {
-                new MultipleChoice {
+                new() {
                     QuestionText = "Which is the biggest planet in our solar system?",
+                    CorrectAnswer = "Jupiter",
                     QuizId = 3,
                     Quiz = quiz!,
                     QuizQuestionNum = 3
                 },
-                new MultipleChoice {
+                new() {
                     QuestionText = "Which season is warmest?",
+                    CorrectAnswer = "Summer",
                     QuizId = 3,
                     Quiz = quiz!,
-                    QuizQuestionNum = 3
+                    QuizQuestionNum = 4
                 }
             };
             context.AddRange(questions);
@@ -75,42 +77,42 @@ public static class DBInit
         {
             var options = new List<Option>
             {
-                new Option {
+                new() {
                     Text = "Earth",
                     IsCorrect = false,
                     MultipleChoiceId = 1
                 },
-                new Option {
+                new() {
                     Text = "Saturn",
                     IsCorrect = false,
                     MultipleChoiceId = 1
                 },
-                new Option {
+                new() {
                     Text = "Jupiter",
                     IsCorrect = true,
                     MultipleChoiceId = 1
                 },
-                new Option {
+                new() {
                     Text = "Uranus",
                     IsCorrect = false,
                     MultipleChoiceId = 1
                 },
-                new Option {
+                new() {
                     Text = "Spring",
                     IsCorrect = false,
                     MultipleChoiceId = 2
                 },
-                new Option {
+                new() {
                     Text = "Summer",
                     IsCorrect = true,
                     MultipleChoiceId = 2
                 },
-                new Option {
+                new() {
                     Text = "Autumn",
                     IsCorrect = false,
                     MultipleChoiceId = 2
                 },
-                new Option {
+                new() {
                     Text = "Winter",
                     IsCorrect = false,
                     MultipleChoiceId = 2
@@ -126,14 +128,14 @@ public static class DBInit
             var quiz2 = context.Quizzes.Find(2);
             var questions = new List<Matching>
             {
-                new Matching {
+                new() {
                     Question = "fotball,kake,hjul,knotter,bake,hav,bade,bil",
                     CorrectAnswer = "fotball,knotter,hjul,bil,bake,kake,bade,hav",
                     QuizId = 1,
                     Quiz = quiz1,
                     QuizQuestionNum = 3
                 },
-                new Matching {
+                new() {
                     Question = "sol,snø,tre,planet,vinter,blader",
                     CorrectAnswer = "sol,planet,tre,blader,vinter,snø",
                     QuizId = 2,
@@ -147,22 +149,37 @@ public static class DBInit
         if (!context.FillInTheBlankQuestions.Any())
         {
             var quiz1 = context.Quizzes.Find(1);
+            var quiz4 = context.Quizzes.Find(4);
             var questions = new List<FillInTheBlank>
             {
-                new FillInTheBlank {
+                new() {
                     Question = "What is the capital of Norway?",
                     CorrectAnswer = "Oslo",
                     QuizId = 1,
                     Quiz = quiz1,
                     QuizQuestionNum = 1
                 },
-                new FillInTheBlank {
+                new() {
                     Question = "What is the capital of Sweden?",
                     CorrectAnswer = "Stockholm",
                     QuizId = 1,
                     Quiz = quiz1,
                     QuizQuestionNum = 2
-                }
+                },
+                new() {
+                    Question = "What is the capital of Norway?",
+                    CorrectAnswer = "Oslo",
+                    QuizId = 4,
+                    Quiz = quiz4,
+                    QuizQuestionNum = 1
+                },
+                new() {
+                    Question = "What is the capital of Sweden?",
+                    CorrectAnswer = "Stockholm",
+                    QuizId = 4,
+                    Quiz = quiz4,
+                    QuizQuestionNum = 2
+                },
             };
             context.AddRange(questions);
             context.SaveChanges();
@@ -173,7 +190,7 @@ public static class DBInit
             var quiz2 = context.Quizzes.Find(2);
             var questions = new List<Sequence>
             {
-                new Sequence {
+                new() {
                     Question = "Make an offer,Get pre-approved,Sign the purchase agreement,Find a home,Secure financing",
                     QuestionText = "Order the following steps of applying for a home loan from first to last:",
                     CorrectAnswer = "Get pre-approved,Find a home,Make an offer,Sign the purchase agreement,Secure financing",
@@ -181,7 +198,7 @@ public static class DBInit
                     Quiz = quiz1,
                     QuizQuestionNum = 4
                 },
-                new Sequence {
+                new() {
                     Question = "1801,1345,1814,2009,1918",
                     QuestionText = "Sequence these years from earliest to latest:",
                     CorrectAnswer = "1345,1801,1814,1918,2009",
@@ -199,7 +216,7 @@ public static class DBInit
             var quiz2 = context.Quizzes.Find(2);
             var questions = new List<Ranking>
             {
-                new Ranking {
+                new() {
                     Question = "Service speed,Price,Ambiance,Food quality",
                     QuestionText = "Rank these factors from most to least important for a dining experience:",
                     CorrectAnswer = "Food quality,Service speed,Ambiance,Price",
@@ -207,7 +224,7 @@ public static class DBInit
                     Quiz = quiz1,
                     QuizQuestionNum = 5
                 },
-                new Ranking {
+                new() {
                     Question = "Location,Cleanliness,Price,Amenities",
                     QuestionText = "Rank these features from most to least important when choosing a hotel:",
                     CorrectAnswer = "Cleanliness,Location,Price,Amenities",
@@ -225,8 +242,8 @@ public static class DBInit
         {
             var quiz = new List<FlashCardQuiz>
             {
-                new FlashCardQuiz {Name = "Capitals of Scandinavia", Description = "Flashcards with questions about the captial cities of Scandinavia"},
-                new FlashCardQuiz {Name = "Which band?", Description = "Which band wrote the song on the card?"}
+                new() {Name = "Capitals of Scandinavia", Description = "Flashcards with questions about the captial cities of Scandinavia"},
+                new() {Name = "Which band?", Description = "Which band wrote the song on the card?"}
             };
             context.AddRange(quiz);
             context.SaveChanges();
@@ -238,49 +255,49 @@ public static class DBInit
             var quiz2 = context.FlashCardQuizzes.Find(2);
             var questions = new List<FlashCard>
             {
-                new FlashCard {
+                new() {
                     Question = "What is the capital of Norway?",
                     Answer = "Oslo",
                     Quiz = quiz1!,
                     QuizQuestionNum = 1
                 },
-                new FlashCard {
+                new() {
                     Question = "What is the capital of Sweden?",
                     Answer = "Stockholm",
                     Quiz = quiz1!,
                     QuizQuestionNum = 2
                 },
-                new FlashCard {
+                new() {
                     Question = "What is the capital of Denmark?",
                     Answer = "Copenhagen",
                     Quiz = quiz1!,
                     QuizQuestionNum = 3
                 },
-                new FlashCard {
+                new() {
                     Question = "Who wrote the song 'Supermassive Black Hole'?",
                     Answer = "Muse",
                     Quiz = quiz2!,
                     QuizQuestionNum = 1
                 },
-                new FlashCard {
+                new() {
                     Question = "Who wrote the song 'Paranoid Android'?",
                     Answer = "Radiohead",
                     Quiz = quiz2!,
                     QuizQuestionNum = 2
                 },
-                new FlashCard {
+                new() {
                     Question = "Who wrote the song 'Somewhere Only We know'?",
                     Answer = "Keane",
                     Quiz = quiz2!,
                     QuizQuestionNum = 3
                 },
-                new FlashCard {
+                new() {
                     Question = "Who wrote the song 'Do I Wanna Know'?",
                     Answer = "Arctic Monkeys",
                     Quiz = quiz2!,
                     QuizQuestionNum = 4
                 },
-                new FlashCard {
+                new() {
                     Question = "Who wrote the song 'Ode To The Mets'?",
                     Answer = "The Strokes",
                     Quiz = quiz2!,

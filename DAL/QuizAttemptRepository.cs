@@ -4,7 +4,7 @@ using Serilog;
 
 namespace QuizApp.DAL;
 
-public class QuizAttemptRepository : IQuizAttemptRepository
+public class QuizAttemptRepository : IAttemptRepository<QuizAttempt>
 {
     private readonly QuizDbContext _db;
     private readonly ILogger<QuizAttemptRepository> _logger;
@@ -22,6 +22,10 @@ public class QuizAttemptRepository : IQuizAttemptRepository
             return await _db.QuizAttempts
                                 .Include(q => q.FillInTheBlankAttempts)
                                 .Include(q => q.TrueFalseQuestionAttempts)
+                                .Include(q => q.MultipleChoiceAttempts)
+                                .Include(q => q.MatchingAttempts)
+                                .Include(q => q.RankingAttempts)
+                                .Include(q => q.SequenceAttempts)
                                 .ToListAsync();
         }
         catch (Exception e)
@@ -31,13 +35,17 @@ public class QuizAttemptRepository : IQuizAttemptRepository
         }
     }
 
-    public async Task<QuizAttempt?> GetQuizAttemptById(int id)
+    public async Task<QuizAttempt?> GetById(int id)
     {
         try
         {
             return await _db.QuizAttempts
                                 .Include(q => q.FillInTheBlankAttempts)
                                 .Include(q => q.TrueFalseQuestionAttempts)
+                                .Include(q => q.MultipleChoiceAttempts)
+                                .Include(q => q.MatchingAttempts)
+                                .Include(q => q.RankingAttempts)
+                                .Include(q => q.SequenceAttempts)
                                 .FirstOrDefaultAsync(q => q.QuizAttemptId == id);
         }
         catch (Exception e)
@@ -47,7 +55,7 @@ public class QuizAttemptRepository : IQuizAttemptRepository
         }
     }
 
-    public async Task<bool> CreateQuizAttempt(QuizAttempt QuizAttempt)
+    public async Task<bool> Create(QuizAttempt QuizAttempt)
     {
         try
         {
@@ -62,7 +70,7 @@ public class QuizAttemptRepository : IQuizAttemptRepository
         }
     }
 
-    public async Task<bool> UpdateQuizAttempt(QuizAttempt QuizAttempt)
+    public async Task<bool> Update(QuizAttempt QuizAttempt)
     {
         try
         {
@@ -77,7 +85,7 @@ public class QuizAttemptRepository : IQuizAttemptRepository
         }
     }
 
-    public async Task<bool> DeleteQuizAttempt(int id)
+    public async Task<bool> Delete(int id)
     {
         try
         {

@@ -4,7 +4,7 @@ using Serilog;
 
 namespace QuizApp.DAL;
 
-public class TrueFalseAttemptRepository : ITrueFalseAttemptRepository
+public class TrueFalseAttemptRepository : IAttemptRepository<TrueFalseAttempt>
 {
     private readonly QuizDbContext _db;
     private readonly ILogger<TrueFalseAttemptRepository> _logger;
@@ -15,7 +15,7 @@ public class TrueFalseAttemptRepository : ITrueFalseAttemptRepository
         _logger = logger;
     }
 
-    public async Task<TrueFalseAttempt?> GetTrueFalseAttemptById(int id)
+    public async Task<TrueFalseAttempt?> GetById(int id)
     {
         try
         {
@@ -28,7 +28,7 @@ public class TrueFalseAttemptRepository : ITrueFalseAttemptRepository
         }
     }
 
-    public async Task<bool> CreateTrueFalseAttempt(TrueFalseAttempt trueFalseAttempt)
+    public async Task<bool> Create(TrueFalseAttempt trueFalseAttempt)
     {
         try
         {
@@ -43,7 +43,7 @@ public class TrueFalseAttemptRepository : ITrueFalseAttemptRepository
         }
     }
 
-    public async Task<bool> UpdateTrueFalseAttempt(TrueFalseAttempt trueFalseAttempt)
+    public async Task<bool> Update(TrueFalseAttempt trueFalseAttempt)
     {
         try
         {
@@ -58,7 +58,7 @@ public class TrueFalseAttemptRepository : ITrueFalseAttemptRepository
         }
     }
 
-    public async Task<bool> DeleteTrueFalseAttempt(int id)
+    public async Task<bool> Delete(int id)
     {
         try
         {

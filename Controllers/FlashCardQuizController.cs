@@ -1,18 +1,15 @@
 using Microsoft.AspNetCore.Mvc;
 using QuizApp.Models;
-using QuizApp.ViewModels;
 using QuizApp.DAL;
-using Serilog;
-using Microsoft.EntityFrameworkCore.Metadata.Internal;
 
 namespace QuizApp.Controllers;
 
 public class FlashCardQuizController : Controller
 {
-    private readonly IFlashCardQuizRepository _flashCardQuizRepository;
+    private readonly IRepository<FlashCardQuiz> _flashCardQuizRepository;
     private readonly ILogger<FlashCardQuizController> _logger;
     
-    public FlashCardQuizController(IFlashCardQuizRepository flashCardQuizRepository, ILogger<FlashCardQuizController> logger)
+    public FlashCardQuizController(IRepository<FlashCardQuiz> flashCardQuizRepository, ILogger<FlashCardQuizController> logger)
     {
         _flashCardQuizRepository = flashCardQuizRepository;
         _logger = logger;
@@ -33,7 +30,7 @@ public class FlashCardQuizController : Controller
     [HttpGet]
     public async Task<IActionResult> FlashCardQuiz(int id) 
     {
-        var quiz = await _flashCardQuizRepository.GetFlashCardQuizById(id);
+        var quiz = await _flashCardQuizRepository.GetById(id);
         if (quiz == null)
         {
             _logger.LogError("[FlashCardQuizController] FlashCardQuiz not found for the Id {Id: 0000}", id);
@@ -53,7 +50,7 @@ public class FlashCardQuizController : Controller
     {
         if (ModelState.IsValid)
         {
-            bool returnOk = await _flashCardQuizRepository.CreateFlashCardQuiz(quiz);
+            bool returnOk = await _flashCardQuizRepository.Create(quiz);
             if (returnOk)
                 return RedirectToAction(nameof(Quizzes));
         }
@@ -64,7 +61,7 @@ public class FlashCardQuizController : Controller
     [HttpGet]
     public async Task<IActionResult> ManageQuiz(int quizId)
     {
-        var quiz = await _flashCardQuizRepository.GetFlashCardQuizById(quizId);
+        var quiz = await _flashCardQuizRepository.GetById(quizId);
         if (quiz == null)
         {
             _logger.LogError("[FlashCardQuizcontroller] ManageQuiz not found for the Id {Id: 0000}", quizId);
@@ -76,7 +73,7 @@ public class FlashCardQuizController : Controller
     [HttpGet]
     public async Task<IActionResult> Edit(int quizId)
     {
-        var quiz = await _flashCardQuizRepository.GetFlashCardQuizById(quizId);
+        var quiz = await _flashCardQuizRepository.GetById(quizId);
         if (quiz == null)
         {
             _logger.LogError("[FlashCardQuizcontroller] ManageQuiz not found for the Id {Id: 0000}", quizId);
@@ -86,11 +83,21 @@ public class FlashCardQuizController : Controller
     }
 
     [HttpPost]
-    public async Task<IActionResult> Edit(FlashCardQuiz quiz)
+    public async Task<IActionResult> Edit(int flashCardQuizId, string name, string description)
     {
+        var quiz = await _flashCardQuizRepository.GetById(flashCardQuizId);
+        if (quiz == null)
+        {
+            _logger.LogError("[FlashCardQuizcontroller] ManageQuiz not found for the Id {Id: 0000}", flashCardQuizId);
+            return NotFound("FlashCardQuiz not found for the FlashCardQuizId");
+        }
+
+        quiz.Name = name;
+        quiz.Description = description;
+
         if (ModelState.IsValid)
         {
-            bool returnOk = await _flashCardQuizRepository.UpdateFlashCardQuiz(quiz);
+            bool returnOk = await _flashCardQuizRepository.Update(quiz);
             if (returnOk)
                 return RedirectToAction("ManageQuiz", new { quizId = quiz.FlashCardQuizId });
         }
@@ -101,7 +108,7 @@ public class FlashCardQuizController : Controller
     [HttpGet]
     public async Task<IActionResult> Delete(int id)
     {
-        var quiz = await _flashCardQuizRepository.GetFlashCardQuizById(id);
+        var quiz = await _flashCardQuizRepository.GetById(id);
         if (quiz == null)
         {
             _logger.LogError("[FlashCardQuizController] lashCardQuiz not found for the Id {Id: 0000}", id);
@@ -113,7 +120,7 @@ public class FlashCardQuizController : Controller
     [HttpPost]
     public async Task<IActionResult> DeleteConfirmed(int id)
     {
-        bool returnOk = await _flashCardQuizRepository.DeleteFlashCardQuiz(id);
+        bool returnOk = await _flashCardQuizRepository.Delete(id);
         if (!returnOk)
         {
             _logger.LogError("[FlashCardQuizController] FlashCardQuiz deletion failed for FlashCardQuizId {Id:0000}", id);

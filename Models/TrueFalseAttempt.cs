@@ -9,6 +9,6 @@ namespace QuizApp.Models
         public int QuizAttemptId { get; set; }
         public virtual QuizAttempt QuizAttempt { get; set; } = default!;
         public bool UserAnswer { get; set; }
-        public bool AnsweredCorrectly { get; set; }
+        public bool? AnsweredCorrectly { get; set; }
     }
 }

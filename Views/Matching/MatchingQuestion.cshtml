@@ -10,8 +10,7 @@
         </div>
         return; // Stopper videre rendering av viewet
     }
-    var questionNum = matchingModel!.QuizQuestionNum;
-    var lastQuestion = questionNum == Model.NumOfQuestions;
+    var lastQuestion = (Model.CurrentQuestionNum+1) == Model.NumOfQuestions;
 }
 
 <div class="container w-400">

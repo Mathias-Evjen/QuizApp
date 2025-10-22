@@ -12,8 +12,7 @@
     }
     ViewData["Title"] = "Ranking Question";
     var splitQuestion = rankingModel.Question.Split(",");
-    var questionNum = rankingModel!.QuizQuestionNum;
-    var lastQuestion = questionNum == Model.NumOfQuestions;
+    var lastQuestion = (Model.CurrentQuestionNum+1) == Model.NumOfQuestions;
 }
 <div class="container">
     <h3>@rankingModel.QuestionText</h3>

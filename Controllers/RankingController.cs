@@ -114,28 +114,36 @@ public class RankingController : Controller
     }
 
     [HttpPost]
-    public async Task<IActionResult> CreateRankingQuestion(string questionText, List<string> Values)
+    public async Task<IActionResult> CreateRankingQuestion(string questionText, List<string> Values, int quizId, int quizQuestionNum)
     {
         if (Values == null)
         {
             ModelState.AddModelError("", "Values can not be empty.");
             return View();
         }
-        var rankingQuestion = new Ranking
+        var updatetRanking = new Ranking
         {
-            QuestionText = questionText
+            QuestionText = questionText,
+            QuizId = quizId,
+            QuizQuestionNum = quizQuestionNum
         };
-        rankingQuestion.Assemble(Values, 1);
-        rankingQuestion.ShuffleQuestion(Values);
-        await _rankingRepository.Create(rankingQuestion);
+        updatetRanking.Assemble(Values, 1);
+        updatetRanking.ShuffleQuestion(Values);
+        bool returnOk = await _rankingRepository.Create(updatetRanking);
+        if (returnOk)
+        {
+            await _quizService.ChangeQuestionCount(updatetRanking.QuizId, true);
+            return RedirectToAction("ManageQuiz", "Quiz", new { quizId = updatetRanking.QuizId});
+        }
 
-        return RedirectToAction("Index", "Home");
+        _logger.LogError("[MatchingController] Question creation failed {@question}", updatetRanking);
+        return View();
     }
 
     [HttpGet]
-    public IActionResult CreateRankingQuestion(int id)
+    public IActionResult CreateRankingQuestion(Quiz quiz)
     {
-        return View();
+        return View(quiz);
     }
 
     // [HttpGet]
@@ -147,25 +155,34 @@ public class RankingController : Controller
     //     return View(viewModel);
     // }
 
-    public async Task<IActionResult> UpdateRankingPage(int id)
+    [HttpGet]
+    public async Task<IActionResult> Edit(int id)
     {
         var ranking = await _rankingRepository.GetById(id);
-        return View(ranking);
+        return View("UpdateRankingPage", ranking);
     }
 
     [HttpPost]
-    public IActionResult UpdateRanking(int id, string questionText, List<string> question, List<string> correctAnswer)
+    public async Task<IActionResult> Edit(int id, string questionText, List<string> question, List<string> correctAnswer, int quizId, int quizQuestionNum)
     {
         Ranking updatetRanking = new Ranking
         {
             Id = id,
-            QuestionText = questionText
+            QuestionText = questionText,
+            QuizId = quizId,
+            QuizQuestionNum = quizQuestionNum
         };
         updatetRanking.Assemble(question, 3);
         updatetRanking.Assemble(correctAnswer, 1);
 
-        _rankingRepository.Update(updatetRanking);
-        return RedirectToAction("ShowRankings");
+        if (ModelState.IsValid)
+        {
+            bool returnOk = await _rankingRepository.Update(updatetRanking);
+            if (returnOk)
+                return RedirectToAction("ManageQuiz", "Quiz", new { quizId = updatetRanking.QuizId });
+        }
+        _logger.LogError("[RankingController] Question update failed {@question}", updatetRanking);
+        return View(updatetRanking);
     }
 
     public async Task<IActionResult> Delete(int id)

@@ -139,8 +139,9 @@ public class MatchingController : Controller
     }
 
     [HttpPost]
-    public async Task<IActionResult> CreateMatchingQuestion(List<string> Keys, List<string> Values, int quizId, int quizQuestionNum)
+    public async Task<IActionResult> CreateMatchingQuestion(List<string> Keys, List<string> Values, string questionText, int quizId, int quizQuestionNum)
     {
+        Console.WriteLine(quizId + ", " + quizQuestionNum);
         if (Keys == null || Values == null || Keys.Count != Values.Count)
         {
             ModelState.AddModelError("", "Ugyldige inndata: Keys og Values må være like lange.");
@@ -156,6 +157,7 @@ public class MatchingController : Controller
         matchingQuestion.Assemble(Keys, Values, 3);
         matchingQuestion.ShuffleQuestion(Keys, Values);
         matchingQuestion.TotalRows = Keys.Count;
+        matchingQuestion.QuestionText = questionText;
         bool returnOk = await _matchingRepository.Create(matchingQuestion);
         if (returnOk)
         {
@@ -168,9 +170,10 @@ public class MatchingController : Controller
     }
 
     [HttpGet]
-    public IActionResult CreateMatchingQuestion(int id)
+    public IActionResult CreateMatchingQuestion(Quiz quiz)
     {
-        return View();
+        Console.WriteLine(quiz.QuizId + ", " + quiz.NumOfQuestions);
+        return View(quiz);
     }
 /*
     [HttpGet]
@@ -182,23 +185,32 @@ public class MatchingController : Controller
         return View(viewModel);
     }
 */
-    public async Task<IActionResult> UpdateMatchingPage(int id)
+    public async Task<IActionResult> Edit(int id)
     {
         var matching = await _matchingRepository.GetById(id);
-        return View(matching);
+        return View("UpdateMatchingPage", matching);
     }
 
     [HttpPost]
-    public IActionResult UpdateMatching(int id, List<string> keysQuestion, List<string> valuesQuestion, List<string> keysCorrectAnswer, List<string> valuesCorrectAnswer)
+    public async Task<IActionResult> Edit(int id, List<string> keysQuestion, List<string> valuesQuestion, List<string> keysCorrectAnswer, List<string> valuesCorrectAnswer, string questionText, int quizId, int quizQuestionNum)
     {
         Matching updatetMatching = new()
         {
-            Id = id
+            Id = id,
+            QuestionText = questionText,
+            QuizId = quizId,
+            QuizQuestionNum = quizQuestionNum
         };
         updatetMatching.Assemble(keysQuestion, valuesQuestion, 3);
         updatetMatching.Assemble(keysCorrectAnswer, valuesCorrectAnswer, 1);
-        _matchingRepository.Update(updatetMatching);
-        return RedirectToAction("ShowMatchings");
+        if (ModelState.IsValid)
+        {
+            bool returnOk = await _matchingRepository.Update(updatetMatching);
+            if (returnOk)
+                return RedirectToAction("ManageQuiz", "Quiz", new { quizId = updatetMatching.QuizId });
+        }
+        _logger.LogError("[MatchingController] Question update failed {@question}", updatetMatching);
+        return View(updatetMatching);
     }
 
     public async Task<IActionResult> Delete(int id)

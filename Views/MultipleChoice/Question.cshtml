@@ -18,16 +18,20 @@
         <form asp-controller="MultipleChoice" asp-action="SubmitQuestion" method="post">
             <div>
                 @foreach(var option in question.Options) {
-                    <input type="hidden" name="quizId" value="@Model.QuizId" />
-                    <input type="hidden" name="quizAttemptId" value="@Model.QuizAttemptId" />
-                    <input type="hidden" name="quizQuestionNum" value="@Model.CurrentQuestionNum" />
-                    <input type="hidden" name="numOfQuestions" value="@Model.NumOfQuestions" />
-                    <input type="hidden" name="quizQuestionId" value="@question.MultipleChoiceId"/>
+                    var isChecked = option.Text == question.UserAnswer ? "checked" : "";
+                    <div class="form-check">
+                        <input type="hidden" name="quizId" value="@Model.QuizId" />
+                        <input type="hidden" name="quizAttemptId" value="@Model.QuizAttemptId" />
+                        <input type="hidden" name="quizQuestionNum" value="@Model.CurrentQuestionNum" />
+                        <input type="hidden" name="numOfQuestions" value="@Model.NumOfQuestions" />
+                        <input type="hidden" name="quizQuestionId" value="@question.MultipleChoiceId"/>
 
-                    <label>@option.Text</label>
-                    <input type="radio" 
-                        name="userAnswer"
-                        value="@option.Text"/>
+                        <label>@option.Text</label>
+                        <input type="radio" 
+                            name="userAnswer"
+                            value="@option.Text"
+                            @isChecked />
+                    </div>
                 }
             </div>
             <button type="submit" class="btn btn-primary">

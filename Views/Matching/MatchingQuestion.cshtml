@@ -35,7 +35,11 @@
                             <option value="@matchingModel.Values[i]">@matchingModel.Values[i]</option>
                             @for(int j = 0; j < matchingModel.Values.Count; j++){
                                 if (matchingModel.Values[j] != matchingModel.Keys[i] && matchingModel.Values[j] != matchingModel.Values[i]){
-                                    <option value="@matchingModel.Values[j]">@matchingModel.Values[j]</option>
+                                    if (matchingModel.UserAnswer == "") {
+                                        <option value="@matchingModel.Values[j]">@matchingModel.Values[j]</option>
+                                    } else {
+                                        <option value="@matchingModel.UserAnswer">@matchingModel.UserAnswer</option>
+                                    }
                                 }
                             }
                         </select>

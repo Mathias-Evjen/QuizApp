@@ -26,11 +26,13 @@
             <label>False</label>
             <input type="radio"
                    name="userAnswer"
-                   value="false" />
+                   value="false" 
+                   @(@question.UserAnswer == false ? "checked" : "")/>
             <label>True</label>
             <input type="radio"
                    name="userAnswer"
-                   value="true" />
+                   value="true" 
+                   @(@question.UserAnswer == true ? "checked" : "")/>
 
             <button type="submit" class="btn btn-primary">@(lastQuestion ? "Submit quiz" : "Next")</button>
         </form>

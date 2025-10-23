@@ -43,7 +43,6 @@ public class QuizAttemptRepository : IAttemptRepository<QuizAttempt>
                                 .Include(q => q.FillInTheBlankAttempts)
                                 .Include(q => q.TrueFalseQuestionAttempts)
                                 .Include(q => q.MultipleChoiceAttempts)
-                                //.Include(q => q.QuizAttempts)
                                 .Include(q => q.RankingAttempts)
                                 .Include(q => q.SequenceAttempts)
                                 .FirstOrDefaultAsync(q => q.QuizAttemptId == id);

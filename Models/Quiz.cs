@@ -19,10 +19,10 @@ namespace QuizApp.Models
         [NotMapped]
         public IEnumerable<Question> AllQuestions =>
             FillInTheBlankQuestions.Cast<Question>()
-            .Concat(MatchingQuestions)
-            .Concat(SequenceQuestions)
-            .Concat(RankingQuestions)
-            .Concat(TrueFalseQuestions)
-            .Concat(MultipleChoiceQuestions);
+                .Concat(MatchingQuestions)
+                .Concat(SequenceQuestions)
+                .Concat(RankingQuestions)
+                .Concat(TrueFalseQuestions)
+                .Concat(MultipleChoiceQuestions);
         }
 }

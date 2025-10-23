@@ -14,5 +14,5 @@
         <input asp-for="CorrectAnswer" class="form-control" />
     </div>
     <button type="submit" class="btn btn-primary">Create</button>
-    <a asp-action="Questions" class="btn btn-secondary">Cancel</a>
+    <a asp-controller="Quiz" asp-action="ManageQuiz" asp-route-quizId="@Model.QuizId" class="btn btn-secondary">Cancel</a>
 </form>

@@ -23,6 +23,6 @@
         asp-route-qNum="@Model.QuizQuestionNum"
         asp-route-quizId="@Model.QuizId">
         <button type="submit" class="btn btn-danger">Delete</button>
-        <a asp-action="Questions" class="btn btn-secondary">Cancel</a>
+        <a asp-controller="Quiz" asp-action="ManageQuiz" asp-route-quizId="@Model.QuizId" class="btn btn-secondary">Cancel</a>
     </form>
 </div>

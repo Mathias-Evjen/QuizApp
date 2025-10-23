@@ -115,7 +115,7 @@ public class SequenceController : Controller
     }
 
     [HttpPost]
-    public async Task<IActionResult> CreateSequenceQuestion(string questionText, List<string> Values)
+    public async Task<IActionResult> CreateSequenceQuestion(string questionText, List<string> Values, int quizId, int quizQuestionNum)
     {
         if (Values == null)
         {
@@ -124,19 +124,27 @@ public class SequenceController : Controller
         }
         var sequenceQuestion = new Sequence
         {
+            QuizId = quizId,
+            QuizQuestionNum = quizQuestionNum,
             QuestionText = questionText
         };
         sequenceQuestion.Assemble(Values, 1);
         sequenceQuestion.ShuffleQuestion(Values);
-        await _sequenceRepository.Create(sequenceQuestion);
+        bool returnOk = await _sequenceRepository.Create(sequenceQuestion);
+        if (returnOk)
+        {
+            await _quizService.ChangeQuestionCount(sequenceQuestion.QuizId, true);
+            return RedirectToAction("ManageQuiz", "Quiz", new { quizId = sequenceQuestion.QuizId});
+        }
 
-        return RedirectToAction("Index", "Home");
+        _logger.LogError("[MatchingController] Question creation failed {@question}", sequenceQuestion);
+        return View();
     }
 
     [HttpGet]
-    public IActionResult CreateSequenceQuestion(int id)
+    public IActionResult CreateSequenceQuestion(Quiz quiz)
     {
-        return View();
+        return View(quiz);
     }
 
     // [HttpGet]
@@ -148,23 +156,33 @@ public class SequenceController : Controller
     //     return View(viewModel);
     // }
 
-    public async Task<IActionResult> UpdateSequencePage(int id)
+    public async Task<IActionResult> Edit(int id)
     {
         var sequence = await _sequenceRepository.GetById(id);
-        return View(sequence);
+        return View("UpdateSequencePage", sequence);
     }
 
     [HttpPost]
-    public IActionResult UpdateSequence(int id, string questionText, List<string> question, List<string> correctAnswer)
+    public async Task<IActionResult> Edit(int id, string questionText, List<string> question, List<string> correctAnswer, int quizId, int quizQuestionNum)
     {
-        Sequence updatetSequence = new Sequence();
-        updatetSequence.Id = id;
-        updatetSequence.QuestionText = questionText;
+        Sequence updatetSequence = new Sequence
+        {
+            Id = id,
+            QuestionText = questionText,
+            QuizId = quizId,
+            QuizQuestionNum = quizQuestionNum
+        };
         updatetSequence.Assemble(question, 3);
         updatetSequence.Assemble(correctAnswer, 1);
 
-        _sequenceRepository.Update(updatetSequence);
-        return RedirectToAction("ShowSequences");
+        if (ModelState.IsValid)
+        {
+            bool returnOk = await _sequenceRepository.Update(updatetSequence);
+            if (returnOk)
+                return RedirectToAction("ManageQuiz", "Quiz", new { quizId = updatetSequence.QuizId });
+        }
+        _logger.LogError("[SequenceController] Question update failed {@question}", updatetSequence);
+        return View(updatetSequence);
     }
 
     public async Task<IActionResult> Delete(int id)

@@ -1,13 +1,16 @@
-@model QuizApp.ViewModels.RankingViewModel
+@model QuizApp.Models.Quiz
 
 @{
     ViewData["Title"] = "Create Ranking Questions";
+    var quizQuestionNum = Model.NumOfQuestions+1;
 }
 
 <div class="container">
-    <h1>Create sequence question in order</h1>
+    <h1>Create ranking question in order</h1>
     <hr />
     <form asp-action="CreateRankingQuestion" method="post" id="sequenceForm">
+        <input type="hidden" name="quizId" value="@Model.QuizId" />
+        <input type="hidden" name="quizQuestionNum" value="@quizQuestionNum" />
         <div id="valuesContainer">
         <input type="text" class="form-control" style="max-width:50vw;" name="questionText" placeholder="Question text..."/><br />
             <div class="row mb-3">

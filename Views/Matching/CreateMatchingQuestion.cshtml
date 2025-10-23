@@ -1,15 +1,16 @@
-@model QuizApp.Models.Matching
+@model QuizApp.Models.Quiz
 
 @{
     ViewData["Title"] = "Create Matching Questions";
+    var quizQuestionNum = Model.NumOfQuestions+1;
 }
 
 <div class="container">
     <h1>Opprett Matching Question</h1>
     <hr />
-    <form asp-action="CreateMatchingQuestion" method="post" id="matchingForm">
-        <input type="hidden" asp-for="QuizId" />
-        <input type="hidden" asp-for="QuizQuestionNum" />
+    <form asp-action="CreateMatchingQuestion" asp-controller="Matching" method="post" id="matchingForm">
+        <input type="hidden" name="quizId" value="@Model.QuizId" />
+        <input type="hidden" name="quizQuestionNum" value="@quizQuestionNum" />
 
         <div id="keyValueContainer">
             <input type="text" class="form-control" style="max-width:50vw;" name="questionText" placeholder="Question text..."/><br />

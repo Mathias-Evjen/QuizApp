@@ -38,19 +38,24 @@ public class FillInTheBlankController : Controller
             return NotFound("FillInTheBlank question not found.");
         }
 
-        var fillInTheBlankAttempt = new FillInTheBlankAttempt
+        if (userAnswer != null)
         {
-            FillInTheBlankId = fillInTheBlank.FillInTheBlankId,
-            QuizAttemptId = quizAttemptId,
-            UserAnswer = userAnswer
-        };
+            _logger.LogError("Skal ikke komme hit");
+            var fillInTheBlankAttempt = new FillInTheBlankAttempt
+            {
+                FillInTheBlankId = fillInTheBlank.FillInTheBlankId,
+                QuizAttemptId = quizAttemptId,
+                UserAnswer = userAnswer
+            };
 
-        var returnOk = await _fillInTheBlankAttemptRepository.Create(fillInTheBlankAttempt);
-        if (!returnOk)
-        {
-            _logger.LogError("[FillInTheBlankController] Question attempt creation failed {@attempt}", fillInTheBlankAttempt);
-            return RedirectToAction("Quizzes", "Quiz");
+            var returnOk = await _fillInTheBlankAttemptRepository.Create(fillInTheBlankAttempt);
+            if (!returnOk)
+            {
+                _logger.LogError("[FillInTheBlankController] Question attempt creation failed {@attempt}", fillInTheBlankAttempt);
+                return RedirectToAction("Quizzes", "Quiz");
+            }
         }
+        
 
         if (fillInTheBlank.QuizQuestionNum == numOfQuestions)
             return RedirectToAction("Results", "Quiz", new { quizAttemptId = quizAttemptId });

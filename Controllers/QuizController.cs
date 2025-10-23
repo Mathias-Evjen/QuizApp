@@ -183,7 +183,7 @@ public class QuizController : Controller
     [HttpPost]
     public async Task<IActionResult> PrevQuestion(int quizId, int quizAttemptId, int quizQuestionNum)
     {
-        Console.WriteLine(quizId + ", "+ quizQuestionNum);
+        Console.WriteLine(quizId + ", " + quizQuestionNum);
         var quiz = await _quizRepository.GetById(quizId);
         if (quiz == null)
         {
@@ -202,7 +202,7 @@ public class QuizController : Controller
         {
             CurrentQuestionNum = quizQuestionNum
         };
-        
+
         if (model.CurrentQuestionNum > 0)
         {
             model.CurrentQuestionNum -= 1;
@@ -262,6 +262,25 @@ public class QuizController : Controller
 
         _logger.LogError("[QuizController - PrevQuestion] Something went wrong.");
         return RedirectToAction(nameof(Quizzes));
+    }
+
+    [HttpPost]
+    public IActionResult RedirectToCreate(string questionType, int quizId, int numOfQuestions)
+    {
+        if (questionType == "FillInTheBlank")
+            return RedirectToAction("Create", questionType, new { quizId, numOfQuestions });
+        if (questionType == "TrueFalse")
+            return RedirectToAction("Create", questionType, new { quizId, numOfQuestions });
+        if (questionType == "MultipleChoice")
+            return RedirectToAction("Create", questionType, new { quizId, numOfQuestions });
+        if (questionType == "Matching")
+            return RedirectToAction("CreateMatchingQuestion", questionType, new { quizId, numOfQuestions });
+        if (questionType == "Ranking")
+            return RedirectToAction("CreateRankingQuestion", questionType, new { quizId, numOfQuestions });
+        if (questionType == "Sequence")
+            return RedirectToAction("CreateSequenceQuestion", questionType, new { quizId, numOfQuestions });
+        _logger.LogError("[QuizController - RedirectToCreate] Something went wrong.");
+        return View("ManageQuiz", quizId);
     }
 
     [HttpGet]

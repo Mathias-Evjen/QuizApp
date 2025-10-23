@@ -6,7 +6,7 @@ namespace QuizApp.Models
         public string Text { get; set; } = string.Empty;
         public bool IsCorrect { get; set; }
 
-        public int MultipleChoiceId { get; set; }
-        public virtual MultipleChoice? MultipleChoice { get; set; }
+        public int? MultipleChoiceId { get; set; }
+        public virtual MultipleChoice? MultipleChoice { get; set; } = default;
     }
 }

@@ -8,6 +8,8 @@
     <h2 class="mb-4 text-center">Add True/False Question</h2>
 
     <form asp-action="Create" method="post" class="card p-4 shadow-sm">
+        <input type="hidden" asp-for="QuizId" />
+        <input type="hidden" asp-for="QuizQuestionNum" />
         <div class="mb-3">
             <label asp-for="QuestionText" class="form-label fw-bold">Question</label>
             <input asp-for="QuestionText" class="form-control" placeholder="Enter the question text..." />

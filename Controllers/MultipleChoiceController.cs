@@ -80,11 +80,12 @@ namespace QuizApp.Controllers
         }
 
         // GET: /Create
-        public IActionResult Create()
+        public IActionResult Create(int quizId, int numOfQuestions)
         {
-
             var question = new MultipleChoice
             {
+                QuizId = quizId,
+                QuizQuestionNum = numOfQuestions + 1,
                 Options =
                 [
                     new Option(),
@@ -100,36 +101,23 @@ namespace QuizApp.Controllers
         [HttpPost]
         public async Task<IActionResult> Create(MultipleChoice question)
         {
-            if (!ModelState.IsValid)
+            if (ModelState.IsValid)
             {
-                _logger.LogWarning("Invalid model state on MultipleChoice Create.");
-                return View(question);
-            }
-
-            try
-            {
-                question.Options = (question.Options ?? new List<Option>())
-                    .Where(o => !string.IsNullOrWhiteSpace(o.Text))
-                    .ToList();
-
-                foreach (var opt in question.Options)
-                    opt.MultipleChoice = question;
-
-                var ok = await _multipleChoiceRepository.Create(question);
-                if (!ok)
+                foreach (var option in question.Options)
                 {
-                    _logger.LogError("Failed to create MultipleChoice question.");
-                    return View("Error");
+                    option.MultipleChoiceId = question.MultipleChoiceId;
+                    if (option.IsCorrect) question.CorrectAnswer = option.Text;
                 }
 
-                _logger.LogInformation("Created MultipleChoice question: {Question}", question.QuestionText);
-                return RedirectToAction(nameof(Index));
+                bool returnOk = await _multipleChoiceRepository.Create(question);
+                if (returnOk)
+                {
+                    await _quizService.ChangeQuestionCount(question.QuizId, true);
+                    return RedirectToAction("ManageQuiz", "Quiz", new { quizId = question.QuizId });
+                }
             }
-            catch (Exception ex)
-            {
-                _logger.LogError(ex, "Error creating MultipleChoice question.");
-                return View("Error");
-            }
+            _logger.LogError("[MultipleChoiceController] Question creation failed {@question}", question);
+            return View(question);
         }
 
         // GET: /Edit

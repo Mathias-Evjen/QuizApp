@@ -8,6 +8,10 @@
     <h2 class="mb-4 text-center">Add Multiple Choice Question</h2>
 
     <form asp-action="Create" method="post" class="card p-4 shadow-sm">
+        <input type="hidden" asp-for="QuizId" />
+        <input type="hidden" asp-for="QuizQuestionNum" />
+        <input type="hidden" asp-for="CorrectAnswer" />
+
 
         <div class="mb-3">
             <label asp-for="QuestionText" class="form-label fw-bold">Question</label>

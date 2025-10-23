@@ -98,27 +98,33 @@ namespace QuizApp.Controllers
         }
 
         // POST: /Create
-        [HttpPost]
+       [HttpPost]
         public async Task<IActionResult> Create(MultipleChoice question)
         {
-            if (ModelState.IsValid)
+            if (!ModelState.IsValid)
             {
-                foreach (var option in question.Options)
-                {
-                    option.MultipleChoiceId = question.MultipleChoiceId;
-                    if (option.IsCorrect) question.CorrectAnswer = option.Text;
-                }
-
-                bool returnOk = await _multipleChoiceRepository.Create(question);
-                if (returnOk)
-                {
-                    await _quizService.ChangeQuestionCount(question.QuizId, true);
-                    return RedirectToAction("ManageQuiz", "Quiz", new { quizId = question.QuizId });
-                }
+                _logger.LogWarning("[MultipleChoiceController] Invalid model state for Create. QuizId={QuizId}", question.QuizId);
+                return View(question);
             }
+
+            foreach (var option in question.Options)
+            {
+                if (option.IsCorrect)
+                    question.CorrectAnswer = option.Text;
+            }
+
+            bool created = await _multipleChoiceRepository.Create(question);
+            if (created)
+            {
+                await _quizService.ChangeQuestionCount(question.QuizId, true);
+                return RedirectToAction("ManageQuiz", "Quiz", new { quizId = question.QuizId });
+            }
+
             _logger.LogError("[MultipleChoiceController] Question creation failed {@question}", question);
             return View(question);
         }
+
+
 
         // GET: /Edit
         public async Task<IActionResult> Edit(int id)

@@ -18,6 +18,8 @@ namespace QuizApp.ViewModels
 
         public List<int> CorrectOptionIndexes { get; set; } = [];
 
+        public string UserAnswer { get; set; } = string.Empty;
+
         public MultipleChoiceViewModel() { }
 
         public MultipleChoiceViewModel(MultipleChoice question)

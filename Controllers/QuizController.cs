@@ -106,6 +106,13 @@ public class QuizController : Controller
             return NotFound("Quiz not found.");
         }
 
+        var quizAttempt = await _quizAttemptRepository.GetById(quizAttemptId);
+        if (quizAttempt == null)
+        {
+            _logger.LogError("[QuizController - PrevQuestion] Quiz attempt not found for the Id {id: 0000}", quizAttemptId);
+            return NotFound("QuizAttempt not found");
+        }
+
         var model = new QuizViewModel(quiz, quizAttemptId)
         {
             CurrentQuestionNum = quizQuestionNum
@@ -117,32 +124,59 @@ public class QuizController : Controller
         }
 
         var currentQuestionVM = model.QuestionViewModels.ElementAt(model.CurrentQuestionNum);
-        if (currentQuestionVM is FillInTheBlankViewModel)
+
+        if (currentQuestionVM is FillInTheBlankViewModel fib)
         {
+            var fibAttempt = quizAttempt.FillInTheBlankAttempts
+                .FirstOrDefault(a => a.FillInTheBlankId == fib.FillInTheBlankId);
+            if (fibAttempt != null)
+                fib.UserAnswer = fibAttempt.UserAnswer;
             return View("~/Views/FillInTheBlank/Question.cshtml", model);
         }
-        else if (currentQuestionVM is MatchingViewModel)
+        else if (currentQuestionVM is MatchingViewModel m)
         {
+            var mAttempt = quizAttempt.MatchingAttempts
+                .FirstOrDefault(a => a.MatchingId == m.Id);
+            if (mAttempt != null)
+                m.UserAnswer = mAttempt.UserAnswer;
             return View("~/Views/Matching/MatchingQuestion.cshtml", model);
         }
-        else if (currentQuestionVM is SequenceViewModel)
+        else if (currentQuestionVM is SequenceViewModel sq)
         {
+            var sqAttempt = quizAttempt.SequenceAttempts
+                .FirstOrDefault(a => a.SequenceId == sq.Id);
+            if (sqAttempt != null)
+                sq.UserAnswer = sqAttempt.UserAnswer;
             return View("~/Views/Sequence/SequenceQuestion.cshtml", model);
         }
-        else if (currentQuestionVM is RankingViewModel)
+        else if (currentQuestionVM is RankingViewModel r)
         {
+            var rAttempt = quizAttempt.RankingAttempts
+                .FirstOrDefault(a => a.RankingId == r.Id);
+            if (rAttempt != null)
+                r.UserAnswer = rAttempt.UserAnswer;
             return View("~/Views/Ranking/RankingQuestion.cshtml", model);
         }
-        else if (currentQuestionVM is TrueFalseViewModel)
+        else if (currentQuestionVM is TrueFalseViewModel tf)
         {
+            var tfAttempt = quizAttempt.TrueFalseQuestionAttempts
+                .FirstOrDefault(a => a.TrueFalseId == tf.TrueFalseId);
+            if (tfAttempt != null)
+                tf.UserAnswer = tfAttempt.UserAnswer;
             return View("~/Views/TrueFalse/Question.cshtml", model);
         }
-        else if (currentQuestionVM is MultipleChoiceViewModel)
+        else if (currentQuestionVM is MultipleChoiceViewModel mc)
         {
+            var mcAttempt = quizAttempt.MultipleChoiceAttempts
+                .FirstOrDefault(a => a.MultiplechoiceId == mc.MultipleChoiceId);
+
+            if (mcAttempt != null)
+                mc.UserAnswer = mcAttempt.UserAnswer;
             return View("~/Views/MultipleChoice/Question.cshtml", model);
         }
 
-        return View("s", model);
+        _logger.LogError("[QuizController - NextQuestion] Something went wrong.");
+        return RedirectToAction(nameof(Quizzes));
     }
 
 
@@ -156,53 +190,78 @@ public class QuizController : Controller
             _logger.LogError("[QuizController - Get Quiz By Id] Quiz not found for the Id {Id: 0000}", quizId);
             return NotFound("Quiz not found.");
         }
-        if(quizQuestionNum > 0)
+
+        var quizAttempt = await _quizAttemptRepository.GetById(quizAttemptId);
+        if (quizAttempt == null)
         {
-            quizQuestionNum -= 1;
+            _logger.LogError("[QuizController - PrevQuestion] Quiz attempt not found for the Id {id: 0000}", quizAttemptId);
+            return NotFound("QuizAttempt not found");
         }
+
         var model = new QuizViewModel(quiz, quizAttemptId)
         {
             CurrentQuestionNum = quizQuestionNum
         };
-
-        /*if (model.CurrentQuestionNum + 1 < model.QuestionViewModels.Count())
+        
+        if (model.CurrentQuestionNum > 0)
         {
-            model.CurrentQuestionNum += 1;
-        }*/
+            model.CurrentQuestionNum -= 1;
+        }
 
         var currentQuestionVM = model.QuestionViewModels.ElementAt(model.CurrentQuestionNum);
-        if (currentQuestionVM is FillInTheBlankViewModel)
+
+        if (currentQuestionVM is FillInTheBlankViewModel fib)
         {
+            var fibAttempt = quizAttempt.FillInTheBlankAttempts
+                .FirstOrDefault(a => a.FillInTheBlankId == fib.FillInTheBlankId);
+            if (fibAttempt != null)
+                fib.UserAnswer = fibAttempt.UserAnswer;
             return View("~/Views/FillInTheBlank/Question.cshtml", model);
         }
-        else if (currentQuestionVM is MatchingViewModel)
+        else if (currentQuestionVM is MatchingViewModel m)
         {
+            var mAttempt = quizAttempt.MatchingAttempts
+                .FirstOrDefault(a => a.MatchingId == m.Id);
+            if (mAttempt != null)
+                m.UserAnswer = mAttempt.UserAnswer;
             return View("~/Views/Matching/MatchingQuestion.cshtml", model);
         }
-        else if (currentQuestionVM is SequenceViewModel)
+        else if (currentQuestionVM is SequenceViewModel sq)
         {
+            var sqAttempt = quizAttempt.SequenceAttempts
+                .FirstOrDefault(a => a.SequenceId == sq.Id);
+            if (sqAttempt != null)
+                sq.UserAnswer = sqAttempt.UserAnswer;
             return View("~/Views/Sequence/SequenceQuestion.cshtml", model);
         }
-        else if (currentQuestionVM is RankingViewModel)
+        else if (currentQuestionVM is RankingViewModel r)
         {
+            var rAttempt = quizAttempt.RankingAttempts
+                .FirstOrDefault(a => a.RankingId == r.Id);
+            if (rAttempt != null)
+                r.UserAnswer = rAttempt.UserAnswer;
             return View("~/Views/Ranking/RankingQuestion.cshtml", model);
         }
-        else if (currentQuestionVM is TrueFalseViewModel)
+        else if (currentQuestionVM is TrueFalseViewModel tf)
         {
+            var tfAttempt = quizAttempt.TrueFalseQuestionAttempts
+                .FirstOrDefault(a => a.TrueFalseId == tf.TrueFalseId);
+            if (tfAttempt != null)
+                tf.UserAnswer = tfAttempt.UserAnswer;
             return View("~/Views/TrueFalse/Question.cshtml", model);
         }
-        else if (currentQuestionVM is MultipleChoiceViewModel)
+        else if (currentQuestionVM is MultipleChoiceViewModel mc)
         {
+            var mcAttempt = quizAttempt.MultipleChoiceAttempts
+                .FirstOrDefault(a => a.MultiplechoiceId == mc.MultipleChoiceId);
+
+            if (mcAttempt != null)
+                mc.UserAnswer = mcAttempt.UserAnswer;
             return View("~/Views/MultipleChoice/Question.cshtml", model);
         }
 
-        return View("s", model);
-    }
-
-    [HttpGet]
-    public IActionResult Create()
-    {
-        return View();
+        _logger.LogError("[QuizController - PrevQuestion] Something went wrong.");
+        return RedirectToAction(nameof(Quizzes));
     }
 
     [HttpGet]
@@ -236,13 +295,19 @@ public class QuizController : Controller
             }
             if (question is MultipleChoice mc && questionAttempt is MultipleChoiceAttempt mcAttempt)
             {
-                mcAttempt.AnsweredCorrectly = _quizService.CheckAnswer(mc.CorrectAnswer, mcAttempt.UserAnswer);   
+                mcAttempt.AnsweredCorrectly = _quizService.CheckAnswer(mc.CorrectAnswer, mcAttempt.UserAnswer);
             }
         }
 
         var quizResultViewModel = new QuizResultViewModel(quiz, quizAttempt);
 
         return View(quizResultViewModel);
+    }
+    
+    [HttpGet]
+    public IActionResult Create()
+    {
+        return View();
     }
 
     [HttpPost]
@@ -252,7 +317,7 @@ public class QuizController : Controller
         {
             bool returnOk = await _quizRepository.Create(quiz);
             if (returnOk)
-                return RedirectToAction(nameof(Quizzes));
+                return View("ManageQuiz", quiz);
         }
         _logger.LogError("[QuizController] Quiz creation failed {@quiz}", quiz);
         return View(quiz);

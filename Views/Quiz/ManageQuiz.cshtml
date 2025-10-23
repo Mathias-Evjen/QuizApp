@@ -17,27 +17,33 @@
             </div>
         </div>
 
-        @foreach(var question in Model.AllQuestions) 
-        {
-            if (question is FillInTheBlank fib) {
-                <partial name="../FillInTheBlank/_ManageQuizCard" model="fib" />
-            }
-            if (question is TrueFalse tf) {
-                <partial name="../TrueFalse/_ManageQuizCard" model="tf" />
-            }
-            if (question is MultipleChoice mc) {
-                <partial name="../MultipleChoice/_ManageQuizCard" model="mc" />
-            }            
-            if (question is Matching m) {
-                <partial name="../Matching/_ManageQuizCard" model="m" />
-            }
-            if (question is Ranking r) {
-                <partial name="../Ranking/_ManageQuizCard" model="r" />
-            }
-            if (question is Sequence sq) {
-                <partial name="../Sequence/_ManageQuizCard" model="sq" />
+        @if(Model.NumOfQuestions == 0) {
+            <h5>The quiz contains no questions</h5>
+        } else {
+            @foreach(var question in Model.AllQuestions) 
+            {
+                if (question is FillInTheBlank fib) {
+                    <partial name="../FillInTheBlank/_ManageQuizCard" model="fib" />
+                }
+                if (question is TrueFalse tf) {
+                    <partial name="../TrueFalse/_ManageQuizCard" model="tf" />
+                }
+                if (question is MultipleChoice mc) {
+                    <partial name="../MultipleChoice/_ManageQuizCard" model="mc" />
+                }            
+                if (question is Matching m) {
+                    <partial name="../Matching/_ManageQuizCard" model="m" />
+                }
+                if (question is Ranking r) {
+                    <partial name="../Ranking/_ManageQuizCard" model="r" />
+                }
+                if (question is Sequence sq) {
+                    <partial name="../Sequence/_ManageQuizCard" model="sq" />
+                }
             }
         }
+
+        
 
         <a asp-controller="Quiz" asp-action="Create" asp-route-quizId="@Model.QuizId" asp-route-numOfQuestions="@Model.NumOfQuestions" class="btn btn-primary mt-2">Add question</a>
         <a asp-controller="Quiz" asp-action="Edit" asp-route-quizId="@Model.QuizId" class="btn btn-secondary mt-2">Edit quiz</a>

@@ -43,9 +43,30 @@
             }
         }
 
-        
+        <div class="border rounded p-3" style="background-color: rgb(230, 230, 230)">
+        <div class="container pt-2">
+            <!-- Existing question display code omitted for brevity -->
 
-        <a asp-controller="Quiz" asp-action="Create" asp-route-quizId="@Model.QuizId" asp-route-numOfQuestions="@Model.NumOfQuestions" class="btn btn-primary mt-2">Add question</a>
-        <a asp-controller="Quiz" asp-action="Edit" asp-route-quizId="@Model.QuizId" class="btn btn-secondary mt-2">Edit quiz</a>
+            <form asp-action="RedirectToCreate" asp-controller="Quiz" method="post">
+                <select class="form-select mt-3" name="questionType" required>
+                    <option value="">--Pick a question type--</option>
+                    <option value="FillInTheBlank">Fill in the blank question</option>
+                    <option value="TrueFalse">True/false question</option>
+                    <option value="MultipleChoice">Multiple choice question</option>
+                    <option value="Matching">Matching question</option>
+                    <option value="Ranking">Ranking question</option>
+                    <option value="Sequence">Sequence question</option>
+                </select>
+
+                <input type="hidden" name="quizId" value="@Model.QuizId" />
+                <input type="hidden" name="numOfQuestions" value="@Model.NumOfQuestions" />
+
+                <button type="submit" class="btn btn-primary mt-2">Add question</button>
+            </form>
+
+            <a asp-controller="Quiz" asp-action="Edit" asp-route-quizId="@Model.QuizId" class="btn btn-secondary mt-2">
+                Edit quiz
+            </a>
+        </div>
     </div>
 </div>

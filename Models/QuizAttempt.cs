@@ -24,6 +24,7 @@ namespace QuizApp.Models
                 .Concat(MultipleChoiceAttempts)
                 .Concat(MatchingAttempts)
                 .Concat(SequenceAttempts)
-                .Concat(RankingAttempts);
+                .Concat(RankingAttempts)
+                .OrderBy(q => q.QuizQuestionNum);
     }
 }

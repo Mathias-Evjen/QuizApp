@@ -23,6 +23,7 @@ namespace QuizApp.Models
                 .Concat(SequenceQuestions)
                 .Concat(RankingQuestions)
                 .Concat(TrueFalseQuestions)
-                .Concat(MultipleChoiceQuestions);
+                .Concat(MultipleChoiceQuestions)
+                .OrderBy(q => q.QuizQuestionNum);
         }
 }

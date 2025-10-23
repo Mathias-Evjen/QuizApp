@@ -144,11 +144,18 @@ namespace QuizApp.Controllers
                     return NotFound();
                 }
 
-                while (question.Options.Count < 4)
+                // Sikre at Options-listen finnes
+                if (question.Options == null) 
+                    question.Options = new List<Option>();
+
+                //  Bare fyll opp hvis færre enn 4
+                int missing = 4 - question.Options.Count;
+                for (int i = 0; i < missing; i++)
                 {
                     question.Options.Add(new Option());
                 }
 
+                _logger.LogInformation("Loaded {Count} options for question Id={Id}", question.Options.Count, id);
                 return View(question);
             }
             catch (Exception ex)
@@ -170,6 +177,11 @@ namespace QuizApp.Controllers
 
              try
             {
+                question.CorrectAnswer = string.Join(", ",
+                    question.Options
+                        .Where(o => o.IsCorrect)
+                        .Select(o => o.Text));
+
                 var returnOk = await _multipleChoiceRepository.Update(question);
                 if (!returnOk)
                 {

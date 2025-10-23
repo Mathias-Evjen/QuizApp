@@ -7,6 +7,6 @@ namespace QuizApp.Models
         public bool IsCorrect { get; set; }
 
         public int MultipleChoiceId { get; set; }
-        public virtual MultipleChoice MultipleChoice { get; set; } = default!;
+        public virtual MultipleChoice? MultipleChoice { get; set; }
     }
 }

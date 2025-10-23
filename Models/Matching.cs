@@ -9,7 +9,6 @@ namespace QuizApp.Models
     public class Matching : Question
     {
         public int Id { get; set; }
-        // public override int QuestionId => Id;
         public string Question { get; set; } = string.Empty;
         public string QuestionText { get; set; } = string.Empty;
         public string Answer { get; set; } = string.Empty;
@@ -17,7 +16,6 @@ namespace QuizApp.Models
         public int QuizId { get; set; }
         public virtual Quiz? Quiz { get; set; } = default!;
         public int TotalRows { get; set; }
-        public int AmountCorrect { get; set; }
 
 
         public KeyValuePair<string, string>[] SplitQuestion()

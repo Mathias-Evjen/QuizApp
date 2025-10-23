@@ -110,16 +110,16 @@ public class MatchingController : Controller
             quizQuestionNum = quizQuestionNum
         });
     }
-    
+
     public bool CheckAttempt(int quizAttemptId)
     {
-        
-        if(quizAttemptId <= 0){ return false; }
+
+        if (quizAttemptId <= 0) { return false; }
         var attempt = _matchingAttemptRepository.Exists(quizAttemptId);
         if (!attempt)
         {
             Console.WriteLine("denne er false");
-            return false; 
+            return false;
         }
         else
         {
@@ -127,9 +127,19 @@ public class MatchingController : Controller
             return true;
         }
     }
+    
+    public IActionResult CreateMatchingQuestion(int quizId, int numOfQuestions)
+    {
+        var question = new Matching
+        {
+            QuizId = quizId,
+            QuizQuestionNum = numOfQuestions + 1
+        };
+        return View(question);
+    }
 
     [HttpPost]
-    public async Task<IActionResult> CreateMatchingQuestion(List<string> Keys, List<string> Values)
+    public async Task<IActionResult> CreateMatchingQuestion(List<string> Keys, List<string> Values, int quizId, int quizQuestionNum)
     {
         if (Keys == null || Values == null || Keys.Count != Values.Count)
         {
@@ -137,13 +147,24 @@ public class MatchingController : Controller
             return View();
         }
 
-        var matchingQuestion = new Matching();
+        var matchingQuestion = new Matching
+        {
+            QuizId = quizId,
+            QuizQuestionNum = quizQuestionNum
+        };
         matchingQuestion.Assemble(Keys, Values, 1);
+        matchingQuestion.Assemble(Keys, Values, 3);
         matchingQuestion.ShuffleQuestion(Keys, Values);
         matchingQuestion.TotalRows = Keys.Count;
-        await _matchingRepository.Create(matchingQuestion);
+        bool returnOk = await _matchingRepository.Create(matchingQuestion);
+        if (returnOk)
+        {
+            await _quizService.ChangeQuestionCount(matchingQuestion.QuizId, true);
+            return RedirectToAction("ManageQuiz", "Quiz", new { quizId = matchingQuestion.QuizId});
+        }
 
-        return RedirectToAction("Index", "Home");
+        _logger.LogError("[MatchingController] Question creation failed {@question}", matchingQuestion);
+        return View();
     }
 
     [HttpGet]

@@ -81,30 +81,32 @@ namespace QuizApp.Controllers
 
         // GET: /Create
         [HttpGet]
-        public IActionResult Create() => View();
+        public IActionResult Create(int quizId, int numOfQuestions) {
+            var question = new TrueFalse
+            {
+                QuizId = quizId,
+                QuizQuestionNum = numOfQuestions + 1
+            };
+            return View(question);
+        }
 
         // POST: /Create
         [HttpPost]
         public async Task<IActionResult> Create(TrueFalse question)
         {
-            if (!ModelState.IsValid)
+            if (ModelState.IsValid)
             {
-                _logger.LogWarning("Invalid model state on TrueFalse Create.");
-                return View(question);
+                bool returnOk = await _trueFalseRepository.Create(question);
+                if (returnOk)
+                {
+                    _logger.LogInformation("TrueFalse created: {Question}", question.TrueFalseId);
+                    await _quizService.ChangeQuestionCount(question.QuizId, true);
+                    return RedirectToAction("ManageQuiz", "Quiz", new { quizId = question.QuizId});
+                }
             }
 
-            try
-            {
-                await _trueFalseRepository.Create(question);
-
-                _logger.LogInformation("TrueFalse created: {Question}", question.TrueFalseId);
-                return RedirectToAction(nameof(Index));
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError(ex, "Error creating TrueFalse.");
-                return View("Error");
-            }
+            _logger.LogError("[TrueFalseController] Error creating TrueFalse.");
+            return View("Error");
         }
 
         // GET: /Edit

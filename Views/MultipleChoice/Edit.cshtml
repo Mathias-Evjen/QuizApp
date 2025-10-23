@@ -25,6 +25,8 @@
         @for (int i = 0; i < Model.Options.Count; i++)
         {
             <div class="input-group mb-2">
+                <input type="hidden" name="Options[@i].OptionId" value="@Model.Options[i].OptionId" />
+                
                 <!-- Tekstfelt for alternativ -->
                 <input name="Options[@i].Text" value="@Model.Options[i].Text"
                        class="form-control" placeholder="Option @(i + 1)" />
@@ -44,7 +46,7 @@
         <!-- Handlingsknapper -->
         <div class="mt-4 text-end">
             <button type="submit" class="btn btn-primary me-2">Save Changes</button>
-            <a aasp-controller="Quiz" asp-action="ManageQuiz" asp-route-quizId="@Model.QuizId" class="btn btn-secondary">Cancel</a>
+            <a asp-controller="Quiz" asp-action="ManageQuiz" asp-route-quizId="@Model.QuizId" class="btn btn-secondary">Cancel</a>
         </div>
     </form>
 </div>

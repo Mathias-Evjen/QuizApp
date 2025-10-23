@@ -44,11 +44,17 @@ public class QuizDbContext : DbContext
             .WithMany(q => q.FlashCards)
             .HasForeignKey(fc => fc.QuizId)
             .OnDelete(DeleteBehavior.Cascade);
-        
+
         modelBuilder.Entity<MultipleChoice>()
             .HasOne(mc => mc.Quiz)
             .WithMany(q => q.MultipleChoiceQuestions)
             .HasForeignKey(mc => mc.QuizId)
+            .OnDelete(DeleteBehavior.Cascade);
+            
+        modelBuilder.Entity<Option>()
+            .HasOne(o => o.MultipleChoice)
+            .WithMany(mc => mc.Options)
+            .HasForeignKey(o => o.MultipleChoiceId)
             .OnDelete(DeleteBehavior.Cascade);
     }
 }

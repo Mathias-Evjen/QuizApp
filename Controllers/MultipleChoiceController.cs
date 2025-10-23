@@ -98,27 +98,33 @@ namespace QuizApp.Controllers
         }
 
         // POST: /Create
-        [HttpPost]
+       [HttpPost]
         public async Task<IActionResult> Create(MultipleChoice question)
         {
-            if (ModelState.IsValid)
+            if (!ModelState.IsValid)
             {
-                foreach (var option in question.Options)
-                {
-                    option.MultipleChoiceId = question.MultipleChoiceId;
-                    if (option.IsCorrect) question.CorrectAnswer = option.Text;
-                }
-
-                bool returnOk = await _multipleChoiceRepository.Create(question);
-                if (returnOk)
-                {
-                    await _quizService.ChangeQuestionCount(question.QuizId, true);
-                    return RedirectToAction("ManageQuiz", "Quiz", new { quizId = question.QuizId });
-                }
+                _logger.LogWarning("[MultipleChoiceController] Invalid model state for Create. QuizId={QuizId}", question.QuizId);
+                return View(question);
             }
+
+            foreach (var option in question.Options)
+            {
+                if (option.IsCorrect)
+                    question.CorrectAnswer = option.Text;
+            }
+
+            bool created = await _multipleChoiceRepository.Create(question);
+            if (created)
+            {
+                await _quizService.ChangeQuestionCount(question.QuizId, true);
+                return RedirectToAction("ManageQuiz", "Quiz", new { quizId = question.QuizId });
+            }
+
             _logger.LogError("[MultipleChoiceController] Question creation failed {@question}", question);
             return View(question);
         }
+
+
 
         // GET: /Edit
         public async Task<IActionResult> Edit(int id)
@@ -132,11 +138,18 @@ namespace QuizApp.Controllers
                     return NotFound();
                 }
 
-                while (question.Options.Count < 4)
+                // Sikre at Options-listen finnes
+                if (question.Options == null) 
+                    question.Options = new List<Option>();
+
+                //  Bare fyll opp hvis færre enn 4
+                int missing = 4 - question.Options.Count;
+                for (int i = 0; i < missing; i++)
                 {
                     question.Options.Add(new Option());
                 }
 
+                _logger.LogInformation("Loaded {Count} options for question Id={Id}", question.Options.Count, id);
                 return View(question);
             }
             catch (Exception ex)
@@ -158,6 +171,11 @@ namespace QuizApp.Controllers
 
              try
             {
+                question.CorrectAnswer = string.Join(", ",
+                    question.Options
+                        .Where(o => o.IsCorrect)
+                        .Select(o => o.Text));
+
                 var returnOk = await _multipleChoiceRepository.Update(question);
                 if (!returnOk)
                 {

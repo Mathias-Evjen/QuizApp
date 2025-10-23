@@ -1,0 +1,29 @@
+@model (Sequence sequence, SequenceAttempt sequenceAttempt)
+
+@{
+    var splitQuestion = Model.sequence.Question.Split(",");
+    string formattedQuestion = "";
+    for(int i = 0; i < splitQuestion.Length; i++){
+        if(i!=0){formattedQuestion+=" -> ";}
+        formattedQuestion += splitQuestion[i];
+    }
+    var splitCorrectAnswer = Model.sequence.CorrectAnswer.Split(",");
+    string formattedCorrectAnswer = "";
+    for(int i = 0; i < splitCorrectAnswer.Length; i++){
+        if (i != 0){formattedCorrectAnswer += " -> ";}
+        formattedCorrectAnswer += splitCorrectAnswer[i];
+    }
+}
+
+<div>
+    <h3>Question @Model.sequence.QuizQuestionNum</h3>
+    <h4>@Model.sequence.QuestionText</h4>
+    <h5>Your answer:</h5>
+    <p>@formattedQuestion</p>
+    @if (Model.sequenceAttempt.AnsweredCorrectly.HasValue) 
+    {
+        <div class="mt-3 alert @(Model.sequenceAttempt.AnsweredCorrectly.Value ? "alert-success" : "alert-dagner")">
+            @(Model.sequenceAttempt.AnsweredCorrectly.Value ? "Correct!" : $"Wrong. The correct answer was \n'{formattedCorrectAnswer}'")
+        </div>
+    }
+</div>

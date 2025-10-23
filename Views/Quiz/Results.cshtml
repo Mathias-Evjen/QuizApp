@@ -1,27 +1,49 @@
 @using QuizApp.ViewModels
 @model QuizResultViewModel
 
-<h1>Results</h1>
-
 @{
     var questions = Model.Quiz.AllQuestions;
     var attempts = Model.QuizAttempt.AllQuestionAttempts;
+
+    // Brukes til å beregne poeng
+    int correctAnswers = Model.QuizAttempt.AllQuestionAttempts.Count(a =>
+        (a as dynamic)?.AnsweredCorrectly == true);
+    int totalQuestions = questions.Count();
+    double percent = totalQuestions > 0 ? (double)correctAnswers / totalQuestions * 100 : 0;
 }
 
-<div>
-    @for (int i = 0; i < questions.Count(); i++) 
-    {
-        var question = questions.ElementAt(i);
-        var attempt = attempts.ElementAt(i);
+<div class="container mt-4 mb-5">
+    <div class="text-center mb-5">
+        <h1 class="fw-bold">Quiz Results</h1>
+        <p class="text-muted">@Model.Quiz.Name</p>
+        <div class="d-inline-block bg-light rounded-3 p-4 shadow-sm">
+            <h2 class="mb-0 text-success">
+                @correctAnswers / @totalQuestions Correct
+            </h2>
+            <small class="text-secondary">@percent.ToString("0")% Score</small>
+        </div>
+    </div>
 
-        if (question is FillInTheBlank fib && attempt is FillInTheBlankAttempt fibAttempt) {
-            <partial name="_FillInTheBlankResult" model="(fib, fibAttempt)" />
+    <div class="mt-5">
+        @for (int i = 0; i < questions.Count(); i++)
+        {
+            var question = questions.ElementAt(i);
+            var attempt = attempts.ElementAt(i);
+
+            <div class="mb-4">
+                @if (question is FillInTheBlank fib && attempt is FillInTheBlankAttempt fibAttempt)
+                {
+                    <partial name="_FillInTheBlankResult" model="(fib, fibAttempt)" />
+                }
+                else if (question is TrueFalse tf && attempt is TrueFalseAttempt tfAttempt)
+                {
+                    <partial name="_TrueFalseResult" model="(tf, tfAttempt)" />
+                }
+                else if (question is MultipleChoice mc && attempt is MultipleChoiceAttempt mcAttempt)
+                {
+                    <partial name="_MultipleChoiceResult" model="(mc, mcAttempt)" />
+                }
+            </div>
         }
-        if (question is TrueFalse tf && attempt is TrueFalseAttempt tfAttempt) {
-            <partial name="_TrueFalseResult" model="(tf, tfAttempt)" />
-        }
-        if (question is MultipleChoice mc && attempt is MultipleChoiceAttempt mcAttempt) {
-            <partial name="_MultipleChoiceResult" model="(mc, mcAttempt)" />
-        }
-    }
+    </div>
 </div>

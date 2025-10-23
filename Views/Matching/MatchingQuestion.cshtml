@@ -10,13 +10,11 @@
         </div>
         return; // Stopper videre rendering av viewet
     }
-    //MÅ LEGGE TIL HVA SOM SKJER VED matchingModel = null
-    //var pairQuestions = Model.Question.SplitQuestion();
-    //var matching = Model.Questions.ElementAt(Model.CurrentQuizNum);
+    var lastQuestion = (Model.CurrentQuestionNum+1) == Model.NumOfQuestions;
 }
 
 <div class="container w-400">
-    <h1>Matching question</h1>
+    <h3>@matchingModel.QuestionText</h3>
     <hr>
 <div class="container">
     <form asp-controller="Matching" asp-action="SubmitMatchingQuestion" method="post">
@@ -24,6 +22,7 @@
         <input type="hidden" name="quizId" value="@Model.QuizId" />
         <input type="hidden" name="quizAttemptId" value="@Model.QuizAttemptId" />
         <input type="hidden" name="quizQuestionNum" value="@Model.CurrentQuestionNum" />
+        <input type="hidden" name="numOfQuestions" value="@Model.NumOfQuestions" />
         <table class="table table-bordered" style="width: 400px;">
             @for (int i = 0; i < matchingModel.Keys.Count; i++){
                 <tr class="text-center align-items-center justify-content-center">
@@ -46,7 +45,13 @@
             }
         </table>
         <br>
-        <button type="submit" class="btn btn-primary">Next</button>
+        <button type="submit" class="btn btn-primary">@(lastQuestion ? "Submit quiz" : "Next")</button>
+    </form>
+    <form asp-controller="Quiz" asp-action="PrevQuestion" method="post">
+        <input type="hidden" name="quizId" value="@Model.QuizId" />
+        <input type="hidden" name="quizAttemptId" value="@Model.QuizAttemptId" />
+        <input type="hidden" name="quizQuestionNum" value="@Model.CurrentQuestionNum" />
+        <button type="submit" class="btn btn-secondary" style="margin-top: 10px;">Back</button>
     </form>
 </div>
 </div>

@@ -40,7 +40,7 @@ public class SequenceController : Controller
     }
 
     [HttpPost]
-    public async Task<IActionResult> SubmitSequenceQuestion(int id, List<string> values, int quizId, int quizQuestionNum, int quizAttemptId)
+    public async Task<IActionResult> SubmitSequenceQuestion(int id, List<string> values, int quizId, int quizQuestionNum, int quizAttemptId, int numOfQuestions)
     {
         var sequenceObject = await _sequenceRepository.GetById(id);
         if (sequenceObject == null)
@@ -50,25 +50,68 @@ public class SequenceController : Controller
         }
 
         string answer = sequenceObject.Assemble(values, 2);
-        var sequenceAttempt = new SequenceAttempt
-        {
-            SequenceId = sequenceObject.Id,
-            QuizAttemptId = quizAttemptId,
-            UserAnswer = answer
-        };
 
-        var returnOk = await _sequenceAttemptRepository.Create(sequenceAttempt);
-        if (!returnOk)
+        if (!CheckAttempt(quizAttemptId))
         {
-            _logger.LogError("[SequenceController] Question attempt creation failed {@attempt}", sequenceAttempt);
-            return RedirectToAction("Quizzes", "Quiz");
+            var sequenceAttempt = new SequenceAttempt();
+            sequenceAttempt.SequenceId = sequenceObject.Id;
+            sequenceAttempt.QuizAttemptId = quizAttemptId;
+            sequenceAttempt.UserAnswer = answer;
+            if (answer == sequenceObject.CorrectAnswer) { sequenceAttempt.AnsweredCorrectly = true; }
+            else{ sequenceAttempt.AnsweredCorrectly = false; }
+
+            var returnOk = await _sequenceAttemptRepository.Create(sequenceAttempt);
+            if (!returnOk)
+            {
+                _logger.LogError("[SequenceController] Question attempt creation failed {@attempt}", sequenceAttempt);
+                return RedirectToAction("Quizzes", "Quiz");
+            }
         }
+        else
+        {
+            var sequenceAttempt = await _sequenceAttemptRepository.GetById(quizAttemptId);
+            if (sequenceAttempt == null)
+            {
+                _logger.LogError("[SequenceController - Get Attempt] Sequence attempt not found for the Id {Id: 0000}", id);
+                return NotFound("Sequence attempt not found.");
+            }
+            sequenceAttempt.SequenceId = sequenceObject.Id;
+            sequenceAttempt.QuizAttemptId = quizAttemptId;
+            sequenceAttempt.UserAnswer = answer;
+            if (answer == sequenceObject.CorrectAnswer) { sequenceAttempt.AnsweredCorrectly = true; }
+            else{ sequenceAttempt.AnsweredCorrectly = false; }
+
+            var returnOk = await _sequenceAttemptRepository.Create(sequenceAttempt);
+            if (!returnOk)
+            {
+                _logger.LogError("[SequenceController] Question attempt creation failed {@attempt}", sequenceAttempt);
+                return RedirectToAction("Quizzes", "Quiz");
+            }
+        }
+
+        if (sequenceObject.QuizQuestionNum == numOfQuestions)
+            return RedirectToAction("Results", "Quiz", new { quizAttemptId = quizAttemptId });
+
         return RedirectToAction("NextQuestion", "Quiz", new
         {
             quizId = quizId,
             quizAttemptId = quizAttemptId,
             quizQuestionNum = quizQuestionNum
         });
+    }
+
+    public bool CheckAttempt(int quizAttemptId)
+    {
+        if(quizAttemptId <= 0){ return false; }
+        var attempt =  _sequenceAttemptRepository.Exists(quizAttemptId);
+        if (attempt)
+        {
+            return true;
+        }
+        else
+        {
+            return false; 
+        }
     }
 
     [HttpPost]

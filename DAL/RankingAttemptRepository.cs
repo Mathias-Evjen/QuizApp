@@ -19,13 +19,17 @@ public class RankingAttemptRepository : IAttemptRepository<RankingAttempt>
     {
         try
         {
-            return await _db.RankingAttempts.FindAsync();
+            return await _db.RankingAttempts.FindAsync(id);
         }
         catch (Exception e)
         {
             _logger.LogError("[RankingAttemptRepository] RankingAttempt FindAsync(id) failed when GetRankingAttemptId {RankingAttemptId:0000}, error message: {e}", id, e.Message);
             return null;
         }
+    }
+    public bool Exists(int id)
+    {
+        return _db.RankingAttempts.Any(r => r.RankingAttemptId == id);
     }
 
     public async Task<bool> Create(RankingAttempt rankingAttempt)

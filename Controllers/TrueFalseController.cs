@@ -24,21 +24,6 @@ namespace QuizApp.Controllers
             _logger = logger;
         }
 
-        // GET: /TrueFalse
-        public async Task<IActionResult> Index()
-        {
-            try
-            {
-                var questions = await _trueFalseRepository.GetAll();
-                return View(questions);
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError(ex, "Failed to load TrueFalse list.");
-                return View("Error");
-            }
-        }
-
         public IActionResult Question(QuizViewModel model)
         {
             return View(model);

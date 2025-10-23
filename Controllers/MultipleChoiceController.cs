@@ -24,21 +24,6 @@ namespace QuizApp.Controllers
             _logger = logger;
         }
 
-        // GET: /MultipleChoice
-        public async Task<IActionResult> Index()
-        {
-            try
-            {
-                var questions = await _multipleChoiceRepository.GetAll();
-                return View(questions);
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError(ex, "Failed to load Multiple Choice list.");
-                return View("Error");
-            }
-        }
-
         public IActionResult Question(QuizViewModel model)
         {
             return View(model);
@@ -123,8 +108,6 @@ namespace QuizApp.Controllers
             _logger.LogError("[MultipleChoiceController] Question creation failed {@question}", question);
             return View(question);
         }
-
-
 
         // GET: /Edit
         public async Task<IActionResult> Edit(int id)

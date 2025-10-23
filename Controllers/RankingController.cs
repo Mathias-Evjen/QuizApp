@@ -146,15 +146,6 @@ public class RankingController : Controller
         return View(quiz);
     }
 
-    // [HttpGet]
-    // public async Task<IActionResult> ShowRankings()
-    // {
-    //     var rankings = await _rankingRepository.GetAll();
-
-    //     var viewModel = new RankingViewModel(rankings);
-    //     return View(viewModel);
-    // }
-
     [HttpGet]
     public async Task<IActionResult> Edit(int id)
     {

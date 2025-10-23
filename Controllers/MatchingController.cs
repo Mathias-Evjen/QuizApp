@@ -175,16 +175,7 @@ public class MatchingController : Controller
         Console.WriteLine(quiz.QuizId + ", " + quiz.NumOfQuestions);
         return View(quiz);
     }
-/*
-    [HttpGet]
-    public async Task<IActionResult> ShowMatchings()
-    {
-        var matchings = await _matchingRepository.GetAll();
-
-        var viewModel = new MatchingViewModel(matchings);
-        return View(viewModel);
-    }
-*/
+    
     public async Task<IActionResult> Edit(int id)
     {
         var matching = await _matchingRepository.GetById(id);

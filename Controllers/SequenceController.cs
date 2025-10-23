@@ -147,15 +147,6 @@ public class SequenceController : Controller
         return View(quiz);
     }
 
-    // [HttpGet]
-    // public async Task<IActionResult> ShowSequences()
-    // {
-    //     var sequences = await _sequenceRepository.GetAll();
-
-    //     var viewModel = new SequenceViewModel(sequences);
-    //     return View(viewModel);
-    // }
-
     public async Task<IActionResult> Edit(int id)
     {
         var sequence = await _sequenceRepository.GetById(id);

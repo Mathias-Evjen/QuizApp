@@ -267,6 +267,7 @@ public class QuizController : Controller
     [HttpPost]
     public IActionResult RedirectToCreate(string questionType, int quizId, int numOfQuestions)
     {
+        Console.WriteLine(questionType);
         if (questionType == "FillInTheBlank")
             return RedirectToAction("Create", questionType, new { quizId, numOfQuestions });
         if (questionType == "TrueFalse")

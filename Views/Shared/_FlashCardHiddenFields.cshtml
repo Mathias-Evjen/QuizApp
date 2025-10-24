@@ -3,11 +3,15 @@
 <input type="hidden" name="CurrentFlashCardNum" value="@Model.CurrentFlashCardNum" />
 <input type="hidden" name="FlashCardQuizName" value="@Model.FlashCardQuizName" />
 <input type="hidden" name="FlashCardQuizDescription" value="@Model.FlashCardQuizDescription" />
-@foreach (var card in Model.FlashCards.Select((c, index) => (c, index)))
-{
-    <input type="hidden" name="FlashCards[@card.index].FlashCardId" value="@card.c.FlashCardId" />
-    <input type="hidden" name="FlashCards[@card.index].Question" value="@card.c.Question" />
-    <input type="hidden" name="FlashCards[@card.index].Answer" value="@card.c.Answer" />
-    <input type="hidden" name="FlashCards[@card.index].ShowAnswer" value="@card.c.ShowAnswer.ToString().ToLower()" />
-    <input type="hidden" name="FlashCards[@card.index].BackgroundColor" value="@card.c.BackgroundColor" />
+@for (int i = 0; i < Model.FlashCards.Count(); i++)
+{   
+    var card = Model.FlashCards.ElementAt(i);
+
+    <input type="hidden" name="FlashCards[@i].FlashCardId" value="@card.FlashCardId" />
+    <input type="hidden" name="FlashCards[@i].Question" value="@card.Question" />
+    <input type="hidden" name="FlashCards[@i].Answer" value="@card.Answer" />
+    <input type="hidden" name="FlashCards[@i].ShowAnswer" value="@(card.ShowAnswer.ToString().ToLower())" />
+    <input type="hidden" name="FlashCards[@i].BackgroundColor" value="@card.BackgroundColor" />
+    <input type="hidden" name="FlashCards[@i].QuizQuestionNum" value="@card.QuizQuestionNum" />
+    <input type="hidden" name="FlashCards[@i].QuizId" value="@card.QuizId" />
 }

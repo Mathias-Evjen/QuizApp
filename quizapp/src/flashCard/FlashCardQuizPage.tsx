@@ -93,6 +93,8 @@ const FlashCardQuizPage: React.FC = () => {
         setFlashCardIndex(flashCardIndex + 1)
     }
 
+    
+
     return(
         <>
             <div className="flash-card-container">
@@ -109,13 +111,21 @@ const FlashCardQuizPage: React.FC = () => {
                         toggleAnswer={() => toggleShowAnswer(flashCards[flashCardIndex].flashCardId)}
                         />
 
-                        <div>
-                            <button onClick={handlePrevCard}>Prev</button>
-                            <div>
-                                <p>{flashCards[flashCardIndex].quizQuestionNum}/{flashCards.length}</p>
+                        <div className="flash-card-sidebar">
+                            <div className="flash-card-page-description">
+                                <h2>Description:</h2>
+                                <p>{quiz?.description}</p>
                             </div>
-                            <button onClick={handleNextCard}>Next</button>
+                            <div className="flash-card-menu">
+                                <button onClick={handlePrevCard}>Prev</button>
+                                <div>
+                                    <p>{flashCards[flashCardIndex].quizQuestionNum}/{flashCards.length}</p>
+                                </div>
+                                <button onClick={handleNextCard}>Next</button>
+                            </div>
                         </div>
+
+                        
                     </div>
                 ) : (
                     <p>No flashcards to display</p>

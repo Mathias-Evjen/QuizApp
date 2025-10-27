@@ -1,131 +1,111 @@
 using Microsoft.AspNetCore.Mvc;
 using QuizApp.Models;
 using QuizApp.DAL;
+using QuizApp.DTOs;
 
 namespace QuizApp.Controllers;
 
-public class FlashCardQuizController : Controller
+[ApiController]
+[Route("api/[controller]")]
+public class FlashCardQuizAPIController : ControllerBase
 {
     private readonly IRepository<FlashCardQuiz> _flashCardQuizRepository;
-    private readonly ILogger<FlashCardQuizController> _logger;
-    
-    public FlashCardQuizController(IRepository<FlashCardQuiz> flashCardQuizRepository, ILogger<FlashCardQuizController> logger)
+    private readonly ILogger<FlashCardQuizAPIController> _logger;
+
+    public FlashCardQuizAPIController(IRepository<FlashCardQuiz> flashCardQuizRepository, ILogger<FlashCardQuizAPIController> logger)
     {
         _flashCardQuizRepository = flashCardQuizRepository;
         _logger = logger;
     }
 
-    [HttpGet]
+    [HttpGet("getQuizzes")]
     public async Task<IActionResult> Quizzes()
     {
         var quizzes = await _flashCardQuizRepository.GetAll();
         if (quizzes == null)
         {
-            _logger.LogError("[FlashCardQuizcontroller] FlashCardQuizzes list not found while executing _flashCardQuizRepository.GetAll()");
+            _logger.LogError("[FlashCardQuizAPIcontroller] FlashCardQuizzes list not found while executing _flashCardQuizRepository.GetAll()");
             return NotFound("FlashCardQuizzes not found");
         }
-        return View(quizzes);
+
+        var quizDtos = quizzes.Select(quiz => new FlashCardQuizDto
+        {
+            FlashCardQuizId = quiz.FlashCardQuizId,
+            Name = quiz.Name,
+            Description = quiz.Description,
+            NumOfQuestions = quiz.NumOfQuestions
+        });
+
+        return Ok(quizDtos);
     }
 
-    [HttpGet]
-    public async Task<IActionResult> FlashCardQuiz(int id) 
+    [HttpGet("getQuiz")]
+    public async Task<IActionResult> GetFlashCardQuiz(int id)
     {
         var quiz = await _flashCardQuizRepository.GetById(id);
         if (quiz == null)
         {
-            _logger.LogError("[FlashCardQuizController] FlashCardQuiz not found for the Id {Id: 0000}", id);
+            _logger.LogError("[FlashCardQuizAPIController] FlashCardQuiz not found for the Id {Id: 0000}", id);
             return NotFound("FlashCardQuiz not found");
         }
-        return View(quiz);
+        return Ok(quiz);
     }
 
-    [HttpGet]
-    public IActionResult Create()
+    [HttpPost("create")]
+    public async Task<IActionResult> Create([FromBody] FlashCardQuizDto flashCardQuizDto)
     {
-        return View();
-    }
-
-    [HttpPost]
-    public async Task<IActionResult> Create(FlashCardQuiz quiz)
-    {
-        if (ModelState.IsValid)
+        if (flashCardQuizDto == null)
         {
-            bool returnOk = await _flashCardQuizRepository.Create(quiz);
-            if (returnOk)
-                return RedirectToAction(nameof(Quizzes));
+            return BadRequest("Flash card quiz cannot be null");
         }
-        _logger.LogError("[FlashCardQuizController] FlashCardQuiz creation failed {@question}", quiz);
-        return View(quiz);
+
+        var newQuiz = new FlashCardQuiz
+        {
+            Name = flashCardQuizDto.Name,
+            Description = flashCardQuizDto.Description
+        };
+
+        bool returnOk = await _flashCardQuizRepository.Create(newQuiz);
+        if (returnOk)
+            return CreatedAtAction(nameof(Quizzes), newQuiz);
+
+        _logger.LogError("[FlashCardQuizAPIController] FlashCardQuiz creation failed {@quiz}", newQuiz);
+        return StatusCode(500, "Internal server error");
     }
 
-    [HttpGet]
-    public async Task<IActionResult> ManageQuiz(int quizId)
+    [HttpPut("update/{flashCardQuizId}")]
+    public async Task<IActionResult> Update(int flashCardQuizId, [FromBody] FlashCardQuizDto flashCardQuizDto)
     {
-        var quiz = await _flashCardQuizRepository.GetById(quizId);
-        if (quiz == null)
-        {
-            _logger.LogError("[FlashCardQuizcontroller] ManageQuiz not found for the Id {Id: 0000}", quizId);
-            return NotFound("FlashCardQuiz not found for the FlashCardQuizId");
-        }
-        return View(quiz);
-    }
+        if (flashCardQuizDto == null)
+            return BadRequest("Flash card quiz data cannot be null");
 
-    [HttpGet]
-    public async Task<IActionResult> Edit(int quizId)
-    {
-        var quiz = await _flashCardQuizRepository.GetById(quizId);
-        if (quiz == null)
+        var existingQuiz = await _flashCardQuizRepository.GetById(flashCardQuizId);
+        if (existingQuiz == null)
         {
-            _logger.LogError("[FlashCardQuizcontroller] ManageQuiz not found for the Id {Id: 0000}", quizId);
-            return NotFound("FlashCardQuiz not found for the FlashCardQuizId");
-        }
-        return View(quiz);
-    }
-
-    [HttpPost]
-    public async Task<IActionResult> Edit(int flashCardQuizId, string name, string description)
-    {
-        var quiz = await _flashCardQuizRepository.GetById(flashCardQuizId);
-        if (quiz == null)
-        {
-            _logger.LogError("[FlashCardQuizcontroller] ManageQuiz not found for the Id {Id: 0000}", flashCardQuizId);
+            _logger.LogError("[FlashCardQuizAPIcontroller] ManageQuiz not found for the Id {Id: 0000}", flashCardQuizId);
             return NotFound("FlashCardQuiz not found for the FlashCardQuizId");
         }
 
-        quiz.Name = name;
-        quiz.Description = description;
+        existingQuiz.Name = flashCardQuizDto.Name;
+        existingQuiz.Description = flashCardQuizDto.Description;
 
-        if (ModelState.IsValid)
-        {
-            bool returnOk = await _flashCardQuizRepository.Update(quiz);
-            if (returnOk)
-                return RedirectToAction("ManageQuiz", new { quizId = quiz.FlashCardQuizId });
-        }
-        _logger.LogError("[FlashCardQuizController] FlashCardQuiz update failed {@quiz}", quiz);
-        return RedirectToAction("ManageQuiz", new { quizId = quiz.FlashCardQuizId });
+        bool returnOk = await _flashCardQuizRepository.Update(existingQuiz);
+        if (returnOk)
+            return Ok(existingQuiz);
+        
+        _logger.LogError("[FlashCardQuizAPIController] FlashCardQuiz update failed {@quiz}", existingQuiz);
+        return StatusCode(500, "Internal server error");
     }
 
-    [HttpGet]
-    public async Task<IActionResult> Delete(int id)
-    {
-        var quiz = await _flashCardQuizRepository.GetById(id);
-        if (quiz == null)
-        {
-            _logger.LogError("[FlashCardQuizController] lashCardQuiz not found for the Id {Id: 0000}", id);
-            return BadRequest("FlashCardQuiz not found for the FlashCardQuizId");
-        }
-        return View(quiz);
-    }
-
-    [HttpPost]
+    [HttpDelete("delete/{id}")]
     public async Task<IActionResult> DeleteConfirmed(int id)
     {
         bool returnOk = await _flashCardQuizRepository.Delete(id);
         if (!returnOk)
         {
-            _logger.LogError("[FlashCardQuizController] FlashCardQuiz deletion failed for FlashCardQuizId {Id:0000}", id);
+            _logger.LogError("[FlashCardQuizAPIController] FlashCardQuiz deletion failed for FlashCardQuizId {Id:0000}", id);
             return BadRequest("FlashCardQuiz deletion failed");
         }
-        return RedirectToAction(nameof(Quizzes));
+        return NoContent();
     }
 }

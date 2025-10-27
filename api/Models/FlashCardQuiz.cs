@@ -9,7 +9,7 @@ namespace QuizApp.Models
         //public User creator { get; set; }
         public virtual List<FlashCard>? FlashCards { get; set; }
         public int NumOfQuestions { get; set; } = 0;
-        public string Description { get; set; } = string.Empty;
+        public string? Description { get; set; }
 
         // Might add tags later for easy search for quizzes with the same theme
     }

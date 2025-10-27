@@ -53,4 +53,18 @@ public class FlashCardQuizService : IFlashCardQuizService
             if (!returnOk) break;
         }
     }
+
+    // Flashcard dectoration
+    public string PickRandomFlashCardColor()
+    {
+        var flashCardColors = new List<string>{
+            "#FFF9C4", "#FFE0B2", "#F8BBD0",
+            "#FFCCBC", "#E1BEE7", "#B3E5FC",
+            "#C8E6C9", "#FFF3E0", "#FFDAB9"
+        };
+
+        var random = new Random();
+        int randomIndex = random.Next(flashCardColors.Count);
+        return flashCardColors[randomIndex];
+    }
 }

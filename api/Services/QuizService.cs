@@ -1,0 +1,129 @@
+using QuizApp.Models;
+using QuizApp.DAL;
+
+namespace QuizApp.Services;
+
+public class QuizService
+{
+    private readonly IRepository<Quiz> _quizRepository;
+    private readonly IRepository<FillInTheBlank> _fillInTheBlankRepository;
+    private readonly IRepository<Matching> _matchingRepository;
+    private readonly IRepository<Ranking> _rankingRepository;
+    private readonly IRepository<Sequence> _sequenceRepository;
+    private readonly IRepository<MultipleChoice> _multipleChoiceRepository;
+    private readonly IRepository<TrueFalse> _trueFalseRepository;
+    private readonly ILogger<QuizService> _logger;
+
+    public QuizService(
+        IRepository<Quiz> quizRepository,
+        IRepository<FillInTheBlank> fillInTheBlankRepository,
+        IRepository<Matching> matchingRepository,
+        IRepository<Ranking> rankingRepository,
+        IRepository<Sequence> sequenceRepository,
+        IRepository<MultipleChoice> multipleChoiceRepository,
+        IRepository<TrueFalse> trueFalseRepository,
+        ILogger<QuizService> logger)
+    {
+        _quizRepository = quizRepository;
+        _fillInTheBlankRepository = fillInTheBlankRepository;
+        _matchingRepository = matchingRepository;
+        _rankingRepository = rankingRepository;
+        _sequenceRepository = sequenceRepository;
+        _multipleChoiceRepository = multipleChoiceRepository;
+        _trueFalseRepository = trueFalseRepository;
+        _logger = logger;
+    }
+
+    // Checks the user's answer wit the correct answer in the database
+    public bool CheckAnswer(string correctAnswer, string userAnswer)
+    {
+        return string.Equals(
+            userAnswer?.Trim(),
+            correctAnswer,
+            StringComparison.OrdinalIgnoreCase
+            );
+    }
+
+    public bool CheckAnswer(bool correctAnswer, bool userAnswer)
+    {
+        return correctAnswer == userAnswer;
+    }
+
+    public async Task ChangeQuestionCount(int quizId, bool increment)
+    {
+        var quiz = await _quizRepository.GetById(quizId);
+        if (quiz == null)
+        {
+            _logger.LogError("[QuizService] Quiz not found for the Id {Id: 0000}", quizId);
+            return;
+        }
+
+        if (increment) quiz.NumOfQuestions += 1;
+        else quiz.NumOfQuestions -= 1;
+
+        bool returnOk = await _quizRepository.Update(quiz);
+        if (!returnOk)
+        {
+            _logger.LogError("[QuizService] Quiz update failed for {@quiz}", quiz);
+        }
+    }
+
+    public async Task UpdateQuestionNumbers(int qNum, int quizId)
+    {
+        var quiz = await _quizRepository.GetById(quizId);
+        if (quiz == null)
+        {
+            _logger.LogError("[QuizService] Quiz not found for the Id {Id: 0000}", quizId);
+            return;
+        }
+
+        foreach (var question in quiz.AllQuestions.OrderByDescending(q => q.QuizQuestionNum))
+        {
+            if (question.QuizQuestionNum < qNum) continue;
+            var returnOk = await UpdateQuizQuestionNumbers(question);
+            if (!returnOk) break;
+        }
+    }
+
+    private async Task<bool> UpdateQuizQuestionNumbers(Question question)
+    {
+        // Finds the question-model, decrements QuizQuestionNum, and updates the database
+
+        if (question is FillInTheBlank fib)
+        {
+            fib.QuizQuestionNum -= 1;
+            return await _fillInTheBlankRepository.Update(fib);
+        }
+
+        if (question is Matching m)
+        {
+            m.QuizQuestionNum -= 1;
+            return await _matchingRepository.Update(m);
+        }
+
+        if (question is Sequence sq)
+        {
+            sq.QuizQuestionNum -= 1;
+            return await _sequenceRepository.Update(sq);
+        }
+
+        if (question is Ranking r)
+        {
+            r.QuizQuestionNum -= 1;
+            return await _rankingRepository.Update(r);
+        }
+
+        if (question is MultipleChoice mc)
+        {
+            mc.QuizQuestionNum -= 1;
+            return await _multipleChoiceRepository.Update(mc);
+        }
+
+        if (question is TrueFalse tf)
+        {
+            tf.QuizQuestionNum -= 1;
+            return await _trueFalseRepository.Update(tf);
+        }
+        return false;
+    }
+}

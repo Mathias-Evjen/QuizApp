@@ -22,8 +22,8 @@ public class FlashCardAPIController : ControllerBase
         _logger = logger;
     }
 
-    [HttpGet("flashCards")]
-    public async Task<IActionResult> FlashCards(int quizId)
+    [HttpGet("getFlashCards/{quizId}")]
+    public async Task<IActionResult> GetFlashcards(int quizId)
     {
         var flashCards = await _flashCardRepository.GetAll(quizId);
         if (flashCards == null)
@@ -36,8 +36,7 @@ public class FlashCardAPIController : ControllerBase
             FlashCardId = card.FlashCardId,
             Question = card.Question,
             Answer = card.Answer,
-            QuizQuestionNum = card.QuizQuestionNum,
-            BackgroundColor = _flashCardQuizService.PickRandomFlashCardColor()
+            QuizQuestionNum = card.QuizQuestionNum
         });
 
         return Ok(flashCardDtos);

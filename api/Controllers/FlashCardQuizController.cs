@@ -19,7 +19,7 @@ public class FlashCardQuizAPIController : ControllerBase
     }
 
     [HttpGet("getQuizzes")]
-    public async Task<IActionResult> Quizzes()
+    public async Task<IActionResult> GetQuizzes()
     {
         var quizzes = await _flashCardQuizRepository.GetAll();
         if (quizzes == null)
@@ -39,8 +39,8 @@ public class FlashCardQuizAPIController : ControllerBase
         return Ok(quizDtos);
     }
 
-    [HttpGet("getQuiz")]
-    public async Task<IActionResult> GetFlashCardQuiz(int id)
+    [HttpGet("getQuiz/{id}")]
+    public async Task<IActionResult> GetQuiz(int id)
     {
         var quiz = await _flashCardQuizRepository.GetById(id);
         if (quiz == null)
@@ -67,7 +67,7 @@ public class FlashCardQuizAPIController : ControllerBase
 
         bool returnOk = await _flashCardQuizRepository.Create(newQuiz);
         if (returnOk)
-            return CreatedAtAction(nameof(Quizzes), newQuiz);
+            return CreatedAtAction(nameof(GetQuizzes), newQuiz);
 
         _logger.LogError("[FlashCardQuizAPIController] FlashCardQuiz creation failed {@quiz}", newQuiz);
         return StatusCode(500, "Internal server error");

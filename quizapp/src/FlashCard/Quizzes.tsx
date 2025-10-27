@@ -20,7 +20,7 @@ const Quizzes: React.FC = () => {
             }
             const data = await response.json();
             setQuizzes(data);
-            console.log(data)
+            console.log(data);
         } catch (error: unknown) {
             if (error instanceof Error) {
                 console.error(`There was a problem fetching data: ${error.message}`);
@@ -44,6 +44,7 @@ const Quizzes: React.FC = () => {
                 {quizzes.map(quiz => (
                     <QuizCard
                         key={quiz.flashCardQuizId}
+                        id={quiz.flashCardQuizId}
                         name={quiz.name}
                         description={quiz.description}
                         numOfQuestions={quiz.numOfQuestions}

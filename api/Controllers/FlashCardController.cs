@@ -3,6 +3,7 @@ using QuizApp.Models;
 using QuizApp.ViewModels;
 using QuizApp.DAL;
 using QuizApp.Services;
+using QuizApp.DTOs;
 
 namespace QuizApp.Controllers;
 

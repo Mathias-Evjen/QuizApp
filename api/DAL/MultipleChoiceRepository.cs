@@ -4,16 +4,10 @@ using QuizApp.Models;
 
 namespace QuizApp.DAL
 {
-    public class MultipleChoiceRepository : IQuestionRepository<MultipleChoice>
+    public class MultipleChoiceRepository(QuizDbContext db, ILogger<MultipleChoiceRepository> logger) : IQuestionRepository<MultipleChoice>
     {
-        private readonly QuizDbContext _db;
-        private readonly ILogger<MultipleChoiceRepository> _logger;
-
-        public MultipleChoiceRepository(QuizDbContext db, ILogger<MultipleChoiceRepository> logger)
-        {
-            _db = db;
-            _logger = logger;
-        }
+        private readonly QuizDbContext _db = db;
+        private readonly ILogger<MultipleChoiceRepository> _logger = logger;
 
         // Henter alle MultipleChoice-spørsmål
         public async Task<IEnumerable<MultipleChoice>?> GetAll()

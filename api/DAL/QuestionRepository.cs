@@ -3,18 +3,11 @@ using System.Linq.Expressions;
 
 namespace QuizApp.DAL
 {
-    public class QuestionRepository<T> : IQuestionRepository<T> where T : class
+    public class QuestionRepository<T>(QuizDbContext context, ILogger<QuestionRepository<T>> logger) : IQuestionRepository<T> where T : class
     {
-        private readonly DbContext _context;
-        private readonly DbSet<T> _dbSet;
-        private readonly ILogger<QuestionRepository<T>> _logger;
-
-        public QuestionRepository(QuizDbContext context, ILogger<QuestionRepository<T>> logger)
-        {
-            _context = context;
-            _dbSet = context.Set<T>();
-            _logger = logger;
-        }
+        private readonly DbContext _context = context;
+        private readonly DbSet<T> _dbSet = context.Set<T>();
+        private readonly ILogger<QuestionRepository<T>> _logger = logger;
 
         public async Task<IEnumerable<T>?> GetAll()
         {

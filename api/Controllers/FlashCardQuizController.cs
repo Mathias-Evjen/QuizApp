@@ -9,10 +9,10 @@ namespace QuizApp.Controllers;
 [Route("api/[controller]")]
 public class FlashCardQuizAPIController : ControllerBase
 {
-    private readonly IRepository<FlashCardQuiz> _flashCardQuizRepository;
+    private readonly IQuizRepository<FlashCardQuiz> _flashCardQuizRepository;
     private readonly ILogger<FlashCardQuizAPIController> _logger;
 
-    public FlashCardQuizAPIController(IRepository<FlashCardQuiz> flashCardQuizRepository, ILogger<FlashCardQuizAPIController> logger)
+    public FlashCardQuizAPIController(IQuizRepository<FlashCardQuiz> flashCardQuizRepository, ILogger<FlashCardQuizAPIController> logger)
     {
         _flashCardQuizRepository = flashCardQuizRepository;
         _logger = logger;

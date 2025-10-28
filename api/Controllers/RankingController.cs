@@ -8,13 +8,13 @@ namespace QuizApp.Controllers;
 
 public class RankingController : Controller
 {
-    private readonly IRepository<Ranking> _rankingRepository;
+    private readonly IQuestionRepository<Ranking> _rankingRepository;
     private readonly IAttemptRepository<RankingAttempt> _rankingAttemptRepository;
     private readonly QuizService _quizService;
     private readonly ILogger<RankingController> _logger;
 
     public RankingController(
-        IRepository<Ranking> rankingRepository,
+        IQuestionRepository<Ranking> rankingRepository,
         IAttemptRepository<RankingAttempt> rankingAttemptRepository,
         QuizService quizService,
         ILogger<RankingController> logger)
@@ -102,7 +102,7 @@ public class RankingController : Controller
     public bool CheckAttempt(int quizAttemptId)
     {
         if(quizAttemptId <= 0){ return false; }
-        var attempt =  _rankingAttemptRepository.Exists(quizAttemptId);
+        var attempt =  _rankingAttemptRepository.Exists(rAttempt => rAttempt.RankingAttemptId == quizAttemptId);
         if (attempt)
         {
             return true;

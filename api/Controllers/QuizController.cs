@@ -8,12 +8,12 @@ namespace QuizApp.Controllers;
 
 public class QuizController : Controller
 {
-    private readonly IRepository<Quiz> _quizRepository;
+    private readonly IQuizRepository<Quiz> _quizRepository;
     private readonly IAttemptRepository<QuizAttempt> _quizAttemptRepository;
     private readonly QuizService _quizService;
     private readonly ILogger<QuizController> _logger;
     
-    public QuizController(IRepository<Quiz> quizRepository,
+    public QuizController(IQuizRepository<Quiz> quizRepository,
                           IAttemptRepository<QuizAttempt> quizAttemptRepository,
                           QuizService quizService,
                           ILogger<QuizController> logger)

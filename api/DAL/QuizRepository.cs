@@ -3,7 +3,7 @@ using QuizApp.Models;
 
 namespace QuizApp.DAL;
 
-public class QuizRepository : IRepository<Quiz>
+public class QuizRepository : IQuizRepository<Quiz>
 {
     private readonly QuizDbContext _db;
     private readonly ILogger<QuizRepository> _logger;

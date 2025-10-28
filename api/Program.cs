@@ -27,23 +27,13 @@ builder.Services.AddCors(options =>
             builder => builder.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());
     });
 
-builder.Services.AddScoped<IRepository<Quiz>, QuizRepository>();
-builder.Services.AddScoped<IRepository<Matching>, MatchingRepository>();
-builder.Services.AddScoped<IRepository<Sequence>, SequenceRepository>();
-builder.Services.AddScoped<IRepository<Ranking>, RankingRepository>();
-builder.Services.AddScoped<IRepository<FillInTheBlank>, FillInTheBlankRepository>();
-builder.Services.AddScoped<IFlashCardRepository, FlashCardRepository>();
-builder.Services.AddScoped<IRepository<FlashCardQuiz>, FlashCardQuizRepository>();
-builder.Services.AddScoped<IRepository<MultipleChoice>, MultipleChoiceRepository>();
-builder.Services.AddScoped<IRepository<TrueFalse>, TrueFalseRepository>();
-
+builder.Services.AddScoped(typeof(IQuestionRepository<>), typeof(QuestionRepository<>));
+builder.Services.AddScoped<IQuestionRepository<MultipleChoice>, MultipleChoiceRepository>();
+builder.Services.AddScoped<IQuizRepository<Quiz>, QuizRepository>();
+builder.Services.AddScoped<IQuizRepository<FlashCardQuiz>, FlashCardQuizRepository>();
+builder.Services.AddScoped(typeof(IAttemptRepository<>), typeof(AttemptRepository<>));
 builder.Services.AddScoped<IAttemptRepository<QuizAttempt>, QuizAttemptRepository>();
-builder.Services.AddScoped<IAttemptRepository<FillInTheBlankAttempt>, FillInTheBlankAttemptRepository>();
-builder.Services.AddScoped<IAttemptRepository<TrueFalseAttempt>, TrueFalseAttemptRepository>();
-builder.Services.AddScoped<IAttemptRepository<MultipleChoiceAttempt>, MultipleChoiceAttemptRepository>();
-builder.Services.AddScoped<IAttemptRepository<MatchingAttempt>, MatchingAttemptRepository>();
-builder.Services.AddScoped<IAttemptRepository<SequenceAttempt>, SequenceAttemptRepository>();
-builder.Services.AddScoped<IAttemptRepository<RankingAttempt>, RankingAttemptRepository>();
+
 
 builder.Services.AddScoped<QuizService>();
 builder.Services.AddScoped<IFlashCardQuizService, FlashCardQuizService>();

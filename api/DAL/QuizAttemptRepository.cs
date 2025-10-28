@@ -1,6 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using QuizApp.Models;
-using Serilog;
+using System.Linq.Expressions;
 
 namespace QuizApp.DAL;
 
@@ -23,9 +23,9 @@ public class QuizAttemptRepository : IAttemptRepository<QuizAttempt>
                                 .Include(q => q.FillInTheBlankAttempts)
                                 .Include(q => q.TrueFalseQuestionAttempts)
                                 .Include(q => q.MultipleChoiceAttempts)
-                                //.Include(q => q.QuizAttempts)
                                 .Include(q => q.RankingAttempts)
                                 .Include(q => q.SequenceAttempts)
+                                .Include(q => q.MatchingAttempts)
                                 .ToListAsync();
         }
         catch (Exception e)
@@ -45,6 +45,7 @@ public class QuizAttemptRepository : IAttemptRepository<QuizAttempt>
                                 .Include(q => q.MultipleChoiceAttempts)
                                 .Include(q => q.RankingAttempts)
                                 .Include(q => q.SequenceAttempts)
+                                .Include(q => q.MatchingAttempts)
                                 .FirstOrDefaultAsync(q => q.QuizAttemptId == id);
         }
         catch (Exception e)
@@ -108,4 +109,9 @@ public class QuizAttemptRepository : IAttemptRepository<QuizAttempt>
             return false;
         }
     }
+
+    public bool Exists(Expression<Func<QuizAttempt, bool>> predicate)
+        {
+            return _db.QuizAttempts.Any(predicate);
+        }
 }

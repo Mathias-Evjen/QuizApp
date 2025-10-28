@@ -6,11 +6,11 @@ namespace QuizApp.Services;
 
 public class FlashCardQuizService : IFlashCardQuizService
 {
-    private readonly IRepository<FlashCardQuiz> _flashCardQuizRepository;
-    private readonly IFlashCardRepository _flashCardRepository;
+    private readonly IQuizRepository<FlashCardQuiz> _flashCardQuizRepository;
+    private readonly IQuestionRepository<FlashCard> _flashCardRepository;
     private readonly ILogger<FlashCardQuizService> _logger;
 
-    public FlashCardQuizService(IRepository<FlashCardQuiz> flashCardQuizRepository, IFlashCardRepository flashCardRepository, ILogger<FlashCardQuizService> logger)
+    public FlashCardQuizService(IQuizRepository<FlashCardQuiz> flashCardQuizRepository, IQuestionRepository<FlashCard> flashCardRepository, ILogger<FlashCardQuizService> logger)
     {
         _flashCardQuizRepository = flashCardQuizRepository;
         _flashCardRepository = flashCardRepository;

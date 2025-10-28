@@ -11,11 +11,11 @@ namespace QuizApp.Controllers;
 [Route("api/[controller]")]
 public class FlashCardAPIController : ControllerBase
 {
-    private readonly IFlashCardRepository _flashCardRepository;
+    private readonly IQuestionRepository<FlashCard> _flashCardRepository;
     private readonly IFlashCardQuizService _flashCardQuizService;
     private readonly ILogger<FlashCardAPIController> _logger;
 
-    public FlashCardAPIController(IFlashCardRepository flashCardRepository, IFlashCardQuizService flashCardQuizService, ILogger<FlashCardAPIController> logger)
+    public FlashCardAPIController(IQuestionRepository<FlashCard> flashCardRepository, IFlashCardQuizService flashCardQuizService, ILogger<FlashCardAPIController> logger)
     {
         _flashCardRepository = flashCardRepository;
         _flashCardQuizService = flashCardQuizService;
@@ -25,7 +25,7 @@ public class FlashCardAPIController : ControllerBase
     [HttpGet("getFlashCards/{quizId}")]
     public async Task<IActionResult> GetFlashcards(int quizId)
     {
-        var flashCards = await _flashCardRepository.GetAll(quizId);
+        var flashCards = await _flashCardRepository.GetAll(fib => fib.QuizId == quizId);
         if (flashCards == null)
         {
             _logger.LogError("[FlashCardAPIController] FlashCards list not found while executing _flashCardRepository.GetAll()");

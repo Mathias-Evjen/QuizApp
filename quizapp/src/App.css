@@ -4,19 +4,22 @@
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
+  position: relative;
 }
 
 .flash-card-quiz-card {
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   align-items: center;
+  justify-content: space-between;
   border: 5px rgb(172, 172, 172) solid;
   border-radius: 25px;
   box-shadow: 3px 3px 10px gray;
-  width: 375px;
-  height: 325px;
+  width: 1200px;
+  height: 125px;
   box-sizing: border-box;
   margin: 10px;
+  overflow: hidden;
 
   transition: transform 0.1s ease-in-out;
 }
@@ -33,44 +36,40 @@
   height: 120px;
   font-size: 25px;
   text-align: center;
+  margin-left: 40px;
 }
 
 .flash-card-quiz-description {
-  border: 3px solid gray;
-  border-radius: 20px;
-  background-color: rgb(235, 235, 235);
-  height: 175px;
-  width: 325px;
-  padding-bottom: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  width: 500px;
   box-sizing: border-box;
   overflow: hidden;
   padding: 0;
 }
 
-.flash-card-quiz-description-top-bar {
-  background-color: rgb(197, 197, 197);
-  width: 100%;
-  height: 45px;
-  margin: 0;
-}
-
-.flash-card-quiz-description h5 {
-  margin: 0 0 1em 1em;
-  padding-top: 7px;
-  text-align: start;
-  color: rgb(92, 92, 92);
-  font-size: 20px;
-}
-
 .flash-card-quiz-description p {
-  font-size: 20px;
-  color: rgb(143, 143, 143);
-  font-weight: bold;
+  font-size: 18px;
+  color: rgb(124, 124, 124);
   flex: 1;
-  height: 5.5em;
   overflow-y: auto;
-  margin: 10px 22px 0 22px;
   text-align: start;
+}
+
+.create-flash-card-quiz-button {
+  position: absolute;
+  bottom: 50px;
+  right: 50px;
+  width: 150px;
+  height: 75px;
+  box-shadow: 1px 1px 5px gray;
+}
+
+.create-flash-card-quiz-button:hover {
+  cursor: pointer;
+  user-select: none;
 }
 
 /* Flash card */
@@ -142,6 +141,7 @@
 
 .flash-card-menu button:hover {
   cursor: pointer;
+  filter: brightness(0.95);
 }
 
 .flash-card {
@@ -196,6 +196,7 @@
 
   border: 3px solid gray;
   border-radius: 25px;
+  box-shadow: 3px 3px 10px gray;
 }
 
 .flash-card-back {

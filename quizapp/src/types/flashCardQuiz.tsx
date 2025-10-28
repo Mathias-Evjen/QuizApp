@@ -1,6 +1,6 @@
 export interface FlashCardQuiz {
-    flashCardQuizId: number;
+    flashCardQuizId?: number;
     name: string;
     description: string;
-    numOfQuestions: number;
+    numOfQuestions?: number;
 }

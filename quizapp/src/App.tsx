@@ -1,7 +1,7 @@
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
 import './App.css'
-import Quizzes from './flashCard/Quizzes'
 import FlashCardQuizPage from './flashCard/FlashCardQuizPage'
+import Quizzes from './flashCard/Quizzes'
 
 const App: React.FC = () => {
 

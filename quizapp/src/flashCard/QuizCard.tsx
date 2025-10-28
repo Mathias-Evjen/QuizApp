@@ -1,10 +1,10 @@
 import { useNavigate } from "react-router-dom";
 
 interface QuizCardProps {
-    id: number;
+    id?: number;
     name: string;
     description?: string;
-    numOfQuestions: number;
+    numOfQuestions?: number;
 }
 
 const QuizCard: React.FC<QuizCardProps> = ({ id, name, description, numOfQuestions}) => {
@@ -20,9 +20,6 @@ const QuizCard: React.FC<QuizCardProps> = ({ id, name, description, numOfQuestio
                 <h3>{name}</h3>
             </div>
             <div className="flash-card-quiz-description">
-                <div className="flash-card-quiz-description-top-bar">
-                    <h5>Description:</h5>
-                </div>
                 <p>{description}</p>
             </div>
         </div>

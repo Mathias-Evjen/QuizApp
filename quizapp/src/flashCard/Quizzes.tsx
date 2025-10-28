@@ -1,8 +1,7 @@
 import { use, useEffect, useState } from "react";
 import { FlashCardQuiz } from "../types/flashCardQuiz";
 import QuizCard from "./QuizCard";
-import CreateQuizComponent from "./QuizForm";
-import QuizForm from "./QuizForm";
+import CreateForm from "./CreateForm";
 
 const API_URL = "http://localhost:5041"
 
@@ -82,8 +81,8 @@ const Quizzes: React.FC = () => {
                 ))}
             </div>
             <button className="create-flash-card-quiz-button" onClick={() => handleShowCreate(true)}>Create new quiz</button>
-            <div>
-                {showCreate ? <QuizForm onQuizChanged={handleCreate}/> : ""}
+            <div className="create-flash-card-quiz-popup">
+                {showCreate ? <CreateForm onQuizChanged={handleCreate}/> : ""}
             </div>
         </>
     )

@@ -72,6 +72,10 @@
   user-select: none;
 }
 
+.create-flash-card-quiz-popup {
+  position: absolute;
+}
+
 /* Flash card */
 
 .flash-card-container {

@@ -3,12 +3,12 @@ import { FlashCardQuiz } from "../types/flashCardQuiz";
 
 const API_URL = "http://localhost:5041"
 
-interface FlashCardQuizFormProps {
+interface CreateFormProps {
     onQuizChanged: (newQuiz: FlashCardQuiz) => void;
     flashCardQuizId?: number;
 }
 
-const QuizForm: React.FC<FlashCardQuizFormProps> = ({ onQuizChanged, flashCardQuizId}) => {
+const CreateForm: React.FC<CreateFormProps> = ({ onQuizChanged, flashCardQuizId}) => {
     const [name, setName] = useState<string>("");
     const [description, setDescription] = useState<string>("");
 
@@ -39,4 +39,4 @@ const QuizForm: React.FC<FlashCardQuizFormProps> = ({ onQuizChanged, flashCardQu
     )
 }
 
-export default QuizForm;
+export default CreateForm;

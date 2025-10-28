@@ -2,6 +2,7 @@ import { use, useEffect, useState } from "react";
 import { FlashCardQuiz } from "../types/flashCardQuiz";
 import QuizCard from "./QuizCard";
 import CreateForm from "./CreateForm";
+import MoreVertIcon from '@mui/icons-material/MoreVert';
 
 const API_URL = "http://localhost:5041"
 
@@ -71,18 +72,21 @@ const Quizzes: React.FC = () => {
             <h1>Flash card quizzes</h1>
             <div className="flash-card-quiz-container">
                 {quizzes.map(quiz => (
-                    <QuizCard
-                        key={quiz.flashCardQuizId}
-                        id={quiz.flashCardQuizId}
-                        name={quiz.name}
-                        description={quiz.description}
-                        numOfQuestions={quiz.numOfQuestions}
-                        />
+                    <div className="flash-card-quiz-entry">
+                        <QuizCard
+                            key={quiz.flashCardQuizId}
+                            id={quiz.flashCardQuizId}
+                            name={quiz.name}
+                            description={quiz.description}
+                            numOfQuestions={quiz.numOfQuestions}
+                            />
+                        <button className="flash-card-quiz-more-button"><MoreVertIcon/></button>
+                    </div>
                 ))}
             </div>
             <button className="create-flash-card-quiz-button" onClick={() => handleShowCreate(true)}>Create new quiz</button>
-            <div className="create-flash-card-quiz-popup">
-                {showCreate ? <CreateForm onQuizChanged={handleCreate}/> : ""}
+            <div className={`${showCreate ? "create-flash-card-quiz-popup" : ""}`}>
+                {showCreate ? <CreateForm onQuizChanged={handleCreate} handleCancel={handleShowCreate}/> : ""}
             </div>
         </>
     )

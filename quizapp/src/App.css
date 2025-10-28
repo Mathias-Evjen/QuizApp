@@ -4,7 +4,21 @@
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
-  position: relative;
+}
+
+.flash-card-quiz-entry {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+}
+
+.flash-card-quiz-more-button {
+  border: none;
+  background-color: transparent;
+  padding: 20px;
+  scale: 2;
+  color: rgb(58, 58, 58);
 }
 
 .flash-card-quiz-card {
@@ -15,7 +29,7 @@
   border: 5px rgb(172, 172, 172) solid;
   border-radius: 25px;
   box-shadow: 3px 3px 10px gray;
-  width: 1200px;
+  width: 1050px;
   height: 125px;
   box-sizing: border-box;
   margin: 10px;
@@ -26,7 +40,7 @@
 
 .flash-card-quiz-card:hover {
   cursor: pointer;
-  transform: scale(1.025);
+  transform: scale(1.005);
 }
 
 .flash-card-quiz-title {
@@ -67,13 +81,77 @@
   box-shadow: 1px 1px 5px gray;
 }
 
-.create-flash-card-quiz-button:hover {
-  cursor: pointer;
-  user-select: none;
+.create-flash-card-quiz-popup {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999;
+  background-color: rgba(0, 0, 0, 0.7);
 }
 
-.create-flash-card-quiz-popup {
-  position: absolute;
+.create-flash-card-quiz-popup-content {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background: white;
+  width: 800px;
+  height: 600px;
+  border: 3px solid gray;
+  border-radius: 25px;
+  box-sizing: border-box;
+}
+
+.create-flash-card-quiz-popup-content .input-name {
+  display: flex;
+  flex-direction: column;
+  text-align: start;
+  font-size: 60px;
+  font-weight: 500;
+  margin: 50px;
+}
+
+.create-flash-card-quiz-popup-content .input-name input {
+  width: 400px;
+  height: 50px;
+  font-size: 25px;
+  border: 2px solid rgb(202, 202, 202);
+  border-radius: 8px;
+}
+
+.create-flash-card-quiz-popup-content .input-description {
+  display: flex;
+  flex-direction: column;
+  text-align: start;
+  font-size: 40px;
+  font-weight: 500;
+  margin: 50px;
+}
+.create-flash-card-quiz-popup-content .input-description textarea {
+  justify-content: start;
+  align-items: start;
+  width: 400px;
+  height: 100px;
+  font-size: 20px;
+  resize: none;
+  box-sizing: border-box;
+  overflow-wrap: break-word;
+  white-space: pre-wrap;
+
+  border: 2px solid rgb(202, 202, 202);
+  border-radius: 8px;
+}
+
+.create-flash-card-quiz-popup-content button {
+  width: 150px;
+  height: 75px;
+  margin: 0 25px 0 25px;
+  font-size: 25px;
 }
 
 /* Flash card */
@@ -101,8 +179,8 @@
   border: 3px solid gray;
   border-radius: 25px;
   background-color: rgb(226, 226, 226);
-  padding-bottom: 80px;
-
+  padding: 0 15px 15px 15px;
+  margin-bottom: 80px;
   color: rgb(78, 78, 78);
 }
 
@@ -141,11 +219,6 @@
   user-select: none;
 
   font-size: 18px;
-}
-
-.flash-card-menu button:hover {
-  cursor: pointer;
-  filter: brightness(0.95);
 }
 
 .flash-card {

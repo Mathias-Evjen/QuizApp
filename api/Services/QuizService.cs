@@ -5,23 +5,23 @@ namespace QuizApp.Services;
 
 public class QuizService
 {
-    private readonly IRepository<Quiz> _quizRepository;
-    private readonly IRepository<FillInTheBlank> _fillInTheBlankRepository;
-    private readonly IRepository<Matching> _matchingRepository;
-    private readonly IRepository<Ranking> _rankingRepository;
-    private readonly IRepository<Sequence> _sequenceRepository;
-    private readonly IRepository<MultipleChoice> _multipleChoiceRepository;
-    private readonly IRepository<TrueFalse> _trueFalseRepository;
+    private readonly IQuizRepository<Quiz> _quizRepository;
+    private readonly IQuestionRepository<FillInTheBlank> _fillInTheBlankRepository;
+    private readonly IQuestionRepository<Matching> _matchingRepository;
+    private readonly IQuestionRepository<Ranking> _rankingRepository;
+    private readonly IQuestionRepository<Sequence> _sequenceRepository;
+    private readonly IQuestionRepository<MultipleChoice> _multipleChoiceRepository;
+    private readonly IQuestionRepository<TrueFalse> _trueFalseRepository;
     private readonly ILogger<QuizService> _logger;
 
     public QuizService(
-        IRepository<Quiz> quizRepository,
-        IRepository<FillInTheBlank> fillInTheBlankRepository,
-        IRepository<Matching> matchingRepository,
-        IRepository<Ranking> rankingRepository,
-        IRepository<Sequence> sequenceRepository,
-        IRepository<MultipleChoice> multipleChoiceRepository,
-        IRepository<TrueFalse> trueFalseRepository,
+        IQuizRepository<Quiz> quizRepository,
+        IQuestionRepository<FillInTheBlank> fillInTheBlankRepository,
+        IQuestionRepository<Matching> matchingRepository,
+        IQuestionRepository<Ranking> rankingRepository,
+        IQuestionRepository<Sequence> sequenceRepository,
+        IQuestionRepository<MultipleChoice> multipleChoiceRepository,
+        IQuestionRepository<TrueFalse> trueFalseRepository,
         ILogger<QuizService> logger)
     {
         _quizRepository = quizRepository;

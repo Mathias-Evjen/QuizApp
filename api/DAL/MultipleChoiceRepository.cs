@@ -1,9 +1,10 @@
 using Microsoft.EntityFrameworkCore;
+using System.Linq.Expressions;
 using QuizApp.Models;
 
 namespace QuizApp.DAL
 {
-    public class MultipleChoiceRepository : IRepository<MultipleChoice>
+    public class MultipleChoiceRepository : IQuestionRepository<MultipleChoice>
     {
         private readonly QuizDbContext _db;
         private readonly ILogger<MultipleChoiceRepository> _logger;
@@ -20,6 +21,23 @@ namespace QuizApp.DAL
             try
             {
                 return await _db.MultipleChoiceQuestions
+                    .Include(mc => mc.Options)
+                    .AsNoTracking()
+                    .ToListAsync();
+            }
+            catch (Exception e)
+            {
+                _logger.LogError("[MultipleChoiceRepository] GetAll() failed: {Message}", e.Message);
+                return null;
+            }
+        }
+
+        public async Task<IEnumerable<MultipleChoice>?> GetAll(Expression<Func<MultipleChoice, bool>> predicate)
+        {
+            try
+            {
+                return await _db.MultipleChoiceQuestions
+                    .Where(predicate)
                     .Include(mc => mc.Options)
                     .AsNoTracking()
                     .ToListAsync();

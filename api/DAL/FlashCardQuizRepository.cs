@@ -3,7 +3,7 @@ using QuizApp.Models;
 
 namespace QuizApp.DAL;
 
-public class FlashCardQuizRepository : IRepository<FlashCardQuiz> 
+public class FlashCardQuizRepository : IQuizRepository<FlashCardQuiz> 
 {
     private readonly QuizDbContext _db;
     private readonly ILogger<FlashCardQuizRepository> _logger;

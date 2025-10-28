@@ -1,42 +1,226 @@
-#root {
-  max-width: 1280px;
-  margin: 0 auto;
-  padding: 2rem;
+/* Flash card quizzes */
+
+.flash-card-quiz-container {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  position: relative;
+}
+
+.flash-card-quiz-card {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  border: 5px rgb(172, 172, 172) solid;
+  border-radius: 25px;
+  box-shadow: 3px 3px 10px gray;
+  width: 1200px;
+  height: 125px;
+  box-sizing: border-box;
+  margin: 10px;
+  overflow: hidden;
+
+  transition: transform 0.1s ease-in-out;
+}
+
+.flash-card-quiz-card:hover {
+  cursor: pointer;
+  transform: scale(1.025);
+}
+
+.flash-card-quiz-title {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 120px;
+  font-size: 25px;
   text-align: center;
+  margin-left: 40px;
 }
 
-.logo {
-  height: 6em;
-  padding: 1.5em;
-  will-change: filter;
-  transition: filter 300ms;
-}
-.logo:hover {
-  filter: drop-shadow(0 0 2em #646cffaa);
-}
-.logo.react:hover {
-  filter: drop-shadow(0 0 2em #61dafbaa);
+.flash-card-quiz-description {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  width: 500px;
+  box-sizing: border-box;
+  overflow: hidden;
+  padding: 0;
 }
 
-@keyframes logo-spin {
+.flash-card-quiz-description p {
+  font-size: 18px;
+  color: rgb(124, 124, 124);
+  flex: 1;
+  overflow-y: auto;
+  text-align: start;
+}
+
+.create-flash-card-quiz-button {
+  position: absolute;
+  bottom: 50px;
+  right: 50px;
+  width: 150px;
+  height: 75px;
+  box-shadow: 1px 1px 5px gray;
+}
+
+.create-flash-card-quiz-button:hover {
+  cursor: pointer;
+  user-select: none;
+}
+
+.create-flash-card-quiz-popup {
+  position: absolute;
+}
+
+/* Flash card */
+
+.flash-card-container {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+}
+
+.flash-card-sidebar {
+  position: absolute;
+  top: 91px;
+  left: -200px;
+  display: flex;
+  flex-direction: column;
+  width: 400px;
+  height: 455px;
+}
+
+.flash-card-page-description {
+  border: 3px solid gray;
+  border-radius: 25px;
+  background-color: rgb(226, 226, 226);
+  padding-bottom: 80px;
+
+  color: rgb(78, 78, 78);
+}
+
+.flash-card-menu {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  margin-top: 15px;
+  padding: 13px;
+
+  border: 3px solid gray;
+  border-radius: 15px;
+  background-color: rgb(235, 235, 235);
+}
+
+.flash-card-menu p {
+  margin: 0 30px 0 30px;
+  font-size: 35px;
+}
+
+.flash-card-menu button {
+  height: 55px;
+  width: 95px;
+
+  border: 5px solid rgb(77, 77, 252);
+  border-radius: 6px;
+  background-color: rgb(88, 127, 255);
+  color: rgb(255, 247, 247);
+
+  user-select: none;
+
+  font-size: 18px;
+}
+
+.flash-card-menu button:hover {
+  cursor: pointer;
+  filter: brightness(0.95);
+}
+
+.flash-card {
+  width: 700px;
+  height: 450px;
+
+  transform: translateX(25vw);
+  opacity: 0;
+
+  animation: slideInRight 0.1s ease-out forwards;
+
+  user-select: none;
+  perspective: 1000px;
+}
+
+@keyframes slideInRight {
   from {
-    transform: rotate(0deg);
+    transform: translateX(25vw);
+    opacity: 0;
   }
   to {
-    transform: rotate(360deg);
+    transform: translateX(0);
+    opacity: 1;
   }
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  a:nth-of-type(2) .logo {
-    animation: logo-spin infinite 20s linear;
-  }
+.flash-card-inner {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  text-align: center;
+  transition: transform 0.6s;
+  transform-style: preserve-3d;
+  
+  border-radius: 25px;
 }
 
-.card {
-  padding: 2em;
+.flash-card-inner.flipped {
+  transform: rotateX(180deg);
 }
 
-.read-the-docs {
-  color: #888;
+.flash-card-front,
+.flash-card-back {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  backface-visibility: hidden;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  border: 3px solid gray;
+  border-radius: 25px;
+  box-shadow: 3px 3px 10px gray;
 }
+
+.flash-card-back {
+  transform: rotateX(180deg);
+  background-color: white;
+}
+
+.flash-card h3 {
+  width: 600px;
+  font-size: x-large;
+}
+
+.flash-card:hover {
+  cursor: pointer;
+}
+
+.flash-card-QA-label {
+  position: absolute;
+  top: 0;
+  left: 35px;
+  font-size: x-large;
+}
+

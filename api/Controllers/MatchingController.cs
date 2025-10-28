@@ -9,13 +9,13 @@ namespace QuizApp.Controllers;
 public class MatchingController : Controller
 {
 
-    private readonly IRepository<Matching> _matchingRepository;
+    private readonly IQuestionRepository<Matching> _matchingRepository;
     private readonly IAttemptRepository<MatchingAttempt> _matchingAttemptRepository;
     private readonly QuizService _quizService;
     private readonly ILogger<MatchingController> _logger;
 
     public MatchingController(
-        IRepository<Matching> matchingRepository,
+        IQuestionRepository<Matching> matchingRepository,
         IAttemptRepository<MatchingAttempt> matchingAttemptRepository,
         QuizService quizService,
         ILogger<MatchingController> logger)
@@ -62,11 +62,13 @@ public class MatchingController : Controller
         }
         if (!CheckAttempt(quizAttemptId))
         {
-            var matchingAttempt = new MatchingAttempt();
-            matchingAttempt.MatchingId = matchingObject.Id;
-            matchingAttempt.QuizAttemptId = quizAttemptId;
-            matchingAttempt.UserAnswer = questionAnswer;
-            matchingAttempt.AmountCorrect = correctCounter;
+            var matchingAttempt = new MatchingAttempt
+            {
+                MatchingId = matchingObject.Id,
+                QuizAttemptId = quizAttemptId,
+                UserAnswer = questionAnswer,
+                AmountCorrect = correctCounter
+            };
             if (correctCounter == matchingObject.TotalRows) { matchingAttempt.AnsweredCorrectly = true; }
             else { matchingAttempt.AnsweredCorrectly = false; }
 
@@ -115,7 +117,7 @@ public class MatchingController : Controller
     {
 
         if (quizAttemptId <= 0) { return false; }
-        var attempt = _matchingAttemptRepository.Exists(quizAttemptId);
+        var attempt = _matchingAttemptRepository.Exists(mAttempt => mAttempt.MatchingAttemptId == quizAttemptId);
         if (!attempt)
         {
             Console.WriteLine("denne er false");

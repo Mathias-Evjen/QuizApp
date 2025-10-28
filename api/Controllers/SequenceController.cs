@@ -8,13 +8,13 @@ namespace QuizApp.Controllers;
 
 public class SequenceController : Controller
 {
-    private readonly IRepository<Sequence> _sequenceRepository;
+    private readonly IQuestionRepository<Sequence> _sequenceRepository;
     private readonly IAttemptRepository<SequenceAttempt> _sequenceAttemptRepository;
     private readonly QuizService _quizService;
     private readonly ILogger<SequenceController> _logger;
 
     public SequenceController(
-        IRepository<Sequence> sequenceRepository,
+        IQuestionRepository<Sequence> sequenceRepository,
         IAttemptRepository<SequenceAttempt> sequenceAttemptRepository,
         QuizService quizService,
         ILogger<SequenceController> logger)
@@ -103,7 +103,7 @@ public class SequenceController : Controller
     public bool CheckAttempt(int quizAttemptId)
     {
         if(quizAttemptId <= 0){ return false; }
-        var attempt =  _sequenceAttemptRepository.Exists(quizAttemptId);
+        var attempt =  _sequenceAttemptRepository.Exists(sAttempt => sAttempt.SequenceAttemptId == quizAttemptId);
         if (attempt)
         {
             return true;

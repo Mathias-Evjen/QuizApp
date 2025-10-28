@@ -8,12 +8,12 @@ namespace QuizApp.Controllers
 {
     public class MultipleChoiceController : Controller
     {
-        private readonly IRepository<MultipleChoice> _multipleChoiceRepository;
+        private readonly IQuestionRepository<MultipleChoice> _multipleChoiceRepository;
         private readonly IAttemptRepository<MultipleChoiceAttempt> _multipleChoiceAttemptRepository;
         private readonly QuizService _quizService;
         private readonly ILogger<MultipleChoiceController> _logger;
 
-        public MultipleChoiceController(IRepository<MultipleChoice> multipleChoiceRepository,
+        public MultipleChoiceController(IQuestionRepository<MultipleChoice> multipleChoiceRepository,
                                         IAttemptRepository<MultipleChoiceAttempt> multipleChoiceAttemptRepository,
                                         QuizService quizService,
                                         ILogger<MultipleChoiceController> logger)

@@ -8,12 +8,12 @@ namespace QuizApp.Controllers
 {
     public class TrueFalseController : Controller
     {
-        private readonly IRepository<TrueFalse> _trueFalseRepository;
+        private readonly IQuestionRepository<TrueFalse> _trueFalseRepository;
         private readonly IAttemptRepository<TrueFalseAttempt> _trueFalseAttemptRepository;
         private readonly QuizService _quizService;
         private readonly ILogger<TrueFalseController> _logger;
 
-        public TrueFalseController(IRepository<TrueFalse> trueFalseRepository,
+        public TrueFalseController(IQuestionRepository<TrueFalse> trueFalseRepository,
                                    IAttemptRepository<TrueFalseAttempt> trueFalseAttemptRepository,
                                    QuizService quizService,
                                    ILogger<TrueFalseController> logger)

@@ -8,12 +8,12 @@ namespace QuizApp.Controllers;
 
 public class FillInTheBlankController : Controller
 {
-    private readonly IRepository<FillInTheBlank> _fillInTheBlankRepository;
+    private readonly IQuestionRepository<FillInTheBlank> _fillInTheBlankRepository;
     private readonly IAttemptRepository<FillInTheBlankAttempt> _fillInTheBlankAttemptRepository;
     private readonly QuizService _quizService;
     private readonly ILogger<FillInTheBlankController> _logger;
 
-    public FillInTheBlankController(IRepository<FillInTheBlank> fillInTheBlankRepository, IAttemptRepository<FillInTheBlankAttempt> fillInTheBlankAttemptRepository, QuizService quizService, ILogger<FillInTheBlankController> logger)
+    public FillInTheBlankController(IQuestionRepository<FillInTheBlank> fillInTheBlankRepository, IAttemptRepository<FillInTheBlankAttempt> fillInTheBlankAttemptRepository, QuizService quizService, ILogger<FillInTheBlankController> logger)
     {
         _fillInTheBlankRepository = fillInTheBlankRepository;
         _fillInTheBlankAttemptRepository = fillInTheBlankAttemptRepository;

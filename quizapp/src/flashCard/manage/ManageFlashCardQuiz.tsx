@@ -13,7 +13,6 @@ const ManageFlashCardQuiz: React.FC = () => {
     const [quiz, setQuiz] = useState<FlashCardQuiz>();
     const [flashCards, setFlashCards] = useState<FlashCard[]>([]);
     const [flashCardIndex, setFlashCardIndex] = useState<number>(0);
-    const [currentCard, setCurrentCard] = useState<FlashCard>(flashCards[flashCardIndex]);
     const [loadingQuiz, setLoadingQuiz] = useState<boolean>(false);
     const [loadingFlashCards, setLoadingFlashCards] = useState<boolean>(false);
     const [error, setError] = useState<string | null>(null);
@@ -88,11 +87,47 @@ const ManageFlashCardQuiz: React.FC = () => {
         }
     }
 
+    const handleQuestionChanged = (flashCardId: number, newQuestion: string) => {
+        setFlashCards(prevCards =>
+            prevCards.map(card =>
+                card.flashCardId === flashCardId
+                ? {...card, question: newQuestion, isDirty: true}
+                : card
+            )
+        );
+        
+    }
+
+    const handleAnswerChanged = (flashCardId: number, newAnswer: string) => {
+        setFlashCards(prevCards =>
+            prevCards.map(card =>
+                card.flashCardId === flashCardId
+                ? {...card, answer: newAnswer, isDirty: true}
+                : card
+            )
+        );
+        
+    }
+
+    const handleSaveFlashCard = async () => {
+        const dirtyCards = flashCards.filter(card => card.isDirty)
+        dirtyCards.forEach(handleUpdateFlashCard)
+    }
+
     useEffect(() => {
             console.log("QuizID: ", quizId)
             fetchQuiz();
             fetchFlashCards();
         }, []);
+
+    useEffect(() => {
+        if (flashCards.length > 0) {
+            setFlashCards(prevCards => 
+                prevCards.map(card => 
+                ({...card, isDirty: false})
+                ))
+        }
+    }, [flashCards.length])
 
     return(
         <>
@@ -105,11 +140,16 @@ const ManageFlashCardQuiz: React.FC = () => {
                     <FlashCardEntry
                         flashCardId={card.flashCardId}
                         quizQuestionNum={card.quizQuestionNum}
-                        existingQuestion={card.question}
-                        existingAnswer={card.answer}
-                        quizId={quiz?.flashCardQuizId!} 
-                        onFlashCardChanged={handleUpdateFlashCard}/>
+                        question={card.question}
+                        answer={card.answer}
+                        quizId={quiz?.flashCardQuizId!}
+                        onQuestionChanged={handleQuestionChanged}
+                        onAnswerChanged={handleAnswerChanged}/>
                 )}
+            </div>
+
+            <div>
+                <button className="popup-button" onClick={handleSaveFlashCard}>Save</button>
             </div>
         </>
     )

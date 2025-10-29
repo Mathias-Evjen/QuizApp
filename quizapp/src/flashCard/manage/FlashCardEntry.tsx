@@ -40,7 +40,7 @@ const FlashCardEntry: React.FC<FlashCardEntryProps> = ({ flashCardId, quizQuesti
                         onChange={(e) => setAnswer(e.target.value)} />
                 </div>
             </div>
-            <button className={"flash-card-entry-more-button"}><Save /></button>
+            <button className={"flash-card-entry-more-button"}>Save</button>
             <button className={"flash-card-entry-more-button"}><Close /></button>
         </div>
     )

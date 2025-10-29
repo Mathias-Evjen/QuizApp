@@ -21,7 +21,7 @@ const CreateForm: React.FC<CreateFormProps> = ({ onQuizChanged, flashCardQuizId,
     }
 
     return(
-        <div className="create-flash-card-quiz-popup-content">
+        <div className="create-flash-card-quiz-popup-content" onClick={(e) => e.stopPropagation()}>
             <form>
                 <div className="input-name">
                     <label>Name</label>
@@ -39,8 +39,8 @@ const CreateForm: React.FC<CreateFormProps> = ({ onQuizChanged, flashCardQuizId,
                         onChange={(e) => setDescription(e.target.value)}
                         placeholder="Enter description..."/>
                 </div>
-                <button type="button" onClick={() => handleCancel(false)}>Cancel</button>
-                <button type="submit" onClick={handleSubmit}>Create</button>
+                <button type="button" className="popup-button" onClick={() => handleCancel(false)}>Cancel</button>
+                <button type="submit" className="popup-button" onClick={handleSubmit}>Create</button>
             </form>
         </div>
     )

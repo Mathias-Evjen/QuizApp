@@ -1,7 +1,8 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import { FlashCard } from "../types/flashCard";
-import { FlashCardQuiz } from "../types/flashCardQuiz";
+import { FlashCard } from "../../types/flashCard";
+import { FlashCardQuiz } from "../../types/flashCardQuiz";
+import { InfoOutline, KeyboardArrowLeft, KeyboardArrowRight, SpaceBar } from "@mui/icons-material";
 import FlashCardComponent from "./FlashCardComponent";
 
 const API_URL = "http://localhost:5041"
@@ -72,7 +73,6 @@ const FlashCardQuizPage: React.FC = () => {
         fetchFlashCards();
     }, []);
 
-
     const toggleShowAnswer = (flashCardId: number) => {
         setFlashCards(prevCards => 
             prevCards.map(card =>
@@ -93,7 +93,16 @@ const FlashCardQuizPage: React.FC = () => {
         setFlashCardIndex(flashCardIndex + 1)
     }
 
-    
+    useEffect(() => {
+        const handleKeyDown = (e: KeyboardEvent) => {
+            if (e.key === "ArrowRight") handleNextCard();
+            if (e.key === "ArrowLeft") handlePrevCard();
+            if (e.key === " ") toggleShowAnswer(flashCards[flashCardIndex].flashCardId);
+        };
+
+        window.addEventListener("keydown", handleKeyDown);
+        return () => window.removeEventListener("keydown", handleKeyDown);
+    }, [handleNextCard, handlePrevCard, toggleShowAnswer]);
 
     return(
         <>
@@ -117,11 +126,11 @@ const FlashCardQuizPage: React.FC = () => {
                                 <p>{quiz?.description}</p>
                             </div>
                             <div className="flash-card-menu">
-                                <button onClick={handlePrevCard}>Prev</button>
+                                <button onClick={handlePrevCard}><KeyboardArrowLeft /></button>
                                 <div>
                                     <p>{flashCards[flashCardIndex].quizQuestionNum}/{flashCards.length}</p>
                                 </div>
-                                <button onClick={handleNextCard}>Next</button>
+                                <button onClick={handleNextCard}><KeyboardArrowRight /></button>
                             </div>
                         </div>
 
@@ -130,7 +139,37 @@ const FlashCardQuizPage: React.FC = () => {
                 ) : (
                     <p>No flashcards to display</p>
                 )}
-                
+            </div>
+            <div className="flash-card-page-info-icon">
+                <InfoOutline />
+                <div className="flash-card-info-card">
+                    <p>Info her</p>
+                    <div className="info-row">
+                        <div className="key-info">
+                            <div className="keyboard-key">
+                                <KeyboardArrowLeft />
+                            </div>
+                            <p>Prev card</p>
+                        </div>
+                        <div>
+                            <div className="keyboard-key">
+                                <KeyboardArrowRight />
+                            </div>
+                            <p>Next card</p>
+                        </div>
+                    </div>
+                    <div className="info-row">
+                        
+                    </div>
+                    <div className="info-row">
+                        <div className="key-info">
+                            <div className="keyboard-key">
+                                <SpaceBar />
+                            </div>
+                        </div>
+                        <p>Show answer</p>
+                    </div>
+                </div>
             </div>
         </>
     )

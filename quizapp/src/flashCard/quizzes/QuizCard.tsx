@@ -5,9 +5,10 @@ interface QuizCardProps {
     name: string;
     description?: string;
     numOfQuestions?: number;
+    showOptions: boolean;
 }
 
-const QuizCard: React.FC<QuizCardProps> = ({ id, name, description, numOfQuestions}) => {
+const QuizCard: React.FC<QuizCardProps> = ({ id, name, description, numOfQuestions, showOptions}) => {
     const navigate = useNavigate();
 
     const handleClick = () => {
@@ -15,7 +16,7 @@ const QuizCard: React.FC<QuizCardProps> = ({ id, name, description, numOfQuestio
     }
 
     return(
-        <div className="flash-card-quiz-card" onClick={handleClick}>
+        <div className={`flash-card-quiz-card ${showOptions ? "show-options" : ""}`} onClick={handleClick}>
             <div className="flash-card-quiz-title">
                 <h3>{name}</h3>
             </div>

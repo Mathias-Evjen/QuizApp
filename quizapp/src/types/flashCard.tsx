@@ -2,6 +2,7 @@ export interface FlashCard {
     flashCardId: number;
     question: string;
     answer: string;
-    showAnswer: boolean;
+    showAnswer?: boolean;
+    quizId: number
     quizQuestionNum: number;
 }

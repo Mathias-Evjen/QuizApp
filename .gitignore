@@ -25,3 +25,4 @@ quizapp/node_modules
 
 # Rider
 .idea/
+node_modules

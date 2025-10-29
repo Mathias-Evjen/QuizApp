@@ -1,5 +1,6 @@
 import { useState } from "react";
-import { FlashCardQuiz } from "../types/flashCardQuiz";
+import { FlashCardQuiz } from "../../types/flashCardQuiz";
+
 
 const API_URL = "http://localhost:5041"
 

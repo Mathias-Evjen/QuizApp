@@ -71,11 +71,11 @@ const Quizzes: React.FC = () => {
                 method: "DELETE"
             });
             setQuizzes(prevQuizzes => prevQuizzes.filter(quiz => quiz.flashCardQuizId !== quizId));
-            console.log("item deleted: ", quizId)
+            console.log("Quiz deleted: ", quizId)
             handleShowDelete(null, false);
         } catch (error) {
             console.error("Error deleting flash card quiz: ", error)
-            setError("Failed to delete item")
+            setError("Failed to delete quiz")
         }
     }
 

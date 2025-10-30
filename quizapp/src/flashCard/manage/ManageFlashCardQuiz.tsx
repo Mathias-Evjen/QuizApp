@@ -149,6 +149,29 @@ const ManageFlashCardQuiz: React.FC = () => {
         await fetchFlashCards();
     }
 
+    const handleDelete = async (flashCardId: number) => {
+        try {
+            const isTempCard = flashCards.some(card => card.tempId === flashCardId);
+
+            if (!isTempCard) {
+                const response = await fetch(`${API_URL}/api/flashcardapi/delete/${flashCardId}`, {
+                    method: "DELETE"
+                });
+            }
+            setFlashCards(prevCards => prevCards.filter(card => card.flashCardId !== flashCardId && card.tempId !== flashCardId));
+            console.log("Flash card deleted: ", flashCardId);
+        } catch (error) {
+            console.error("Error deleting flash card: ", error);
+            setError("Failed to delete flash card");
+        }
+    }
+
+    const dataToSave = () => {
+        if (flashCards.some(card => card.isDirty || card.isNew))
+            return true;
+        return false;
+    }
+
     useEffect(() => {
             fetchQuiz();
             fetchFlashCards();
@@ -179,15 +202,16 @@ const ManageFlashCardQuiz: React.FC = () => {
                         answer={card.answer}
                         quizId={quiz?.flashCardQuizId!}
                         onQuestionChanged={handleQuestionChanged}
-                        onAnswerChanged={handleAnswerChanged}/>
+                        onAnswerChanged={handleAnswerChanged}
+                        onDeletePressed={handleDelete}/>
                 )}
             </div>
 
-            <div>
+            <div className="add-button-div">
                 <button className="popup-button" onClick={handleAddFlashCard}>Add</button>
             </div>
-            <div>
-                <button className="popup-button" onClick={handleSaveFlashCard}>Save</button>
+            <div className="save-button-div">
+                <button className={`popup-button  save-button${dataToSave() ? ":active" : ""}`} onClick={handleSaveFlashCard}>Save</button>
             </div>
         </>
     )

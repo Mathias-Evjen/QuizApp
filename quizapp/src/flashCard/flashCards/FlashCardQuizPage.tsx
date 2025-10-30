@@ -97,7 +97,7 @@ const FlashCardQuizPage: React.FC = () => {
         const handleKeyDown = (e: KeyboardEvent) => {
             if (e.key === "ArrowRight") handleNextCard();
             if (e.key === "ArrowLeft") handlePrevCard();
-            if (e.key === " ") toggleShowAnswer(flashCards[flashCardIndex].flashCardId);
+            if (e.key === " ") toggleShowAnswer(flashCards[flashCardIndex].flashCardId!);
         };
 
         window.addEventListener("keydown", handleKeyDown);
@@ -116,8 +116,8 @@ const FlashCardQuizPage: React.FC = () => {
                         key={flashCards[flashCardIndex].flashCardId} 
                         question={flashCards[flashCardIndex].question}
                         answer={flashCards[flashCardIndex].answer}
-                        showAnswer={flashCards[flashCardIndex].showAnswer}
-                        toggleAnswer={() => toggleShowAnswer(flashCards[flashCardIndex].flashCardId)}
+                        showAnswer={flashCards[flashCardIndex].showAnswer!}
+                        toggleAnswer={() => toggleShowAnswer(flashCards[flashCardIndex].flashCardId!)}
                         />
 
                         <div className="flash-card-sidebar">

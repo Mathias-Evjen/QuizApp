@@ -21,14 +21,16 @@ const FlashCardEntry: React.FC<FlashCardEntryProps> = ({ flashCardId, quizQuesti
                     <input 
                         type="text"
                         value={question}
-                        onChange={(e) => onQuestionChanged(flashCardId, e.target.value)} />
+                        onChange={(e) => onQuestionChanged(flashCardId, e.target.value)} 
+                        placeholder="Write a question..."/>
                 </div>
                 <div className="flash-card-entry-answer">
                     <label>Answer</label>
                     <input
                         type="text"
                         value={answer}
-                        onChange={(e) => onAnswerChanged(flashCardId, e.target.value)} />
+                        onChange={(e) => onAnswerChanged(flashCardId, e.target.value)} 
+                        placeholder="Write an answer"/>
                 </div>
             </div>
             <button className={"flash-card-entry-more-button"}><Close /></button>

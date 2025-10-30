@@ -81,7 +81,6 @@ const ManageFlashCardQuiz: React.FC = () => {
 
             const data = await response.json();
             console.log("Flash card updated successfully:", data);
-            fetchFlashCards();
         } catch (error) {
             console.error("There was a problem with the fetch operation: ", error)
         }
@@ -90,7 +89,7 @@ const ManageFlashCardQuiz: React.FC = () => {
     const handleQuestionChanged = (flashCardId: number, newQuestion: string) => {
         setFlashCards(prevCards =>
             prevCards.map(card =>
-                card.flashCardId === flashCardId
+                card.flashCardId === flashCardId || card.tempId === flashCardId
                 ? {...card, question: newQuestion, isDirty: true}
                 : card
             )
@@ -101,7 +100,7 @@ const ManageFlashCardQuiz: React.FC = () => {
     const handleAnswerChanged = (flashCardId: number, newAnswer: string) => {
         setFlashCards(prevCards =>
             prevCards.map(card =>
-                card.flashCardId === flashCardId
+                card.flashCardId === flashCardId || card.tempId === flashCardId
                 ? {...card, answer: newAnswer, isDirty: true}
                 : card
             )
@@ -109,13 +108,48 @@ const ManageFlashCardQuiz: React.FC = () => {
         
     }
 
+    const handleCreate = async (flashCard: FlashCard) => {
+        const newCard: FlashCard = {question: flashCard.question, answer: flashCard.answer, quizId: flashCard.quizId, quizQuestionNum: flashCard.quizQuestionNum}
+        try {
+            const response = await fetch(`${API_URL}/api/flashcardapi/create`, {
+                method: "post",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify(newCard)
+            });
+
+            if (!response.ok) {
+                throw new Error("Network response was not ok")
+            }
+
+            const data = await response.json();
+            console.log("Flash card created successfully:", data);
+        } catch (error) {
+            console.error("There was a problem with the fetch operation: ", error)
+        }
+    }
+
+    const handleAddFlashCard = () => {
+        const newCard: FlashCard = {question: "", answer: "", quizId: quizId, quizQuestionNum: flashCards.length + 1, isNew: true, tempId: Date.now() + Math.random()}
+        setFlashCards(prevCards =>
+            [...prevCards, newCard]
+        )
+    }
+
     const handleSaveFlashCard = async () => {
         const dirtyCards = flashCards.filter(card => card.isDirty)
-        dirtyCards.forEach(handleUpdateFlashCard)
+        const newCards = flashCards.filter(card => card.isNew)
+        
+        await Promise.all([
+            ...dirtyCards.map(card => handleUpdateFlashCard(card)),
+            ...newCards.map(card => handleCreate(card))
+        ]);
+
+        await fetchFlashCards();
     }
 
     useEffect(() => {
-            console.log("QuizID: ", quizId)
             fetchQuiz();
             fetchFlashCards();
         }, []);
@@ -138,7 +172,8 @@ const ManageFlashCardQuiz: React.FC = () => {
             <div className="flash-card-entry-container">
                 {flashCards.map(card =>
                     <FlashCardEntry
-                        flashCardId={card.flashCardId}
+                        key={card.flashCardId ?? card.tempId}
+                        flashCardId={card.flashCardId! ?? card.tempId}
                         quizQuestionNum={card.quizQuestionNum}
                         question={card.question}
                         answer={card.answer}
@@ -148,6 +183,9 @@ const ManageFlashCardQuiz: React.FC = () => {
                 )}
             </div>
 
+            <div>
+                <button className="popup-button" onClick={handleAddFlashCard}>Add</button>
+            </div>
             <div>
                 <button className="popup-button" onClick={handleSaveFlashCard}>Save</button>
             </div>

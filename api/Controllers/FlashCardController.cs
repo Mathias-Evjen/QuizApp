@@ -31,7 +31,8 @@ namespace QuizApp.Controllers
                 Answer = card.Answer,
                 QuizQuestionNum = card.QuizQuestionNum,
                 QuizId = card.QuizId
-            });
+            })
+            .OrderBy(card => card.QuizQuestionNum);
 
             return Ok(flashCardDtos);
         }

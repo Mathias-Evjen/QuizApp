@@ -14,5 +14,6 @@ namespace QuizApp.DTOs
         public bool ShowAnswer { get; set; } = false;
         public int QuizQuestionNum { get; set; }
         public int QuizId { get; set; }
+        public string? Color { get; set; }
     }
 }

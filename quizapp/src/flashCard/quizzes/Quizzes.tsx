@@ -84,6 +84,7 @@ const Quizzes: React.FC = () => {
     }
 
     useEffect(() => {
+        console.log("Fetching data...")
         fetchQuizzes();
     }, []);
 

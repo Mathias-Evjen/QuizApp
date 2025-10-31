@@ -5,6 +5,7 @@ export interface FlashCard {
     showAnswer?: boolean;
     quizId: number
     quizQuestionNum: number;
+    color?: string;
     isDirty?: boolean;
     isNew?: boolean
     tempId?: number

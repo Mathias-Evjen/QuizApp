@@ -30,7 +30,8 @@ namespace QuizApp.Controllers
                 Question = card.Question,
                 Answer = card.Answer,
                 QuizQuestionNum = card.QuizQuestionNum,
-                QuizId = card.QuizId
+                QuizId = card.QuizId,
+                Color = _flashCardQuizService.PickRandomFlashCardColor()
             })
             .OrderBy(card => card.QuizQuestionNum);
 

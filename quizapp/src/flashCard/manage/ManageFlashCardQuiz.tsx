@@ -208,10 +208,10 @@ const ManageFlashCardQuiz: React.FC = () => {
             </div>
 
             <div className="add-button-div">
-                <button className="popup-button" onClick={handleAddFlashCard}>Add</button>
+                <button className="popup-button add-button" onClick={handleAddFlashCard}>Add</button>
             </div>
             <div className="save-button-div">
-                <button className={`popup-button  save-button${dataToSave() ? ":active" : ""}`} onClick={handleSaveFlashCard}>Save</button>
+                <button className={`popup-button save-button ${dataToSave() ? "active" : ""}`} onClick={handleSaveFlashCard}>Save</button>
             </div>
         </>
     )

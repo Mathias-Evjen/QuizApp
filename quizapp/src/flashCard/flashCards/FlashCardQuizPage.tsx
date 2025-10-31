@@ -68,7 +68,7 @@ const FlashCardQuizPage: React.FC = () => {
     };
 
     useEffect(() => {
-        console.log("QuizID: ", quizId)
+        console.log("Fetching data...")
         fetchQuiz();
         fetchFlashCards();
     }, []);
@@ -117,6 +117,7 @@ const FlashCardQuizPage: React.FC = () => {
                         question={flashCards[flashCardIndex].question}
                         answer={flashCards[flashCardIndex].answer}
                         showAnswer={flashCards[flashCardIndex].showAnswer!}
+                        color={flashCards[flashCardIndex].color!}
                         toggleAnswer={() => toggleShowAnswer(flashCards[flashCardIndex].flashCardId!)}
                         />
 

@@ -26,3 +26,7 @@ quizapp/node_modules
 # Rider
 .idea/
 node_modules
+
+# DB temp files
+api/QuizDatabase.db-shm
+api/QuizDatabase.db-wal

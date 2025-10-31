@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { FlashCard } from "../../types/flashCard";
 import { FlashCardQuiz } from "../../types/flashCardQuiz";
-import { InfoOutline, KeyboardArrowLeft, KeyboardArrowRight, SpaceBar } from "@mui/icons-material";
+import { InfoOutline, KeyboardArrowLeft, KeyboardArrowRight, SpaceBar, Shuffle } from "@mui/icons-material";
 import FlashCardComponent from "./FlashCardComponent";
 
 const API_URL = "http://localhost:5041"
@@ -13,6 +13,7 @@ const FlashCardQuizPage: React.FC = () => {
 
     const [quiz, setQuiz] = useState<FlashCardQuiz>();
     const [flashCards, setFlashCards] = useState<FlashCard[]>([]);
+    const [shuffle, setShuffle] = useState<boolean>(false);
     const [flashCardIndex, setFlashCardIndex] = useState<number>(0);
     const [currentCard, setCurrentCard] = useState<FlashCard>(flashCards[flashCardIndex]);
     const [loadingQuiz, setLoadingQuiz] = useState<boolean>(false);
@@ -67,12 +68,6 @@ const FlashCardQuizPage: React.FC = () => {
         }
     };
 
-    useEffect(() => {
-        console.log("Fetching data...")
-        fetchQuiz();
-        fetchFlashCards();
-    }, []);
-
     const toggleShowAnswer = (flashCardId: number) => {
         setFlashCards(prevCards => 
             prevCards.map(card =>
@@ -90,8 +85,33 @@ const FlashCardQuizPage: React.FC = () => {
 
     const handleNextCard = () => {
         if (flashCardIndex + 1 != flashCards.length)
-        setFlashCardIndex(flashCardIndex + 1)
+            setFlashCardIndex(flashCardIndex + 1)
     }
+
+    const handleShuffle = () => {
+        if (!shuffle) {
+            setShuffle(true);
+            setFlashCards(prevCards => {
+                const randomized = [...prevCards];
+                for (let i = randomized.length - 1; i > 0; i--) {
+                    const j = Math.floor(Math.random() * (i + 1));
+                    [randomized[i], randomized[j]] = [randomized[j], randomized[i]];
+                }
+                return randomized;
+            })
+        } else {
+            setShuffle(false);
+            setFlashCards(prevCards =>
+                [...prevCards].sort((a, b) => a.quizQuestionNum - b.quizQuestionNum)
+            );
+        };
+    }
+
+    useEffect(() => {
+        console.log("Fetching data...")
+        fetchQuiz();
+        fetchFlashCards();
+    }, []);
 
     useEffect(() => {
         const handleKeyDown = (e: KeyboardEvent) => {
@@ -128,8 +148,11 @@ const FlashCardQuizPage: React.FC = () => {
                             </div>
                             <div className="flash-card-menu">
                                 <button onClick={handlePrevCard}><KeyboardArrowLeft /></button>
-                                <div>
-                                    <p>{flashCards[flashCardIndex].quizQuestionNum}/{flashCards.length}</p>
+                                <div className="flash-card-menu-middle">
+                                    <div className={`shuffle-button ${shuffle ? "active" : ""}`} onClick={handleShuffle}>
+                                        <Shuffle />
+                                    </div>
+                                    <p>{flashCardIndex + 1}/{flashCards.length}</p>
                                 </div>
                                 <button onClick={handleNextCard}><KeyboardArrowRight /></button>
                             </div>

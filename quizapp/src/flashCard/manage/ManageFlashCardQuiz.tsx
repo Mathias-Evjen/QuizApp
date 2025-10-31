@@ -86,6 +86,27 @@ const ManageFlashCardQuiz: React.FC = () => {
         }
     }
 
+    const handleUpdateQuiz = async (quiz: FlashCardQuiz) => {
+        try {
+            const response = await fetch(`${API_URL}/api/flashcardquizapi/update/${quizId}`, {
+                method: "put",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify(quiz)
+            });
+
+            if (!response.ok) {
+                throw new Error("Network response was not ok");
+            }
+
+            const data = await response.json();
+            console.log("Flash card quiz updated successfully:", data);
+        } catch (error) {
+            console.error("There was a problem with the fetch operation: ", error);
+        }
+    }
+
     const handleQuestionChanged = (flashCardId: number, newQuestion: string) => {
         setFlashCards(prevCards =>
             prevCards.map(card =>
@@ -188,7 +209,7 @@ const ManageFlashCardQuiz: React.FC = () => {
 
     return(
         <>
-            <div>
+            <div className="flash-card-quiz-details">
                 <h1>{quiz?.name}</h1>
                 <h2>{quiz?.description}</h2>
             </div>

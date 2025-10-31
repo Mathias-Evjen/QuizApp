@@ -472,6 +472,25 @@
 /* Manage Flash Card Quiz */
 /* Inspiration taken from Quizlet */
 
+.flash-card-quiz-details {
+  display: flex;
+  flex-direction: column;
+  justify-content: start;
+  align-items: start;
+  padding: 10px 40px 10px 40px;
+}
+
+.flash-card-quiz-details h1 {
+  font-size: 35px;
+  font-weight: 500;
+}
+
+.flash-card-quiz-details h2 {
+  font-size: 25px;
+  font-weight: 450;
+  color: rgb(83, 83, 83);
+}
+
 .flash-card-entry-container {
   display: flex;
   flex-direction: column;

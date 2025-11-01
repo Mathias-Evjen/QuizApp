@@ -15,7 +15,7 @@ namespace QuizApp.Controllers
         private readonly ILogger<FlashCardAPIController> _logger = logger;
 
         [HttpGet("getFlashCards/{quizId}")]
-        public async Task<IActionResult> GetFlashcards(int quizId)
+        public async Task<IActionResult> GetFlashCards(int quizId)
         {
             var flashCards = await _flashCardRepository.GetAll(fc => fc.QuizId == quizId);
             if (flashCards == null)
@@ -56,7 +56,7 @@ namespace QuizApp.Controllers
             if (returnOk)
             {
                 await _flashCardQuizService.ChangeQuestionCount(newFlashCard.QuizId, true);
-                return CreatedAtAction(nameof(GetFlashcards), new { quizId = newFlashCard.QuizId }, newFlashCard);
+                return CreatedAtAction(nameof(GetFlashCards), new { quizId = newFlashCard.QuizId }, newFlashCard);
             }
             
             _logger.LogError("[FlashCardAPIController] FlashCard creation failed {@flashCard}", newFlashCard);
@@ -76,13 +76,16 @@ namespace QuizApp.Controllers
                 return NotFound("FlashCard not found for the FlashCardId");
             }
 
-            existingFlashCard.Question = flashCardDto.Question;
-            existingFlashCard.Answer = flashCardDto.Answer;
-            existingFlashCard.QuizQuestionNum = flashCardDto.QuizQuestionNum;
-        
-            bool returnOk = await _flashCardRepository.Update(existingFlashCard);
-            if (returnOk)
-                return Ok(existingFlashCard);
+            if (existingFlashCard.FlashCardId == flashCardDto.FlashCardId)
+            {
+                existingFlashCard.Question = flashCardDto.Question;
+                existingFlashCard.Answer = flashCardDto.Answer;
+                existingFlashCard.QuizQuestionNum = flashCardDto.QuizQuestionNum;
+            
+                bool returnOk = await _flashCardRepository.Update(existingFlashCard);
+                if (returnOk)
+                    return Ok(existingFlashCard);
+            }
 
             _logger.LogError("[FlashCardAPIController] FlashCard update failed {@flashCard}", existingFlashCard);
             return StatusCode(500, "Internal server error");

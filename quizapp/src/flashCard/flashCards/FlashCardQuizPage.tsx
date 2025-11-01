@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { FlashCard } from "../../types/flashCard";
 import { FlashCardQuiz } from "../../types/flashCardQuiz";
-import { InfoOutline, KeyboardArrowLeft, KeyboardArrowRight, SpaceBar, Shuffle } from "@mui/icons-material";
+import { InfoOutline, KeyboardArrowLeft, KeyboardArrowRight, SpaceBar, ShuffleTwoTone, Shuffle, ShuffleOn } from "@mui/icons-material";
 import FlashCardComponent from "./FlashCardComponent";
 
 const API_URL = "http://localhost:5041"
@@ -150,7 +150,7 @@ const FlashCardQuizPage: React.FC = () => {
                                 <button onClick={handlePrevCard}><KeyboardArrowLeft /></button>
                                 <div className="flash-card-menu-middle">
                                     <div className={`shuffle-button ${shuffle ? "active" : ""}`} onClick={handleShuffle}>
-                                        <Shuffle />
+                                        {shuffle ? <ShuffleOn /> : <Shuffle />}
                                     </div>
                                     <p>{flashCardIndex + 1}/{flashCards.length}</p>
                                 </div>

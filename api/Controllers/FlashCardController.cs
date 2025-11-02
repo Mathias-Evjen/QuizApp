@@ -69,23 +69,23 @@ namespace QuizApp.Controllers
             if (flashCardDto == null)
                 return BadRequest("Flash card cannot be null");
 
+            if (flashCardId != flashCardDto.FlashCardId)
+                return BadRequest("Ids must match");
+
             var existingFlashCard = await _flashCardRepository.GetById(flashCardId);
             if (existingFlashCard == null)
             {
                 _logger.LogError("[FlashCardAPIController] Existing card not found for the Id {Id: 0000}", flashCardId);
                 return NotFound("FlashCard not found for the FlashCardId");
             }
-
-            if (existingFlashCard.FlashCardId == flashCardDto.FlashCardId)
-            {
-                existingFlashCard.Question = flashCardDto.Question;
-                existingFlashCard.Answer = flashCardDto.Answer;
-                existingFlashCard.QuizQuestionNum = flashCardDto.QuizQuestionNum;
             
-                bool returnOk = await _flashCardRepository.Update(existingFlashCard);
-                if (returnOk)
-                    return Ok(existingFlashCard);
-            }
+            existingFlashCard.Question = flashCardDto.Question;
+            existingFlashCard.Answer = flashCardDto.Answer;
+            existingFlashCard.QuizQuestionNum = flashCardDto.QuizQuestionNum;
+        
+            bool returnOk = await _flashCardRepository.Update(existingFlashCard);
+            if (returnOk)
+                return Ok(existingFlashCard);
 
             _logger.LogError("[FlashCardAPIController] FlashCard update failed {@flashCard}", existingFlashCard);
             return StatusCode(500, "Internal server error");

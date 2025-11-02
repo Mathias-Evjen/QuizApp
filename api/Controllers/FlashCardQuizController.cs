@@ -71,7 +71,10 @@ namespace QuizApp.Controllers
         public async Task<IActionResult> Update(int flashCardQuizId, [FromBody] FlashCardQuizDto flashCardQuizDto)
         {
             if (flashCardQuizDto == null)
-                return BadRequest("Flash card quiz data cannot be null");
+                return BadRequest("Flash card quiz cannot be null");
+
+            if (flashCardQuizId != flashCardQuizDto.FlashCardQuizId)
+                return BadRequest("Ids must match");
 
             var existingQuiz = await _flashCardQuizRepository.GetById(flashCardQuizId);
             if (existingQuiz == null)

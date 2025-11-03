@@ -3,6 +3,7 @@ import { useParams } from "react-router-dom";
 import { FlashCardQuiz } from "../../types/flashCardQuiz";
 import { FlashCard } from "../../types/flashCard";
 import FlashCardEntry from "./FlashCardEntry";
+import QuizUpdateForm from "./QuizUpdateForm";
 
 const API_URL = "http://localhost:5041"
 
@@ -16,6 +17,8 @@ const ManageFlashCardQuiz: React.FC = () => {
     const [loadingQuiz, setLoadingQuiz] = useState<boolean>(false);
     const [loadingFlashCards, setLoadingFlashCards] = useState<boolean>(false);
     const [error, setError] = useState<string | null>(null);
+
+    const [showUpdateQuiz, setShowUpdateQuiz] = useState<boolean>(false);
 
     const fetchQuiz = async () => {
         setLoadingQuiz(true);
@@ -187,10 +190,27 @@ const ManageFlashCardQuiz: React.FC = () => {
         }
     }
 
-    const dataToSave = () => {
+    const flashCardsToSave = () => {
         if (flashCards.some(card => card.isDirty || card.isNew))
             return true;
         return false;
+    }
+
+    const handleShowUpdateQuiz = (value: boolean) => {
+        setShowUpdateQuiz(value);
+    }
+
+    const handleNameChanged = (newName: string) => {
+        setQuiz(prevQuiz => ({...prevQuiz!, name: newName, isDirty: true}))
+    }
+
+    const handleDescriptionChanged = (newDescription: string) => {
+        setQuiz(prevQuiz => ({...prevQuiz!, description: newDescription, isDirty: true}))
+    }
+
+    const saveQuiz = () => {
+        handleUpdateQuiz(quiz!);
+        handleShowUpdateQuiz(false);
     }
 
     useEffect(() => {
@@ -208,11 +228,15 @@ const ManageFlashCardQuiz: React.FC = () => {
     }, [flashCards.length])
 
     return(
-        <>
-            <div className="flash-card-quiz-details">
-                <h1>{quiz?.name}</h1>
-                <h2>{quiz?.description}</h2>
+        <div className="manage-quiz-container">
+            <div className="flash-card-quiz-details-container">
+                <div className="flash-card-quiz-details">
+                    <h1>{quiz?.name}</h1>
+                    <h2>{quiz?.description}</h2>
+                </div>
+                <button className="button" onClick={() => handleShowUpdateQuiz(true)}>Edit</button> 
             </div>
+            
             <div className="flash-card-entry-container">
                 {flashCards.map(card =>
                     <FlashCardEntry
@@ -228,13 +252,30 @@ const ManageFlashCardQuiz: React.FC = () => {
                 )}
             </div>
 
-            <div className="add-button-div">
-                <button className="popup-button add-button" onClick={handleAddFlashCard}>Add</button>
+            <div className="manage-buttons-div">
+                <button className="button add-button" onClick={handleAddFlashCard}>Add</button>
+                <button className={`button save-button ${flashCardsToSave() ? "active" : ""}`} onClick={handleSaveFlashCard}>Save</button>
             </div>
-            <div className="save-button-div">
-                <button className={`popup-button save-button ${dataToSave() ? "active" : ""}`} onClick={handleSaveFlashCard}>Save</button>
+
+            <div className={`${showUpdateQuiz ? "update-flash-card-quiz-popup" : ""}`}>
+                {showUpdateQuiz ?
+                    (
+                        <QuizUpdateForm 
+                            name={quiz!.name} 
+                            description={quiz!.description} 
+                            isDirty={quiz!.isDirty}
+                            onCancelClick={handleShowUpdateQuiz}
+                            onSaveClick={saveQuiz}
+                            onNameChanged={handleNameChanged}
+                            onDescriptionChanged={handleDescriptionChanged}/>
+                    ) : (
+                        ""
+                    )}
             </div>
-        </>
+        </div>
+        
+        
+        
     )
 }
 

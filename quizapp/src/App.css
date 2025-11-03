@@ -218,10 +218,10 @@
   border-radius: 8px;
 }
 
-.popup-button {
+.button {
   width: 150px;
   height: 75px;
-  margin: 0 25px 0 25px;
+  margin: 15px;
   font-size: 25px;
   border: none;
   border-radius: 10px;
@@ -267,7 +267,6 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  position: relative;
 }
 
 .flash-card-sidebar {
@@ -287,65 +286,6 @@
   padding: 0 15px 15px 15px;
   margin-bottom: 80px;
   color: rgb(78, 78, 78);
-}
-
-.flash-card-menu {
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  right: 0;
-
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-  align-items: center;
-  margin-top: 15px;
-  padding: 13px;
-
-  border: 3px solid gray;
-  border-radius: 15px;
-  background-color: rgb(235, 235, 235);
-}
-
-.flash-card-menu-middle {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-}
-
-.flash-card-menu p {
-  margin: 0 30px 0 30px;
-  font-size: 30px;
-}
-
-.flash-card-menu button {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 80px;
-  width: 95px;
-
-  border: 5px solid rgb(77, 77, 252);
-  border-radius: 6px;
-  background-color: rgb(88, 127, 255);
-  color: rgb(255, 247, 247);
-
-  user-select: none;
-
-  font-size: 18px;
-}
-
-.shuffle-button:hover {
-  cursor: pointer;
-}
-
-.shuffle-button svg {
-  font-size: 30px;
-}
-
-.flash-card-menu button svg {
-  font-size: 45px;
 }
 
 .flash-card {
@@ -423,6 +363,61 @@
   font-size: x-large;
 }
 
+.flash-card-menu {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  width: 400px;
+  margin-top: 25px;
+  padding: 13px;
+
+  border: 3px solid gray;
+  border-radius: 15px;
+  background-color: rgb(235, 235, 235);
+}
+
+.flash-card-menu-middle {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.flash-card-menu p {
+  margin: 0 30px 0 30px;
+  font-size: 30px;
+}
+
+.flash-card-menu button {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 80px;
+  width: 95px;
+
+  border: 5px solid rgb(77, 77, 252);
+  border-radius: 6px;
+  background-color: rgb(88, 127, 255);
+  color: rgb(255, 247, 247);
+
+  user-select: none;
+
+  font-size: 18px;
+}
+
+.shuffle-button:hover {
+  cursor: pointer;
+}
+
+.shuffle-button svg {
+  font-size: 30px;
+}
+
+.flash-card-menu button svg {
+  font-size: 45px;
+}
+
 .flash-card-page-info-icon {
   position: absolute;
   bottom: 50px;
@@ -489,6 +484,24 @@
 
 /* Manage Flash Card Quiz */
 /* Inspiration taken from Quizlet */
+
+.manage-quiz-container {
+  display: flex;
+  flex-direction: column;
+  width: 1100px;
+}
+
+.flash-card-quiz-details-container {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: end;
+}
+
+.flash-card-quiz-details-container button {
+  scale: 0.8;
+  margin: 0 15px 10px 0;
+}
 
 .flash-card-quiz-details {
   display: flex;
@@ -576,8 +589,9 @@
   color: rgb(76, 76, 76);
 }
 
-.add-button-div {
+.manage-buttons-div {
   display: flex;
+  flex-direction: row;
   justify-content: end;
   padding: 20px;
 }
@@ -589,12 +603,6 @@
 
 .add-button:hover {
   background-color: rgb(28, 161, 44);
-}
-
-.save-button-div {
-  position: fixed;
-  right: 20px;
-  bottom: 50px;
 }
 
 .save-button {
@@ -611,4 +619,89 @@
 
 .save-button.active:hover {
   background-color: rgb(28, 115, 201);
+}
+
+.update-flash-card-quiz-popup {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999;
+  background-color: rgba(0, 0, 0, 0.7);
+}
+
+.flash-card-quiz-update {
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  
+  width: 800px;
+  height: 600px;
+  border: 3px solid gray;
+  border-radius: 25px;
+  background-color: white;
+}
+
+.flash-card-quiz-update h1 {
+  font-size: 35px;
+  font-weight: 450px;
+}
+
+.flash-card-quiz-update-inputs {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+  align-items: center;
+}
+
+.flash-card-quiz-update-inputs label {
+  font-size: 25px;
+}
+
+.flash-card-quiz-update input {
+  border: 2px solid rgb(202, 202, 202);
+  border-radius: 8px;
+
+  font-size: 28px;
+  font-weight: 400;
+
+  height: 60px;
+  width: 492px;
+  margin-bottom: 10px;
+}
+
+.flash-card-quiz-update textarea {
+  border: 2px solid rgb(202, 202, 202);
+  border-radius: 8px;
+  height: 200px;
+  width: 500px; 
+
+  font-size: 25px;
+  font-weight: 400;
+  color: rgb(83, 83, 83);
+  resize: none;
+  box-sizing: border-box;
+  overflow-wrap: break-word;
+  white-space: pre-wrap;
+}
+
+.flash-card-quiz-update-buttons {
+  display: flex;
+  flex-direction: row;
+}
+
+.flash-card-quiz-update-buttons {
+  margin: 0;
+}
+
+.input-group {
+  display: flex;
+  flex-direction: column;
+  align-items: start;
 }

@@ -140,22 +140,14 @@ const FlashCardQuizPage: React.FC = () => {
                         color={flashCards[flashCardIndex].color!}
                         toggleAnswer={() => toggleShowAnswer(flashCards[flashCardIndex].flashCardId!)}
                         />
+                        
 
                         <div className="flash-card-sidebar">
                             <div className="flash-card-page-description">
                                 <h2>Description:</h2>
                                 <p>{quiz?.description}</p>
                             </div>
-                            <div className="flash-card-menu">
-                                <button onClick={handlePrevCard}><KeyboardArrowLeft /></button>
-                                <div className="flash-card-menu-middle">
-                                    <div className={`shuffle-button ${shuffle ? "active" : ""}`} onClick={handleShuffle}>
-                                        {shuffle ? <ShuffleOn /> : <Shuffle />}
-                                    </div>
-                                    <p>{flashCardIndex + 1}/{flashCards.length}</p>
-                                </div>
-                                <button onClick={handleNextCard}><KeyboardArrowRight /></button>
-                            </div>
+                            
                         </div>
 
                         
@@ -163,6 +155,16 @@ const FlashCardQuizPage: React.FC = () => {
                 ) : (
                     <p>No flashcards to display</p>
                 )}
+                <div className="flash-card-menu">
+                    <button onClick={handlePrevCard}><KeyboardArrowLeft /></button>
+                    <div className="flash-card-menu-middle">
+                        <div className={`shuffle-button ${shuffle ? "active" : ""}`} onClick={handleShuffle}>
+                            {shuffle ? <ShuffleOn /> : <Shuffle />}
+                        </div>
+                        <p>{flashCardIndex + 1}/{flashCards.length}</p>
+                    </div>
+                    <button onClick={handleNextCard}><KeyboardArrowRight /></button>
+                </div>
             </div>
             <div className="flash-card-page-info-icon">
                 <InfoOutline />

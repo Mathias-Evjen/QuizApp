@@ -38,90 +38,99 @@ public class MatchingAPIController : ControllerBase
             _logger.LogError("[MatchingAPIController] Questions list not found while executing _matchingRepository.GetAll()");
             return NotFound("Matching questions not found");
         }
-        var questionDtos = questions.Select(question => new MatchingDto
-        {
-            MatchingId = question.Id,
-            QuestionText = question.QuestionText,
-            Question = question.Question,
-            QuizQuestionNum = question.QuizQuestionNum,
-            QuizId = question.QuizId
+        var questionDtos = questions.Select(question => {
+            var keyValuePairs = question.SplitQuestion();
+
+            var keys = keyValuePairs.Select(kvp => kvp.Key).ToList();
+            var values = keyValuePairs.Select(kvp => kvp.Value).ToList();
+        
+            return new MatchingDto
+            {
+                MatchingId = question.Id,
+                QuestionText = question.QuestionText,
+                Question = question.Question,
+                QuizQuestionNum = question.QuizQuestionNum,
+                QuizId = question.QuizId,
+                Keys = keys,
+                Values = values
+            };
         });
 
         return Ok(questionDtos);
     }
 
-    [HttpPost]
-    public async Task<IActionResult> SubmitMatchingQuestion(int id, List<string> keys, List<string> values, int quizId, int quizQuestionNum, int quizAttemptId, int numOfQuestions)
-    {
-        var matchingObject = await _matchingRepository.GetById(id);
-        if (matchingObject == null)
-        {
-            _logger.LogError("[MatchingAPIController - Get Question] Matching question not found for the Id {Id: 0000}", id);
-            return NotFound("Matching question not found.");
-        }
-        string questionAnswer = matchingObject.Assemble(keys, values, 2);
-        matchingObject.TotalRows = keys.Count;
-        int correctCounter = 0;
-        KeyValuePair<string, string>[] correctAnswerSplit = matchingObject.SplitCorrectAnswer();
-        for (int i = 0; i < correctAnswerSplit.Length; i++)
-        {
-            if (correctAnswerSplit[i].Value == values[i])
-            {
-                correctCounter++;
-            }
-        }
-        if (!CheckAttempt(quizAttemptId))
-        {
-            var matchingAttempt = new MatchingAttempt
-            {
-                MatchingId = matchingObject.Id,
-                QuizAttemptId = quizAttemptId,
-                UserAnswer = questionAnswer,
-                AmountCorrect = correctCounter
-            };
-            if (correctCounter == matchingObject.TotalRows) { matchingAttempt.AnsweredCorrectly = true; }
-            else { matchingAttempt.AnsweredCorrectly = false; }
-
-            var returnOk = await _matchingAttemptRepository.Create(matchingAttempt);
-            if (!returnOk)
-            {
-                _logger.LogError("[MatchingAPIController] Question attempt creation failed {@attempt}", matchingAttempt);
-                return RedirectToAction("Quizzes", "Quiz");
-            }
-        }
-        else
-        {
-            var matchingAttempt = await _matchingAttemptRepository.GetById(quizAttemptId);
-            if (matchingAttempt == null)
-            {
-                _logger.LogError("[MatchingAPIController - Get Attempt] Matching attempt not found for the Id {Id: 0000}", id);
-                return NotFound("Matching attempt not found.");
-            }
-            matchingAttempt.MatchingId = matchingObject.Id;
-            matchingAttempt.QuizAttemptId = quizAttemptId;
-            matchingAttempt.UserAnswer = questionAnswer;
-            matchingAttempt.AmountCorrect = correctCounter;
-            if (correctCounter == matchingObject.TotalRows) { matchingAttempt.AnsweredCorrectly = true; }
-            else { matchingAttempt.AnsweredCorrectly = false; }
-
-            var returnOk = await _matchingAttemptRepository.Update(matchingAttempt);
-            if (!returnOk)
-            {
-                _logger.LogError("[MatchingAPIController] Question attempt creation failed {@attempt}", matchingAttempt);
-                return RedirectToAction("Quizzes", "Quiz");
-            }
-        }
-
-        if (matchingObject.QuizQuestionNum == numOfQuestions)
-            return RedirectToAction("Results", "Quiz", new { quizAttemptId = quizAttemptId });
-
-        return RedirectToAction("NextQuestion", "Quiz", new
-        {
-            quizId = quizId,
-            quizAttemptId = quizAttemptId,
-            quizQuestionNum = quizQuestionNum
-        });
-    }
+    // [HttpPost]
+    // public async Task<IActionResult> SubmitMatchingQuestion(int id, List<string> keys, List<string> values, int quizId, int quizQuestionNum, int quizAttemptId, int numOfQuestions)
+    // {
+    //     var matchingObject = await _matchingRepository.GetById(id);
+    //     if (matchingObject == null)
+    //     {
+    //         _logger.LogError("[MatchingAPIController - Get Question] Matching question not found for the Id {Id: 0000}", id);
+    //         return NotFound("Matching question not found.");
+    //     }
+    //     string questionAnswer = matchingObject.Assemble(keys, values, 2);
+    //     matchingObject.TotalRows = keys.Count;
+    //     int correctCounter = 0;
+    //     KeyValuePair<string, string>[] correctAnswerSplit = matchingObject.SplitCorrectAnswer();
+    //     for (int i = 0; i < correctAnswerSplit.Length; i++)
+    //     {
+    //         if (correctAnswerSplit[i].Value == values[i])
+    //         {
+    //             correctCounter++;
+    //         }
+    //     }
+    //     if (!CheckAttempt(quizAttemptId))
+    //     {
+    //         var matchingAttempt = new MatchingAttempt
+    //         {
+    //             MatchingId = matchingObject.Id,
+    //             QuizAttemptId = quizAttemptId,
+    //             UserAnswer = questionAnswer,
+    //             AmountCorrect = correctCounter
+    //         };
+    //         if (correctCounter == matchingObject.TotalRows) { matchingAttempt.AnsweredCorrectly = true; }
+    //         else { matchingAttempt.AnsweredCorrectly = false; }
+    //
+    //         var returnOk = await _matchingAttemptRepository.Create(matchingAttempt);
+    //         if (!returnOk)
+    //         {
+    //             _logger.LogError("[MatchingAPIController] Question attempt creation failed {@attempt}", matchingAttempt);
+    //             return RedirectToAction("Quizzes", "Quiz");
+    //         }
+    //     }
+    //     else
+    //     {
+    //         var matchingAttempt = await _matchingAttemptRepository.GetById(quizAttemptId);
+    //         if (matchingAttempt == null)
+    //         {
+    //             _logger.LogError("[MatchingAPIController - Get Attempt] Matching attempt not found for the Id {Id: 0000}", id);
+    //             return NotFound("Matching attempt not found.");
+    //         }
+    //         matchingAttempt.MatchingId = matchingObject.Id;
+    //         matchingAttempt.QuizAttemptId = quizAttemptId;
+    //         matchingAttempt.UserAnswer = questionAnswer;
+    //         matchingAttempt.AmountCorrect = correctCounter;
+    //         if (correctCounter == matchingObject.TotalRows) { matchingAttempt.AnsweredCorrectly = true; }
+    //         else { matchingAttempt.AnsweredCorrectly = false; }
+    //
+    //         var returnOk = await _matchingAttemptRepository.Update(matchingAttempt);
+    //         if (!returnOk)
+    //         {
+    //             _logger.LogError("[MatchingAPIController] Question attempt creation failed {@attempt}", matchingAttempt);
+    //             return RedirectToAction("Quizzes", "Quiz");
+    //         }
+    //     }
+    //
+    //     if (matchingObject.QuizQuestionNum == numOfQuestions)
+    //         return RedirectToAction("Results", "Quiz", new { quizAttemptId = quizAttemptId });
+    //
+    //     return RedirectToAction("NextQuestion", "Quiz", new
+    //     {
+    //         quizId = quizId,
+    //         quizAttemptId = quizAttemptId,
+    //         quizQuestionNum = quizQuestionNum
+    //     });
+    // }
 
     public bool CheckAttempt(int quizAttemptId)
     {
@@ -152,9 +161,9 @@ public class MatchingAPIController : ControllerBase
     // }
 
     [HttpPost("create")]
-    public async Task<IActionResult> CreateMatchingQuestion(List<string> Keys, List<string> Values, string questionText, int quizId, int quizQuestionNum)
+    public async Task<IActionResult> CreateMatchingQuestion([FromBody] MatchingDto matchingDto)
     {
-        if (Keys == null || Values == null || Keys.Count != Values.Count)
+        if (matchingDto.Keys == null || matchingDto.Values == null || matchingDto.Keys.Count != matchingDto.Values.Count)
         {
             ModelState.AddModelError("", "Ugyldige inndata: Keys og Values må være like lange.");
             return BadRequest("Keys and Value must not be null");
@@ -162,14 +171,14 @@ public class MatchingAPIController : ControllerBase
 
         var matchingQuestion = new Matching
         {
-            QuizId = quizId,
-            QuizQuestionNum = quizQuestionNum
+            QuizId = matchingDto.QuizId,
+            QuizQuestionNum = matchingDto.QuizQuestionNum
         };
-        matchingQuestion.Assemble(Keys, Values, 1);
-        matchingQuestion.Assemble(Keys, Values, 3);
-        matchingQuestion.ShuffleQuestion(Keys, Values);
-        matchingQuestion.TotalRows = Keys.Count;
-        matchingQuestion.QuestionText = questionText;
+        matchingQuestion.Assemble(matchingDto.Keys, matchingDto.Values, 1);
+        matchingQuestion.Assemble(matchingDto.Keys, matchingDto.Values, 3);
+        matchingQuestion.ShuffleQuestion(matchingDto.Keys, matchingDto.Values);
+        matchingQuestion.TotalRows = matchingDto.Keys.Count;
+        matchingQuestion.QuestionText = matchingDto.QuestionText;
         bool returnOk = await _matchingRepository.Create(matchingQuestion);
         if (returnOk)
         {
@@ -203,17 +212,18 @@ public class MatchingAPIController : ControllerBase
     // }
 
     [HttpPut("update/{matchingId}")]
-    public async Task<IActionResult> Edit(int id, List<string> keysQuestion, List<string> valuesQuestion, List<string> keysCorrectAnswer, List<string> valuesCorrectAnswer, string questionText, int quizId, int quizQuestionNum)
+    public async Task<IActionResult> Edit([FromBody] MatchingDto matchingDto)
     {
         Matching updatetMatching = new()
         {
-            Id = id,
-            QuestionText = questionText,
-            QuizId = quizId,
-            QuizQuestionNum = quizQuestionNum
+            Id = matchingDto.MatchingId,
+            QuestionText = matchingDto.QuestionText,
+            QuizId = matchingDto.QuizId,
+            QuizQuestionNum = matchingDto.QuizQuestionNum
         };
-        updatetMatching.Assemble(keysQuestion, valuesQuestion, 3);
-        updatetMatching.Assemble(keysCorrectAnswer, valuesCorrectAnswer, 1);
+        //TODO finn måte å legge til keys/values for question og correctAnswer
+        updatetMatching.Assemble(matchingDto.Keys, matchingDto.Values, 3);
+        updatetMatching.Assemble(matchingDto.Keys, matchingDto.Values, 1);
         bool returnOk = await _matchingRepository.Update(updatetMatching);
         if (returnOk) {
             return Ok(updatetMatching);
@@ -235,16 +245,16 @@ public class MatchingAPIController : ControllerBase
     // }
 
     [HttpDelete("delete/{questionId}")]
-    public async Task<IActionResult> Delete(int questionId, int qNum, int quizId)
+    public async Task<IActionResult> Delete([FromBody] MatchingDto matchingDto)
     {
-        bool returnOk = await _matchingRepository.Delete(questionId);
+        bool returnOk = await _matchingRepository.Delete(matchingDto.MatchingId);
         if (!returnOk)
         {
-            _logger.LogError("[MatchingAPIController] Question deletion failed for QuestionId {QuestionId:0000}", questionId);
+            _logger.LogError("[MatchingAPIController] Question deletion failed for QuestionId {QuestionId:0000}", matchingDto.MatchingId);
             return BadRequest("Question deletion failed");
         }
-        await _quizService.ChangeQuestionCount(quizId, false);
-        await _quizService.UpdateQuestionNumbers(qNum, quizId);
+        await _quizService.ChangeQuestionCount(matchingDto.QuizId, false);
+        await _quizService.UpdateQuestionNumbers(matchingDto.QuizQuestionNum, matchingDto.QuizId);
         return NoContent();
     }
 }

@@ -12,6 +12,12 @@ namespace QuizApp.DTOs
 
         [Required(ErrorMessage = "Must contain an answer")]
         public string? CorrectAnswer { get; set; }
+
+        [Required]
+        public List<string> Keys { get; set; } = new();
+        [Required]
+        public List<string> Values { get; set; } = new();
+
         public int TotalRows { get; set; }
         public int QuizId { get; set; }
         public int QuizQuestionNum { get; set; }

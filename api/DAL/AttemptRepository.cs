@@ -9,11 +9,11 @@ namespace QuizApp.DAL
         private readonly DbSet<T> _dbSet = context.Set<T>();
         private readonly ILogger<AttemptRepository<T>> _logger = logger;
 
-        public async Task<IEnumerable<T>?> GetAll()
+        public async Task<IEnumerable<T>?> GetAll(Expression<Func<T, bool>> predicate)
         {
             try
             {
-                return await _dbSet.ToListAsync();
+                return await _dbSet.Where(predicate).ToListAsync();
             }
             catch (Exception e)
             {

@@ -79,16 +79,25 @@ const FlashCardQuizPage: React.FC = () => {
     }
 
     const handlePrevCard = () => {
-        if (flashCardIndex > 0)
+        if (flashCardIndex > 0) {
+            if (flashCards[flashCardIndex].showAnswer)
+                toggleShowAnswer(flashCards[flashCardIndex].flashCardId!);
             setFlashCardIndex(flashCardIndex - 1)
+        }
     }
 
     const handleNextCard = () => {
-        if (flashCardIndex + 1 != flashCards.length)
+        if (flashCardIndex + 1 != flashCards.length) {
+            if (flashCards[flashCardIndex].showAnswer)
+                toggleShowAnswer(flashCards[flashCardIndex].flashCardId!);
             setFlashCardIndex(flashCardIndex + 1)
+        }
     }
 
     const handleShuffle = () => {
+        if (flashCards[flashCardIndex].showAnswer)
+                toggleShowAnswer(flashCards[flashCardIndex].flashCardId!);
+
         if (!shuffle) {
             setShuffle(true);
             setFlashCards(prevCards => {

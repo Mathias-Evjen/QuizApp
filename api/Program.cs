@@ -32,7 +32,7 @@ builder.Services.AddScoped<IQuestionRepository<MultipleChoice>, MultipleChoiceRe
 builder.Services.AddScoped<IQuizRepository<Quiz>, QuizRepository>();
 builder.Services.AddScoped<IQuizRepository<FlashCardQuiz>, FlashCardQuizRepository>();
 builder.Services.AddScoped(typeof(IAttemptRepository<>), typeof(AttemptRepository<>));
-builder.Services.AddScoped<IAttemptRepository<QuizAttempt>, QuizAttemptRepository>();
+builder.Services.AddScoped<IQuizRepository<QuizAttempt>, QuizAttemptRepository>();
 
 
 builder.Services.AddScoped<QuizService>();

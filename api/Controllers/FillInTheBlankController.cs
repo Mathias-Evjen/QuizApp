@@ -36,45 +36,53 @@ namespace QuizApp.Controllers
             return Ok(questionDtos);
         }
 
-        [HttpPost]
-        public async Task<IActionResult> SubmitQuestion(int quizId, int quizAttemptId, int quizQuestionId, int quizQuestionNum, int numOfQuestions, string userAnswer)
+        [HttpGet("getAttempts/{quizAttemptId}")]
+        public async Task<IActionResult> GetAttempts(int quizAttemptId)
         {
-            Console.WriteLine(quizAttemptId);
-            var fillInTheBlank = await _fillInTheBlankRepository.GetById(quizQuestionId);
+            var attempts = await _fillInTheBlankAttemptRepository.GetAll(fiba => fiba.QuizAttemptId == quizAttemptId);
+            if (attempts == null)
+            {
+                _logger.LogError("[FillInTheBlankAPIController] FillInTheBlank attempt list not found while executing _fillInTheBlankAttemptRepository.GetAll()");
+                return NotFound("Attempts not found");
+            }
+
+            var attemptDtos = attempts.Select(attempt => new FillInTheBlankAttemptdto
+            {
+                FillInTheBlankAttemptId = attempt.FillInTheBlankId,
+                UserAnswer = attempt.UserAnswer,
+                QuizQuestionNum = attempt.QuizQuestionNum,
+                QuizAttemptId = attempt.QuizAttemptId
+            });
+
+            return Ok(attemptDtos);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> SubmitQuestion(int quizId, [FromBody] FillInTheBlankAttemptdto fillInTheBlankAttemptDto)
+        {
+            var fillInTheBlank = await _fillInTheBlankRepository.GetById(fillInTheBlankAttemptDto.FillInTheBlankId);
             if (fillInTheBlank == null)
             {
-                _logger.LogError("[FillInTheBlankAPIController - Submit question] FillInTheBlank question not found for the Id {Id: 0000}", quizQuestionId);
+                _logger.LogError("[FillInTheBlankAPIController - Submit question] FillInTheBlank question not found for the Id {Id: 0000}", fillInTheBlankAttemptDto.FillInTheBlankId);
                 return NotFound("FillInTheBlank question not found.");
             }
 
-            if (userAnswer != null)
+            var fillInTheBlankAttempt = new FillInTheBlankAttempt
             {
-                _logger.LogError("Skal ikke komme hit");
-                var fillInTheBlankAttempt = new FillInTheBlankAttempt
-                {
-                    FillInTheBlankId = fillInTheBlank.FillInTheBlankId,
-                    QuizAttemptId = quizAttemptId,
-                    UserAnswer = userAnswer
-                };
+                FillInTheBlankId = fillInTheBlank.FillInTheBlankId,
+                QuizAttemptId = fillInTheBlankAttemptDto.QuizAttemptId,
+                UserAnswer = fillInTheBlankAttemptDto.UserAnswer,
+                QuizQuestionNum = fillInTheBlankAttemptDto.QuizQuestionNum
+            };
 
-                var returnOk = await _fillInTheBlankAttemptRepository.Create(fillInTheBlankAttempt);
-                if (!returnOk)
-                {
-                    _logger.LogError("[FillInTheBlankAPIController] Question attempt creation failed {@attempt}", fillInTheBlankAttempt);
-                    return RedirectToAction("Quizzes", "Quiz");
-                }
+            var returnOk = await _fillInTheBlankAttemptRepository.Create(fillInTheBlankAttempt);
+            if (!returnOk)
+            {
+                _logger.LogError("[FillInTheBlankAPIController] Question attempt creation failed {@attempt}", fillInTheBlankAttempt);
+                return StatusCode(500, "Internal server error");
             }
 
-
-            if (fillInTheBlank.QuizQuestionNum == numOfQuestions)
-                return RedirectToAction("Results", "Quiz", new { quizAttemptId = quizAttemptId });
-
-            return RedirectToAction("NextQuestion", "Quiz", new
-            {
-                quizId = quizId,
-                quizAttemptId = quizAttemptId,
-                quizQuestionNum = quizQuestionNum
-            });
+            return Ok(fillInTheBlankAttempt);
         }
 
         [HttpPost("create")]

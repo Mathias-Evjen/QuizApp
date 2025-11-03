@@ -4,7 +4,7 @@ using System.Linq.Expressions;
 
 namespace QuizApp.DAL
 {
-    public class QuizAttemptRepository(QuizDbContext db, ILogger<QuizAttemptRepository> logger) : IAttemptRepository<QuizAttempt>
+    public class QuizAttemptRepository(QuizDbContext db, ILogger<QuizAttemptRepository> logger) : IQuizRepository<QuizAttempt>
     {
         private readonly QuizDbContext _db = db;
         private readonly ILogger<QuizAttemptRepository> _logger = logger;

@@ -57,8 +57,8 @@ namespace QuizApp.Controllers
             return Ok(attemptDtos);
         }
 
-        [HttpPost]
-        public async Task<IActionResult> SubmitQuestion(int quizId, [FromBody] FillInTheBlankAttemptdto fillInTheBlankAttemptDto)
+        [HttpPost("submitAttempts/{quizAttemptId}")]
+        public async Task<IActionResult> SubmitAttempt(int quizAttemptId, [FromBody] FillInTheBlankAttemptdto fillInTheBlankAttemptDto)
         {
             var fillInTheBlank = await _fillInTheBlankRepository.GetById(fillInTheBlankAttemptDto.FillInTheBlankId);
             if (fillInTheBlank == null)

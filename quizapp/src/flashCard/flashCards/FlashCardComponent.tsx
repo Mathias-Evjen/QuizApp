@@ -1,10 +1,10 @@
 
 interface FlashCardProps{
+    toggleAnswer: () => void;
     question: string;
     answer: string;
     showAnswer: boolean;
     color: string;
-    toggleAnswer: () => void;
 }
 
 const FlashCardComponent: React.FC<FlashCardProps> = ({ question, answer, showAnswer, color, toggleAnswer }) => {

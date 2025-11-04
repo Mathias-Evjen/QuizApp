@@ -1,0 +1,37 @@
+.matching-card-wrapper {
+  min-width: 30rem;
+  max-width: 40rem;
+  min-height: 25rem;
+  max-height: 40rem;
+  border: solid 1px black;
+  border-radius: 10px;
+  font-size: 20px;
+  margin: auto;
+}
+.matching-table-wrapper {
+  width: 80%;
+  height: 80%;
+  margin: auto;
+  margin-top: 50px;
+}
+.matching-table {
+  min-width: 100%;
+  max-width: 100%;
+  min-height: 100%;
+  max-height: 100%;
+  margin: auto;
+}
+.matching-table-keys {
+  text-align: left;
+  float: left;
+}
+.matching-table-values {
+  text-align: right;
+  float: right;
+}
+.matching-table-keys-tr {
+  margin-top: 40px;
+}
+.matching-table-values-tr {
+  margin-top: 40px;
+}

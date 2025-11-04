@@ -80,14 +80,13 @@ function MatchingCardQuizPage() {
               </div>
             </div>
           ))}
+          <button className="matching-card-next-btn">Next question</button>
         </div>
       ) : (
         <h3>No matching cards found.</h3>
       )}
-      <button>Next question</button>
     </div>
   );
 }
 
 export default MatchingCardQuizPage;
-

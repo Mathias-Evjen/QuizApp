@@ -111,8 +111,8 @@ const Quizzes: React.FC = () => {
 
     return(
         <div className="quizzes-page" onClick={() => handleShowMoreOptions(null)}>
-            <h1>Flash card quizzes</h1>
             <div className="flash-card-quiz-container">
+                <h1>Flash card quizzes</h1>
                 {quizzes.map(quiz => (
                     <div className="flash-card-quiz-entry" key={quiz.flashCardQuizId}>
                         <QuizCard

@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { FlashCard } from "../../types/flashCard";
 import { FlashCardQuiz } from "../../types/flashCardQuiz";
-import { InfoOutline, KeyboardArrowLeft, KeyboardArrowRight, SpaceBar, ShuffleTwoTone, Shuffle, ShuffleOn } from "@mui/icons-material";
+import { InfoOutline, KeyboardArrowLeft, KeyboardArrowRight, SpaceBar, Shuffle, ShuffleOn } from "@mui/icons-material";
 import FlashCardComponent from "./FlashCardComponent";
 
 const API_URL = "http://localhost:5041"
@@ -114,6 +114,8 @@ const FlashCardQuizPage: React.FC = () => {
                 [...prevCards].sort((a, b) => a.quizQuestionNum - b.quizQuestionNum)
             );
         };
+
+        setFlashCardIndex(0);
     }
 
     useEffect(() => {
@@ -136,11 +138,11 @@ const FlashCardQuizPage: React.FC = () => {
     return(
         <>
             <div className="flash-card-container">
-                <h1>{quiz?.name}</h1>
                 {loadingFlashCards ? (
-                    <p>Loading flashcards...</p>
+                    <h1>Loading...</h1>
                 ) : flashCards.length > 0 ? (
                     <div>
+                        <h1>{quiz?.name}</h1>
                         <FlashCardComponent 
                         key={flashCards[flashCardIndex].flashCardId} 
                         question={flashCards[flashCardIndex].question}

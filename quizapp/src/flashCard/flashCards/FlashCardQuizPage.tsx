@@ -15,7 +15,6 @@ const FlashCardQuizPage: React.FC = () => {
     const [flashCards, setFlashCards] = useState<FlashCard[]>([]);
     const [shuffle, setShuffle] = useState<boolean>(false);
     const [flashCardIndex, setFlashCardIndex] = useState<number>(0);
-    const [currentCard, setCurrentCard] = useState<FlashCard>(flashCards[flashCardIndex]);
     const [loadingQuiz, setLoadingQuiz] = useState<boolean>(false);
     const [loadingFlashCards, setLoadingFlashCards] = useState<boolean>(false);
     const [error, setError] = useState<string | null>(null);
@@ -137,77 +136,80 @@ const FlashCardQuizPage: React.FC = () => {
 
     return(
         <>
-            <div className="flash-card-container">
-                {loadingFlashCards ? (
-                    <h1>Loading...</h1>
-                ) : flashCards.length > 0 ? (
-                    <div>
-                        <h1>{quiz?.name}</h1>
-                        <FlashCardComponent 
-                        key={flashCards[flashCardIndex].flashCardId} 
-                        question={flashCards[flashCardIndex].question}
-                        answer={flashCards[flashCardIndex].answer}
-                        showAnswer={flashCards[flashCardIndex].showAnswer!}
-                        color={flashCards[flashCardIndex].color!}
-                        toggleAnswer={() => toggleShowAnswer(flashCards[flashCardIndex].flashCardId!)}
-                        />
-                        
+            {loadingFlashCards || loadingQuiz ? (
+                <p className="loading">Loading...</p>
+            ) : error ? (
+                <p className="fetch-error">{error}</p>
+            ) : (
+                <>
+                <div className="flash-card-container">
+                    {flashCards.length > 0 ? (
+                        <>
+                            <h1>{quiz?.name}</h1>
+                            <FlashCardComponent 
+                            key={flashCards[flashCardIndex].flashCardId} 
+                            question={flashCards[flashCardIndex].question}
+                            answer={flashCards[flashCardIndex].answer}
+                            showAnswer={flashCards[flashCardIndex].showAnswer!}
+                            color={flashCards[flashCardIndex].color!}
+                            toggleAnswer={() => toggleShowAnswer(flashCards[flashCardIndex].flashCardId!)}
+                            />
 
-                        <div className="flash-card-sidebar">
-                            <div className="flash-card-page-description">
-                                <h2>Description:</h2>
-                                <p>{quiz?.description}</p>
+                            <div className="flash-card-sidebar">
+                                <div className="flash-card-page-description">
+                                    <h2>Description:</h2>
+                                    <p>{quiz?.description}</p>
+                                </div>
+                                
                             </div>
+                        </>
+                    ) : (
+                        <p>No flashcards to display</p>
+                    )}
+                    <div className="flash-card-menu">
+                        <button onClick={handlePrevCard}><KeyboardArrowLeft /></button>
+                        <div className="flash-card-menu-middle">
+                            <div className={`shuffle-button ${shuffle ? "active" : ""}`} onClick={handleShuffle}>
+                                {shuffle ? <ShuffleOn /> : <Shuffle />}
+                            </div>
+                            <p>{flashCardIndex + 1}/{flashCards.length}</p>
+                        </div>
+                        <button onClick={handleNextCard}><KeyboardArrowRight /></button>
+                    </div>
+                </div>
+                <div className="flash-card-page-info-icon">
+                    <InfoOutline />
+                    <div className="flash-card-info-card">
+                        <p>Info her</p>
+                        <div className="info-row">
+                            <div className="key-info">
+                                <div className="keyboard-key">
+                                    <KeyboardArrowLeft />
+                                </div>
+                                <p>Prev card</p>
+                            </div>
+                            <div>
+                                <div className="keyboard-key">
+                                    <KeyboardArrowRight />
+                                </div>
+                                <p>Next card</p>
+                            </div>
+                        </div>
+                        <div className="info-row">
                             
                         </div>
-
-                        
-                    </div>
-                ) : (
-                    <p>No flashcards to display</p>
-                )}
-                <div className="flash-card-menu">
-                    <button onClick={handlePrevCard}><KeyboardArrowLeft /></button>
-                    <div className="flash-card-menu-middle">
-                        <div className={`shuffle-button ${shuffle ? "active" : ""}`} onClick={handleShuffle}>
-                            {shuffle ? <ShuffleOn /> : <Shuffle />}
-                        </div>
-                        <p>{flashCardIndex + 1}/{flashCards.length}</p>
-                    </div>
-                    <button onClick={handleNextCard}><KeyboardArrowRight /></button>
-                </div>
-            </div>
-            <div className="flash-card-page-info-icon">
-                <InfoOutline />
-                <div className="flash-card-info-card">
-                    <p>Info her</p>
-                    <div className="info-row">
-                        <div className="key-info">
-                            <div className="keyboard-key">
-                                <KeyboardArrowLeft />
+                        <div className="info-row">
+                            <div className="key-info">
+                                <div className="keyboard-key">
+                                    <SpaceBar />
+                                </div>
                             </div>
-                            <p>Prev card</p>
+                            <p>Show answer</p>
                         </div>
-                        <div>
-                            <div className="keyboard-key">
-                                <KeyboardArrowRight />
-                            </div>
-                            <p>Next card</p>
-                        </div>
-                    </div>
-                    <div className="info-row">
-                        
-                    </div>
-                    <div className="info-row">
-                        <div className="key-info">
-                            <div className="keyboard-key">
-                                <SpaceBar />
-                            </div>
-                        </div>
-                        <p>Show answer</p>
                     </div>
                 </div>
-            </div>
+                </>
+            )}
         </>
     )
 }

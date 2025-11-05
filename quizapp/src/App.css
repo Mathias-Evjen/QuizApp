@@ -4,6 +4,9 @@
   align-items: center;
 }
 
+.loading, .fetch-error {
+  font-size: 50px;
+}
 
 /* NavMenu */
 

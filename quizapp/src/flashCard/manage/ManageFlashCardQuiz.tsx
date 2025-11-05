@@ -232,48 +232,57 @@ const ManageFlashCardQuiz: React.FC = () => {
         }, []);
 
     return(
-        <div className="manage-quiz-container">
-            <div className="flash-card-quiz-details-container">
-                <div className="flash-card-quiz-details">
-                    <h1>{quiz?.name}</h1>
-                    <h2>{quiz?.description}</h2>
+        <>
+            {loadingQuiz || loadingFlashCards ? (
+                <p className="loading">Loading...</p>
+            ) : error ? (
+                <p className="fetch-error">{error}</p>
+            ) : (
+                <div className="manage-quiz-container">
+                    <div className="flash-card-quiz-details-container">
+                        <div className="flash-card-quiz-details">
+                            <h1>{quiz?.name}</h1>
+                            <h2>{quiz?.description}</h2>
+                        </div>
+                        <button className="button" onClick={() => handleShowUpdateQuiz(true)}>Edit</button> 
+                    </div>
+                    
+                    <div className="flash-card-entry-container">
+                        {flashCards.map(card =>
+                            <FlashCardEntry
+                                key={card.flashCardId ?? card.tempId}
+                                flashCardId={card.flashCardId! ?? card.tempId}
+                                quizQuestionNum={card.quizQuestionNum}
+                                question={card.question}
+                                answer={card.answer}
+                                onQuestionChanged={handleQuestionChanged}
+                                onAnswerChanged={handleAnswerChanged}
+                                onDeletePressed={handleDelete}
+                                errors={flashCardErrors[card.flashCardId ?? card.tempId!]}/>
+                        )}
+                    </div>
+
+                    <div className="manage-buttons-div">
+                        <button className="button add-button" onClick={handleAddFlashCard}>Add</button>
+                        <button className={`button save-button ${flashCardsToSave() ? "active" : ""}`} onClick={handleSaveFlashCard}>Save</button>
+                    </div>
+
+                    <div className={`${showUpdateQuiz ? "flash-card-quiz-popup" : ""}`}>
+                        {showUpdateQuiz ?
+                            (
+                                <QuizUpdateForm 
+                                    name={quiz!.name} 
+                                    description={quiz!.description}
+                                    onCancelClick={handleShowUpdateQuiz}
+                                    onSave={saveQuiz}/>
+                            ) : (
+                                ""
+                            )}
+                    </div>
                 </div>
-                <button className="button" onClick={() => handleShowUpdateQuiz(true)}>Edit</button> 
-            </div>
-            
-            <div className="flash-card-entry-container">
-                {flashCards.map(card =>
-                    <FlashCardEntry
-                        key={card.flashCardId ?? card.tempId}
-                        flashCardId={card.flashCardId! ?? card.tempId}
-                        quizQuestionNum={card.quizQuestionNum}
-                        question={card.question}
-                        answer={card.answer}
-                        onQuestionChanged={handleQuestionChanged}
-                        onAnswerChanged={handleAnswerChanged}
-                        onDeletePressed={handleDelete}
-                        errors={flashCardErrors[card.flashCardId ?? card.tempId!]}/>
-                )}
-            </div>
-
-            <div className="manage-buttons-div">
-                <button className="button add-button" onClick={handleAddFlashCard}>Add</button>
-                <button className={`button save-button ${flashCardsToSave() ? "active" : ""}`} onClick={handleSaveFlashCard}>Save</button>
-            </div>
-
-            <div className={`${showUpdateQuiz ? "flash-card-quiz-popup" : ""}`}>
-                {showUpdateQuiz ?
-                    (
-                        <QuizUpdateForm 
-                            name={quiz!.name} 
-                            description={quiz!.description}
-                            onCancelClick={handleShowUpdateQuiz}
-                            onSave={saveQuiz}/>
-                    ) : (
-                        ""
-                    )}
-            </div>
-        </div>
+            )}
+        </>
+        
     )
 }
 

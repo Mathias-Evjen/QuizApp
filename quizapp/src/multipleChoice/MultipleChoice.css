@@ -1,0 +1,26 @@
+.multiple-choice-container {
+  padding: 20px;
+}
+
+.multiple-choice-card {
+  padding: 15px;
+  margin-bottom: 20px;
+  border-radius: 6px;
+  border: 1px solid #ddd;
+  background: #fafafa;
+}
+
+.multiple-choice-options {
+  list-style: none;
+  padding-left: 0;
+}
+
+.next-question-btn {
+  margin-top: 20px;
+  padding: 10px 14px;
+  background-color: #0066ff;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+}

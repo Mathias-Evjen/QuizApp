@@ -203,7 +203,7 @@
   font-size: 40px;
 }
 
-.create-flash-card-quiz-popup {
+.flash-card-quiz-popup {
   position: fixed;
   top: 0;
   left: 0;
@@ -216,17 +216,23 @@
   background-color: rgba(0, 0, 0, 0.7);
 }
 
-.create-flash-card-quiz-popup-content {
+.flash-card-quiz-popup-content {
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
   background: white;
   width: 800px;
-  height: 600px;
+  height: 750px;
   border: 3px solid gray;
   border-radius: 25px;
   box-sizing: border-box;
+}
+
+.flash-card-quiz-popup-content h1 {
+  font-size: 60px;
+  margin-left: 50px;
+  font-weight: 550;
 }
 
 .input-name, 
@@ -234,12 +240,12 @@
   display: flex;
   flex-direction: column;
   text-align: start;
-  font-size: 60px;
+  font-size: 50px;
   font-weight: 500;
-  margin: 50px;
+  margin: 45px;
   position: relative;
 }
-.create-flash-card-quiz-popup-content .input-name input {
+.flash-card-quiz-popup-content .input-name input {
   width: 400px;
   height: 50px;
   font-size: 25px;
@@ -247,7 +253,7 @@
   border-radius: 8px;
 }
 
-.create-flash-card-quiz-popup-content .input-description textarea {
+.flash-card-quiz-popup-content .input-description textarea {
   justify-content: start;
   align-items: start;
   width: 400px;
@@ -260,6 +266,12 @@
 
   border: 2px solid rgb(202, 202, 202);
   border-radius: 8px;
+}
+
+.flash-card-quiz-popup-buttons {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
 }
 
 .error {
@@ -742,15 +754,6 @@
   box-sizing: border-box;
   overflow-wrap: break-word;
   white-space: pre-wrap;
-}
-
-.flash-card-quiz-update-buttons {
-  display: flex;
-  flex-direction: row;
-}
-
-.flash-card-quiz-update-buttons {
-  margin: 0;
 }
 
 .input-group {

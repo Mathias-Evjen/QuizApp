@@ -4,5 +4,4 @@ export interface FlashCardQuiz {
     description: string;
     numOfQuestions?: number;
     showOptions?: boolean;
-    isDirty?: boolean;
 }

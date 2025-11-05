@@ -1,38 +1,47 @@
 import { useState } from "react";
+import { useForm } from "react-hook-form";
 
 interface QuizUpdateProps {
     onCancelClick: (value: boolean) => void;
-    onSaveClick: () => void;
-    onNameChanged: (newName: string) => void;
-    onDescriptionChanged: (newDescription: string) => void;
-    isDirty?: boolean;
+    onSave: (name: string, description: string) => void;
     name: string;
     description: string;
 }
 
-const QuizUpdateForm: React.FC<QuizUpdateProps> = ({ name, description, isDirty, onCancelClick, onSaveClick, onNameChanged, onDescriptionChanged }) => {
+type QuizFormData = {
+    name: string;
+    description: string;
+}
+
+const QuizUpdateForm: React.FC<QuizUpdateProps> = ({ name, description, onCancelClick, onSave }) => {
+    const { register, handleSubmit, formState: { errors, isDirty } } = useForm<QuizFormData>({ defaultValues: {name, description} });
+    
+    const onSubmit = (data: QuizFormData) => {
+        onSave(data.name, data.description);
+    }
 
     return(
-        <div className="flash-card-quiz-update">
-            <h1>Edit quiz</h1>
-            <div className="flash-card-quiz-update-inputs">
-                <div className="input-group">
+        <div className="flash-card-quiz-popup-content">
+            <form onSubmit={handleSubmit(onSubmit)}>
+                <h1>Edit quiz</h1>
+                <div className="input-name">
                     <label>Name</label>
-                <input
-                    value={name}
-                    onChange={(e) => onNameChanged(e.target.value)} />
+                    <input
+                        {...register("name", { required: "Name is required" })}/>
+                    {errors.name && <span className={`error ${errors.name ? "visible" : ""}`}>{errors.name.message}</span>}
                 </div>
-                <div className="input-group">
+                <div className="input-description">
                     <label>Description</label>
                     <textarea
-                        value={description}
-                        onChange={(e) => onDescriptionChanged(e.target.value)} />
+                        {...register("description", { required: "Description is required" })}/>
+                    {errors.description && <span className={`error ${errors.description ? "visible" : ""}`}>{errors.description.message}</span>}
                 </div>
-            </div>
-            <div className="flash-card-quiz-update-buttons">   
-                <button className="button" onClick={() => onCancelClick(false)}>Cancel</button>
-                <button className={`button save-button ${isDirty? "active" : ""}`} onClick={onSaveClick}>Save</button>
-            </div>
+
+                <div className="flash-card-quiz-popup-buttons">   
+                    <button type="button" className="button" onClick={() => onCancelClick(false)}>Cancel</button>
+                    <button type="submit" className={`button save-button ${isDirty? "active" : ""}`}>Save</button>
+                </div>
+            </form>
         </div>
     )
 }

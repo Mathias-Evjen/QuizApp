@@ -200,16 +200,10 @@ const ManageFlashCardQuiz: React.FC = () => {
         setShowUpdateQuiz(value);
     }
 
-    const handleNameChanged = (newName: string) => {
-        setQuiz(prevQuiz => ({...prevQuiz!, name: newName, isDirty: true}))
-    }
-
-    const handleDescriptionChanged = (newDescription: string) => {
-        setQuiz(prevQuiz => ({...prevQuiz!, description: newDescription, isDirty: true}))
-    }
-
-    const saveQuiz = () => {
-        handleUpdateQuiz(quiz!);
+    const saveQuiz = (newName: string, newDescription: string) => {
+        const updatedQuiz = { ...quiz!, name: newName, description: newDescription}
+        setQuiz(updatedQuiz)
+        handleUpdateQuiz(updatedQuiz);
         handleShowUpdateQuiz(false);
     }
 
@@ -217,15 +211,6 @@ const ManageFlashCardQuiz: React.FC = () => {
             fetchQuiz();
             fetchFlashCards();
         }, []);
-
-    useEffect(() => {
-        if (flashCards.length > 0) {
-            setFlashCards(prevCards => 
-                prevCards.map(card => 
-                ({...card, isDirty: false})
-                ))
-        }
-    }, [flashCards.length])
 
     return(
         <div className="manage-quiz-container">
@@ -257,25 +242,19 @@ const ManageFlashCardQuiz: React.FC = () => {
                 <button className={`button save-button ${flashCardsToSave() ? "active" : ""}`} onClick={handleSaveFlashCard}>Save</button>
             </div>
 
-            <div className={`${showUpdateQuiz ? "update-flash-card-quiz-popup" : ""}`}>
+            <div className={`${showUpdateQuiz ? "flash-card-quiz-popup" : ""}`}>
                 {showUpdateQuiz ?
                     (
                         <QuizUpdateForm 
                             name={quiz!.name} 
-                            description={quiz!.description} 
-                            isDirty={quiz!.isDirty}
+                            description={quiz!.description}
                             onCancelClick={handleShowUpdateQuiz}
-                            onSaveClick={saveQuiz}
-                            onNameChanged={handleNameChanged}
-                            onDescriptionChanged={handleDescriptionChanged}/>
+                            onSave={saveQuiz}/>
                     ) : (
                         ""
                     )}
             </div>
         </div>
-        
-        
-        
     )
 }
 

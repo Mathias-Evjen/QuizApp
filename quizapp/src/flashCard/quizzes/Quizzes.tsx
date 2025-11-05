@@ -133,7 +133,7 @@ const Quizzes: React.FC = () => {
                 ))}
             </div>
             <button className="create-flash-card-quiz-button" onClick={() => handleShowCreate(true)}><Add /></button>
-            <div className={`${showCreate ? "create-flash-card-quiz-popup" : ""}`} onClick={() => handleShowCreate(false)}>
+            <div className={`${showCreate ? "flash-card-quiz-popup" : ""}`} onClick={() => handleShowCreate(false)}>
                 {showCreate ? <CreateForm onQuizChanged={handleCreate} handleCancel={handleShowCreate}/> : ""}
             </div>
             {showDelete 

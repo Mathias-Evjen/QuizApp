@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { FlashCardQuiz } from "../../types/flashCardQuiz";
+import { useForm } from "react-hook-form";
 
 
 const API_URL = "http://localhost:5041"
@@ -10,37 +11,42 @@ interface CreateFormProps {
     handleCancel: (value: boolean) => void;
 }
 
+type QuizFormData = {
+    name: string;
+    description: string;
+}
+
 const CreateForm: React.FC<CreateFormProps> = ({ onQuizChanged, flashCardQuizId, handleCancel }) => {
-    const [name, setName] = useState<string>("");
     const [description, setDescription] = useState<string>("");
 
-    const handleSubmit = async (event: React.FormEvent) => {
-        event.preventDefault();
-        const quiz: FlashCardQuiz = { flashCardQuizId, name, description };
+    const { register, handleSubmit, formState: { errors } } = useForm<QuizFormData>()
+
+    const onSubmit = async (data: QuizFormData) => {
+        const quiz: FlashCardQuiz = { flashCardQuizId, ...data};
         onQuizChanged(quiz);
     }
 
     return(
         <div className="create-flash-card-quiz-popup-content" onClick={(e) => e.stopPropagation()}>
-            <form>
+            <form onSubmit={handleSubmit(onSubmit)}>
                 <div className="input-name">
                     <label>Name</label>
                     <input
                         type="text"
-                        value={name}
-                        onChange={(e) => setName(e.target.value)}
-                        placeholder="Enter a name..."/>
+                        placeholder="Enter a name..."
+                    {...register("name", {required: "Name is required"})} />
+                    {errors.name && <span className={`error ${errors.name ? "visible" : ""}`}>{errors.name.message}</span>}
                 </div>
                 <div className="input-description">
                     <label>Description</label>
                     <textarea
                         className="description"
-                        value={description}
-                        onChange={(e) => setDescription(e.target.value)}
-                        placeholder="Enter description..."/>
+                        placeholder="Enter description..."
+                        {...register("description", {required: "Description is required"})}/>
+                    {errors.description && <span className={`error ${errors.description ? "visible" : ""}`}>{errors.description.message}</span>}
                 </div>
                 <button type="button" className="button" onClick={() => handleCancel(false)}>Cancel</button>
-                <button type="submit" className="button" onClick={handleSubmit}>Create</button>
+                <button type="submit" className="button">Create</button>
             </form>
         </div>
     )

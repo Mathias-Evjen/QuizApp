@@ -1,11 +1,11 @@
-import { Link } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 
 const NavMenu: React.FC = () => {
     return(
-        <div className="nav-bar">
-            <Link to="/" className="nav-item nav-home">QuizApp</Link>
-            <Link to="/flashCardQuizzes" className="nav-item">Flash cards</Link>
-        </div>
+        <nav className="nav-bar">
+            <NavLink to="/" className="nav-item nav-home">QuizApp</NavLink>
+            <NavLink to="/flashCards" className={({ isActive }) => isActive ? "nav-item active " : "nav-item" }>Flash cards</NavLink>
+        </nav>
     )
 }
 

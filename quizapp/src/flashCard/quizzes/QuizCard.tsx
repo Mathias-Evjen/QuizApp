@@ -12,7 +12,7 @@ const QuizCard: React.FC<QuizCardProps> = ({ id, name, description, numOfQuestio
     const navigate = useNavigate();
 
     const handleClick = () => {
-        navigate(`/flashCardQuiz/${id}`);
+        navigate(`/flashCards/${id}`);
     }
 
     return(

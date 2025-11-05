@@ -11,6 +11,7 @@
 :root button:hover {
   cursor: pointer;
   user-select: none;
+  filter: brightness(0.9);
 }
 
 body {

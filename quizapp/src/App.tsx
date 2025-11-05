@@ -15,9 +15,9 @@ const App: React.FC = () => {
         <div className='site-container'>
           <Routes>
             <Route path="/" element={<Quizzes />} />
-            <Route path="/flashCardQuizzes" element={<Quizzes />} />
-            <Route path='/flashCardQuiz/:id' element={<FlashCardQuizPage />} />
-            <Route path='/manageFlashCardQuiz/:id' element={<ManageFlashCardQuiz />} />
+            <Route path="/flashCards" element={<Quizzes />} />
+            <Route path='/flashCards/:id' element={<FlashCardQuizPage />} />
+            <Route path='/flashCards/manage/:id' element={<ManageFlashCardQuiz />} />
           </Routes>
         </div>
       </Router>

@@ -25,13 +25,19 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  text-align: center;
   width: 120px;
+  height: 75px;
   color: black;
   text-decoration: none;
   font-size: 30px;
   padding-left: 15px;
   padding-right: 15px;
   line-height: 1;
+}
+
+.nav-item.active {
+  background-color: rgb(234, 234, 234);
 }
 
 .nav-item:hover {
@@ -293,6 +299,7 @@
   font-size: 25px;
   border: none;
   border-radius: 10px;
+  background-color: rgb(203, 203, 203);
 }
 
 .delete {
@@ -563,7 +570,7 @@
   display: flex;
   flex-direction: row;
   justify-content: space-between;
-  align-items: end;
+  align-items: start;
   border: 3px solid gray;
   border-radius: 25px;
   width: 1100px;
@@ -575,7 +582,7 @@
 
 .flash-card-quiz-details-container button {
   scale: 0.8;
-  margin: 0 15px 10px 0;
+  margin: 15px 15px 10px 0;
 }
 
 .flash-card-quiz-details {
@@ -699,10 +706,6 @@
   background-color: rgb(36, 205, 55);
 }
 
-.add-button:hover {
-  background-color: rgb(28, 161, 44);
-}
-
 .save-button {
   color: rgb(227, 227, 227);
   pointer-events: none;
@@ -713,10 +716,6 @@
   color: rgb(255, 255, 255);
   background-color: rgb(38, 146, 253);
   pointer-events: all;
-}
-
-.save-button.active:hover {
-  background-color: rgb(28, 115, 201);
 }
 
 .update-flash-card-quiz-popup {

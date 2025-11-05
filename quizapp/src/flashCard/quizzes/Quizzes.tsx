@@ -80,7 +80,7 @@ const Quizzes: React.FC = () => {
     }
 
     const handleEdit = (quizId: number) => {
-        navigate(`/manageFlashCardQuiz/${quizId}`)
+        navigate(`/flashCards/manage/${quizId}`)
     }
 
     useEffect(() => {

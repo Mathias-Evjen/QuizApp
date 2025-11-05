@@ -119,24 +119,28 @@ const Quizzes: React.FC = () => {
                 <div className="quizzes-page" onClick={() => handleShowMoreOptions(null)}>
                     <div className="flash-card-quiz-container">
                         <h1>Flash card quizzes</h1>
-                        {quizzes.map(quiz => (
-                            <div className="flash-card-quiz-entry" key={quiz.flashCardQuizId}>
-                                <QuizCard
-                                    id={quiz.flashCardQuizId}
-                                    name={quiz.name}
-                                    description={quiz.description}
-                                    numOfQuestions={quiz.numOfQuestions}
-                                    showOptions={quiz.showOptions!}
-                                    />
-                                <div className="flash-card-quiz-options" onClick={(e) => e.stopPropagation()}>
-                                    <div className="flash-card-quiz-edit" onClick={() => handleEdit(quiz.flashCardQuizId!)}><Settings /></div>
-                                    <div className="flash-card-quiz-delete" onClick={() => handleShowDelete(quiz, true)}><Delete /></div>
+                        {quizzes.length === 0 ? (
+                            <p>There are no quizzes to show</p>
+                        ) : (
+                            quizzes.map(quiz => (
+                                <div className="flash-card-quiz-entry" key={quiz.flashCardQuizId}>
+                                    <QuizCard
+                                        id={quiz.flashCardQuizId}
+                                        name={quiz.name}
+                                        description={quiz.description}
+                                        numOfQuestions={quiz.numOfQuestions}
+                                        showOptions={quiz.showOptions!}
+                                        />
+                                    <div className="flash-card-quiz-options" onClick={(e) => e.stopPropagation()}>
+                                        <div className="flash-card-quiz-edit" onClick={() => handleEdit(quiz.flashCardQuizId!)}><Settings /></div>
+                                        <div className="flash-card-quiz-delete" onClick={() => handleShowDelete(quiz, true)}><Delete /></div>
+                                    </div>
+                                    <button className={"flash-card-quiz-more-button"} onClick={(e) => {e.stopPropagation(); handleShowMoreOptions(quiz.flashCardQuizId!)}}>
+                                        {quiz.showOptions ? <Close /> : <MoreVert/>}
+                                    </button>
                                 </div>
-                                <button className={"flash-card-quiz-more-button"} onClick={(e) => {e.stopPropagation(); handleShowMoreOptions(quiz.flashCardQuizId!)}}>
-                                    {quiz.showOptions ? <Close /> : <MoreVert/>}
-                                </button>
-                            </div>
-                        ))}
+                            ))
+                        )}
                     </div>
                     <button className="create-flash-card-quiz-button" onClick={() => handleShowCreate(true)}><Add /></button>
                     <div className={`${showCreate ? "flash-card-quiz-popup" : ""}`} onClick={() => handleShowCreate(false)}>
@@ -148,7 +152,7 @@ const Quizzes: React.FC = () => {
                             <p>Do you want to delete the quiz</p>
                             <p>{quizToDelete?.name}</p>
                             <button className="button" onClick={() => handleShowDelete(null, false)}>Cancel</button>
-                            <button className="button" onClick={() => handleDelete(quizToDelete?.flashCardQuizId!)} >Delete</button>
+                            <button className="button delete" onClick={() => handleDelete(quizToDelete?.flashCardQuizId!)} >Delete</button>
                         </div>
                     </div> 
                     : ""}

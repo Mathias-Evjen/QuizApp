@@ -248,17 +248,21 @@ const ManageFlashCardQuiz: React.FC = () => {
                     </div>
                     
                     <div className="flash-card-entry-container">
-                        {flashCards.map(card =>
-                            <FlashCardEntry
-                                key={card.flashCardId ?? card.tempId}
-                                flashCardId={card.flashCardId! ?? card.tempId}
-                                quizQuestionNum={card.quizQuestionNum}
-                                question={card.question}
-                                answer={card.answer}
-                                onQuestionChanged={handleQuestionChanged}
-                                onAnswerChanged={handleAnswerChanged}
-                                onDeletePressed={handleDelete}
-                                errors={flashCardErrors[card.flashCardId ?? card.tempId!]}/>
+                        {flashCards.length == 0 ? (
+                            <p className="flash-card-entry-container-emtpy">Add a flash card!</p>
+                        ) : (
+                            flashCards.map(card =>
+                                <FlashCardEntry
+                                    key={card.flashCardId ?? card.tempId}
+                                    flashCardId={card.flashCardId! ?? card.tempId}
+                                    quizQuestionNum={card.quizQuestionNum}
+                                    question={card.question}
+                                    answer={card.answer}
+                                    onQuestionChanged={handleQuestionChanged}
+                                    onAnswerChanged={handleAnswerChanged}
+                                    onDeletePressed={handleDelete}
+                                    errors={flashCardErrors[card.flashCardId ?? card.tempId!]}/>
+                            )
                         )}
                     </div>
 

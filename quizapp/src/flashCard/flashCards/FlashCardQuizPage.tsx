@@ -4,6 +4,7 @@ import { FlashCard } from "../../types/flashCard";
 import { FlashCardQuiz } from "../../types/flashCardQuiz";
 import { InfoOutline, KeyboardArrowLeft, KeyboardArrowRight, SpaceBar, Shuffle, ShuffleOn } from "@mui/icons-material";
 import FlashCardComponent from "./FlashCardComponent";
+import InfoCard from "./InfoCard";
 
 const API_URL = "http://localhost:5041"
 
@@ -177,37 +178,7 @@ const FlashCardQuizPage: React.FC = () => {
                         <button onClick={handleNextCard}><KeyboardArrowRight /></button>
                     </div>
                 </div>
-                <div className="flash-card-page-info-icon">
-                    <InfoOutline />
-                    <div className="flash-card-info-card">
-                        <p>Info her</p>
-                        <div className="info-row">
-                            <div className="key-info">
-                                <div className="keyboard-key">
-                                    <KeyboardArrowLeft />
-                                </div>
-                                <p>Prev card</p>
-                            </div>
-                            <div>
-                                <div className="keyboard-key">
-                                    <KeyboardArrowRight />
-                                </div>
-                                <p>Next card</p>
-                            </div>
-                        </div>
-                        <div className="info-row">
-                            
-                        </div>
-                        <div className="info-row">
-                            <div className="key-info">
-                                <div className="keyboard-key">
-                                    <SpaceBar />
-                                </div>
-                            </div>
-                            <p>Show answer</p>
-                        </div>
-                    </div>
-                </div>
+                <InfoCard />
                 </>
             )}
         </>

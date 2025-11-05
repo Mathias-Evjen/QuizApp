@@ -564,6 +564,13 @@
   flex-direction: row;
   justify-content: space-between;
   align-items: end;
+  border: 3px solid gray;
+  border-radius: 25px;
+  width: 1100px;
+  box-sizing: border-box;
+  margin-top: 25px;
+  margin-bottom: 50px;
+  background-color: rgb(247, 247, 247);
 }
 
 .flash-card-quiz-details-container button {
@@ -595,6 +602,18 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  width: 1100px;
+  border: 3px solid gray;
+  border-radius: 25px;
+  background-color: rgb(243, 243, 243);
+  box-sizing: border-box;
+  overflow: hidden;
+}
+
+.flash-card-entry-container-emtpy {
+  font-size: 25px;
+  color: rgb(61, 61, 61);
+  padding: 22px;
 }
 
 .flash-card-entry {
@@ -607,7 +626,6 @@
   padding: 15px;
   border-top: 1px solid rgb(232, 232, 232);
   border-bottom: 1px solid rgb(232, 232, 232);
-  background-color: rgb(252, 252, 252);
 }
 
 .flash-card-entry-card {
@@ -619,7 +637,7 @@
   height: 100%;
   border: 3px solid gray;
   border-radius: 25px;
-  background-color: white;
+  background-color: rgb(250, 250, 250);
 }
 
 .flash-card-entry-question {

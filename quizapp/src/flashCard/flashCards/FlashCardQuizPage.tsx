@@ -168,14 +168,14 @@ const FlashCardQuizPage: React.FC = () => {
                         <p>No flashcards to display</p>
                     )}
                     <div className="flash-card-menu">
-                        <button onClick={handlePrevCard}><KeyboardArrowLeft /></button>
+                        <button className="button nav-button" onClick={handlePrevCard}><KeyboardArrowLeft /></button>
                         <div className="flash-card-menu-middle">
                             <div className={`shuffle-button ${shuffle ? "active" : ""}`} onClick={handleShuffle}>
                                 {shuffle ? <ShuffleOn /> : <Shuffle />}
                             </div>
                             <p>{flashCardIndex + 1}/{flashCards.length}</p>
                         </div>
-                        <button onClick={handleNextCard}><KeyboardArrowRight /></button>
+                        <button className="button nav-button" onClick={handleNextCard}><KeyboardArrowRight /></button>
                     </div>
                 </div>
                 <InfoCard />

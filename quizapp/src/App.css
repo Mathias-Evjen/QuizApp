@@ -293,6 +293,9 @@
 }
 
 .button {
+  display: flex;
+  justify-content: center;
+  align-items: center;
   width: 150px;
   height: 75px;
   margin: 15px;
@@ -464,21 +467,9 @@
   font-size: 30px;
 }
 
-.flash-card-menu button {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 80px;
-  width: 95px;
-
-  border: 5px solid rgb(77, 77, 252);
-  border-radius: 6px;
-  background-color: rgb(88, 127, 255);
-  color: rgb(255, 247, 247);
-
-  user-select: none;
-
-  font-size: 18px;
+.nav-button {
+  background-color: rgb(255, 136, 123);
+  color: white;
 }
 
 .shuffle-button:hover {

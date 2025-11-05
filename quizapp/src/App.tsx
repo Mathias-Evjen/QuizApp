@@ -9,9 +9,9 @@ const App: React.FC = () => {
 
   return (
     <>
-      <NavMenu />
 
       <Router>
+        <NavMenu />
         <div className='site-container'>
           <Routes>
             <Route path="/" element={<Quizzes />} />

@@ -2,9 +2,6 @@ import { useState } from "react";
 import { FlashCardQuiz } from "../../types/flashCardQuiz";
 import { useForm } from "react-hook-form";
 
-
-const API_URL = "http://localhost:5041"
-
 interface CreateFormProps {
     onQuizChanged: (newQuiz: FlashCardQuiz) => void;
     flashCardQuizId?: number;
@@ -17,8 +14,6 @@ type QuizFormData = {
 }
 
 const CreateForm: React.FC<CreateFormProps> = ({ onQuizChanged, flashCardQuizId, handleCancel }) => {
-    const [description, setDescription] = useState<string>("");
-
     const { register, handleSubmit, formState: { errors } } = useForm<QuizFormData>()
 
     const onSubmit = async (data: QuizFormData) => {

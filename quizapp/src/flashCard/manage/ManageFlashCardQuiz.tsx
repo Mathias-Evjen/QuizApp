@@ -13,10 +13,11 @@ const ManageFlashCardQuiz: React.FC = () => {
 
     const [quiz, setQuiz] = useState<FlashCardQuiz>();
     const [flashCards, setFlashCards] = useState<FlashCard[]>([]);
-    const [flashCardIndex, setFlashCardIndex] = useState<number>(0);
+    
     const [loadingQuiz, setLoadingQuiz] = useState<boolean>(false);
     const [loadingFlashCards, setLoadingFlashCards] = useState<boolean>(false);
     const [error, setError] = useState<string | null>(null);
+    const [flashCardErrors, setFlashCardErrors] = useState<{[key: number]: { question?: string; answer?: string }}>({});
 
     const [showUpdateQuiz, setShowUpdateQuiz] = useState<boolean>(false);
 
@@ -132,6 +133,13 @@ const ManageFlashCardQuiz: React.FC = () => {
         
     }
 
+    const validateFlashCard = (card: FlashCard) => {
+        const errors: { question?: string; answer?: string } = {};
+        if (!card.question || card.question.trim() === "") errors.question = "Question is required";
+        if (!card.answer || card.answer.trim() === "") errors.answer = "Answer is required";
+        return errors;
+    }
+
     const handleCreate = async (flashCard: FlashCard) => {
         const newCard: FlashCard = {question: flashCard.question, answer: flashCard.answer, quizId: flashCard.quizId, quizQuestionNum: flashCard.quizQuestionNum}
         try {
@@ -162,6 +170,17 @@ const ManageFlashCardQuiz: React.FC = () => {
     }
 
     const handleSaveFlashCard = async () => {
+        const allErrors: typeof flashCardErrors = {};
+        flashCards.forEach(card => {
+            const errs = validateFlashCard(card);
+            if (Object.keys(errs).length > 0) allErrors[card.flashCardId ?? card.tempId!] = errs;
+        });
+
+        if (Object.keys(allErrors).length > 0) {
+            setFlashCardErrors(allErrors);
+            return;
+        }
+
         const dirtyCards = flashCards.filter(card => card.isDirty)
         const newCards = flashCards.filter(card => card.isNew)
         
@@ -169,8 +188,8 @@ const ManageFlashCardQuiz: React.FC = () => {
             ...dirtyCards.map(card => handleUpdateFlashCard(card)),
             ...newCards.map(card => handleCreate(card))
         ]);
-
-        await fetchFlashCards();
+        
+        setFlashCardErrors({})
     }
 
     const handleDelete = async (flashCardId: number) => {
@@ -230,10 +249,10 @@ const ManageFlashCardQuiz: React.FC = () => {
                         quizQuestionNum={card.quizQuestionNum}
                         question={card.question}
                         answer={card.answer}
-                        quizId={quiz?.flashCardQuizId!}
                         onQuestionChanged={handleQuestionChanged}
                         onAnswerChanged={handleAnswerChanged}
-                        onDeletePressed={handleDelete}/>
+                        onDeletePressed={handleDelete}
+                        errors={flashCardErrors[card.flashCardId ?? card.tempId!]}/>
                 )}
             </div>
 

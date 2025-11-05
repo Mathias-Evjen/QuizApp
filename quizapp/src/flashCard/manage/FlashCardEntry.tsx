@@ -8,11 +8,11 @@ interface FlashCardEntryProps{
     quizQuestionNum: number;
     question: string;
     answer: string;
-    quizId: number;
+    errors?: {question?: string, answer?: string};
 }
 
 const FlashCardEntry: React.FC<FlashCardEntryProps> = ({ 
-    flashCardId, quizQuestionNum, question, answer, quizId, 
+    flashCardId, quizQuestionNum, question, answer, errors, 
     onQuestionChanged, onAnswerChanged, onDeletePressed }) => {
 
     return(
@@ -26,6 +26,7 @@ const FlashCardEntry: React.FC<FlashCardEntryProps> = ({
                         value={question}
                         onChange={(e) => onQuestionChanged(flashCardId, e.target.value)} 
                         placeholder="Write a question..."/>
+                    {errors?.question && <span className="error">{errors.question}</span>}
                 </div>
                 <div className="flash-card-entry-answer">
                     <label>Answer</label>
@@ -34,6 +35,7 @@ const FlashCardEntry: React.FC<FlashCardEntryProps> = ({
                         value={answer}
                         onChange={(e) => onAnswerChanged(flashCardId, e.target.value)} 
                         placeholder="Write an answer"/>
+                    {errors?.answer && <span className="error">{errors.answer}</span>}
                 </div>
             </div>
             <button className={"flash-card-entry-more-button"} onClick={() => onDeletePressed(flashCardId)}><Close /></button>

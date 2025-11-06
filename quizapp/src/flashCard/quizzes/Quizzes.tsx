@@ -4,8 +4,7 @@ import QuizCard from "./QuizCard";
 import CreateForm from "./CreateForm";
 import { Add, MoreVert, Settings, Delete, Close } from "@mui/icons-material";
 import { useNavigate } from "react-router-dom";
-
-const API_URL = "http://localhost:5041"
+import * as FlashCardQuizService from "../FlashCardQuizService";
 
 const Quizzes: React.FC = () => {
     const navigate = useNavigate();
@@ -23,11 +22,7 @@ const Quizzes: React.FC = () => {
         setError(null);
 
         try {
-            const response = await fetch(`${API_URL}/api/flashcardquizapi/getQuizzes`);
-            if (!response.ok) {
-                throw new Error("Network response was not ok");
-            }
-            const data = await response.json();
+            const data = await FlashCardQuizService.fetchQuizzes();
             setQuizzes(data);
             console.log(data);
         } catch (error: unknown) {
@@ -44,19 +39,7 @@ const Quizzes: React.FC = () => {
 
     const handleCreate = async (quiz: FlashCardQuiz) => {
         try {
-            const response = await fetch(`${API_URL}/api/flashcardquizapi/create`, {
-                method: "post",
-                headers: {
-                    "Content-Type": "application/json",
-                },
-                body: JSON.stringify(quiz),
-            });
-
-            if (!response.ok) {
-                throw new Error("Network response was not ok");
-            }
-
-            const data = await response.json();
+            const data = await FlashCardQuizService.createQuiz(quiz);
             console.log("Flash card quiz created successfully:", data);
             handleShowCreate(false)
             fetchQuizzes();
@@ -67,9 +50,7 @@ const Quizzes: React.FC = () => {
 
     const handleDelete = async (quizId: number) => {
         try {
-            const response = await fetch(`${API_URL}/api/flashcardquizapi/delete/${quizId}`, {
-                method: "DELETE"
-            });
+            await FlashCardQuizService.deleteQuiz(quizId);
             setQuizzes(prevQuizzes => prevQuizzes.filter(quiz => quiz.flashCardQuizId !== quizId));
             console.log("Quiz deleted: ", quizId)
             handleShowDelete(null, false);

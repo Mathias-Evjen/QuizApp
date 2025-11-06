@@ -4,8 +4,8 @@ import { FlashCardQuiz } from "../../types/flashCardQuiz";
 import { FlashCard } from "../../types/flashCard";
 import FlashCardEntry from "./FlashCardEntry";
 import QuizUpdateForm from "./QuizUpdateForm";
-
-const API_URL = "http://localhost:5041"
+import * as FlashCardQuizService from "../FlashCardQuizService";
+import * as FlashCardService from "../FlashCardService";
 
 const ManageFlashCardQuiz: React.FC = () => {
     const { id } = useParams<{ id: string }>();
@@ -26,11 +26,7 @@ const ManageFlashCardQuiz: React.FC = () => {
         setError(null);
 
         try {
-            const response = await fetch(`${API_URL}/api/flashcardquizapi/getQuiz/${quizId}`);
-            if (!response.ok) {
-                throw new Error("Network response was not ok");
-            }
-            const data = await response.json();
+            const data = await FlashCardQuizService.fetchQuizById(quizId);
             setQuiz(data);
             console.log(data);
         } catch (error: unknown) {
@@ -50,11 +46,7 @@ const ManageFlashCardQuiz: React.FC = () => {
         setError(null)
 
         try {
-            const response = await fetch(`${API_URL}/api/flashcardapi/getFlashCards/${quizId}`)
-            if (!response.ok) {
-                throw new Error("Nework response was not ok");
-            }
-            const data = await response.json();
+            const data = await FlashCardService.fetchFlashCards(quizId);
             setFlashCards(data);
             console.log(data);
         } catch (error: unknown) {
@@ -71,19 +63,7 @@ const ManageFlashCardQuiz: React.FC = () => {
 
     const handleUpdateFlashCard = async (flashCard: FlashCard) => {
         try {
-            const response = await fetch(`${API_URL}/api/flashcardapi/update/${flashCard.flashCardId}`, {
-                method: "put",
-                headers: {
-                    "Content-Type": "application/json"
-                },
-                body: JSON.stringify(flashCard)
-            });
-
-            if (!response.ok) {
-                throw new Error("Network response was not ok");
-            }
-
-            const data = await response.json();
+            const data = await FlashCardService.updateFlashCard(flashCard);
             console.log("Flash card updated successfully:", data);
         } catch (error) {
             console.error("There was a problem with the fetch operation: ", error)
@@ -92,19 +72,7 @@ const ManageFlashCardQuiz: React.FC = () => {
 
     const handleUpdateQuiz = async (quiz: FlashCardQuiz) => {
         try {
-            const response = await fetch(`${API_URL}/api/flashcardquizapi/update/${quizId}`, {
-                method: "put",
-                headers: {
-                    "Content-Type": "application/json"
-                },
-                body: JSON.stringify(quiz)
-            });
-
-            if (!response.ok) {
-                throw new Error("Network response was not ok");
-            }
-
-            const data = await response.json();
+            const data = await FlashCardQuizService.updateQuiz(quizId, quiz);
             console.log("Flash card quiz updated successfully:", data);
         } catch (error) {
             console.error("There was a problem with the fetch operation: ", error);
@@ -143,19 +111,7 @@ const ManageFlashCardQuiz: React.FC = () => {
     const handleCreate = async (flashCard: FlashCard) => {
         const newCard: FlashCard = {question: flashCard.question, answer: flashCard.answer, quizId: flashCard.quizId, quizQuestionNum: flashCard.quizQuestionNum}
         try {
-            const response = await fetch(`${API_URL}/api/flashcardapi/create`, {
-                method: "post",
-                headers: {
-                    "Content-Type": "application/json"
-                },
-                body: JSON.stringify(newCard)
-            });
-
-            if (!response.ok) {
-                throw new Error("Network response was not ok")
-            }
-
-            const data = await response.json();
+            const data = await FlashCardService.createFlashCard(newCard);
             console.log("Flash card created successfully:", data);
         } catch (error) {
             console.error("There was a problem with the fetch operation: ", error)
@@ -203,9 +159,7 @@ const ManageFlashCardQuiz: React.FC = () => {
             const isTempCard = flashCards.some(card => card.tempId === flashCardId);
 
             if (!isTempCard) {
-                const response = await fetch(`${API_URL}/api/flashcardapi/delete/${flashCardId}`, {
-                    method: "DELETE"
-                });
+                await FlashCardService.deleteFlashCard(flashCardId);
             }
             setFlashCards(prevCards => prevCards.filter(card => card.flashCardId !== flashCardId && card.tempId !== flashCardId));
             console.log("Flash card deleted: ", flashCardId);

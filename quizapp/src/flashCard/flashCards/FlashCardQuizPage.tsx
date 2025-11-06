@@ -5,8 +5,8 @@ import { FlashCardQuiz } from "../../types/flashCardQuiz";
 import { InfoOutline, KeyboardArrowLeft, KeyboardArrowRight, SpaceBar, Shuffle, ShuffleOn } from "@mui/icons-material";
 import FlashCardComponent from "./FlashCardComponent";
 import InfoCard from "./InfoCard";
-
-const API_URL = "http://localhost:5041"
+import { fetchQuizById } from "../FlashCardQuizService";
+import * as FlashCardService from "../FlashCardService";
 
 const FlashCardQuizPage: React.FC = () => {
     const { id } = useParams<{ id: string }>();
@@ -25,11 +25,7 @@ const FlashCardQuizPage: React.FC = () => {
         setError(null);
 
         try {
-            const response = await fetch(`${API_URL}/api/flashcardquizapi/getQuiz/${quizId}`);
-            if (!response.ok) {
-                throw new Error("Network response was not ok");
-            }
-            const data = await response.json();
+            const data = await fetchQuizById(quizId);
             setQuiz(data);
             console.log(data);
         } catch (error: unknown) {
@@ -49,11 +45,7 @@ const FlashCardQuizPage: React.FC = () => {
         setError(null)
 
         try {
-            const response = await fetch(`${API_URL}/api/flashcardapi/getFlashCards/${quizId}`)
-            if (!response.ok) {
-                throw new Error("Nework response was not ok");
-            }
-            const data = await response.json();
+            const data = await FlashCardService.fetchFlashCards(quizId);
             setFlashCards(data);
             console.log(data);
         } catch (error: unknown) {

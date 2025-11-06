@@ -188,8 +188,14 @@ const ManageFlashCardQuiz: React.FC = () => {
             ...dirtyCards.map(card => handleUpdateFlashCard(card)),
             ...newCards.map(card => handleCreate(card))
         ]);
+
+        setFlashCards(prevCards =>
+            prevCards.map(card =>
+                ({...card, isNew: false, isDirty: false})
+            )
+        )
         
-        setFlashCardErrors({})
+        setFlashCardErrors({});
     }
 
     const handleDelete = async (flashCardId: number) => {

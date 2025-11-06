@@ -10,4 +10,7 @@ export interface MultipleChoice {
   quizId: number;
   quizQuestionNum: number;
   options: Option[];
+  isNew?: boolean;
+  isDirty?: boolean;
+  tempId?: number;
 }

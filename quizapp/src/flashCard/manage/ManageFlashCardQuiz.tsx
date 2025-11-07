@@ -237,7 +237,7 @@ const ManageFlashCardQuiz: React.FC = () => {
                                 <QuizUpdateForm 
                                     name={quiz!.name} 
                                     description={quiz!.description}
-                                    onCancelClick={handleShowUpdateQuiz}
+                                    handleCancel={handleShowUpdateQuiz}
                                     onSave={saveQuiz}/>
                             ) : (
                                 ""

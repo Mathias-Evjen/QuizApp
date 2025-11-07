@@ -8,7 +8,7 @@ interface QuizCardProps {
     showOptions: boolean;
 }
 
-const QuizCard: React.FC<QuizCardProps> = ({ id, name, description, numOfQuestions, showOptions}) => {
+const QuizCard: React.FC<QuizCardProps> = ({ id, name, description, showOptions}) => {
     const navigate = useNavigate();
 
     const handleClick = () => {

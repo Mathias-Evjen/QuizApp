@@ -103,6 +103,7 @@
   height: 125px;
   box-sizing: border-box;
   margin: 10px;
+  padding: 10px 20px 10px 0;
   overflow: hidden;
   background-color: white;
 
@@ -116,35 +117,36 @@
 
 .flash-card-quiz-card:hover {
   cursor: pointer;
+  filter: brightness(0.95);
 }
 
 .flash-card-quiz-title {
   display: flex;
-  justify-content: center;
+  justify-content: start;
   align-items: center;
   height: 120px;
   font-size: 25px;
-  text-align: center;
   margin-left: 40px;
+  max-width: 450px;
 }
 
 .flash-card-quiz-description {
   display: flex;
   align-items: center;
-  justify-content: center;
   height: 100%;
   width: 500px;
   box-sizing: border-box;
-  overflow: hidden;
-  padding: 0;
 }
 
 .flash-card-quiz-description p {
   font-size: 18px;
   color: rgb(124, 124, 124);
-  flex: 1;
-  overflow-y: auto;
-  text-align: start;
+  line-clamp: 3;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .flash-card-quiz-options {

@@ -180,7 +180,7 @@ const ManageFlashCardQuiz: React.FC = () => {
     }
 
     const saveQuiz = (newName: string, newDescription: string) => {
-        const updatedQuiz = { ...quiz!, name: newName, description: newDescription}
+        const updatedQuiz = { ...quiz!, name: newName, description: newDescription === "" ? undefined : newDescription}
         setQuiz(updatedQuiz)
         handleUpdateQuiz(updatedQuiz);
         handleShowUpdateQuiz(false);

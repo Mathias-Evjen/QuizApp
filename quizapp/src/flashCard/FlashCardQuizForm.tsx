@@ -45,9 +45,8 @@ const FlashCardQuizForm: React.FC<QuizFormProps> = ({ isUpdate, name, descriptio
                     <label>Description</label>
                     <textarea
                         className="description"
-                        placeholder="Enter description..."
+                        placeholder="Enter description or leave empty..."
                         {...register("description", {
-                            required: {value: true, message: "Description is required"},
                             maxLength: {value: 400, message: "Description too long"}
                         })}/>
                     {errors.description && <span className={`error ${errors.description ? "visible" : ""}`}>{errors.description.message}</span>}

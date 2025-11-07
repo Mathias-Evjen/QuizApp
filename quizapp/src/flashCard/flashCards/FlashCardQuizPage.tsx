@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { FlashCard } from "../../types/flashCard";
 import { FlashCardQuiz } from "../../types/flashCardQuiz";
-import { KeyboardArrowLeft, KeyboardArrowRight, Shuffle, ShuffleOn } from "@mui/icons-material";
+import { Description, KeyboardArrowLeft, KeyboardArrowRight, Shuffle, ShuffleOn } from "@mui/icons-material";
 import FlashCardComponent from "./FlashCardComponent";
 import InfoCard from "./InfoCard";
 import { fetchQuizById } from "../FlashCardQuizService";
@@ -140,21 +140,23 @@ const FlashCardQuizPage: React.FC = () => {
                         <>
                             <h1>{quiz?.name}</h1>
                             <FlashCardComponent 
-                            key={flashCards[flashCardIndex].flashCardId} 
-                            question={flashCards[flashCardIndex].question}
-                            answer={flashCards[flashCardIndex].answer}
-                            showAnswer={flashCards[flashCardIndex].showAnswer!}
-                            color={flashCards[flashCardIndex].color!}
-                            toggleAnswer={() => toggleShowAnswer(flashCards[flashCardIndex].flashCardId!)}
-                            />
+                                key={flashCards[flashCardIndex].flashCardId} 
+                                question={flashCards[flashCardIndex].question}
+                                answer={flashCards[flashCardIndex].answer}
+                                showAnswer={flashCards[flashCardIndex].showAnswer!}
+                                color={flashCards[flashCardIndex].color!}
+                                toggleAnswer={() => toggleShowAnswer(flashCards[flashCardIndex].flashCardId!)} />
 
-                            <div className="flash-card-sidebar">
+                            {quiz?.description ? (
+                                <div className="flash-card-sidebar">
                                 <div className="flash-card-page-description">
                                     <h2>Description:</h2>
                                     <p>{quiz?.description}</p>
                                 </div>
                                 
                             </div>
+                            ) : ("")}
+                            
 
                             <div className="flash-card-menu">
                                 <button className="button nav-button" onClick={handlePrevCard}><KeyboardArrowLeft /></button>

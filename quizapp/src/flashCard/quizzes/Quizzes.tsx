@@ -37,8 +37,8 @@ const Quizzes: React.FC = () => {
         }
     };
 
-    const handleCreate = async (newName: string, newDescription: string) => {
-        const quiz: FlashCardQuiz = { name: newName, description: newDescription};
+    const handleCreate = async (newName: string, newDescription?: string) => {
+        const quiz: FlashCardQuiz = { name: newName, description: newDescription ? newDescription : undefined};
         try {
             const data = await FlashCardQuizService.createQuiz(quiz);
             console.log("Flash card quiz created successfully:", data);

@@ -13,8 +13,7 @@ namespace QuizApp.Models
         public virtual List<FlashCard>? FlashCards { get; set; }
         public int NumOfQuestions { get; set; } = 0;
 
-        [Required(ErrorMessage = "Must give a description")]
         [StringLength(400)]
-        public string Description { get; set; } = string.Empty;
+        public string? Description { get; set; }
     }
 }

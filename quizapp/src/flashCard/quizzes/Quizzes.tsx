@@ -1,10 +1,10 @@
 import { useEffect, useState } from "react";
 import { FlashCardQuiz } from "../../types/flashCardQuiz";
 import QuizCard from "./QuizCard";
-import CreateForm from "./CreateForm";
 import { Add, MoreVert, Settings, Delete, Close } from "@mui/icons-material";
 import { useNavigate } from "react-router-dom";
 import * as FlashCardQuizService from "../FlashCardQuizService";
+import FlashCardQuizForm from "../FlashCardQuizForm";
 
 const Quizzes: React.FC = () => {
     const navigate = useNavigate();
@@ -37,7 +37,8 @@ const Quizzes: React.FC = () => {
         }
     };
 
-    const handleCreate = async (quiz: FlashCardQuiz) => {
+    const handleCreate = async (newName: string, newDescription: string) => {
+        const quiz: FlashCardQuiz = { name: newName, description: newDescription};
         try {
             const data = await FlashCardQuizService.createQuiz(quiz);
             console.log("Flash card quiz created successfully:", data);
@@ -125,7 +126,9 @@ const Quizzes: React.FC = () => {
                     </div>
                     <button className="create-flash-card-quiz-button" onClick={() => handleShowCreate(true)}><Add /></button>
                     <div className={`${showCreate ? "flash-card-quiz-popup" : ""}`} onClick={() => handleShowCreate(false)}>
-                        {showCreate ? <CreateForm onQuizChanged={handleCreate} handleCancel={handleShowCreate}/> : ""}
+                        {showCreate 
+                            ? <FlashCardQuizForm onSubmit={handleCreate} onCancel={handleShowCreate} isUpdate={false}/> 
+                            : ""}
                     </div>
                     {showDelete 
                     ? <div className="confirm-delete" onClick={() => handleShowDelete(null, false)}>

@@ -3,9 +3,9 @@ import { useParams } from "react-router-dom";
 import { FlashCardQuiz } from "../../types/flashCardQuiz";
 import { FlashCard } from "../../types/flashCard";
 import FlashCardEntry from "./FlashCardEntry";
-import QuizUpdateForm from "./QuizUpdateForm";
 import * as FlashCardQuizService from "../FlashCardQuizService";
 import * as FlashCardService from "../FlashCardService";
+import FlashCardQuizForm from "../FlashCardQuizForm";
 
 const ManageFlashCardQuiz: React.FC = () => {
     const { id } = useParams<{ id: string }>();
@@ -234,11 +234,12 @@ const ManageFlashCardQuiz: React.FC = () => {
                     <div className={`${showUpdateQuiz ? "flash-card-quiz-popup" : ""}`}>
                         {showUpdateQuiz ?
                             (
-                                <QuizUpdateForm 
-                                    name={quiz!.name} 
-                                    description={quiz!.description}
-                                    handleCancel={handleShowUpdateQuiz}
-                                    onSave={saveQuiz}/>
+                                <FlashCardQuizForm
+                                    onSubmit={saveQuiz}
+                                    onCancel={handleShowUpdateQuiz}
+                                    name={quiz!.name}
+                                    description={quiz!.description} 
+                                    isUpdate={true} />
                             ) : (
                                 ""
                             )}

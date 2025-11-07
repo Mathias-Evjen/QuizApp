@@ -1,7 +1,7 @@
 import { useForm } from "react-hook-form";
 
 interface QuizFormProps {
-    onSubmit: (data: QuizFormData) => void;
+    onSubmit: (name: string, description: string) => void;
     onCancel: (value: boolean) => void;
     isUpdate: boolean;
     name?: string;
@@ -21,9 +21,14 @@ const FlashCardQuizForm: React.FC<QuizFormProps> = ({ isUpdate, name, descriptio
             } 
         });
 
+    const handleOnSubmit = (data: QuizFormData) => {
+        onSubmit(data.name, data.description);
+    };
+    
+
     return(
         <div className="flash-card-quiz-popup-content" onClick={(e) => e.stopPropagation()}>
-            <form onSubmit={handleSubmit(onSubmit)}>
+            <form onSubmit={handleSubmit(handleOnSubmit)}>
                 <h1>Create quiz</h1>
                 <div className="input-name">
                     <label>Name</label>

@@ -1,82 +1,65 @@
 import { useState, useEffect } from "react";
+import { useParams } from "react-router-dom";
 import { MultipleChoice } from "../types/multipleChoice";
 import "./MultipleChoice.css";
-
-const API_URL = "http://localhost:5041"
+import { fetchMultipleChoiceQuestions } from "../services/MultipleChoiceService";
 
 function MultipleChoiceQuizPage() {
-    const [multipleChoice, setMultipleChoice] = useState<MultipleChoice[]>([]);
-    const [loadingMultipleChoice, setLoadingMultipleChoice] = useState<boolean>(false);
-    const [error, setError] = useState<string | null>(null);
+  const { id } = useParams<{ id: string }>();
+  const quizId = Number(id);
 
-    const quizId = 2;     // Må kanskje endre verdi
+  const [multipleChoice, setMultipleChoice] = useState<MultipleChoice[]>([]);
+  const [loading, setLoading] = useState<boolean>(false);
+  const [error, setError] = useState<string | null>(null);
 
-    const fetchMultipleChoice = async () => {
-        setLoadingMultipleChoice(true);
-        setError(null);
-        
-        try {
-            const response = await fetch(`${API_URL}/api/multiplechoice/getAllMultipleChoice/${quizId}`);
-            if (!response.ok) {
-                throw new Error("Failed to fetch multiple choice questions");
-            }
+  const loadQuestions = async () => {
+    setLoading(true);
+    setError(null);
 
-            const data = await response.json();
-            setMultipleChoice(data);
-            console.log(data);
-        } catch (error: unknown) {
-            if (error instanceof Error) {
-                console.error(`There was a problem fetching data: ${error.message}`);
-            } else {
-                console.error("Unknown error", error);
-            }
-            setError("Failed to fetch multiple choice");
-        } finally {
-            setLoadingMultipleChoice(false);
-        }
-    };
-
-    useEffect(() => {
-        console.log("Fetching multiple choice");
-        fetchMultipleChoice();
-    }, []); 
-    
-    if (loadingMultipleChoice) {
-        return <div>Loading...</div>;
+    try {
+      const data = await fetchMultipleChoiceQuestions(3); // TODO Husk å endre til quizId når det skal brukes ordentlig
+      setMultipleChoice(data);
+    } catch (err) {
+      setError("Failed to fetch multiple choice questions");
+    } finally {
+      setLoading(false);
     }
+  };
 
-    if (error) {
-        return <div>Error: {error}</div>;
-    }
+  useEffect(() => {
+    console.log("Fetching multiple choice questions...");
+    loadQuestions();
+  }, [quizId]);
 
-    return (
-        <div className="multiple-choice-container">
-            <h1>Multiple Choice Quiz</h1>
+  if (loading) return <div>Loading...</div>;
+  if (error) return <div>Error: {error}</div>;
 
-            {multipleChoice.length > 0 ? (
-                multipleChoice.map((card) => (
-                    <div key={card.multipleChoiceId} className="multiple-choice-card">
-                        <h3>{card.question}</h3>
+  return (
+    <div className="multiple-choice-container">
+      <h1>Multiple Choice Quiz</h1>
 
-                        <ul className="multiple-choice-options">
-                            {card.options.map((opt, i) => (
-                                <li key={i}>
-                                    <label>
-                                        <input type="radio" name={`card_${card.multipleChoiceId}`} />
-                                        {opt.text}
-                                    </label>
-                                </li>
-                            ))}
-                        </ul>
-                    </div>
-                ))
-            ) : (
-                <h3>No questions found.</h3>
-            )}
+      {multipleChoice.length > 0 ? (
+        multipleChoice.map((question) => (
+          <div key={question.multipleChoiceId} className="multiple-choice-card">
+            <h3>{question.question}</h3>
 
-            <button className="next-question-btn">Next Question</button>
-        </div>
-    );
+            <ul className="multiple-choice-options">
+              {question.options.map((opt, index) => (
+                <li key={index}>
+                  <label>
+                    <input type="radio" name={`q_${question.multipleChoiceId}`} />
+                    {opt.text}
+                  </label>
+                </li>
+              ))}
+            </ul>
+          </div>
+        ))
+      ) : (
+        <h3>No questions found.</h3>
+      )}
+    </div>
+  );
 }
 
 export default MultipleChoiceQuizPage;

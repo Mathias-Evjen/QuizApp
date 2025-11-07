@@ -10,7 +10,7 @@ const App: React.FC = () => {
   return (
     <Router>
       <Routes>
-        <Route path="/" element={<Quizzes />} />
+        <Route path="/" element={<MultipleChoiceQuizPage />} />
         <Route path="/flashCardQuizzes" element={<Quizzes />} />
         <Route path='flashCardQuiz/:id' element={<FlashCardQuizPage />} />
         <Route path="/multipleChoiceQuiz/:quizId" element={<MultipleChoiceQuizPage />} />

@@ -21,19 +21,20 @@ const handleResponse = async (response: Response) => {
 
 
 export const fetchMultipleChoiceQuestions = async (quizId: number) => {
-  const response = await fetch(`${API_URL}/api/multiplechoiceapi/getQuestions/${quizId}`);
+  const response = await fetch(`${API_URL}/api/MultipleChoiceAPI/getQuestions/${quizId}`);
+  console.log(response);
   return handleResponse(response);
 };
 
 
 export const fetchMultipleChoiceById = async (id: number) => {
-  const response = await fetch(`${API_URL}/api/multiplechoiceapi/getById/${id}`);
+  const response = await fetch(`${API_URL}/api/MultipleChoiceAPI/getById/${id}`);
   return handleResponse(response);
 };
 
 
 export const createMultipleChoice = async (question: MultipleChoice) => {
-  const response = await fetch(`${API_URL}/api/multiplechoiceapi/create`, {
+  const response = await fetch(`${API_URL}/api/MultipleChoiceAPI/create`, {
     method: 'POST',
     headers,
     body: JSON.stringify(question),
@@ -43,7 +44,7 @@ export const createMultipleChoice = async (question: MultipleChoice) => {
 
 
 export const updateMultipleChoice = async (id: number, question: MultipleChoice) => {
-  const response = await fetch(`${API_URL}/api/multiplechoiceapi/update/${id}`, {
+  const response = await fetch(`${API_URL}/api/MultipleChoiceAPI/update/${id}`, {
     method: 'PUT',
     headers,
     body: JSON.stringify(question),
@@ -53,7 +54,7 @@ export const updateMultipleChoice = async (id: number, question: MultipleChoice)
 
 
 export const deleteMultipleChoice = async (id: number, qNum: number, quizId: number) => {
-  const response = await fetch(`${API_URL}/api/multiplechoice/delete/${id}?qNum=${qNum}&quizId=${quizId}`, {
+  const response = await fetch(`${API_URL}/api/MultipleChoiceAPI/delete/${id}?qNum=${qNum}&quizId=${quizId}`, {
     method: 'DELETE',
   });
   return handleResponse(response);

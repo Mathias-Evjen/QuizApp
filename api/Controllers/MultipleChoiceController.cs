@@ -31,6 +31,7 @@ namespace QuizApp.Controllers
         [HttpGet("getQuestions/{quizId}")]
         public async Task<IActionResult> GetQuestions(int quizId)
         {
+            Console.WriteLine("Funker");
             var questions = await _multipleChoiceRepository.GetAll(q => q.QuizId == quizId);
 
             if (questions == null || !questions.Any())

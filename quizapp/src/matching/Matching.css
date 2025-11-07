@@ -24,7 +24,6 @@
   max-width: 100%;
   min-height: 100%;
   max-height: 100%;
-  margin: auto;
 }
 .matching-table-keys {
   text-align: left;
@@ -35,10 +34,10 @@
   float: right;
 }
 .matching-table-keys-tr {
-  margin-top: 40px;
+  margin-bottom: 40px;
 }
 .matching-table-values-tr {
-  margin-top: 40px;
+  margin-bottom: 40px;
 }
 .matching-card-next-btn {
   position: absolute;

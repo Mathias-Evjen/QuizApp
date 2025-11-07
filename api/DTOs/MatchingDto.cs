@@ -11,10 +11,11 @@ namespace QuizApp.DTOs
         public string Question { get; set; } = string.Empty;
 
         [Required(ErrorMessage = "Must contain an answer")]
-        public string? CorrectAnswer { get; set; }
+        public string CorrectAnswer { get; set; } = string.Empty;
 
         [Required]
         public List<string> Keys { get; set; } = new();
+    
         [Required]
         public List<string> Values { get; set; } = new();
 

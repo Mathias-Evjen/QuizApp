@@ -89,8 +89,6 @@ const Quizzes: React.FC = () => {
         )
     }
 
-    
-
     return(
         <>
             {loading ? (

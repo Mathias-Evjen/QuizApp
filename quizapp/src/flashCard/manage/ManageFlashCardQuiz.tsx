@@ -154,12 +154,12 @@ const ManageFlashCardQuiz: React.FC = () => {
         setFlashCardErrors({});
     }
 
-    const handleDelete = async (flashCardId: number) => {
+    const handleDelete = async (flashCardId: number, qNum: number) => {
         try {
             const isTempCard = flashCards.some(card => card.tempId === flashCardId);
 
             if (!isTempCard) {
-                await FlashCardService.deleteFlashCard(flashCardId);
+                await FlashCardService.deleteFlashCard(flashCardId, qNum, quizId);
             }
             setFlashCards(prevCards => prevCards.filter(card => card.flashCardId !== flashCardId && card.tempId !== flashCardId));
             console.log("Flash card deleted: ", flashCardId);

@@ -103,12 +103,8 @@ const Quizzes: React.FC = () => {
                 <div className="quizzes-page" onClick={() => handleShowMoreOptions(null)}>
                     <div className="flash-card-quiz-container">
                         <div className="page-top-container">
-                            <h1>Flash card quizzes</h1>
-                            <hr />
-                            <div className="page-top-search-and-create">
-                                <SearchBar query={query} handleSearch={setQuery} />
-                                <button className="button primary-button active" onClick={() => handleShowCreate(true)}>Create</button>
-                            </div>
+                            <SearchBar query={query} handleSearch={setQuery} />
+                            <button className="button primary-button active" onClick={() => handleShowCreate(true)}>Create</button>
                         </div>
                         {quizzes.length === 0 ? (
                             <p>There are no quizzes to show</p>
@@ -144,7 +140,7 @@ const Quizzes: React.FC = () => {
                             <p>Do you want to delete the quiz</p>
                             <p>{quizToDelete?.name}</p>
                             <button className="button" onClick={() => handleShowDelete(null, false)}>Cancel</button>
-                            <button className="button delete" onClick={() => handleDelete(quizToDelete?.flashCardQuizId!)} >Delete</button>
+                            <button className="button delete-button" onClick={() => handleDelete(quizToDelete?.flashCardQuizId!)} >Delete</button>
                         </div>
                     </div> 
                     : ""}

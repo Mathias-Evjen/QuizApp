@@ -6,182 +6,182 @@ import * as MultipleChoiceService from "../../services/MultipleChoiceService";
 import "./ManageMultipleChoice.css";
 
 const ManageMultipleChoiceQuizPage: React.FC = () => {
-  const { id } = useParams<{ id: string }>();
-  const quizId = Number(id);
+    const { id } = useParams<{ id: string }>();
+    const quizId = Number(id);
 
-  const [questions, setQuestions] = useState<MultipleChoice[]>([]);
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState<string | null>(null);
+    const [questions, setQuestions] = useState<MultipleChoice[]>([]);
+    const [loading, setLoading] = useState(false);
+    const [error, setError] = useState<string | null>(null);
 
-  const [questionErrors, setQuestionErrors] = useState<{
-    [key: number]: { question?: string; options?: string };
-  }>({});
+    const [questionErrors, setQuestionErrors] = useState<{
+        [key: number]: { question?: string; options?: string };
+    }>({});
 
-  const handleFetchQuestions = async () => {
-    setLoading(true);
-    setError(null);
-    try {
-      const data = await MultipleChoiceService.fetchMultipleChoiceQuestions(quizId);
-      setQuestions(data);
-    } catch {
-      setError("Failed to fetch questions.");
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  const handleAddQuestion = () => {
-    const newQuestion: MultipleChoice = {
-      question: "",
-      quizId,
-      quizQuestionNum: questions.length + 1,
-      options: [
-        { text: "", isCorrect: false },
-        { text: "", isCorrect: false },
-        { text: "", isCorrect: false },
-        { text: "", isCorrect: false }
-      ],
-      isNew: true,
-      tempId: Date.now() + Math.random()
+    const handleFetchQuestions = async () => {
+        setLoading(true);
+        setError(null);
+        try {
+            const data = await MultipleChoiceService.fetchMultipleChoiceQuestions(quizId);
+            setQuestions(data);
+        } catch {
+            setError("Failed to fetch questions.");
+        } finally {
+            setLoading(false);
+        }
     };
 
-    setQuestions(prev => [...prev, newQuestion]);
-  };
+    const handleAddQuestion = () => {
+        const newQuestion: MultipleChoice = {
+            question: "",
+            quizId,
+            quizQuestionNum: questions.length + 1,
+            options: [
+                { text: "", isCorrect: false },
+                { text: "", isCorrect: false },
+                { text: "", isCorrect: false },
+                { text: "", isCorrect: false }
+            ],
+            isNew: true,
+            tempId: Date.now() + Math.random()
+        };
 
-  const handleQuestionTextChanged = (id: number, text: string) => {
-    setQuestions(prev =>
-      prev.map(q =>
-        (q.multipleChoiceId ?? q.tempId) === id
-          ? { ...q, question: text, isDirty: true }
-          : q
-      )
-    );
-  };
+        setQuestions(prev => [...prev, newQuestion]);
+    };
 
-  const handleOptionChanged = (
-    qId: number,
-    index: number,
-    field: "text" | "isCorrect",
-    value: string | boolean
-  ) => {
-    setQuestions(prev =>
-      prev.map(q =>
-        (q.multipleChoiceId ?? q.tempId) === qId
-          ? {
-              ...q,
-              options: q.options.map((o, i) =>
-                i === index ? { ...o, [field]: value } : o
-              ),
-              isDirty: true
-            }
-          : q
-      )
-    );
-  };
+    const handleQuestionTextChanged = (id: number, text: string) => {
+        setQuestions(prev =>
+            prev.map(q =>
+                (q.multipleChoiceId ?? q.tempId) === id
+                    ? { ...q, question: text, isDirty: true }
+                    : q
+            )
+        );
+    };
 
-  const handleAddOption = (qId: number) => {
-    setQuestions(prev =>
-      prev.map(q =>
-        (q.multipleChoiceId ?? q.tempId) === qId
-          ? { ...q, options: [...q.options, { text: "", isCorrect: false }], isDirty: true }
-          : q
-      )
-    );
-  };
+    const handleOptionChanged = (
+        qId: number,
+        index: number,
+        field: "text" | "isCorrect",
+        value: string | boolean
+    ) => {
+        setQuestions(prev =>
+            prev.map(q =>
+                (q.multipleChoiceId ?? q.tempId) === qId
+                    ? {
+                        ...q,
+                        options: q.options.map((o, i) =>
+                            i === index ? { ...o, [field]: value } : o
+                        ),
+                        isDirty: true
+                    }
+                    : q
+            )
+        );
+    };
 
-  const handleDeleteOption = (qId: number, index: number) => {
-    setQuestions(prev =>
-      prev.map(q =>
-        (q.multipleChoiceId ?? q.tempId) === qId
-          ? { ...q, options: q.options.filter((_, i) => i !== index), isDirty: true }
-          : q
-      )
-    );
-  };
+    const handleAddOption = (qId: number) => {
+        setQuestions(prev =>
+            prev.map(q =>
+                (q.multipleChoiceId ?? q.tempId) === qId
+                    ? { ...q, options: [...q.options, { text: "", isCorrect: false }], isDirty: true }
+                    : q
+            )
+        );
+    };
 
-  const handleSave = async () => {
-    const errors: typeof questionErrors = {};
+    const handleDeleteOption = (qId: number, index: number) => {
+        setQuestions(prev =>
+            prev.map(q =>
+                (q.multipleChoiceId ?? q.tempId) === qId
+                    ? { ...q, options: q.options.filter((_, i) => i !== index), isDirty: true }
+                    : q
+            )
+        );
+    };
 
-    questions.forEach(q => {
-      const qErrors: { question?: string; options?: string } = {};
-      if (!q.question?.trim()) qErrors.question = "Question is required.";
-      if (!q.options.some(o => o.isCorrect)) qErrors.options = "At least one option must be correct.";
-      if (Object.keys(qErrors).length > 0) errors[q.multipleChoiceId ?? q.tempId!] = qErrors;
-    });
+    const handleSave = async () => {
+        const errors: typeof questionErrors = {};
 
-    if (Object.keys(errors).length > 0) {
-      setQuestionErrors(errors);
-      return;
-    }
+        questions.forEach(q => {
+            const qErrors: { question?: string; options?: string } = {};
+            if (!q.question?.trim()) qErrors.question = "Question is required.";
+            if (!q.options.some(o => o.isCorrect)) qErrors.options = "At least one option must be correct.";
+            if (Object.keys(qErrors).length > 0) errors[q.multipleChoiceId ?? q.tempId!] = qErrors;
+        });
 
-    const newOnes = questions.filter(q => q.isNew);
-    const edited = questions.filter(q => q.isDirty && !q.isNew);
+        if (Object.keys(errors).length > 0) {
+            setQuestionErrors(errors);
+            return;
+        }
 
-    await Promise.all([
-      ...newOnes.map(q => MultipleChoiceService.createMultipleChoice(q)),
-      ...edited.map(q => MultipleChoiceService.updateMultipleChoice(q.multipleChoiceId!, q))
-    ]);
+        const newOnes = questions.filter(q => q.isNew);
+        const edited = questions.filter(q => q.isDirty && !q.isNew);
 
-    setQuestionErrors({});
-    handleFetchQuestions();
-  };
+        await Promise.all([
+            ...newOnes.map(q => MultipleChoiceService.createMultipleChoice(q)),
+            ...edited.map(q => MultipleChoiceService.updateMultipleChoice(q.multipleChoiceId!, q))
+        ]);
 
-  const handleDeleteQuestion = async (id: number) => {
-    await MultipleChoiceService.deleteMultipleChoice(id, 0, quizId);
-    handleFetchQuestions();
-  };
+        setQuestionErrors({});
+        handleFetchQuestions();
+    };
 
-  useEffect(() => {
-    handleFetchQuestions();
-  }, []);
+    const handleDeleteQuestion = async (id: number) => {
+        await MultipleChoiceService.deleteMultipleChoice(id, 0, quizId);
+        handleFetchQuestions();
+    };
 
-  if (loading) return <p>Loading...</p>;
-  if (error) return <p>Error: {error}</p>;
+    useEffect(() => {
+        handleFetchQuestions();
+    }, []);
 
-  return (
-    <div className="manage-mc-container">
-      <h1>Manage Multiple Choice Quiz</h1>
+    if (loading) return <p>Loading...</p>;
+    if (error) return <p>Error: {error}</p>;
 
-      <button className="add-button" onClick={handleAddQuestion}>Add Question</button>
+    return (
+        <div className="manage-mc-container">
+            <h1>Manage Multiple Choice Quiz</h1>
 
-      {questions.map(q => (
-        <div key={q.multipleChoiceId ?? q.tempId} className="mc-entry">
+            <button className="add-button" onClick={handleAddQuestion}>Add Question</button>
 
-          <input
-            value={q.question}
-            onChange={e => handleQuestionTextChanged(q.multipleChoiceId ?? q.tempId!, e.target.value)}
-            placeholder="Question text"
-            className={questionErrors[q.multipleChoiceId ?? q.tempId!]?.question ? "input-error" : ""}
-          />
+            {questions.map(q => (
+                <div key={q.multipleChoiceId ?? q.tempId} className="mc-entry">
 
-          {q.options.map((opt, i) => (
-            <div key={i} className="mc-option">
-              <input
-                value={opt.text}
-                onChange={e => handleOptionChanged(q.multipleChoiceId ?? q.tempId!, i, "text", e.target.value)}
-                placeholder={`Option ${i + 1}`}
-              />
-              <input
-                type="checkbox"
-                checked={opt.isCorrect}
-                onChange={e => handleOptionChanged(q.multipleChoiceId ?? q.tempId!, i, "isCorrect", e.target.checked)}
-              />
-              <button className="delete-option" onClick={() => handleDeleteOption(q.multipleChoiceId ?? q.tempId!, i)}>X</button>
-            </div>
-          ))}
+                    <input
+                        value={q.question}
+                        onChange={e => handleQuestionTextChanged(q.multipleChoiceId ?? q.tempId!, e.target.value)}
+                        placeholder="Question text"
+                        className={questionErrors[q.multipleChoiceId ?? q.tempId!]?.question ? "input-error" : ""}
+                    />
 
-          {questionErrors[q.multipleChoiceId ?? q.tempId!]?.options && (
-            <p className="error">{questionErrors[q.multipleChoiceId ?? q.tempId!].options}</p>
-          )}
+                    {q.options.map((opt, i) => (
+                        <div key={i} className="mc-option">
+                            <input
+                                value={opt.text}
+                                onChange={e => handleOptionChanged(q.multipleChoiceId ?? q.tempId!, i, "text", e.target.value)}
+                                placeholder={`Option ${i + 1}`}
+                            />
+                            <input
+                                type="checkbox"
+                                checked={opt.isCorrect}
+                                onChange={e => handleOptionChanged(q.multipleChoiceId ?? q.tempId!, i, "isCorrect", e.target.checked)}
+                            />
+                            <button className="delete-option" onClick={() => handleDeleteOption(q.multipleChoiceId ?? q.tempId!, i)}>X</button>
+                        </div>
+                    ))}
 
-          <button onClick={() => handleAddOption(q.multipleChoiceId ?? q.tempId!)}>Add Option</button>
-          <button className="delete-question" onClick={() => handleDeleteQuestion(q.multipleChoiceId!)}>Delete Question</button>
+                    {questionErrors[q.multipleChoiceId ?? q.tempId!]?.options && (
+                        <p className="error">{questionErrors[q.multipleChoiceId ?? q.tempId!].options}</p>
+                    )}
+
+                    <button onClick={() => handleAddOption(q.multipleChoiceId ?? q.tempId!)}>Add Option</button>
+                    <button className="delete-question" onClick={() => handleDeleteQuestion(q.multipleChoiceId!)}>Delete Question</button>
+                </div>
+            ))}
+
+            <button className="save-button" onClick={handleSave}>Save</button>
         </div>
-      ))}
-
-      <button className="save-button" onClick={handleSave}>Save</button>
-    </div>
-  );
+    );
 };
 
 export default ManageMultipleChoiceQuizPage;

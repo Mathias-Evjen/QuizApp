@@ -6,6 +6,7 @@ import FlashCardEntry from "./FlashCardEntry";
 import * as FlashCardQuizService from "../FlashCardQuizService";
 import * as FlashCardService from "../FlashCardService";
 import FlashCardQuizForm from "../FlashCardQuizForm";
+import SearchBar from "../../shared/SearchBar";
 
 const ManageFlashCardQuiz: React.FC = () => {
     const { id } = useParams<{ id: string }>();
@@ -14,6 +15,11 @@ const ManageFlashCardQuiz: React.FC = () => {
     const [quiz, setQuiz] = useState<FlashCardQuiz>();
     const [flashCards, setFlashCards] = useState<FlashCard[]>([]);
     
+    const [query, setQuery] = useState<string>("");
+    const filteredCards = flashCards.filter(card =>
+        card.question.toLocaleLowerCase().includes(query.toLocaleLowerCase()) || card.answer.toLocaleLowerCase().includes(query.toLocaleLowerCase())
+    );
+
     const [loadingQuiz, setLoadingQuiz] = useState<boolean>(false);
     const [loadingFlashCards, setLoadingFlashCards] = useState<boolean>(false);
     const [error, setError] = useState<string | null>(null);
@@ -154,12 +160,12 @@ const ManageFlashCardQuiz: React.FC = () => {
         setFlashCardErrors({});
     }
 
-    const handleDelete = async (flashCardId: number) => {
+    const handleDelete = async (flashCardId: number, qNum: number) => {
         try {
             const isTempCard = flashCards.some(card => card.tempId === flashCardId);
 
             if (!isTempCard) {
-                await FlashCardService.deleteFlashCard(flashCardId);
+                await FlashCardService.deleteFlashCard(flashCardId, qNum, quizId);
             }
             setFlashCards(prevCards => prevCards.filter(card => card.flashCardId !== flashCardId && card.tempId !== flashCardId));
             console.log("Flash card deleted: ", flashCardId);
@@ -206,12 +212,21 @@ const ManageFlashCardQuiz: React.FC = () => {
                         </div>
                         <button className="button" onClick={() => handleShowUpdateQuiz(true)}>Edit</button> 
                     </div>
+                    <div className="page-top-container">
+                        <SearchBar query={query} placeholder="Search for a flash card" handleSearch={setQuery}/>
+                        <div className="manage-buttons-div">
+                            <button className="button add-button" onClick={handleAddFlashCard}>Add</button>
+                            <button className={`button primary-button ${flashCardsToSave() ? "active" : ""}`} onClick={handleSaveFlashCard}>Save</button>
+                        </div>
+                    </div>
                     
                     <div className="flash-card-entry-container">
-                        {flashCards.length == 0 ? (
-                            <p className="flash-card-entry-container-emtpy">Add a flash card!</p>
+                        {flashCards.length === 0 ? (
+                            <p className="flash-card-entry-container-emtpy">Add the first flash card!</p>
+                        ) : filteredCards.length === 0 ? (
+                            <p className="flash-card-entry-container-emtpy">No cards matching search</p>
                         ) : (
-                            flashCards.map(card =>
+                            filteredCards.map(card =>
                                 <FlashCardEntry
                                     key={card.flashCardId ?? card.tempId}
                                     flashCardId={card.flashCardId! ?? card.tempId}
@@ -224,11 +239,6 @@ const ManageFlashCardQuiz: React.FC = () => {
                                     errors={flashCardErrors[card.flashCardId ?? card.tempId!]}/>
                             )
                         )}
-                    </div>
-
-                    <div className="manage-buttons-div">
-                        <button className="button add-button" onClick={handleAddFlashCard}>Add</button>
-                        <button className={`button save-button ${flashCardsToSave() ? "active" : ""}`} onClick={handleSaveFlashCard}>Save</button>
                     </div>
 
                     <div className={`${showUpdateQuiz ? "flash-card-quiz-popup" : ""}`}>

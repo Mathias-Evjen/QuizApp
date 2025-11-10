@@ -52,7 +52,10 @@ namespace QuizApp.Services
             var flashCardColors = new List<string>{
                 "#FFF9C4", "#FFE0B2", "#F8BBD0",
                 "#FFCCBC", "#E1BEE7", "#B3E5FC",
-                "#C8E6C9", "#FFF3E0", "#FFDAB9"
+                "#C8E6C9", "#FFF3E0", "#FFDAB9",
+                "#DCEDC8", "#FFECB3", "#F0F4C3",
+                "#D1C4E9", "#BBDEFB", "#FFCDD2"
+
             };
 
             var random = new Random();

@@ -3,7 +3,7 @@ import { Delete } from "@mui/icons-material";
 interface FlashCardEntryProps{
     onQuestionChanged: (flashCardId: number, newQuestion: string) => void; 
     onAnswerChanged: (flashCardId: number, newAnswer: string) => void;
-    onDeletePressed: (flashCardId: number) => void;
+    onDeletePressed: (flashCardId: number, quizQuestionNum: number) => void;
     flashCardId: number;
     quizQuestionNum: number;
     question: string;
@@ -17,7 +17,6 @@ const FlashCardEntry: React.FC<FlashCardEntryProps> = ({
 
     return(
         <div className="flash-card-entry">
-            <p>{quizQuestionNum}</p>
             <div className="flash-card-entry-card">
                 <div className="flash-card-entry-question">
                     <label>Question</label>

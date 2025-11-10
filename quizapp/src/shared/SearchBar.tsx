@@ -3,9 +3,10 @@ import { Search } from "@mui/icons-material";
 interface SearchBarProps { 
     handleSearch: (query: string) => void;
     query: string;
+    placeholder: string;
 }
 
-const SearchBar: React.FC<SearchBarProps> = ({ query, handleSearch }) => {
+const SearchBar: React.FC<SearchBarProps> = ({ query, placeholder, handleSearch }) => {
 
     return(
         <div className="search-bar">
@@ -13,7 +14,7 @@ const SearchBar: React.FC<SearchBarProps> = ({ query, handleSearch }) => {
             <input
                 value={query}
                 onChange={(e) => handleSearch(e.target.value)}
-                placeholder="Search for a quiz" />
+                placeholder={placeholder} />
         </div>
     )
 }

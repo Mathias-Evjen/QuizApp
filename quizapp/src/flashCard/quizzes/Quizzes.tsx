@@ -104,7 +104,7 @@ const Quizzes: React.FC = () => {
                 <div className="quizzes-page" onClick={() => handleShowMoreOptions(null)}>
                     <div className="flash-card-quiz-container">
                         <div className="page-top-container">
-                            <SearchBar query={query} handleSearch={setQuery} />
+                            <SearchBar query={query} placeholder="Search for a quiz" handleSearch={setQuery} />
                             <button className="button primary-button active" onClick={() => handleShowCreate(true)}>Create</button>
                         </div>
                         {quizzes.length === 0 ? (

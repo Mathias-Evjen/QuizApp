@@ -1,5 +1,5 @@
 import { useNavigate } from "react-router-dom";
-import { PiCards } from "react-icons/pi";
+import { PiCards, PiCardsBold } from "react-icons/pi";
 
 interface QuizCardProps {
     id?: number;
@@ -18,10 +18,6 @@ const QuizCard: React.FC<QuizCardProps> = ({ id, name, description, numOfQuestio
 
     return(
         <div className={`flash-card-quiz-card ${showOptions ? "show-options" : ""}`} onClick={handleClick}>
-            <div className="num-of-cards">
-                {numOfQuestions}
-                <PiCards />
-            </div>
             <div className="flash-card-quiz-card-content">
                 <div className="flash-card-quiz-title">
                     <h3>{name}</h3>
@@ -29,6 +25,10 @@ const QuizCard: React.FC<QuizCardProps> = ({ id, name, description, numOfQuestio
                 <div className="flash-card-quiz-description">
                     <p>{description}</p>
                 </div>
+            </div>
+            <div className="num-of-cards">
+                {numOfQuestions}
+                <PiCardsBold />
             </div>
         </div>
     )

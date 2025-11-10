@@ -1,5 +1,5 @@
 import { useNavigate } from "react-router-dom";
-import { PiCards, PiCardsBold } from "react-icons/pi";
+import { PiCardsBold } from "react-icons/pi";
 
 interface QuizCardProps {
     id?: number;

@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { FlashCard } from "../../types/flashCard";
 import { FlashCardQuiz } from "../../types/flashCardQuiz";
-import { Description, KeyboardArrowLeft, KeyboardArrowRight, Shuffle, ShuffleOn } from "@mui/icons-material";
+import { KeyboardArrowLeft, KeyboardArrowRight, Shuffle, ShuffleOn } from "@mui/icons-material";
 import FlashCardComponent from "./FlashCardComponent";
 import InfoCard from "./InfoCard";
 import { fetchQuizById } from "../FlashCardQuizService";
@@ -13,12 +13,20 @@ const FlashCardQuizPage: React.FC = () => {
     const quizId = Number(id);
 
     const [quiz, setQuiz] = useState<FlashCardQuiz>();
+    const [loadingQuiz, setLoadingQuiz] = useState<boolean>(false);
+
     const [flashCards, setFlashCards] = useState<FlashCard[]>([]);
+    const [loadingFlashCards, setLoadingFlashCards] = useState<boolean>(false);
+
+    const [error, setError] = useState<string | null>(null);
+
     const [shuffle, setShuffle] = useState<boolean>(false);
     const [flashCardIndex, setFlashCardIndex] = useState<number>(0);
-    const [loadingQuiz, setLoadingQuiz] = useState<boolean>(false);
-    const [loadingFlashCards, setLoadingFlashCards] = useState<boolean>(false);
-    const [error, setError] = useState<string | null>(null);
+
+
+    // -----------------------
+    //     Fetch operations 
+    // -----------------------
 
     const fetchQuiz = async () => {
         setLoadingQuiz(true);
@@ -59,6 +67,11 @@ const FlashCardQuizPage: React.FC = () => {
             setLoadingFlashCards(false);
         }
     };
+
+
+    // ------------------------
+    //     Flash card logic
+    // ------------------------
 
     const toggleShowAnswer = (flashCardId: number) => {
         setFlashCards(prevCards => 
@@ -109,6 +122,7 @@ const FlashCardQuizPage: React.FC = () => {
 
         setFlashCardIndex(0);
     }
+
 
     useEffect(() => {
         console.log("Fetching data...")

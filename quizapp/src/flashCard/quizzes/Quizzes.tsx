@@ -5,7 +5,6 @@ import { Add, MoreVert, Settings, Delete, Close, Search } from "@mui/icons-mater
 import { useNavigate } from "react-router-dom";
 import * as FlashCardQuizService from "../FlashCardQuizService";
 import FlashCardQuizForm from "../FlashCardQuizForm";
-import styled from "@emotion/styled";
 import SearchBar from "../../shared/SearchBar";
 
 const Quizzes: React.FC = () => {
@@ -22,6 +21,10 @@ const Quizzes: React.FC = () => {
     const [query, setQuery] = useState<string>("")
     const filteredQuizzes = quizzes.filter(quiz => quiz.name.toLocaleLowerCase().includes(query.toLocaleLowerCase()) || quiz.description?.toLocaleLowerCase().includes(query.toLocaleUpperCase()));
 
+
+    // -----------------------
+    //     CRUD Operations 
+    // -----------------------
     const fetchQuizzes = async () => {
         setLoading(true);
         setError(null);
@@ -54,6 +57,10 @@ const Quizzes: React.FC = () => {
         }
     }
 
+    const handleEdit = (quizId: number) => {
+        navigate(`/flashCards/manage/${quizId}`)
+    }
+
     const handleDelete = async (quizId: number) => {
         try {
             await FlashCardQuizService.deleteQuiz(quizId);
@@ -66,10 +73,9 @@ const Quizzes: React.FC = () => {
         }
     }
 
-    const handleEdit = (quizId: number) => {
-        navigate(`/flashCards/manage/${quizId}`)
-    }
-
+    // ----------------------------------
+    //     Popups and hidden options 
+    // ----------------------------------
     const handleShowCreate = (value: boolean) => {
         setShowCreate(value);
     }
@@ -88,6 +94,7 @@ const Quizzes: React.FC = () => {
             )
         )
     }
+    
     
     useEffect(() => {
         console.log("Fetching data...")

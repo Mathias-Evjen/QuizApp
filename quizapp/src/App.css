@@ -765,6 +765,12 @@
   align-items: start;
 }
 
+.play-quiz-container {
+  position: fixed;
+  bottom: 25px;
+  right: 25px;
+} 
+
 /* Questions */
 
 .question-container {

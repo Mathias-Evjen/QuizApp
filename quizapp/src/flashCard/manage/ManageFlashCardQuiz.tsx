@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { FlashCardQuiz } from "../../types/flashCardQuiz";
 import { FlashCard } from "../../types/flashCard";
 import FlashCardEntry from "./FlashCardEntry";
@@ -9,23 +9,32 @@ import FlashCardQuizForm from "../FlashCardQuizForm";
 import SearchBar from "../../shared/SearchBar";
 
 const ManageFlashCardQuiz: React.FC = () => {
+    const navigate = useNavigate();
+
     const { id } = useParams<{ id: string }>();
     const quizId = Number(id);
 
     const [quiz, setQuiz] = useState<FlashCardQuiz>();
+    const [loadingQuiz, setLoadingQuiz] = useState<boolean>(false);
+    
     const [flashCards, setFlashCards] = useState<FlashCard[]>([]);
+    const [loadingFlashCards, setLoadingFlashCards] = useState<boolean>(false);
+    
+    const [error, setError] = useState<string | null>(null);
     
     const [query, setQuery] = useState<string>("");
     const filteredCards = flashCards.filter(card =>
         card.question.toLocaleLowerCase().includes(query.toLocaleLowerCase()) || card.answer.toLocaleLowerCase().includes(query.toLocaleLowerCase())
     );
 
-    const [loadingQuiz, setLoadingQuiz] = useState<boolean>(false);
-    const [loadingFlashCards, setLoadingFlashCards] = useState<boolean>(false);
-    const [error, setError] = useState<string | null>(null);
-    const [flashCardErrors, setFlashCardErrors] = useState<{[key: number]: { question?: string; answer?: string }}>({});
+    const [validationErrors, setValidationErrors] = useState<{[key: number]: { question?: string; answer?: string }}>({});
 
     const [showUpdateQuiz, setShowUpdateQuiz] = useState<boolean>(false);
+
+
+    // ------------------------------
+    //     CRUD Operations - Quiz
+    // ------------------------------
 
     const fetchQuiz = async () => {
         setLoadingQuiz(true);
@@ -46,6 +55,20 @@ const ManageFlashCardQuiz: React.FC = () => {
             setLoadingQuiz(false);
         }
     };
+
+    const handleUpdateQuiz = async (quiz: FlashCardQuiz) => {
+        try {
+            const data = await FlashCardQuizService.updateQuiz(quizId, quiz);
+            console.log("Flash card quiz updated successfully:", data);
+        } catch (error) {
+            console.error("There was a problem with the fetch operation: ", error);
+        }
+    };
+
+
+    // -------------------------------------
+    //     CRUD Operations - Flash cards
+    // -------------------------------------
     
     const fetchFlashCards = async () => {
         setLoadingFlashCards(true)
@@ -67,54 +90,7 @@ const ManageFlashCardQuiz: React.FC = () => {
         }
     };
 
-    const handleUpdateFlashCard = async (flashCard: FlashCard) => {
-        try {
-            const data = await FlashCardService.updateFlashCard(flashCard);
-            console.log("Flash card updated successfully:", data);
-        } catch (error) {
-            console.error("There was a problem with the fetch operation: ", error)
-        }
-    }
-
-    const handleUpdateQuiz = async (quiz: FlashCardQuiz) => {
-        try {
-            const data = await FlashCardQuizService.updateQuiz(quizId, quiz);
-            console.log("Flash card quiz updated successfully:", data);
-        } catch (error) {
-            console.error("There was a problem with the fetch operation: ", error);
-        }
-    }
-
-    const handleQuestionChanged = (flashCardId: number, newQuestion: string) => {
-        setFlashCards(prevCards =>
-            prevCards.map(card =>
-                card.flashCardId === flashCardId || card.tempId === flashCardId
-                ? {...card, question: newQuestion, isDirty: true}
-                : card
-            )
-        );
-        
-    }
-
-    const handleAnswerChanged = (flashCardId: number, newAnswer: string) => {
-        setFlashCards(prevCards =>
-            prevCards.map(card =>
-                card.flashCardId === flashCardId || card.tempId === flashCardId
-                ? {...card, answer: newAnswer, isDirty: true}
-                : card
-            )
-        );
-        
-    }
-
-    const validateFlashCard = (card: FlashCard) => {
-        const errors: { question?: string; answer?: string } = {};
-        if (!card.question || card.question.trim() === "") errors.question = "Question is required";
-        if (!card.answer || card.answer.trim() === "") errors.answer = "Answer is required";
-        return errors;
-    }
-
-    const handleCreate = async (flashCard: FlashCard) => {
+    const handleCreateFlashCard = async (flashCard: FlashCard) => {
         const newCard: FlashCard = {question: flashCard.question, answer: flashCard.answer, quizId: flashCard.quizId, quizQuestionNum: flashCard.quizQuestionNum}
         try {
             const data = await FlashCardService.createFlashCard(newCard);
@@ -122,45 +98,18 @@ const ManageFlashCardQuiz: React.FC = () => {
         } catch (error) {
             console.error("There was a problem with the fetch operation: ", error)
         }
-    }
+    };
 
-    const handleAddFlashCard = () => {
-        const newCard: FlashCard = {question: "", answer: "", quizId: quizId, quizQuestionNum: flashCards.length + 1, isNew: true, tempId: Date.now() + Math.random()}
-        setFlashCards(prevCards =>
-            [...prevCards, newCard]
-        )
-    }
-
-    const handleSaveFlashCard = async () => {
-        const allErrors: typeof flashCardErrors = {};
-        flashCards.forEach(card => {
-            const errs = validateFlashCard(card);
-            if (Object.keys(errs).length > 0) allErrors[card.flashCardId ?? card.tempId!] = errs;
-        });
-
-        if (Object.keys(allErrors).length > 0) {
-            setFlashCardErrors(allErrors);
-            return;
+    const handleUpdateFlashCard = async (flashCard: FlashCard) => {
+        try {
+            const data = await FlashCardService.updateFlashCard(flashCard);
+            console.log("Flash card updated successfully:", data);
+        } catch (error) {
+            console.error("There was a problem with the fetch operation: ", error)
         }
+    };
 
-        const dirtyCards = flashCards.filter(card => card.isDirty)
-        const newCards = flashCards.filter(card => card.isNew)
-        
-        await Promise.all([
-            ...dirtyCards.map(card => handleUpdateFlashCard(card)),
-            ...newCards.map(card => handleCreate(card))
-        ]);
-
-        setFlashCards(prevCards =>
-            prevCards.map(card =>
-                ({...card, isNew: false, isDirty: false})
-            )
-        )
-        
-        setFlashCardErrors({});
-    }
-
-    const handleDelete = async (flashCardId: number, qNum: number) => {
+    const handleDeleteFlashCard = async (flashCardId: number, qNum: number) => {
         try {
             const isTempCard = flashCards.some(card => card.tempId === flashCardId);
 
@@ -173,25 +122,100 @@ const ManageFlashCardQuiz: React.FC = () => {
             console.error("Error deleting flash card: ", error);
             setError("Failed to delete flash card");
         }
-    }
+    };
+
+    
+    // ------------------------------
+    //     Validations and checks
+    // ------------------------------
+
+    const handleQuestionChanged = (flashCardId: number, newQuestion: string) => {
+        setFlashCards(prevCards =>
+            prevCards.map(card =>
+                card.flashCardId === flashCardId || card.tempId === flashCardId
+                ? {...card, question: newQuestion, isDirty: true}
+                : card
+            )
+        );
+        
+    };
+
+    const handleAnswerChanged = (flashCardId: number, newAnswer: string) => {
+        setFlashCards(prevCards =>
+            prevCards.map(card =>
+                card.flashCardId === flashCardId || card.tempId === flashCardId
+                ? {...card, answer: newAnswer, isDirty: true}
+                : card
+            )
+        );
+        
+    };
+
+    const validateFlashCard = (card: FlashCard) => {
+        const errors: { question?: string; answer?: string } = {};
+        if (!card.question || card.question.trim() === "") errors.question = "Question is required";
+        if (!card.answer || card.answer.trim() === "") errors.answer = "Answer is required";
+        return errors;
+    };
 
     const flashCardsToSave = () => {
         if (flashCards.some(card => card.isDirty || card.isNew))
             return true;
         return false;
-    }
+    };
+    
 
-    const handleShowUpdateQuiz = (value: boolean) => {
-        setShowUpdateQuiz(value);
-    }
+    // ----------------------
+    //     Frontend logic
+    // ----------------------
 
+    const handleAddFlashCard = () => {
+        const newCard: FlashCard = {question: "", answer: "", quizId: quizId, quizQuestionNum: flashCards.length + 1, isNew: true, tempId: Date.now() + Math.random()}
+        setFlashCards(prevCards =>
+            [...prevCards, newCard]
+        )
+    };
+
+    const handleSaveFlashCard = async () => {
+        const allErrors: typeof validationErrors = {};
+        flashCards.forEach(card => {
+            const errs = validateFlashCard(card);
+            if (Object.keys(errs).length > 0) allErrors[card.flashCardId ?? card.tempId!] = errs;
+        });
+
+        if (Object.keys(allErrors).length > 0) {
+            setValidationErrors(allErrors);
+            return;
+        }
+
+        const dirtyCards = flashCards.filter(card => card.isDirty)
+        const newCards = flashCards.filter(card => card.isNew)
+        
+        await Promise.all([
+            ...dirtyCards.map(card => handleUpdateFlashCard(card)),
+            ...newCards.map(card => handleCreateFlashCard(card))
+        ]);
+
+        setFlashCards(prevCards =>
+            prevCards.map(card =>
+                ({...card, isNew: false, isDirty: false})
+            )
+        )
+        
+        setValidationErrors({});
+    };
+    
     const saveQuiz = (newName: string, newDescription: string) => {
         const updatedQuiz = { ...quiz!, name: newName, description: newDescription === "" ? undefined : newDescription}
         setQuiz(updatedQuiz)
         handleUpdateQuiz(updatedQuiz);
         handleShowUpdateQuiz(false);
-    }
+    };
 
+    const handleShowUpdateQuiz = (value: boolean) => {
+        setShowUpdateQuiz(value);
+    };
+    
     useEffect(() => {
             fetchQuiz();
             fetchFlashCards();
@@ -235,8 +259,8 @@ const ManageFlashCardQuiz: React.FC = () => {
                                     answer={card.answer}
                                     onQuestionChanged={handleQuestionChanged}
                                     onAnswerChanged={handleAnswerChanged}
-                                    onDeletePressed={handleDelete}
-                                    errors={flashCardErrors[card.flashCardId ?? card.tempId!]}/>
+                                    onDeletePressed={handleDeleteFlashCard}
+                                    errors={validationErrors[card.flashCardId ?? card.tempId!]}/>
                             )
                         )}
                     </div>
@@ -256,6 +280,9 @@ const ManageFlashCardQuiz: React.FC = () => {
                     </div>
                 </div>
             )}
+            <div className="play-quiz-container">
+                <button className="button" onClick={() => navigate(`/flashCards/${id}`)}>Play quiz</button>
+            </div>
         </>
         
     )

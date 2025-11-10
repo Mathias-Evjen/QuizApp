@@ -228,7 +228,7 @@ const ManageFlashCardQuiz: React.FC = () => {
 
                     <div className="manage-buttons-div">
                         <button className="button add-button" onClick={handleAddFlashCard}>Add</button>
-                        <button className={`button save-button ${flashCardsToSave() ? "active" : ""}`} onClick={handleSaveFlashCard}>Save</button>
+                        <button className={`button primary-button ${flashCardsToSave() ? "active" : ""}`} onClick={handleSaveFlashCard}>Save</button>
                     </div>
 
                     <div className={`${showUpdateQuiz ? "flash-card-quiz-popup" : ""}`}>

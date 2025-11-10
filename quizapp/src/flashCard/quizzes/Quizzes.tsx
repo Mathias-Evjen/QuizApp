@@ -1,10 +1,12 @@
 import { useEffect, useState } from "react";
 import { FlashCardQuiz } from "../../types/flashCardQuiz";
 import QuizCard from "./QuizCard";
-import { Add, MoreVert, Settings, Delete, Close } from "@mui/icons-material";
+import { Add, MoreVert, Settings, Delete, Close, Search } from "@mui/icons-material";
 import { useNavigate } from "react-router-dom";
 import * as FlashCardQuizService from "../FlashCardQuizService";
 import FlashCardQuizForm from "../FlashCardQuizForm";
+import styled from "@emotion/styled";
+import SearchBar from "../../shared/SearchBar";
 
 const Quizzes: React.FC = () => {
     const navigate = useNavigate();
@@ -16,6 +18,8 @@ const Quizzes: React.FC = () => {
     const [showCreate, setShowCreate] = useState<boolean>(false);
     const [showDelete, setShowDelete] = useState<boolean>(false);
     const [quizToDelete, setQuizToDelete] = useState<FlashCardQuiz | null>(null);
+
+    const [query, setQuery] = useState<string>("")
 
     const fetchQuizzes = async () => {
         setLoading(true);
@@ -65,20 +69,15 @@ const Quizzes: React.FC = () => {
         navigate(`/flashCards/manage/${quizId}`)
     }
 
-    useEffect(() => {
-        console.log("Fetching data...")
-        fetchQuizzes();
-    }, []);
-
     const handleShowCreate = (value: boolean) => {
         setShowCreate(value);
     }
-
+    
     const handleShowDelete = (quiz: FlashCardQuiz | null, show: boolean) => {
         setQuizToDelete(quiz);
         setShowDelete(show)
     }
-
+    
     const handleShowMoreOptions = (quizId: number | null) => {
         setQuizzes(prevQuizzes =>
             prevQuizzes.map(quiz =>
@@ -88,6 +87,11 @@ const Quizzes: React.FC = () => {
             )
         )
     }
+    
+    useEffect(() => {
+        console.log("Fetching data...")
+        fetchQuizzes();
+    }, []);
 
     return(
         <>
@@ -98,11 +102,18 @@ const Quizzes: React.FC = () => {
             ) : (
                 <div className="quizzes-page" onClick={() => handleShowMoreOptions(null)}>
                     <div className="flash-card-quiz-container">
-                        <h1>Flash card quizzes</h1>
+                        <div className="page-top-container">
+                            <h1>Flash card quizzes</h1>
+                            <hr />
+                            <div className="page-top-search-and-create">
+                                <SearchBar query={query} handleSearch={setQuery} />
+                                <button className="button primary-button active" onClick={() => handleShowCreate(true)}>Create</button>
+                            </div>
+                        </div>
                         {quizzes.length === 0 ? (
                             <p>There are no quizzes to show</p>
                         ) : (
-                            quizzes.map(quiz => (
+                            quizzes.filter(quiz => quiz.name.includes(query)).map(quiz => (
                                 <div className="flash-card-quiz-entry" key={quiz.flashCardQuizId}>
                                     <QuizCard
                                         id={quiz.flashCardQuizId}
@@ -122,7 +133,6 @@ const Quizzes: React.FC = () => {
                             ))
                         )}
                     </div>
-                    <button className="create-flash-card-quiz-button" onClick={() => handleShowCreate(true)}><Add /></button>
                     <div className={`${showCreate ? "flash-card-quiz-popup" : ""}`} onClick={() => handleShowCreate(false)}>
                         {showCreate 
                             ? <FlashCardQuizForm onSubmit={handleCreate} onCancel={handleShowCreate} isUpdate={false}/> 

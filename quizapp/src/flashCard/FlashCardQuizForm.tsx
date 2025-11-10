@@ -55,7 +55,7 @@ const FlashCardQuizForm: React.FC<QuizFormProps> = ({ isUpdate, name, descriptio
                     <button type="button" className="button" onClick={() => onCancel(false)}>Cancel</button>
                     <button 
                         type="submit" 
-                        className={`button ${isUpdate ? `save-button ${isDirty ? "active" : ""}` : ""}`}>{isUpdate ? "Save" : "Create"}</button>
+                        className={`button ${isUpdate ? `primary-button ${isDirty ? "active" : ""}` : ""}`}>{isUpdate ? "Save" : "Create"}</button>
                 </div>
             </form>
         </div>

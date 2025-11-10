@@ -3,6 +3,7 @@ import './App.css'
 import FlashCardQuizPage from './flashCard/FlashCardQuizPage'
 import Quizzes from './flashCard/Quizzes'
 import MultipleChoiceQuizPage from './multipleChoice/MultipleChoiceQuizPage'
+import ManageMultipleChoiceQuizPage from './multipleChoice/manage/ManageMultipleChoiceQuizPage'
 
 
 const App: React.FC = () => {
@@ -14,6 +15,7 @@ const App: React.FC = () => {
         <Route path="/flashCardQuizzes" element={<Quizzes />} />
         <Route path='flashCardQuiz/:id' element={<FlashCardQuizPage />} />
         <Route path="/multipleChoiceQuiz/:quizId" element={<MultipleChoiceQuizPage />} />
+        <Route path="/manageMultipleChoice/:id" element={<ManageMultipleChoiceQuizPage />} />
       </Routes>
     </Router>
   )

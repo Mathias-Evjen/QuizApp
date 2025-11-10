@@ -8,11 +8,11 @@ const headers = {
 
 
 const handleResponse = async (response: Response) => {
-  if (response.ok) {  
-    if (response.status === 204) { 
+  if (response.ok) {
+    if (response.status === 204) {
       return null;
     }
-    return response.json(); 
+    return response.json();
   } else {
     const errorText = await response.text();
     throw new Error(errorText || 'Network response was not ok');

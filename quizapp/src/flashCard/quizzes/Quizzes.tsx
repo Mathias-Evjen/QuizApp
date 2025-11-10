@@ -137,10 +137,12 @@ const Quizzes: React.FC = () => {
                     {showDelete 
                     ? <div className="confirm-delete" onClick={() => handleShowDelete(null, false)}>
                         <div className="confirm-delete-content" onClick={(e) => e.stopPropagation()}>
-                            <p>Do you want to delete the quiz</p>
-                            <p>{quizToDelete?.name}</p>
-                            <button className="button" onClick={() => handleShowDelete(null, false)}>Cancel</button>
-                            <button className="button delete-button" onClick={() => handleDelete(quizToDelete?.flashCardQuizId!)} >Delete</button>
+                            <h2>Do you want to delete this quiz?</h2>
+                            <h1>{quizToDelete?.name}</h1>
+                            <div className="flash-card-quiz-popup-buttons">
+                                <button className="button" onClick={() => handleShowDelete(null, false)}>Cancel</button>
+                                <button className="button delete-button" onClick={() => handleDelete(quizToDelete?.flashCardQuizId!)} >Delete</button>
+                            </div>
                         </div>
                     </div> 
                     : ""}

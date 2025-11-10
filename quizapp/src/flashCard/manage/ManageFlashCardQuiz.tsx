@@ -16,6 +16,9 @@ const ManageFlashCardQuiz: React.FC = () => {
     const [flashCards, setFlashCards] = useState<FlashCard[]>([]);
     
     const [query, setQuery] = useState<string>("");
+    const filteredCards = flashCards.filter(card =>
+        card.question.toLocaleLowerCase().includes(query.toLocaleLowerCase()) || card.answer.toLocaleLowerCase().includes(query.toLocaleLowerCase())
+    );
 
     const [loadingQuiz, setLoadingQuiz] = useState<boolean>(false);
     const [loadingFlashCards, setLoadingFlashCards] = useState<boolean>(false);
@@ -218,10 +221,12 @@ const ManageFlashCardQuiz: React.FC = () => {
                     </div>
                     
                     <div className="flash-card-entry-container">
-                        {flashCards.length == 0 ? (
-                            <p className="flash-card-entry-container-emtpy">Add a flash card!</p>
+                        {flashCards.length === 0 ? (
+                            <p className="flash-card-entry-container-emtpy">Add the first flash card!</p>
+                        ) : filteredCards.length === 0 ? (
+                            <p className="flash-card-entry-container-emtpy">No cards matching search</p>
                         ) : (
-                            flashCards.filter(card => card.question.includes(query) || card.answer.includes(query)).map(card =>
+                            filteredCards.map(card =>
                                 <FlashCardEntry
                                     key={card.flashCardId ?? card.tempId}
                                     flashCardId={card.flashCardId! ?? card.tempId}

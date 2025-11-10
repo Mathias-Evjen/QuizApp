@@ -20,6 +20,7 @@ const Quizzes: React.FC = () => {
     const [quizToDelete, setQuizToDelete] = useState<FlashCardQuiz | null>(null);
 
     const [query, setQuery] = useState<string>("")
+    const filteredQuizzes = quizzes.filter(quiz => quiz.name.toLocaleLowerCase().includes(query.toLocaleLowerCase()) || quiz.description?.toLocaleLowerCase().includes(query.toLocaleUpperCase()));
 
     const fetchQuizzes = async () => {
         setLoading(true);
@@ -108,8 +109,10 @@ const Quizzes: React.FC = () => {
                         </div>
                         {quizzes.length === 0 ? (
                             <p>There are no quizzes to show</p>
+                        ) : filteredQuizzes.length === 0 ? (
+                            <p>There are no quizzes matching search</p>
                         ) : (
-                            quizzes.filter(quiz => quiz.name.includes(query)).map(quiz => (
+                            filteredQuizzes.map(quiz => (
                                 <div className="flash-card-quiz-entry" key={quiz.flashCardQuizId}>
                                     <QuizCard
                                         id={quiz.flashCardQuizId}

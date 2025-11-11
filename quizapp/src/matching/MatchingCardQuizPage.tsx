@@ -1,13 +1,12 @@
 import { useState, useEffect } from "react";
 import { MatchingCard } from "../types/matchingCard";
 import "./Matching.css";
+import * as MatchingService from "./MatchingService";
 
-const API_URL = "http://localhost:5041";
 
 function MatchingCardQuizPage() {
   const [matchingCards, setMatchingCards] = useState<MatchingCard[]>([]);
-  const [loadingMatchingCards, setLoadingMatchingCards] =
-    useState<boolean>(false);
+  const [loadingMatchingCards, setLoadingMatchingCards] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
 
   const fetchMatchingCards = async () => {
@@ -15,13 +14,7 @@ function MatchingCardQuizPage() {
     setError(null);
 
     try {
-      const response = await fetch(
-        `${API_URL}/api/matchingapi/getQuestions/${2}`,
-      );
-      if (!response.ok) {
-        throw new Error("Network response was not ok");
-      }
-      const data = await response.json();
+      const data = await MatchingService.fetchMatchings(2);
       setMatchingCards(data);
       console.log(data);
     } catch (error: unknown) {
@@ -51,7 +44,7 @@ function MatchingCardQuizPage() {
 
   return (
     <div>
-      <h1>Matching Question</h1>
+      <br/><br/>
       {matchingCards.length > 0 ? (
         <div className="matching-card-wrapper">
           {matchingCards.map((card) => (
@@ -62,20 +55,14 @@ function MatchingCardQuizPage() {
 
               <div className="matching-table-wrapper">
                 <table className="matching-table">
-                  <td className="matching-table-keys">
+                  <tbody>
                     {card.keys.map((key, i) => (
-                      <tr className="matching-table-keys-tr" key={i}>
-                        {key}
+                      <tr className="matching-table-tr" key={i}>
+                        <td className="matching-table-keys-td">{key}</td>
+                        <td className="matching-table-values-td">{card.values[i]}</td>
                       </tr>
                     ))}
-                  </td>
-                  <td className="matching-table-values">
-                    {card.values.map((value, i) => (
-                      <tr className="matching-table-values-tr" key={i}>
-                        {value}
-                      </tr>
-                    ))}
-                  </td>
+                  </tbody>
                 </table>
               </div>
             </div>

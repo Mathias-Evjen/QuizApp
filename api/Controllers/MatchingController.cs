@@ -87,22 +87,22 @@ public class MatchingAPIController : ControllerBase
         return Ok(matchingAttempt);
     }
 
-    public bool CheckAttempt(int quizAttemptId)
-    {
+    // public bool CheckAttempt(int quizAttemptId)
+    // {
 
-        if (quizAttemptId <= 0) { return false; }
-        var attempt = _matchingAttemptRepository.Exists(mAttempt => mAttempt.MatchingAttemptId == quizAttemptId);
-        if (!attempt)
-        {
-            Console.WriteLine("denne er false");
-            return false;
-        }
-        else
-        {
-            Console.WriteLine("Denne er true");
-            return true;
-        }
-    }
+    //     if (quizAttemptId <= 0) { return false; }
+    //     var attempt = _matchingAttemptRepository.Exists(mAttempt => mAttempt.MatchingAttemptId == quizAttemptId);
+    //     if (!attempt)
+    //     {
+    //         Console.WriteLine("denne er false");
+    //         return false;
+    //     }
+    //     else
+    //     {
+    //         Console.WriteLine("Denne er true");
+    //         return true;
+    //     }
+    // }
 
     
     // public IActionResult CreateMatchingQuestion(int quizId, int numOfQuestions)

@@ -15,10 +15,14 @@ const handleResponse = async (response: Response) => {
     throw new Error(errorText || 'Network response was not ok');
   }
 };
-
 // Get quizzes
-export const fetchQuizzes = async (quizId: number) => {
-  const response = await fetch(`${API_URL}/api/quizapi/quizlist/${quizId}`);
+export const fetchQuizzes = async () => {
+  const response = await fetch(`${API_URL}/api/quizapi/getquizzes`);
+  return handleResponse(response);
+};
+// Get quiz
+export const fetchQuiz = async (quizId: number) => {
+  const response = await fetch(`${API_URL}/api/quizapi/getquiz/${quizId}`);
   return handleResponse(response);
 };
 // Post create quiz
@@ -30,9 +34,9 @@ export const createQuiz = async (quiz: any) => {
   });
   return handleResponse(response);
 };
-//Submit quiz attempt
-export const submitQuizAttempt = async (quizAttemptId: number, quiz: any) => {
-  const response = await fetch(`${API_URL}/api/quizapi/submitAttempts/${quizAttemptId}"`, {
+//Create quiz attempt
+export const createQuizAttempt = async (quiz: any) => {
+  const response = await fetch(`${API_URL}/api/quizapi/createAttempt"`, {
     method: 'POST',
     headers,
     body: JSON.stringify(quiz),

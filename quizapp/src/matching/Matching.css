@@ -24,20 +24,17 @@
   max-width: 100%;
   min-height: 100%;
   max-height: 100%;
+  border-collapse: separate;
+  border-spacing: 0 20px;
 }
-.matching-table-keys {
+.matching-table-tr{
+  margin-bottom: 100px;
+}
+.matching-table-keys-td {
   text-align: left;
-  float: left;
 }
-.matching-table-values {
+.matching-table-values-td {
   text-align: right;
-  float: right;
-}
-.matching-table-keys-tr {
-  margin-bottom: 40px;
-}
-.matching-table-values-tr {
-  margin-bottom: 40px;
 }
 .matching-card-next-btn {
   position: absolute;

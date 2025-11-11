@@ -18,7 +18,8 @@ const handleResponse = async (response: Response) => {
 
 // Get matchings
 export const fetchMatchings = async (quizId: number) => {
-  const response = await fetch(`${API_URL}/api/matchingapi/matchinglist/${quizId}`);
+  console.log(quizId);
+  const response = await fetch(`${API_URL}/api/MatchingAPI/getQuestions/${quizId}`);
   return handleResponse(response);
 };
 // Post create matching

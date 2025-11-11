@@ -36,13 +36,18 @@ public class QuizAPIController : ControllerBase
             _logger.LogError("[Quizcontroller] Quizzes list not found while executing _quizRepository.GetAll()");
             return NotFound("Quizzes not found");
         }
-
         var quizDto = quizzes.Select(quiz => new QuizDto
         {
             QuizId = quiz.QuizId,
             Name = quiz.Name,
             Description = quiz.Description,
-            NumOfQuestions = quiz.NumOfQuestions
+            NumOfQuestions = quiz.NumOfQuestions,
+            FillInTheBlankQuestions = quiz.FillInTheBlankQuestions,
+            MatchingQuestions = quiz.MatchingQuestions,
+            SequenceQuestions = quiz.SequenceQuestions,
+            RankingQuestions = quiz.RankingQuestions,
+            TrueFalseQuestions = quiz.TrueFalseQuestions,
+            MultipleChoiceQuestions = quiz.MultipleChoiceQuestions
         });
         return Ok(quizDto);
     }

@@ -1,0 +1,88 @@
+.quizzes-wrapper{
+    min-width: 40rem;
+    max-width: 50rem;
+    min-height: auto;
+    max-height: none;
+    position: relative;
+    border: solid 0px black;
+    border-radius: 10px;
+    font-size: 17px;
+    margin: auto;
+    margin-top: 50px;
+    padding: 40px;
+    box-shadow:
+    rgba(60, 64, 67, 0.3) 0px 1px 2px 0px,
+    rgba(60, 64, 67, 0.15) 0px 2px 6px 2px;
+}
+.quiz-cards-container{
+    min-width: 100%;
+    max-width: 100%;
+    min-height: 100%;
+    max-height: 100%;
+    position: relative;
+}
+.quiz-create{
+    margin: auto;
+    margin-top: 20px;
+    background-color:#1E90FF;
+    border-radius: 5px;
+    padding: 7px;
+    color: white;
+    cursor: pointer;
+    font-size: 15px;
+    border: solid 0px #1E90FF;
+}
+.quiz-card-box{
+    width: 100%;
+    box-sizing: border-box;
+    min-height: 8rem;
+    max-height: 8rem;
+    border: solid 1px lightgray;
+    border-radius: 10px;
+    margin: auto;
+    margin-bottom: 10px;
+    padding: 20px;
+    text-align: left;
+    position: relative;
+}
+.quiz-card-name{
+    font-weight: bold;
+    font-size: 19px;
+    position: absolute;
+    top: 0px;
+}
+.quiz-card-desc{
+    position: absolute;
+    bottom: 0px;
+}
+.quiz-card-num-questions{
+    position: absolute;
+    top: 0px;
+    right: 20px;
+}
+.quiz-card-buttons{
+    position: absolute;
+    bottom: 20px;
+    right: 20px;
+}
+.quiz-card-btn-open{
+    float: right;
+    margin-left: 5px;
+    background-color:#1E90FF;
+    border-radius: 5px;
+    padding: 7px;
+    color: white;
+    cursor: pointer;
+    font-size: 15px;
+    border: solid 0px #1E90FF;
+}
+.quiz-card-btn-manage{
+    float: right;
+        background-color:grey;
+    border-radius: 5px;
+    padding: 7px;
+    color: white;
+    cursor: pointer;
+    font-size: 15px;
+    border: solid 0px grey;
+}

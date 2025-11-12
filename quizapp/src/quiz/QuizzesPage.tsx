@@ -66,7 +66,7 @@ function QuizzesPage() {
             ) : (
               <h3>No quizzes found.</h3>
             )}
-            <button className="quiz-create">Create</button>
+            <button className="quiz-create" onClick={() => navigate("/quizCreate")}>Create</button>
           </div>
         </div>
     </div>

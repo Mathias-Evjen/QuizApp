@@ -19,13 +19,21 @@ function QuizCreatePage(){
 
     return(
         <div className="quiz-create-wrapper">
+            <button className="quiz-create-back-btn" onClick={() => navigate(-1)}>{"<"}</button>
             <h3>Create quiz</h3>
+            <hr /> <br/>
             <div className="quiz-create-input-wrapper">
-                <label htmlFor="quiz-create-input-name">Name: </label>
-                <input id="quiz-create-input-name" className="quiz-create-input-name" />
-                <label htmlFor="quiz-create-input-desc">Description: </label>
-                <input id="quiz-create-input-desc" className="quiz-create-input-desc" />
+            <div className="quiz-create-input-name">
+                <label htmlFor="name">Name:</label>
+                <input id="name" type="text" />
             </div>
+
+            <div className="quiz-create-input-desc">
+                <label htmlFor="desc">Description:</label>
+                <input id="desc" type="text" />
+            </div>
+            </div>
+
             <button className="quiz-create-btn">Create</button>
         </div>
     )

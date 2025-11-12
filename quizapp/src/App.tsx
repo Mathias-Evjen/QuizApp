@@ -4,6 +4,7 @@ import FlashCardQuizPage from './flashCard/flashCards/FlashCardQuizPage'
 import Quizzes from './flashCard/quizzes/Quizzes'
 import ManageFlashCardQuiz from './flashCard/manage/ManageFlashCardQuiz'
 import NavMenu from './shared/NavMenu'
+import TestSide from './questions/TestSide'
 
 const App: React.FC = () => {
 
@@ -18,6 +19,7 @@ const App: React.FC = () => {
             <Route path="/flashCards" element={<Quizzes />} />
             <Route path='/flashCards/:id' element={<FlashCardQuizPage />} />
             <Route path='/flashCards/manage/:id' element={<ManageFlashCardQuiz />} />
+            <Route path="/question" element={<TestSide />} />
           </Routes>
         </div>
       </Router>

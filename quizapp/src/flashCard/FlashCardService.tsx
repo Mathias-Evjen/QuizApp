@@ -44,9 +44,9 @@ export const updateFlashCard = async (flashCard: FlashCard) => {
 }
 
 // Delete flash card
-export const deleteFlashCard = async (flashCardId: number, qNum: number, quizId: number) => {
+export const deleteFlashCard = async (flashCardId: number, quizQuestionNum: number, quizId: number) => {
     const params = new URLSearchParams({ 
-        qNum: `${qNum}`, 
+        qNum: `${quizQuestionNum}`, 
         quizId: `${quizId}`
     });
     const response = await fetch(`${API_URL}/api/flashcardapi/delete/${flashCardId}?${params}`, {

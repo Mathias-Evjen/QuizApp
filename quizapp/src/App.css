@@ -771,12 +771,23 @@
   right: 25px;
 } 
 
-/* Questions */
+/* Fill in the blank */
 
-.question-container {
+.fill-in-the-blank-container {
   border: 2px solid gray;
   border-radius: 25px;
   padding: 20px;
+  margin: 10px;
+  width: 600px;
+}
+
+.fill-in-the-blank-container input {
+  height: 30px;
+  width: 300px;
+  border: 2px solid rgb(169, 169, 169);
+  border-radius: 8px;
+  font-size: 17px;
+  padding-left: 5px;
 }
 
 /* Search bar */
@@ -840,4 +851,14 @@
 .nav-button {
   background-color: rgb(255, 136, 123);
   color: white;
+}
+
+
+/* Testside */
+
+.test-side {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 }

@@ -135,13 +135,13 @@ namespace QuizApp.Controllers
             return StatusCode(500, "Internal server error");
         }
 
-        [HttpDelete("delete/{questionId}")]
-        public async Task<IActionResult> Delete(int questionId, [FromQuery] int qNum, [FromQuery] int quizId)
+        [HttpDelete("delete/{fillInTheBlankId}")]
+        public async Task<IActionResult> Delete(int fillInTheBlankId, [FromQuery] int qNum, [FromQuery] int quizId)
         {
-            bool returnOk = await _fillInTheBlankRepository.Delete(questionId);
+            bool returnOk = await _fillInTheBlankRepository.Delete(fillInTheBlankId);
             if (!returnOk)
             {
-                _logger.LogError("[FillInTheBlankAPIController] Question deletion failed for QuestionId {QuestionId:0000}", questionId);
+                _logger.LogError("[FillInTheBlankAPIController] Question deletion failed for FillInTheBlankId {fillInTheBlankId:0000}", fillInTheBlankId);
                 return BadRequest("Question deletion failed");
             }
             await _quizService.ChangeQuestionCount(quizId, false);

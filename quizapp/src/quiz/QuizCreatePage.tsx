@@ -28,7 +28,7 @@ function QuizCreatePage(){
 
     return(
         <div className="quiz-create-wrapper">
-            <button className="quiz-create-back-btn" onClick={() => navigate(-1)}>{"<"}</button>
+            <button className="quiz-back-btn" onClick={() => navigate(-1)}>{"<"}</button>
             <h3>Create quiz</h3>
             <hr /> <br/>
             <div className="quiz-create-input-wrapper">

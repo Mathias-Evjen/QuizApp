@@ -19,6 +19,16 @@ namespace QuizApp.DTOs
         public virtual List<Ranking> RankingQuestions { get; set; } = [];
         public virtual List<TrueFalse> TrueFalseQuestions { get; set; } = [];
         public virtual List<MultipleChoice> MultipleChoiceQuestions { get; set; } = [];
+
+        [NotMapped]
+        public IEnumerable<Question> AllQuestions =>
+            FillInTheBlankQuestions.Cast<Question>()
+                .Concat(MatchingQuestions)
+                .Concat(SequenceQuestions)
+                .Concat(RankingQuestions)
+                .Concat(TrueFalseQuestions)
+                .Concat(MultipleChoiceQuestions)
+                .OrderBy(q => q.QuizQuestionNum);
         
     }
 }

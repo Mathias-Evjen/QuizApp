@@ -4,6 +4,7 @@ import FlashCardQuizPage from "./flashCard/FlashCardQuizPage";
 import Quizzes from "./flashCard/Quizzes";
 import MatchingCardQuizPage from "./matching/MatchingCardQuizPage";
 import QuizzesPage from "./quiz/QuizzesPage";
+import QuizCreatePage from "./quiz/QuizCreatePage";
 import NavMenu from "./shared/NavMenu";
 
 const App: React.FC = () => {
@@ -13,6 +14,7 @@ const App: React.FC = () => {
       <br /> <br />
       <Routes>
         <Route path="/" element={<QuizzesPage />} />
+        <Route path="/quizCreate" element={<QuizCreatePage />} />
         <Route path="/flashCardQuizzes" element={<Quizzes />} />
         <Route path="flashCardQuiz/:id" element={<FlashCardQuizPage />} />
         <Route path="/matchingQuiz" element={<MatchingCardQuizPage />} />

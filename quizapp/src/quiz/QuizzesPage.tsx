@@ -2,9 +2,12 @@ import { useState, useEffect } from "react";
 import * as QuizService from "./QuizService";
 import "./Quiz.css";
 import { Quiz} from "../types/quizCard";
+import { useNavigate } from 'react-router-dom';
 
 
 function QuizzesPage() {
+  const navigate = useNavigate();
+
   const [quizCards, setQuizCards] = useState<Quiz[]>([]);
   const [loadingQuizCards, setLoadingQuizCards] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);

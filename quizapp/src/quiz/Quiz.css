@@ -1,3 +1,11 @@
+button{
+    transition: transform 0.2s ease;
+}
+button:hover{
+    transform: scale(1.1);
+}
+
+
 /*__Quizzes page__*/
 .quizzes-wrapper{
     min-width: 40rem;
@@ -8,6 +16,7 @@
     border: solid 0px black;
     border-radius: 10px;
     font-size: 17px;
+    text-align: left;
     margin: auto;
     margin-top: 50px;
     padding: 40px;
@@ -32,6 +41,9 @@
     cursor: pointer;
     font-size: 15px;
     border: solid 0px #1E90FF;
+    position: absolute;
+    top: 60px;
+    right: 60px;
 }
 .quiz-card-box{
     width: 100%;

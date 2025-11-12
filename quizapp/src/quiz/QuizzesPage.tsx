@@ -59,15 +59,15 @@ function QuizzesPage() {
                   <p className="quiz-card-num-questions">Questions: {card.numOfQuestions}</p>
                   <div className="quiz-card-buttons">
                     <button className="quiz-card-btn-open">Open</button>
-                    <button className="quiz-card-btn-manage">Manage</button>
+                    <button className="quiz-card-btn-manage" onClick={() => navigate("/quizManage", {state: card})}>Manage</button>
                   </div>
                 </div>
               ))
             ) : (
               <h3>No quizzes found.</h3>
             )}
-            <button className="quiz-create" onClick={() => navigate("/quizCreate")}>Create</button>
           </div>
+          <button className="quiz-create" onClick={() => navigate("/quizCreate")}>Create</button>
         </div>
     </div>
   )

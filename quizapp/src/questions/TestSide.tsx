@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { FillInTheBlank } from "../types/fillInTheBlank";
 import * as FillInTheBlankService from "./FillInTheBlankService";
 import FillInTheBlankComponent from "./FillInTheBlankComponent";
+import FillInTheBlankEdit from "./FillInTheBlankEdit";
 
 const TestSide: React.FC = () => {
     const [questions, setQuestions] = useState<FillInTheBlank[]>([]);
@@ -21,9 +22,13 @@ const TestSide: React.FC = () => {
         }
     }
 
-    const fakeHandleAnswer = (userAnwer: string) => {
+    const fakeHandleAnswer = (userAnwer: string) => {}
 
-    }
+    const fakeQuestionChanged = (fillInTheBlankId: number, newQuetsion: string) => {}
+
+    const fakeAnwerChanged = (fillInTheBlankId: number, newAnswer: string) => {}
+
+    const fakeDeletePressed = (fillInTheBlankId: number, quizQuestionNum: number) => {}
 
     useEffect(() => {
         fetchQuestions();
@@ -40,6 +45,15 @@ const TestSide: React.FC = () => {
                     handleAnswer={fakeHandleAnswer}
                     />
             )}
+
+            <FillInTheBlankEdit 
+                fillInTheblankId={1}
+                quizQuestionNum={1}
+                question="What is the capital of Norway?"
+                answer="Oslo"
+                onQuestionChanged={fakeQuestionChanged}
+                onAnswerChanged={fakeAnwerChanged} 
+                onDeletePressed={fakeDeletePressed}/>
         </div>
     )
 }

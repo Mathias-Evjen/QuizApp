@@ -33,7 +33,7 @@ const FlashCardEntry: React.FC<FlashCardEntryProps> = ({
                         type="text"
                         value={answer}
                         onChange={(e) => onAnswerChanged(flashCardId, e.target.value)} 
-                        placeholder="Write an answer"/>
+                        placeholder="Write the answer..."/>
                     {errors?.answer && <span className="error">{errors.answer}</span>}
                 </div>
             </div>

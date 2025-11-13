@@ -1,0 +1,15 @@
+.ranking-card-wrapper {
+  min-width: 30rem;
+  max-width: 40rem;
+  min-height: 25rem;
+  max-height: 40rem;
+  position: relative;
+  border: solid 0px black;
+  border-radius: 10px;
+  font-size: 20px;
+  margin: auto;
+  padding: 20px;
+  box-shadow:
+    rgba(60, 64, 67, 0.3) 0px 1px 2px 0px,
+    rgba(60, 64, 67, 0.15) 0px 2px 6px 2px;
+}

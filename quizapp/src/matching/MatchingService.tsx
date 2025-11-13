@@ -56,3 +56,24 @@ export const deleteMatching = async (matchingId: number) => {
   });
   return handleResponse(response);
 };
+
+export function splitQuestion(question: string): { keys: string[]; values: string[] } {
+  if (!question || question.trim() === "") {
+    return { keys: [], values: [] };
+  }
+  console.log(question)
+  const parts = question.split(",");
+  if (parts.length % 2 !== 0) {
+    throw new Error("Amount of values in question must be even");
+  }
+
+  const keys: string[] = [];
+  const values: string[] = [];
+
+  for (let i = 0; i < parts.length; i += 2) {
+    keys.push(parts[i].trim());
+    values.push(parts[i + 1].trim());
+  }
+
+  return { keys, values };
+}

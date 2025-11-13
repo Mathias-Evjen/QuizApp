@@ -7,7 +7,7 @@ namespace QuizApp.Models
 {
     public class Matching : Question
     {
-        public int Id { get; set; }
+        public int MatchingId { get; set; }
         public string Question { get; set; } = string.Empty;
         public string QuestionText { get; set; } = string.Empty;
         public string Answer { get; set; } = string.Empty;

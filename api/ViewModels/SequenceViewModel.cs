@@ -5,7 +5,7 @@ namespace QuizApp.ViewModels
 {
     public class SequenceViewModel : QuestionViewModel
     {
-        public int Id { get; set; }
+        public int SequenceId { get; set; }
         public string Question { get; set; } = string.Empty;
         public string QuestionText { get; set; } = string.Empty;
         public int QuizQuestionNum { get; set; }
@@ -17,7 +17,7 @@ namespace QuizApp.ViewModels
 
         public SequenceViewModel(Sequence sequence)
         {
-            Id = sequence.Id;
+            SequenceId = sequence.SequenceId;
             Question = sequence.Question;
             QuestionText = sequence.QuestionText;
         }

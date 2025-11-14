@@ -24,3 +24,6 @@ NodeModules/
 
 # Rider
 .idea/
+
+
+.env/

@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import { TrueFalse } from "../../types/trueFalse";
-import * as TrueFalseService from "../../services/TrueFalseService";
+import { TrueFalse } from "../types/trueFalse";
+import * as TrueFalseService from "../services/TrueFalseService";
 import "./ManageTrueFalse.css";
 
 const ManageTrueFalseQuizPage: React.FC = () => {

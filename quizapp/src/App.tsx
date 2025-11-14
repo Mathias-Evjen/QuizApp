@@ -7,8 +7,8 @@ import QuizzesPage from "./quiz/QuizzesPage";
 import QuizCreatePage from "./quiz/QuizCreatePage";
 import QuizManagePage from "./quiz/QuizManagePage";
 import MultipleChoiceQuizPage from './multipleChoice/MultipleChoiceQuizPage'
-import ManageMultipleChoiceQuizPage from './multipleChoice/manage/ManageMultipleChoiceQuizPage'
-import ManageTrueFalseQuizPage from './trueFalse/manage/ManageTrueFalseQuizPage'
+import ManageMultipleChoiceQuizPage from './multipleChoice/ManageMultipleChoiceQuizPage'
+import ManageTrueFalseQuizPage from './trueFalse/ManageTrueFalseQuizPage'
 import NavMenu from "./shared/NavMenu";
 
 

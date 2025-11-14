@@ -1,3 +1,4 @@
+/* MultipleChoiceQuizPage */
 .multiple-choice-container {
   padding: 20px;
 }
@@ -23,4 +24,92 @@
   border: none;
   border-radius: 6px;
   cursor: pointer;
+}
+
+/* MultipleChoiceManageForm */
+.multiplechoice-manage-form-wrapper {
+  width: 100%;
+  height: auto;
+  text-align: left;
+  margin-top: 1rem;
+}
+
+.multiplechoice-manage-form-input-wrapper {
+  position: relative;
+  width: 100%;
+  margin-bottom: 1.5rem;
+  margin-top: 1rem;
+}
+
+.multiplechoice-manage-form-questiontext {
+  min-width: 350px;
+  max-width: 100%;
+  padding: 12px 8px 8px 8px;
+  border: 1px solid grey;
+  border-radius: 5px;
+  font-size: 15px;
+}
+
+.multiplechoice-manage-form-label {
+  position: absolute;
+  top: 0;
+  left: 10px;
+  padding: 0 4px;
+  background: white;
+  font-size: 12px;
+  color: #555;
+  transform: translateY(-50%);
+  pointer-events: none;
+}
+
+.multiplechoice-manage-form-options-container {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  gap: 1rem;
+  row-gap: 2rem;
+}
+
+.multiplechoice-manage-form-option-wrapper {
+  width: auto;
+  position: relative;
+}
+
+.multiplechoice-manage-form-option-input {
+  min-width: 150px;
+  max-width: 200px;
+  padding: 10px 8px;
+  border: 1px solid grey;
+  border-radius: 5px;
+  font-size: 15px;
+}
+
+.multiplechoice-manage-form-option-correct-checkbox {
+  margin-left: 0.5rem;
+  cursor: pointer;
+}
+
+.multiplechoice-manage-form-delete-btn {
+  position: absolute;
+  top: 50%;
+  right: -40px;
+  transform: translateY(-50%);
+  background-color: #ff4d4d;
+  border-radius: 5px;
+  padding: 5px 8px;
+  color: white;
+  cursor: pointer;
+  border: 0;
+  font-size: 12px;
+}
+
+.multiplechoice-manage-form-btn-add {
+  background-color: #1E90FF;
+  border-radius: 5px;
+  padding: 7px 12px;
+  color: white;
+  cursor: pointer;
+  font-size: 15px;
+  border: solid 0px #1E90FF;
+  margin-top: 2rem;
 }

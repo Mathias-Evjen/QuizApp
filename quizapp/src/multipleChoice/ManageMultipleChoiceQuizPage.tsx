@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 
-import { MultipleChoice } from "../../types/multipleChoice";
-import * as MultipleChoiceService from "../../services/MultipleChoiceService";
+import { MultipleChoice } from "../types/multipleChoice";
+import * as MultipleChoiceService from "../services/MultipleChoiceService";
 import "./ManageMultipleChoice.css";
 
 const ManageMultipleChoiceQuizPage: React.FC = () => {

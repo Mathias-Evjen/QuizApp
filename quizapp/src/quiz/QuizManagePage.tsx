@@ -5,6 +5,9 @@ import * as QuizService from "./QuizService";
 import * as MultipleChoiceService from "../services/MultipleChoiceService";
 import * as TrueFalseService from "../services/TrueFalseService";
 import * as MatchingService from "../matching/MatchingService";
+import TrueFalseManageForm from "../trueFalse/component/TrueFalseManageForm";
+import MultipleChoiceManageForm from "../multipleChoice/component/MultipleChoiceManageForm";
+
 
 function QuizManagePage() {
     const navigate = useNavigate();
@@ -39,7 +42,7 @@ function QuizManagePage() {
             isNew: true,
             tempId: Date.now()
         };
-//        setLocalQuestions(prev => [...prev, newQuestion]);
+        //        setLocalQuestions(prev => [...prev, newQuestion]);
         setAllQuestions([...allQuestions, newQuestion])
     };
 
@@ -78,9 +81,9 @@ function QuizManagePage() {
                 await MatchingService.deleteMatching(question.matchingId);
             }
 
-   //         const data = await refreshQuizObjekt();
+            //         const data = await refreshQuizObjekt();
             //console.log(data);
-          //  setQuiz(data);
+            //  setQuiz(data);
             const updated = allQuestions.filter((_, i) => i !== index);
             setAllQuestions(updated)
             console.log(allQuestions);
@@ -111,15 +114,28 @@ function QuizManagePage() {
             <div className="quiz-manage-question-container">
                 {allQuestions.length > 0 ? (
                     allQuestions.map((q: any, index: number) => (
+                        <>
                         <div className="quiz-manage-question-wrapper" key={q.tempId ?? q.trueFalseId ?? q.multipleChoiceId ?? q.matchingId}>
                             <h3 className="quiz-manage-question-num">Question number: {q.quizQuestionNum}</h3>
                             <p className="quiz-manage-question-text">{q.questionText || q.question}</p>
                             <button className="quiz-manage-question-edit-btn">Edit</button>
                             <button className="quiz-manage-question-delete-btn" onClick={() => handleDeleteQuestion(q, index)}>Delete</button>
                         </div>
+                        {"trueFalseId" in q && (
+                            <div>
+                                <hr />
+                                <TrueFalseManageForm incomingTrueFalse={q} />
+                            </div>
+                        )}{"multipleChoiceId" in q && (
+                            <div>
+                                <hr />
+                                <MultipleChoiceManageForm incomingMultipleChoice={q} />
+                            </div>
+                        )}
+                    </>
                     ))
                 ) : (
-                    <h3>No questions found!</h3>
+                <h3>No questions found!</h3>
                 )}
             </div>
         </div>

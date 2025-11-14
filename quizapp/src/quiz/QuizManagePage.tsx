@@ -1,95 +1,121 @@
 import "./Quiz.css";
-import {useState, useEffect} from "react";
+import { useState, useEffect, useOptimistic } from "react";
 import { useNavigate, useLocation } from 'react-router-dom';
-import { Quiz } from "../types/quizCard";
 import * as QuizService from "./QuizService";
 import * as MultipleChoiceService from "../services/MultipleChoiceService";
 import * as TrueFalseService from "../services/TrueFalseService";
 import * as MatchingService from "../matching/MatchingService";
-//import * as RankingService from "../ranking/RankingService";
-//import * as SequenceService from "../sequence/SequenceService";
-//import * as FillInTheBlankService from "../questions/FillInTheBlankService";
 
-function QuizManagePage(){
+function QuizManagePage() {
     const navigate = useNavigate();
-
     const location = useLocation();
-    const quiz:any = location.state;
-    console.log(quiz);
-    const allQuestions = [...(quiz.allQuestions || [])].sort(
-        (a, b) => a.quizQuestionNum - b.quizQuestionNum
-    );
-    console.log(allQuestions);
+
+    const incomingQuiz: any = location.state;
+    const [quiz, setQuiz] = useState<any>(incomingQuiz);
+    const [allQuestions, setAllQuestions] = useState([...(incomingQuiz.allQuestions || [])].sort((a, b) => a.quizQuestionNum - b.quizQuestionNum));
 
     const [localQuestions, setLocalQuestions] = useState<any[]>([]);
+    const [error, setError] = useState<string | null>(null);
+
+    const refreshQuizObjekt = async () => {
+        console.log("HALALALALALAQLALAL");
+        try {
+            const data = await QuizService.fetchQuiz(quiz.quizId);
+            console.log(data);
+            setQuiz(data);
+
+            setAllQuestions([...(data.allQuestions || [])].sort((a, b) => a.quizQuestionNum - b.quizQuestionNum));
+            return data;
+
+        } catch (error: unknown) {
+            console.log("Error fetching data: ", error);
+        }
+    };
 
     const handleAddQuestion = () => {
         const newQuestion = {
-            quizQuestionNum: quiz.numOfQuestions + localQuestions.length + 1,
+            quizQuestionNum: allQuestions.length + localQuestions.length + 1,
             questionText: "New question...",
-            type: "unassigned",
             isNew: true,
             tempId: Date.now()
         };
-        setLocalQuestions(prev => [...prev, newQuestion]);
+//        setLocalQuestions(prev => [...prev, newQuestion]);
+        setAllQuestions([...allQuestions, newQuestion])
     };
 
-    const handleDeleteQuestion = async (q: any) => {
-        if (q.isNew) {
-            setLocalQuestions(prev => prev.filter(x => x.tempId !== q.tempId))
-            return;
-        }
+    const handleQuestionNumbersAfterDelete = (deletedNum: number, list: any[]) => {
+        return list.map((q) => q.quizQuestionNum > deletedNum ? { ...q, quizQuestionNum: q.quizQuestionNum - 1 } : q);
+    };
 
-        const id = q.questionId || q.multipleChoiceId || q.trueFalseId || q.fillInTheBlankId || q.matchingId || q.sequenceId || q.rankingId;
+    const handleDeleteQuestion = async (question: any, index: number) => {
+        setError(null);
+        const deletedNum = question.quizQuestionNum;
 
-        if (!id) {
-            console.error("Did not find the ID of the question")
+        if (question.isNew) {
+            setAllQuestions(prev =>
+                handleQuestionNumbersAfterDelete(
+                    deletedNum,
+                    prev.filter(q => q.tempId !== question.tempId)
+                )
+            );
             return;
         }
 
         try {
-            switch (q.type || q.$type) {
-                case "MultipleChoice":
-                    await MultipleChoiceService.deleteMultipleChoice(id, q.quizQuestionNum, quiz.quizId);
-                    break;
-
-                case "TrueFalse":
-                    await TrueFalseService.deleteTrueFalse(id, q.quizQuestionNum, quiz.quizId);
-
-                case "Matching":
-                    await MatchingService.deleteMatching(q.matchingId);
-                    
-                default:
-                    console.error("Unknown questiontype", q);
+            if (question.trueFalseId) {
+                await TrueFalseService.deleteTrueFalse(
+                    question.trueFalseId,
+                    deletedNum,
+                    quiz.quizId
+                );
+            } else if (question.multipleChoiceId) {
+                await MultipleChoiceService.deleteMultipleChoice(
+                    question.multipleChoiceId,
+                    deletedNum,
+                    quiz.quizId
+                );
+            } else if (question.matchingId) {
+                await MatchingService.deleteMatching(question.matchingId);
             }
 
-            quiz.allQuestions = quiz.allQuestions.filter((x: any) => x.quizQuestionNum !== q.quizQuestionNum)
+   //         const data = await refreshQuizObjekt();
+            //console.log(data);
+          //  setQuiz(data);
+            const updated = allQuestions.filter((_, i) => i !== index);
+            setAllQuestions(updated)
+            console.log(allQuestions);
+            setAllQuestions(handleQuestionNumbersAfterDelete(deletedNum, [...allQuestions]));
 
-        } catch (error) {
-            console.error("Something went wrong when deleting question", error);
+
+
+        } catch (err) {
+            console.error("Failed to delete question:", err);
+            setError("Failed to delete question");
         }
     };
 
-    const mergedQuestions = [...allQuestions, ...localQuestions];
+    const mergedQuestions = [...allQuestions, ...localQuestions].sort(
+        (a, b) => a.quizQuestionNum - b.quizQuestionNum
+    );
 
-
-    return(
+    return (
         <div className="quiz-manage-wrapper">
             <button className="quiz-back-btn" onClick={() => navigate(-1)}>{"<"}</button>
             <div className="quiz-manage-header">
                 <h3>{quiz.name}</h3>
                 <p className="quiz-manage-description">"{quiz.description}"</p>
                 <p className="quiz-manage-num-questions">Number of questions: {quiz.numOfQuestions}</p>
-                <button className="quiz-manage-question-add-btn" onClick={handleAddQuestion}>Add Question</button><br /><hr /><br/>
+                <button className="quiz-manage-question-add-btn" onClick={handleAddQuestion}>Add Question</button>
+                <br /><hr /><br />
             </div>
             <div className="quiz-manage-question-container">
-                {mergedQuestions.length > 0 ? (
-                    mergedQuestions.map((q:any) => (
-                        <div className="quiz-manage-question-wrapper" key={q.questionId ?? q.tempId}>
+                {allQuestions.length > 0 ? (
+                    allQuestions.map((q: any, index: number) => (
+                        <div className="quiz-manage-question-wrapper" key={q.tempId ?? q.trueFalseId ?? q.multipleChoiceId ?? q.matchingId}>
                             <h3 className="quiz-manage-question-num">Question number: {q.quizQuestionNum}</h3>
                             <p className="quiz-manage-question-text">{q.questionText || q.question}</p>
                             <button className="quiz-manage-question-edit-btn">Edit</button>
-                            <button className="quiz-manage-question-delete-btn" onClick={() => handleDeleteQuestion(q)}>Delete</button>
+                            <button className="quiz-manage-question-delete-btn" onClick={() => handleDeleteQuestion(q, index)}>Delete</button>
                         </div>
                     ))
                 ) : (
@@ -97,6 +123,7 @@ function QuizManagePage(){
                 )}
             </div>
         </div>
-    )
+    );
 }
-export default QuizManagePage
+
+export default QuizManagePage;

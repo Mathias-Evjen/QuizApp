@@ -77,9 +77,96 @@
   cursor: pointer;
   box-sizing: border-box;
 }
-
 .sequence-item-label{
   display: block;         /* gjør at teksten brytes riktig */
   white-space: normal;    /* tillater linjeskift */
   word-break: break-word; /* hindrer at lange ord stikker ut */
+}
+
+
+/*__Sequence Manage Form__*/
+.sequence-manage-form-wrapper{
+  width: 100%;
+  height: auto;
+  text-align: left;
+}
+.sequence-manage-form-input-wrapper{
+  position: relative;
+  width: 100%; /* juster etter behov */
+  margin-bottom: 1.5rem;
+  margin-top: 1rem;
+}
+.sequence-manage-form-questiontext{
+  min-width: 350px;
+  max-width: 100%;
+  padding: 12px 8px 8px 8px; /* litt plass til label */
+  border: 1px solid grey;
+  border-radius: 5px;
+  font-size: 15px;
+}
+.sequence-manage-form-label{
+  position: absolute;
+  top: 0;
+  left: 10px;
+  padding: 0 4px;
+  background: white;
+  font-size: 12px;
+  color: #555;
+  transform: translateY(-50%);
+  pointer-events: none; /* label blokkerer ikke input */
+}
+.sequence-manage-form-question-container{
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;         /* Viktig: tillater flere linjer */
+  gap: 1rem;               /* Avstand mellom items */
+  row-gap: 2rem;
+}
+.sequence-manage-form-question-wrapper{
+  width: auto;
+  position: relative;
+}
+.sequence-manage-form-question-input{
+  min-width: 100px;
+  max-width: 100px;
+  padding: 12px 50px 8px 8px; /* litt plass til label */
+  border: 1px solid grey;
+  border-radius: 5px;
+  font-size: 15px;
+}
+.sequence-manage-form-right-arrow{
+  width: 11px;
+  height: 11px;
+  position: absolute;
+  top: 50%;
+  right: -19px;
+  padding: 0 4px;
+  background: transparent;
+  font-size: 12px;
+  color: #555;
+  transform: translateY(-50%);
+  pointer-events: none; /* label blokkerer ikke input */
+}
+.sequence-manage-form-bin{
+  width: 20px;
+  height: 20px;
+  position: absolute;
+  top: 50%;
+  right: 10px;
+  padding: 0 4px;
+  background: white;
+  font-size: 12px;
+  color: #555;
+  transform: translateY(-50%);
+  cursor: pointer;
+}
+.sequence-manage-form-btn-add{
+  background-color:#1E90FF;
+  border-radius: 5px;
+  padding: 7px;
+  color: white;
+  cursor: pointer;
+  font-size: 15px;
+  border: solid 0px #1E90FF;
+  margin-top: 2rem;
 }

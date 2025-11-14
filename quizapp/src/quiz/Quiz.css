@@ -215,13 +215,18 @@ button:hover{
     width: 100%;
     box-sizing: border-box;
     min-height: 8rem;
-    max-height: 8rem;
+    max-height: auto;
     border: solid 1px lightgray;
     border-radius: 10px;
     margin: auto;
     margin-bottom: 10px;
     padding: 20px;
     text-align: left;
+    position: relative;
+}
+.quiz-manage-question-info-wrapper{
+    width: 100%;
+    height: 8rem;
     position: relative;
 }
 .quiz-manage-question-num{

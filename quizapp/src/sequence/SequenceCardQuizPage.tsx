@@ -26,6 +26,7 @@ function SequenceCardQuizPage() {
         question: sequenceObject.question,
         questionText: sequenceObject.questionText,
         answer: sequenceObject.answer,
+        correctAnswer: sequenceObject.correctAnswer,
         quizId: sequenceObject.quizId,
         quizQuestionNum: sequenceObject.quizQuestionNum
         };

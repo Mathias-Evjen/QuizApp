@@ -3,6 +3,7 @@ export interface RankingCard {
     question: string;
     questionText: string;
     answer: string;
+    correctAnswer: string;
     quizId: number;
     quizQuestionNum: number;
 }

@@ -12,6 +12,7 @@ function SequenceCardQuizPage() {
   let {quiz, currentQuestionNum} = location.state || {};
   // const [sequenceCards, setSequenceCards] = useState<SequenceCard[]>([]);
   const [sequenceCard, setSequenceCard] = useState<SequenceCard>();
+  const [splitQuestion, setSplitQuestion] = useState<string[]>([]);
   // const [loadingSequenceCards, setLoadingSequenceCards] = useState<boolean>(false);
   // const [error, setError] = useState<string | null>(null);
   
@@ -28,8 +29,8 @@ function SequenceCardQuizPage() {
         quizId: sequenceObject.quizId,
         quizQuestionNum: sequenceObject.quizQuestionNum
         };
-
         setSequenceCard(sequenceCardObject);
+        setSplitQuestion(sequenceCardObject.question.split(","));
     }
     }, [quiz, currentQuestionNum]);
 
@@ -51,6 +52,22 @@ function SequenceCardQuizPage() {
                 {/* Spørsmålstekst */}
                 <h3>{sequenceCard.questionText}</h3>
                 <hr />
+                <div className="sequence-question-answer-wrapper">
+                  <div className="sequence-answer-container">
+                    {splitQuestion.map(() => (
+                      <div className="sequence-item-wrapper">
+                        <label className="sequence-item-label"></label>
+                      </div>
+                    ))}
+                  </div>
+                  <div className="sequence-item-container">
+                    {splitQuestion.map((key:string) => (
+                      <div className="sequence-item-wrapper">
+                        <label className="sequence-item-label">{key}</label>
+                      </div>
+                    ))}
+                  </div>
+                </div>
               </div>
             <button className="sequence-card-next-btn" onClick={nextQuestion}>Next question</button>
           </div>

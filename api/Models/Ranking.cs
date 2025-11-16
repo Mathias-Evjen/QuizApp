@@ -5,7 +5,7 @@ namespace QuizApp.Models
 {
  public class Ranking : Question
     {
-        public int Id { get; set; }
+        public int RankingId { get; set; }
         // public override int QuestionId => Id;
         public string Question { get; set; } = string.Empty;
         public string QuestionText { get; set; } = string.Empty;

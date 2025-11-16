@@ -45,6 +45,11 @@ function QuizzesPage() {
     return <div>Error: {error}</div>;
   }
 
+  const openQuiz = (quiz:any, currentQuestionNum = 1) => {
+    const route = QuizService.getQuizRoute(quiz, currentQuestionNum);
+    navigate(route, { state: {quiz, currentQuestionNum} })
+  }
+
   return (
     <div>
         <div className="quizzes-wrapper">
@@ -58,7 +63,7 @@ function QuizzesPage() {
                   <p className="quiz-card-desc">"{card.description}"</p>
                   <p className="quiz-card-num-questions">Questions: {card.numOfQuestions}</p>
                   <div className="quiz-card-buttons">
-                    <button className="quiz-card-btn-open">Open</button>
+                    <button className="quiz-card-btn-open" onClick={() => openQuiz(card)}>Open</button>
                     <button className="quiz-card-btn-manage" onClick={() => navigate("/quizManage", {state: card})}>Manage</button>
                   </div>
                 </div>

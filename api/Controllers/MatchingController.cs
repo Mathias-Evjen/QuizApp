@@ -46,7 +46,7 @@ public class MatchingAPIController : ControllerBase
         
             return new MatchingDto
             {
-                MatchingId = question.Id,
+                MatchingId = question.MatchingId,
                 QuestionText = question.QuestionText,
                 Question = question.Question,
                 QuizQuestionNum = question.QuizQuestionNum,
@@ -71,7 +71,7 @@ public class MatchingAPIController : ControllerBase
 
         var matchingAttempt = new MatchingAttempt
         {
-            MatchingId = matching.Id,
+            MatchingId = matching.MatchingId,
             QuizAttemptId = quizAttemptId,
             UserAnswer = matchingAttemptDto.UserAnswer,
             QuizQuestionNum = matchingAttemptDto.QuizQuestionNum
@@ -87,33 +87,6 @@ public class MatchingAPIController : ControllerBase
         return Ok(matchingAttempt);
     }
 
-    // public bool CheckAttempt(int quizAttemptId)
-    // {
-
-    //     if (quizAttemptId <= 0) { return false; }
-    //     var attempt = _matchingAttemptRepository.Exists(mAttempt => mAttempt.MatchingAttemptId == quizAttemptId);
-    //     if (!attempt)
-    //     {
-    //         Console.WriteLine("denne er false");
-    //         return false;
-    //     }
-    //     else
-    //     {
-    //         Console.WriteLine("Denne er true");
-    //         return true;
-    //     }
-    // }
-
-    
-    // public IActionResult CreateMatchingQuestion(int quizId, int numOfQuestions)
-    // {
-    //     var question = new Matching
-    //     {
-    //         QuizId = quizId,
-    //         QuizQuestionNum = numOfQuestions + 1
-    //     };
-    //     return View(question);
-    // }
 
     [HttpPost("create")]
     public async Task<IActionResult> CreateMatchingQuestion([FromBody] MatchingDto matchingDto)
@@ -136,34 +109,13 @@ public class MatchingAPIController : ControllerBase
         return StatusCode(500, "Internal server error");
     }
 
-    // [HttpGet]
-    // public IActionResult CreateMatchingQuestion(Quiz quiz)
-    // {
-    //     Console.WriteLine(quiz.QuizId + ", " + quiz.NumOfQuestions);
-    //     return View(quiz);
-    // }
-    /*
-        [HttpGet]
-        public async Task<IActionResult> ShowMatchings()
-        {
-            var matchings = await _matchingRepository.GetAll();
-
-            var viewModel = new MatchingViewModel(matchings);
-            return View(viewModel);
-        }
-    */
-    // public async Task<IActionResult> Edit(int id)
-    // {
-    //     var matching = await _matchingRepository.GetById(id);
-    //     return View("UpdateMatchingPage", matching);
-    // }
 
     [HttpPut("update/{matchingId}")]
     public async Task<IActionResult> Update([FromBody] MatchingDto matchingDto)
     {
         Matching updatetMatching = new()
         {
-            Id = matchingDto.MatchingId,
+            MatchingId = matchingDto.MatchingId,
             QuestionText = matchingDto.QuestionText,
             QuizId = matchingDto.QuizId,
             QuizQuestionNum = matchingDto.QuizQuestionNum,
@@ -179,17 +131,6 @@ public class MatchingAPIController : ControllerBase
         return StatusCode(500, "Internal server error");
     }
 
-
-    // public async Task<IActionResult> Delete(int id)
-    // {
-    //     var question = await _matchingRepository.GetById(id);
-    //     if (question == null)
-    //     {
-    //         _logger.LogError("[MatchingAPIController] Question deletion failed for the QuestionId {QuestionId:0000}", id);
-    //         return BadRequest("Question not found for the QuestionId");
-    //     }
-    //     return View(question);
-    // }
 
     [HttpDelete("delete/{matchingId}")]
     public async Task<IActionResult> Delete(int matchingId, [FromQuery] int qNum, [FromQuery] int quizId)

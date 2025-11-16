@@ -8,8 +8,10 @@ interface MultipleChoiceManageFormProps {
 
 function MultipleChoiceManageForm({ incomingMultipleChoice }: MultipleChoiceManageFormProps) {
 
+    const safeOptions = Array.isArray(incomingMultipleChoice.options) ? incomingMultipleChoice.options : [];
+
     const [questionText, setQuestionText] = useState(incomingMultipleChoice.question);
-    const [options, setOptions] = useState([...incomingMultipleChoice.options]);
+    const [options, setOptions] = useState([...safeOptions]);
 
     const handleOptionChange = (index: number, value: string) => {
         const updated = [...options];
@@ -18,10 +20,8 @@ function MultipleChoiceManageForm({ incomingMultipleChoice }: MultipleChoiceMana
     };
 
     const handleCorrectToggle = (index: number) => {
-        const updated = options.map((opt, i) => ({
-            ...opt,
-            isCorrect: i === index // HUSK: kun én correct må nok endre senere
-        }));
+        const updated = [...options];
+        updated[index].isCorrect = !updated[index].isCorrect;
         setOptions(updated);
     };
 

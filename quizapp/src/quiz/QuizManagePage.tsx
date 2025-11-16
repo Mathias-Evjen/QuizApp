@@ -7,6 +7,8 @@ import RankingManageForm from "../ranking/component/RankingManageForm";
 import * as MatchingService from "../matching/MatchingService";
 import * as SequenceService from "../sequence/SequenceService";
 import * as RankingService from "../ranking/RankingService";
+import MultipleChoiceManageForm from "../multipleChoice/component/MultipleChoiceManageForm";
+import TrueFalseManageForm from "../trueFalse/component/TrueFalseManageForm";
 
 
 function QuizManagePage() {
@@ -127,6 +129,16 @@ function QuizManagePage() {
                                 <div>
                                     <hr />
                                     <RankingManageForm incomingRankingCard={q} />
+                                </div>
+                            )}{"multipleChoiceId" in q && (
+                                <div>
+                                    <hr />
+                                    <MultipleChoiceManageForm incomingMultipleChoice={q} />
+                                </div>
+                            )}{"trueFalseId" in q && (
+                                <div>
+                                    <hr />
+                                    <TrueFalseManageForm incomingTrueFalse={q} />
                                 </div>
                             )}
                         </div>

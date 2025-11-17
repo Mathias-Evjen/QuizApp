@@ -1,3 +1,4 @@
+/* TrueFalseManageForm */
 .tf-manage-form-wrapper{
   width: 100%;
   height: auto;
@@ -49,3 +50,40 @@
   color: white;
   border: 1px solid #1E90FF;
 }
+
+/* TrueFalseQuizPage */
+.tf-quiz-wrapper {
+  display: flex;
+  justify-content: center;
+}
+
+.tf-card {
+  width: 600px;
+  background: white;
+  padding: 25px;
+  border-radius: 12px;
+  box-shadow: 0 3px 10px rgba(0,0,0,0.15);
+}
+
+.tf-options-wrapper {
+  margin-top: 20px;
+  display: flex;
+  gap: 40px;
+  font-size: 1.2rem;
+}
+
+.tf-option {
+  cursor: pointer;
+}
+
+.tf-next-btn {
+  margin-top: 25px;
+  padding: 12px 20px;
+  border: none;
+  background: #4a7afe;
+  color: white;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 1rem;
+}
+

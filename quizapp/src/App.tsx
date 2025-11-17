@@ -11,6 +11,7 @@ import QuizManagePage from "./quiz/QuizManagePage";
 import MultipleChoiceQuizPage from './multipleChoice/MultipleChoiceQuizPage'
 import ManageMultipleChoiceQuizPage from './multipleChoice/ManageMultipleChoiceQuizPage'
 import ManageTrueFalseQuizPage from './trueFalse/ManageTrueFalseQuizPage'
+import TrueFalseQuizPage from "./trueFalse/TrueFalseQuizPage";
 import NavMenu from "./shared/NavMenu";
 
 
@@ -26,11 +27,13 @@ const App: React.FC = () => {
         <Route path="/flashCardQuizzes" element={<Quizzes />} />
         <Route path="flashCardQuiz/:id" element={<FlashCardQuizPage />} />
         <Route path="/matchingQuiz" element={<MatchingCardQuizPage />} />
-        <Route path="/multipleChoiceQuiz/:quizId" element={<MultipleChoiceQuizPage />} />
+        <Route path="/quizMultipleChoice" element={<MultipleChoiceQuizPage />} />
         <Route path="/manageMultipleChoice/:id" element={<ManageMultipleChoiceQuizPage />} />
         <Route path="/manageTrueFalseQuiz/:id" element={<ManageTrueFalseQuizPage />} />
         <Route path="/sequenceQuiz" element={<SequenceCardQuizPage />} />
         <Route path="/rankingQuiz" element={<RankingCardQuizPage />} />
+        <Route path="/quizTrueFalse" element={<TrueFalseQuizPage />} />
+
       </Routes>
     </Router>
   );

@@ -1,62 +1,66 @@
 import { useState, useEffect } from "react";
-import { useParams } from "react-router-dom";
 import { MultipleChoice } from "../types/multipleChoice";
 import "./MultipleChoice.css";
-import { fetchMultipleChoiceQuestions } from "../services/MultipleChoiceService";
+import * as QuizService from "../quiz/QuizService";
+import { useNavigate, useLocation } from "react-router-dom";
 
 function MultipleChoiceQuizPage() {
-  const { id } = useParams<{ id: string }>();
-  const quizId = Number(id);
+  const location = useLocation();
+  const navigate = useNavigate();
 
-  const [multipleChoice, setMultipleChoice] = useState<MultipleChoice[]>([]);
-  const [loading, setLoading] = useState<boolean>(false);
-  const [error, setError] = useState<string | null>(null);
+  let { quiz, currentQuestionNum } = location.state || {};
 
-  const loadQuestions = async () => {
-    setLoading(true);
-    setError(null);
-
-    try {
-      const data = await fetchMultipleChoiceQuestions(3); // TODO Husk å endre til quizId når det skal brukes ordentlig
-      setMultipleChoice(data);
-    } catch (err) {
-      setError("Failed to fetch multiple choice questions");
-    } finally {
-      setLoading(false);
-    }
-  };
+  const [questionObj, setQuestionObj] = useState<MultipleChoice>();
+  const [selectedOption, setSelectedOption] = useState<number | null>(null);
 
   useEffect(() => {
-    console.log("Fetching multiple choice questions...");
-    loadQuestions();
-  }, [quizId]);
+    if (quiz && currentQuestionNum) {
+      const mcObject = quiz.allQuestions[currentQuestionNum - 1];
 
-  if (loading) return <div>Loading...</div>;
-  if (error) return <div>Error: {error}</div>;
+      const mcCard: MultipleChoice = {
+        multipleChoiceId: mcObject.id,
+        question: mcObject.question,
+        options: mcObject.options,
+        quizId: mcObject.quizId,
+        quizQuestionNum: mcObject.quizQuestionNum
+      };
+
+      setQuestionObj(mcCard);
+      setSelectedOption(null);
+    }
+  }, [quiz, currentQuestionNum]);
+
+
+  const nextQuestion = () => {
+    console.log("next (multiple choice)");
+    currentQuestionNum = currentQuestionNum + 1;
+
+    const route = QuizService.getQuizRoute(quiz, currentQuestionNum);
+    navigate(route, { state: { quiz, currentQuestionNum } });
+  };
+
 
   return (
-    <div className="multiple-choice-container">
-      <h1>Multiple Choice Quiz</h1>
-
-      {multipleChoice.length > 0 ? (
-        multipleChoice.map((question) => (
-          <div key={question.multipleChoiceId} className="multiple-choice-card">
-            <h3>{question.question}</h3>
-
-            <ul className="multiple-choice-options">
-              {question.options.map((opt, index) => (
-                <li key={index}>
-                  <label>
-                    <input type="radio" name={`q_${question.multipleChoiceId}`} />
-                    {opt.text}
-                  </label>
-                </li>
-              ))}
-            </ul>
-          </div>
-        ))
-      ) : (
-        <h3>No questions found.</h3>
+    <div className="mc-quiz-wrapper">
+      <br /><br />
+      {questionObj && (
+        <div className="mc-card">
+          <h3>{questionObj.question}</h3>
+          <hr />
+          <ul className="multiple-choice-options">
+            {questionObj.options.map((opt, index) => (
+              <li key={index}>
+                <label className="mc-option">
+                  <input type="radio" name={`mc_${questionObj.multipleChoiceId}`} checked={selectedOption === index} onChange={() => setSelectedOption(index)} />
+                  {opt.text}
+                </label>
+              </li>
+            ))}
+          </ul>
+          <button className="mc-next-btn" onClick={nextQuestion}>
+            Next question
+          </button>
+        </div>
       )}
     </div>
   );

@@ -43,7 +43,7 @@ const FillInTheBlankEdit: React.FC<FillInTheBlankProps> = ({
                 </div>
             </div>
 
-            <button className={"flash-card-entry-more-button"} onClick={() => onDeletePressed(fillInTheblankId, quizQuestionNum)}><Delete /></button>
+            <button className={"flash-card-entry-delete-button"} onClick={() => onDeletePressed(fillInTheblankId, quizQuestionNum)}><Delete /></button>
         </div>
     )
 }

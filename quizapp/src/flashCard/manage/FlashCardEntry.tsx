@@ -37,7 +37,7 @@ const FlashCardEntry: React.FC<FlashCardEntryProps> = ({
                     {errors?.answer && <span className="error">{errors.answer}</span>}
                 </div>
             </div>
-            <button className={"flash-card-entry-more-button"} onClick={() => onDeletePressed(flashCardId, quizQuestionNum)}><Delete /></button>
+            <button className={"flash-card-entry-delete-button"} onClick={() => onDeletePressed(flashCardId, quizQuestionNum)}><Delete /></button>
         </div>
     )
 }

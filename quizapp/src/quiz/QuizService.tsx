@@ -1,3 +1,5 @@
+import { useNavigate } from 'react-router-dom';
+
 const API_URL = "http://localhost:5041";
 
 const headers = {
@@ -58,4 +60,23 @@ export const deleteQuiz = async (quizId: number) => {
     method: 'DELETE',
   });
   return handleResponse(response);
+};
+
+export const getQuizRoute = (quiz: any, currentQuestionNum: number): string => {
+    const question = quiz.allQuestions?.[currentQuestionNum - 1];
+    if (!question) return "/";
+
+    if ("fillInTheBlankId" in question) return "/quizFillInTheBlank";
+    if ("matchingId" in question)
+      return "/matchingQuiz";
+    if ("sequenceId" in question)
+      return "/sequenceQuiz";
+    if ("rankingId" in question)
+      return "/rankingQuiz";
+    if ("multipleChoiceId" in question)
+      return "/quizMultipleChoice";
+    if ("trueFalseId" in question)
+      return "/quizTrueFalse";
+
+    return "/";
 };

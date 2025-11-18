@@ -1,0 +1,172 @@
+.sequence-card-wrapper {
+  min-width: 30rem;
+  max-width: 40rem;
+  min-height: 20rem;
+  max-height: auto;
+  position: relative;
+  border: solid 0px black;
+  border-radius: 10px;
+  font-size: 20px;
+  margin: auto;
+  padding: 20px;
+  padding-bottom: 5rem;
+  box-shadow:
+    rgba(60, 64, 67, 0.3) 0px 1px 2px 0px,
+    rgba(60, 64, 67, 0.15) 0px 2px 6px 2px;
+}
+
+.sequence-card-next-btn {
+  position: absolute;
+  bottom: 20px;
+  right: 20px;
+  background-color:#1E90FF;
+  border-radius: 5px;
+  padding: 7px;
+  color: white;
+  cursor: pointer;
+  font-size: 15px;
+  border: solid 0px #1E90FF;
+}
+.sequence-question-answer-wrapper{
+  width: 100%;
+  min-height: 15rem;
+  max-height: auto;
+}
+.sequence-answer-container{
+  min-width: auto;
+  max-width: 90%;
+  border: 0px solid grey;
+  border-radius: 10px;
+  padding: 15px;
+  margin: auto;
+  margin-bottom: 5rem;
+  margin-top: 2rem;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;         /* Viktig: tillater flere linjer */
+  gap: 1rem;               /* Avstand mellom items */
+}
+.sequence-item-container {
+  min-width: auto;
+  max-width: 90%;
+  border: 1px solid grey;
+  border-radius: 10px;
+  padding: 15px;
+  margin: auto;
+
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;         /* Viktig: tillater flere linjer */
+  gap: 1rem;               /* Avstand mellom items */
+}
+
+.sequence-item-wrapper {
+  /*flex: 1 1 calc(20% - 1rem);  
+  /* forklaring:
+     - flex: 1 => kan vokse
+     - 1 => kan krympe
+     - calc(20% - 1rem) => ~5 per rad (20%) justert for gap
+  */
+
+  min-width: 100px;        /* hindrer at de blir for små */
+  max-width: 100%;
+  min-height: 52px;
+  border: 1px solid lightgray;
+  padding: 10px;
+  border-radius: 6px;
+  cursor: pointer;
+  box-sizing: border-box;
+}
+.sequence-item-label{
+  display: block;         /* gjør at teksten brytes riktig */
+  white-space: normal;    /* tillater linjeskift */
+  word-break: break-word; /* hindrer at lange ord stikker ut */
+}
+
+
+/*__Sequence Manage Form__*/
+.sequence-manage-form-wrapper{
+  width: 100%;
+  height: auto;
+  text-align: left;
+}
+.sequence-manage-form-input-wrapper{
+  position: relative;
+  width: 100%; /* juster etter behov */
+  margin-bottom: 1.5rem;
+  margin-top: 1rem;
+}
+.sequence-manage-form-questiontext{
+  min-width: 350px;
+  max-width: 100%;
+  padding: 12px 8px 8px 8px; /* litt plass til label */
+  border: 1px solid grey;
+  border-radius: 5px;
+  font-size: 15px;
+}
+.sequence-manage-form-label{
+  position: absolute;
+  top: 0;
+  left: 10px;
+  padding: 0 4px;
+  background: white;
+  font-size: 12px;
+  color: #555;
+  transform: translateY(-50%);
+  pointer-events: none; /* label blokkerer ikke input */
+}
+.sequence-manage-form-question-container{
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;         /* Viktig: tillater flere linjer */
+  gap: 1rem;               /* Avstand mellom items */
+  row-gap: 2rem;
+}
+.sequence-manage-form-question-wrapper{
+  width: auto;
+  position: relative;
+}
+.sequence-manage-form-question-input{
+  min-width: 100px;
+  max-width: 100px;
+  padding: 12px 50px 8px 8px; /* litt plass til label */
+  border: 1px solid grey;
+  border-radius: 5px;
+  font-size: 15px;
+}
+.sequence-manage-form-right-arrow{
+  width: 11px;
+  height: 11px;
+  position: absolute;
+  top: 50%;
+  right: -19px;
+  padding: 0 4px;
+  background: transparent;
+  font-size: 12px;
+  color: #555;
+  transform: translateY(-50%);
+  pointer-events: none; /* label blokkerer ikke input */
+}
+.sequence-manage-form-bin{
+  width: 20px;
+  height: 20px;
+  position: absolute;
+  top: 50%;
+  right: 10px;
+  padding: 0 4px;
+  background: white;
+  font-size: 12px;
+  color: #555;
+  transform: translateY(-50%);
+  cursor: pointer;
+}
+.sequence-manage-form-btn-add{
+  background-color:#1E90FF;
+  border-radius: 5px;
+  padding: 7px;
+  color: white;
+  cursor: pointer;
+  font-size: 15px;
+  border: solid 0px #1E90FF;
+  margin-top: 2rem;
+}

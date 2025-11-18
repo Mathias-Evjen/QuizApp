@@ -5,7 +5,7 @@ namespace QuizApp.Models
 {
  public class Sequence : Question
     {
-        public int Id { get; set; }
+        public int SequenceId { get; set; }
         // public override int QuestionId => Id;
         public string Question { get; set; } = string.Empty;
         public string QuestionText { get; set; } = string.Empty;

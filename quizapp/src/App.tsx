@@ -7,8 +7,12 @@ import NavMenu from './shared/NavMenu'
 import TestSide from './questions/TestSide'
 import "./App.css";
 import MatchingCardQuizPage from "./matching/MatchingCardQuizPage";
+import SequenceCardQuizPage from "./sequence/SequenceCardQuizPage";
+import RankingCardQuizPage from "./ranking/RankingCardQuizPage";
 import QuizzesPage from "./quiz/QuizzesPage";
 import QuizCreatePage from "./quiz/QuizCreatePage";
+import QuizManagePage from "./quiz/QuizManagePage";
+
 
 const App: React.FC = () => {
   return (
@@ -21,12 +25,15 @@ const App: React.FC = () => {
             <Route path="/" element={<Quizzes />} />
             <Route path="/quizzes" element={<QuizzesPage />} />
             <Route path="/quizCreate" element={<QuizCreatePage />} />
-            <Route path="/flashCards" element={<Quizzes />} />
+            <Route path="/quizManage" element={<QuizManagePage />} />
+        <Route path="/flashCards" element={<Quizzes />} />
             <Route path='/flashCards/:id' element={<FlashCardQuizPage />} />
             <Route path='/flashCards/manage/:id' element={<ManageFlashCardQuiz />} />
             <Route path="/question" element={<TestSide />} />
             <Route path="/matchingQuiz" element={<MatchingCardQuizPage />} />
-          </Routes>
+            <Route path="/sequenceQuiz" element={<SequenceCardQuizPage />} />
+        <Route path="/rankingQuiz" element={<RankingCardQuizPage />} />
+      </Routes>
         </div>
       </Router>
     </>

@@ -3,7 +3,7 @@ import { QuestionBase } from "./Question";
 export interface Sequence extends QuestionBase {
     questionType: "sequence";
 
-    sequenceCardId: number;
+    sequenceId?: number;
     question: string;
     questionText: string;
     answer: string;

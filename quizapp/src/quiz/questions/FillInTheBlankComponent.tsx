@@ -1,14 +1,14 @@
 import { useState } from "react";
 
 interface FillInTheBlankProps{
-    // handleAnswer: (userAnswer: string) => void;
+    handleAnswer: (fibId: number, userAnswer: string) => void;
+    fillInTheBlankId: number;
     quizQuestionNum: number;
     question: string;
     userAnswer: string;
 }
 
-const FillInTheBlankComponent: React.FC<FillInTheBlankProps> = ({ quizQuestionNum, question, userAnswer }) => {
-    const [testAnswer, setTestAnswer] = useState<string>(userAnswer);
+const FillInTheBlankComponent: React.FC<FillInTheBlankProps> = ({ fillInTheBlankId, quizQuestionNum, question, userAnswer, handleAnswer }) => {
 
     return(
         <div className="fill-in-the-blank-container">
@@ -16,8 +16,8 @@ const FillInTheBlankComponent: React.FC<FillInTheBlankProps> = ({ quizQuestionNu
             <p>{question}</p>
 
             <input 
-                value={testAnswer}
-                onChange={(e) => setTestAnswer(e.target.value)}
+                value={userAnswer}
+                onChange={(e) => handleAnswer(fillInTheBlankId, e.target.value)}
                 placeholder="Fill in your answer..." />
         </div>
     )

@@ -9,6 +9,10 @@ import { Ranking } from "../types/ranking";
 import { Sequence } from "../types/sequence";
 import FillInTheBlankComponent from "./questions/FillInTheBlankComponent";
 import { QuizAttempt } from "../types/quizAttempt";
+import { FillInTheBlankAttempt } from "../types/fillInTheBlankAttempt";
+import { MatchingAttempt } from "../types/matchingAttempt";
+import { RankingAttempt } from "../types/rankingAttempt";
+import { SequenceAttempt } from "../types/sequenceAttempt";
 
 
 const QuizPage: React.FC = () => {
@@ -21,6 +25,10 @@ const QuizPage: React.FC = () => {
     const [error, setError] = useState<string | null>(null);
 
     const [quizAttempt, setQuizAttempt] = useState<QuizAttempt>();
+    const [fibAttempts, setFibAttempts] = useState<FillInTheBlankAttempt[]>([]);
+    const [matchingAttempts, setMatchingAttempts] = useState<MatchingAttempt[]>([]);
+    const [rankingAttempts, setRankingAttempts] = useState<RankingAttempt[]>([]);
+    const [sequenceAttempts, setSequenceAttempts] = useState<SequenceAttempt[]>([]);
 
     const fetchQuiz = async () => {
         setLoading(true);
@@ -60,18 +68,60 @@ const QuizPage: React.FC = () => {
 
     const handleSetAllQuestions = (
         fib: FillInTheBlank[], matching: Matching[], ranking: Ranking[], 
-        seq: Sequence[]
+        sequence: Sequence[]
     ) => {
+        fib.forEach(q => {
+            const fibAttempt: FillInTheBlankAttempt = {fillInTheBlankId: q.fillInTheBlankId!, quizAttemptId: quizAttempt?.quizAttemptId!, quizQuestionNum: q.quizQuestionNum, userAnswer: ""};
+            setFibAttempts(prevAttempts => 
+                [...prevAttempts, fibAttempt]
+            );
+        });
+
+        matching.forEach(q => {
+            const matchingAttempt: MatchingAttempt = {matchingId: q.matchingId!, quizAttemptId: quizAttempt?.quizAttemptId!, quizQuestionNum: q.quizQuestionNum, userAnser: ""};
+            setMatchingAttempts(prevAttempts => 
+                [...prevAttempts, matchingAttempt]
+            );
+        });
+
+        ranking.forEach(q => {
+            const rankingAttempt: RankingAttempt = {rankingId: q.rankingId!, quizAttemptId: quizAttempt?.quizAttemptId!, quizQuestionNum: q.quizQuestionNum, userAnswer: ""};
+            setRankingAttempts(prevAttempts =>
+                [...prevAttempts, rankingAttempt]
+            );
+        });
+
+        sequence.forEach(q => {
+            const sequenceAttempt: SequenceAttempt = {sequenceId: q.sequenceId!, quizAttemptId: quizAttempt?.quizAttemptId!, quizQuestionNum: q.quizQuestionNum, userAnswer: ""};
+            setSequenceAttempts(prevAttempts =>
+                [...prevAttempts, sequenceAttempt]
+            );
+        });
+
         const combined: Question[] = [
             ...fib.map(q => ({ ...q, questionType: "fillInTheBlank" as const })),
             ...matching.map(q => ({ ...q, questionType: "matching" as const })),
             ...ranking.map(q => ({ ...q, questionType: "ranking" as const })),
-            ...seq.map(q => ({ ...q, questionType: "sequence" as const }))
+            ...sequence.map(q => ({ ...q, questionType: "sequence" as const }))
         ];
 
         combined.sort((a, b) => a.quizQuestionNum - b.quizQuestionNum);
 
         setAllQuestions(combined);
+    };
+
+    const handleAnswerFib = (fibId: number, newAnswer: string) => {
+        setFibAttempts(prevAttempts => 
+            prevAttempts.map(attempt => 
+                attempt.fillInTheBlankId === fibId
+                ? {...attempt, userAnswer: newAnswer}
+                : attempt
+            )
+        );
+    };
+
+    const submitQuiz = () => {
+
     };
 
     useEffect(() => {
@@ -88,17 +138,25 @@ const QuizPage: React.FC = () => {
             ) : (
                 <>
                 <div className="quiz-page-container">
-                    <h1>{quiz?.name}</h1>
+                    <h1>{quiz?.name} | attempt: {quizAttempt?.quizAttemptId}</h1>
                     {allQuestions.map(question => (
                         <>
                             {question.questionType === "fillInTheBlank" ? (
-                                <FillInTheBlankComponent key={question.fillInTheBlankId} quizQuestionNum={question.quizQuestionNum} question={question.question} userAnswer="" />
+                                <FillInTheBlankComponent 
+                                    key={question.fillInTheBlankId} 
+                                    fillInTheBlankId={question.fillInTheBlankId!}
+                                    quizQuestionNum={question.quizQuestionNum} 
+                                    question={question.question} 
+                                    userAnswer={(fibAttempts.find(attempt => attempt.fillInTheBlankId === question.fillInTheBlankId))?.userAnswer!}
+                                    handleAnswer={handleAnswerFib} />
                             ) : (
                                 <h3>Question {question.quizQuestionNum}</h3>
                             )}
                         </>
                     ))}
                 </div>
+
+                <button className="button primary-button active">Submit</button>
                 </>
             )}
         </>

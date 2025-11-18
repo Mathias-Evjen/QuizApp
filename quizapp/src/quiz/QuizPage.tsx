@@ -8,6 +8,7 @@ import { Matching } from "../types/matching";
 import { Ranking } from "../types/ranking";
 import { Sequence } from "../types/sequence";
 import FillInTheBlankComponent from "./questions/FillInTheBlankComponent";
+import { QuizAttempt } from "../types/quizAttempt";
 
 
 const QuizPage: React.FC = () => {
@@ -18,6 +19,8 @@ const QuizPage: React.FC = () => {
     const [allQuestions, setAllQuestions] = useState<Question[]>([]);
     const [loading, setLoading] = useState<boolean>(false);
     const [error, setError] = useState<string | null>(null);
+
+    const [quizAttempt, setQuizAttempt] = useState<QuizAttempt>();
 
     const fetchQuiz = async () => {
         setLoading(true);
@@ -44,7 +47,16 @@ const QuizPage: React.FC = () => {
         }
     };
 
-
+    const createQuizAttempt = async () => {
+        const quizAttempt: QuizAttempt = {quizId: quizId};
+        try {
+            const data = await QuizService.createQuizAttempt(quizAttempt);
+            setQuizAttempt(data);
+            console.log(data);
+        } catch (error) {
+            console.error("There was a problem with the fetch operation: ", error);
+        }
+    };
 
     const handleSetAllQuestions = (
         fib: FillInTheBlank[], matching: Matching[], ranking: Ranking[], 
@@ -63,6 +75,7 @@ const QuizPage: React.FC = () => {
     };
 
     useEffect(() => {
+        createQuizAttempt();
         fetchQuiz();
     }, [])
 
@@ -79,7 +92,7 @@ const QuizPage: React.FC = () => {
                     {allQuestions.map(question => (
                         <>
                             {question.questionType === "fillInTheBlank" ? (
-                                <FillInTheBlankComponent quizQuestionNum={question.quizQuestionNum} question={question.question} userAnswer="" />
+                                <FillInTheBlankComponent key={question.fillInTheBlankId} quizQuestionNum={question.quizQuestionNum} question={question.question} userAnswer="" />
                             ) : (
                                 <h3>Question {question.quizQuestionNum}</h3>
                             )}

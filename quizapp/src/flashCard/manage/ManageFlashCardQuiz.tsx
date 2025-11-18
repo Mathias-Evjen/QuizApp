@@ -96,7 +96,7 @@ const ManageFlashCardQuiz: React.FC = () => {
             const data = await FlashCardService.createFlashCard(newCard);
             console.log("Flash card created successfully:", data);
         } catch (error) {
-            console.error("There was a problem with the fetch operation: ", error)
+            console.error("There was a problem with the fetch operation: ", error);
         }
     };
 

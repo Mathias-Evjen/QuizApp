@@ -1,6 +1,7 @@
 import { useNavigate } from 'react-router-dom';
+import { QuizAttempt } from '../types/quizAttempt';
 
-const API_URL = "http://localhost:5041";
+const API_URL = import.meta.env.VITE_API_URL;
 
 const headers = {
   'Content-Type': 'application/json',
@@ -17,16 +18,19 @@ const handleResponse = async (response: Response) => {
     throw new Error(errorText || 'Network response was not ok');
   }
 };
+
 // Get quizzes
 export const fetchQuizzes = async () => {
   const response = await fetch(`${API_URL}/api/quizapi/getquizzes`);
   return handleResponse(response);
 };
+
 // Get quiz
 export const fetchQuiz = async (quizId: number) => {
   const response = await fetch(`${API_URL}/api/quizapi/getquiz/${quizId}`);
   return handleResponse(response);
 };
+
 // Post create quiz
 export const createQuiz = async (quiz: any) => {
   const response = await fetch(`${API_URL}/api/quizapi/create`, {
@@ -36,15 +40,17 @@ export const createQuiz = async (quiz: any) => {
   });
   return handleResponse(response);
 };
+
 //Create quiz attempt
-export const createQuizAttempt = async (quiz: any) => {
-  const response = await fetch(`${API_URL}/api/quizapi/createAttempt"`, {
+export const createQuizAttempt = async (quizAttempt: QuizAttempt) => {
+  const response = await fetch(`${API_URL}/api/quizapi/createAttempt`, {
     method: 'POST',
     headers,
-    body: JSON.stringify(quiz),
+    body: JSON.stringify(quizAttempt),
   });
   return handleResponse(response);
 };
+
 // Put update quiz
 export const updateQuiz = async (quizId: number, quiz: any) => {
   const response = await fetch(`${API_URL}/api/quizapi/update/${quizId}`, {
@@ -54,6 +60,7 @@ export const updateQuiz = async (quizId: number, quiz: any) => {
   });
   return handleResponse(response);
 };
+
 // Delete quiz
 export const deleteQuiz = async (quizId: number) => {
   const response = await fetch(`${API_URL}/api/quizapi/delete/${quizId}`, {

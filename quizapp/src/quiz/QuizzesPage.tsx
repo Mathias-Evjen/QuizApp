@@ -46,6 +46,7 @@ function QuizzesPage() {
   }
 
   const openQuiz = (quizId: number) => {
+    
     navigate(`/quiz/${quizId}`)
   }
 

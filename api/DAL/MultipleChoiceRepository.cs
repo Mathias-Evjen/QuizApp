@@ -66,7 +66,7 @@ namespace QuizApp.DAL
             {
                 _db.MultipleChoiceQuestions.Add(question);
                 await _db.SaveChangesAsync();
-                _logger.LogInformation("[MultipleChoiceRepository] Created MultipleChoice: {Question}", question.QuestionText);
+                _logger.LogInformation("[MultipleChoiceRepository] Created MultipleChoice: {Question}", question.Question);
                 return true;
             }
             catch (Exception e)

@@ -17,6 +17,8 @@ import { MultipleChoice } from "../types/multipleChoice";
 import { TrueFalse } from "../types/trueFalse";
 import { TrueFalseAttempt } from "../types/trueFalseAttempt";
 import TrueFalseComponent from "./questions/TrueFalseComponent";
+import { MultiplechoiceAttempt } from "../types/MultipleChoiceAttempt";
+import MultipleChoiceComponent from "./questions/MultipleChoiceComponent";
 
 
 const QuizPage: React.FC = () => {
@@ -34,6 +36,7 @@ const QuizPage: React.FC = () => {
     const [rankingAttempts, setRankingAttempts] = useState<RankingAttempt[]>([]);
     const [sequenceAttempts, setSequenceAttempts] = useState<SequenceAttempt[]>([]);
     const [trueFalseAttempts, setTrueFalseAttempts] = useState<TrueFalseAttempt[]>([]);
+    const [multipleChoiceAttempts, setMultipleChoiceAttempts] = useState<MultiplechoiceAttempt[]>([]);
 
     const fetchQuiz = async () => {
         setLoading(true);
@@ -112,6 +115,13 @@ const QuizPage: React.FC = () => {
             );
         });
 
+        multipleChoice.forEach(q => {
+            const multipleChoiceAttempt: MultiplechoiceAttempt = {multipleChoiceId: q.multipleChoiceId!, quizAttemptId: quizAttempt?.quizAttemptId!, quizQuestionNum: q.quizQuestionNum, userAnswer: ""};
+            setMultipleChoiceAttempts(prevAttempts =>
+                [...prevAttempts, multipleChoiceAttempt]
+            );
+        });
+
         const combined: Question[] = [
             ...fib.map(q => ({ ...q, questionType: "fillInTheBlank" as const })),
             ...matching.map(q => ({ ...q, questionType: "matching" as const })),
@@ -140,6 +150,16 @@ const QuizPage: React.FC = () => {
         setTrueFalseAttempts(prevAttempts =>
             prevAttempts.map(attempt =>
                 attempt.trueFalseId === trueFalseId
+                ? {...attempt, userAnswer: newAnswer}
+                : attempt
+            )
+        );
+    };
+
+    const handleAnswerMultipleChoice = (multipleChoiceId: number, newAnswer: string) => {
+        setMultipleChoiceAttempts(prevAttempts =>
+            prevAttempts.map(attempt =>
+                attempt.multipleChoiceId === multipleChoiceId
                 ? {...attempt, userAnswer: newAnswer}
                 : attempt
             )
@@ -183,6 +203,15 @@ const QuizPage: React.FC = () => {
                                     question={question.question}
                                     userAnswer={(trueFalseAttempts.find(attempt => attempt.trueFalseId === question.trueFalseId))?.userAnswer}
                                     handleAnswer={handleAnswerTrueFalse} />
+                            ) : question.questionType === "multipleChoice" ? (
+                                <MultipleChoiceComponent
+                                    key={question.multipleChoiceId}
+                                    multipleChoiceId={question.multipleChoiceId!}
+                                    quizQuestionNum={question.quizQuestionNum}
+                                    question={question.question}
+                                    userAnswer={(multipleChoiceAttempts.find(attempt => attempt.multipleChoiceId === question.multipleChoiceId))?.userAnswer}
+                                    options={question.options}
+                                    handleAnswer={(handleAnswerMultipleChoice)} />
                             ) : (
                                 <h3>Question {question.quizQuestionNum}</h3>
                             )}

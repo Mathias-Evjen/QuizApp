@@ -55,14 +55,14 @@ public static class DBInit
             var questions = new List<MultipleChoice>
             {
                 new() {
-                    QuestionText = "Which is the biggest planet in our solar system?",
+                    Question = "Which is the biggest planet in our solar system?",
                     CorrectAnswer = "Jupiter",
                     QuizId = 3,
                     Quiz = quiz!,
                     QuizQuestionNum = 3
                 },
                 new() {
-                    QuestionText = "Which season is warmest?",
+                    Question = "Which season is warmest?",
                     CorrectAnswer = "Summer",
                     QuizId = 3,
                     Quiz = quiz!,

@@ -13,22 +13,22 @@ function MultipleChoiceQuizPage() {
   const [questionObj, setQuestionObj] = useState<MultipleChoice>();
   const [selectedOption, setSelectedOption] = useState<number | null>(null);
 
-  useEffect(() => {
-    if (quiz && currentQuestionNum) {
-      const mcObject = quiz.allQuestions[currentQuestionNum - 1];
+  // useEffect(() => {
+  //   if (quiz && currentQuestionNum) {
+  //     const mcObject = quiz.allQuestions[currentQuestionNum - 1];
 
-      const mcCard: MultipleChoice = {
-        multipleChoiceId: mcObject.id,
-        question: mcObject.question,
-        options: mcObject.options,
-        quizId: mcObject.quizId,
-        quizQuestionNum: mcObject.quizQuestionNum
-      };
+  //     const mcCard: MultipleChoice = {
+  //       multipleChoiceId: mcObject.id,
+  //       question: mcObject.question,
+  //       options: mcObject.options,
+  //       quizId: mcObject.quizId,
+  //       quizQuestionNum: mcObject.quizQuestionNum
+  //     };
 
-      setQuestionObj(mcCard);
-      setSelectedOption(null);
-    }
-  }, [quiz, currentQuestionNum]);
+  //     setQuestionObj(mcCard);
+  //     setSelectedOption(null);
+  //   }
+  // }, [quiz, currentQuestionNum]);
 
 
   const nextQuestion = () => {

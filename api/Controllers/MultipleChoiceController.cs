@@ -43,7 +43,7 @@ namespace QuizApp.Controllers
             var questionDtos = questions.Select(q => new MultipleChoiceDto
             {
                 MultipleChoiceId = q.MultipleChoiceId,
-                Question = q.QuestionText,
+                Question = q.Question,
                 CorrectAnswer = q.CorrectAnswer,
                 QuizId = q.QuizId,
                 QuizQuestionNum = q.QuizQuestionNum,
@@ -100,7 +100,7 @@ namespace QuizApp.Controllers
 
             var question = new MultipleChoice
             {
-                QuestionText = multipleChoiceDto.Question,
+                Question = multipleChoiceDto.Question,
                 QuizId = multipleChoiceDto.QuizId,
                 QuizQuestionNum = multipleChoiceDto.QuizQuestionNum,
                 Options = multipleChoiceDto.Options.Select(o => new Option
@@ -135,7 +135,7 @@ namespace QuizApp.Controllers
                 return NotFound("Question not found for the MultipleChoiceId");
             }
 
-            existingQuestion.QuestionText = multipleChoiceDto.Question;
+            existingQuestion.Question = multipleChoiceDto.Question;
             existingQuestion.QuizQuestionNum = multipleChoiceDto.QuizQuestionNum;
 
             existingQuestion.Options = multipleChoiceDto.Options.Select(o => new Option

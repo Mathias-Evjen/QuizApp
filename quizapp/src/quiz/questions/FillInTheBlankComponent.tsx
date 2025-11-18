@@ -1,5 +1,5 @@
 interface FillInTheBlankProps{
-    handleAnswer: (fibId: number, userAnswer: string) => void;
+    handleAnswer: (fibId: number, newAnswer: string) => void;
     fillInTheBlankId: number;
     quizQuestionNum: number;
     question: string;

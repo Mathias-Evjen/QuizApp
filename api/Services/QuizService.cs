@@ -48,6 +48,7 @@ namespace QuizApp.Services
 
             if (increment) quiz.NumOfQuestions += 1;
             else quiz.NumOfQuestions -= 1;
+            Console.WriteLine(quiz.NumOfQuestions);
 
             bool returnOk = await _quizRepository.Update(quiz);
             if (!returnOk)

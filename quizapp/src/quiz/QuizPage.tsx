@@ -8,6 +8,9 @@ import { Matching } from "../types/matching";
 import { Ranking } from "../types/ranking";
 import { Sequence } from "../types/sequence";
 import FillInTheBlankComponent from "./questions/FillInTheBlankComponent";
+import SequenceCardQuizPage from "../sequence/SequenceCardQuizPage";
+import RankingCardQuizPage from "../ranking/RankingCardQuizPage";
+import MatchingCardQuizPage from "../matching/MatchingCardQuizPage";
 import { QuizAttempt } from "../types/quizAttempt";
 
 
@@ -74,6 +77,21 @@ const QuizPage: React.FC = () => {
         setAllQuestions(combined);
     };
 
+    const renderComponent = (question:Question) => {
+        if(question.questionType === "fillInTheBlank"){
+            return <FillInTheBlankComponent key={question.fillInTheBlankId} quizQuestionNum={question.quizQuestionNum} question={question.question} userAnswer="" />;
+        } else if(question.questionType === "sequence"){
+            return <SequenceCardQuizPage key={question.sequenceId} quizQuestionNum={question.quizQuestionNum} questionText={question.questionText} question={question.question} userAnswer="" />;
+        } else if(question.questionType === "ranking"){
+            return <RankingCardQuizPage key={question.rankingId} quizQuestionNum={question.quizQuestionNum} questionText={question.questionText} question={question.question} userAnswer="" />;
+        } 
+        else if(question.questionType === "matching"){
+            return <MatchingCardQuizPage key={question.matchingId} quizQuestionNum={question.quizQuestionNum} questionText={question.questionText} question={question.question} userAnswer="" />;
+        } 
+        
+        //return <h3>Question {question.quizQuestionNum}</h3>;
+    }
+
     useEffect(() => {
         createQuizAttempt();
         fetchQuiz();
@@ -91,11 +109,7 @@ const QuizPage: React.FC = () => {
                     <h1>{quiz?.name}</h1>
                     {allQuestions.map(question => (
                         <>
-                            {question.questionType === "fillInTheBlank" ? (
-                                <FillInTheBlankComponent key={question.fillInTheBlankId} quizQuestionNum={question.quizQuestionNum} question={question.question} userAnswer="" />
-                            ) : (
-                                <h3>Question {question.quizQuestionNum}</h3>
-                            )}
+                            {renderComponent(question)}
                         </>
                     ))}
                 </div>

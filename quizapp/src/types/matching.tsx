@@ -3,12 +3,13 @@ import { QuestionBase } from "./Question";
 export interface Matching extends QuestionBase {
     questionType: "matching";
 
-    matchingCardId: number;
+    matchingId: number;
     question: string;
     questionText: string;
     answer: string;
+    correctAnswer: string;
     quizId: number;
     quizQuestionNum: number;
-    keys: string[];
-    values: string[];
+
+    isDirty: boolean;
 }

@@ -21,7 +21,7 @@ const App: React.FC = () => {
         <NavMenu />
         <div className='site-container'>
           <Routes>
-            <Route path="/" element={<Quizzes />} />
+            <Route path="/" element={<QuizzesPage />} />
             <Route path="/quiz" element={<QuizzesPage />} />
             <Route path="/quiz/:id" element={<QuizPage />} />
             <Route path="/quizCreate" element={<QuizCreatePage />} />
@@ -29,9 +29,9 @@ const App: React.FC = () => {
             <Route path="/flashCards" element={<Quizzes />} />
             <Route path='/flashCards/:id' element={<FlashCardQuizPage />} />
             <Route path='/flashCards/manage/:id' element={<ManageFlashCardQuiz />} />
-            <Route path="/matchingQuiz" element={<MatchingCardQuizPage />} />
+            {/* <Route path="/matchingQuiz" element={<MatchingCardQuizPage />} />
             <Route path="/sequenceQuiz" element={<SequenceCardQuizPage />} />
-            <Route path="/rankingQuiz" element={<RankingCardQuizPage />} />
+            <Route path="/rankingQuiz" element={<RankingCardQuizPage />} /> */}
           </Routes>
         </div>
       </Router>

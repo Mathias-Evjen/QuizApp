@@ -3,11 +3,13 @@ import { QuestionBase } from "./Question";
 export interface Ranking extends QuestionBase {
     questionType: "ranking";
 
-    rankingCardId: number;
+    rankingId?: number;
     question: string;
     questionText: string;
     answer: string;
     correctAnswer: string;
     quizId: number;
     quizQuestionNum: number;
+
+    isDirty: boolean;
 }

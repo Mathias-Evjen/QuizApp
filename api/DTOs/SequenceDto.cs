@@ -5,12 +5,13 @@ namespace QuizApp.DTOs
     public class SequenceDto
     {
         public int SequenceId { get; set; }
+
+        [Required(ErrorMessage = "Must contain question text")]
         public string QuestionText { get; set; } = string.Empty;
 
-        [Required(ErrorMessage = "Must contain a question")]
         public string Question { get; set; } = string.Empty;
 
-        [Required(ErrorMessage = "Must contain an answer")]
+        [Required(ErrorMessage = "Must contain a correct answer")]
         public string CorrectAnswer { get; set; } = string.Empty;
         
         public int QuizId { get; set; }

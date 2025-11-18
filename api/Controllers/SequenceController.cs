@@ -87,10 +87,10 @@ public class SequenceAPIController : ControllerBase
         {
             QuizId = sequenceDto.QuizId,
             QuizQuestionNum = sequenceDto.QuizQuestionNum,
-            Question = sequenceDto.Question,
             QuestionText = sequenceDto.QuestionText,
             CorrectAnswer = sequenceDto.CorrectAnswer
         };
+        sequenceQuestion.Question = sequenceQuestion.ShuffleQuestion(sequenceDto.CorrectAnswer.Split(",").ToList());
         bool returnOk = await _sequenceRepository.Create(sequenceQuestion);
         if (returnOk)
         {
@@ -123,8 +123,9 @@ public class SequenceAPIController : ControllerBase
     }
 
     [HttpDelete("delete/{sequenceId}")]
-    public async Task<IActionResult> Delete(int sequenceId, [FromQuery] int qNum, [FromQuery] int quizId)
+    public async Task<IActionResult> Delete(int sequenceId, [FromQuery] int quizQuestionNum, [FromQuery] int quizId)
     {
+        Console.WriteLine(quizId);
         bool returnOk = await _sequenceRepository.Delete(sequenceId);
         if (!returnOk)
         {
@@ -132,7 +133,7 @@ public class SequenceAPIController : ControllerBase
             return BadRequest("Question deletion failed");
         }
         await _quizService.ChangeQuestionCount(quizId, false);
-        await _quizService.UpdateQuestionNumbers(qNum, quizId);
+        await _quizService.UpdateQuestionNumbers(quizQuestionNum, quizId);
         return NoContent();
     }
 }

@@ -1,57 +1,48 @@
 import { useState, useEffect } from "react";
-import { SequenceCard } from "../types/sequence"
+import { Sequence } from "../types/sequence"
 import "./Sequence.css";
 import * as SequenceService from "./SequenceService";
 import * as QuizService from "../quiz/QuizService";
 import { useNavigate, useLocation } from "react-router-dom";
 
+interface SequenceProps{
+  quizQuestionNum: number,
+  questionText: string,
+  question: string,
+  userAnswer: string
+}
 
-function SequenceCardQuizPage() {
-  const location = useLocation();
-  const navigate = useNavigate();
-  let {quiz, currentQuestionNum} = location.state || {};
+const SequenceCardQuizPage: React.FC<SequenceProps> = ({quizQuestionNum, questionText, question, userAnswer}) => {
+  //const location = useLocation();
+  //const navigate = useNavigate();
+  //let {quiz, currentQuestionNum} = location.state || {};
   // const [sequenceCards, setSequenceCards] = useState<SequenceCard[]>([]);
-  const [sequenceCard, setSequenceCard] = useState<SequenceCard>();
+  //const [sequenceQuestion, setSequenceQuestion] = useState<string>();
   const [splitQuestion, setSplitQuestion] = useState<string[]>([]);
+  const [answer, setAnswer] = useState<string>(userAnswer);
   // const [loadingSequenceCards, setLoadingSequenceCards] = useState<boolean>(false);
   // const [error, setError] = useState<string | null>(null);
   
-    useEffect(() => {
-    if (quiz && currentQuestionNum) {
-        console.log(quiz);
-        const sequenceObject = quiz.allQuestions[currentQuestionNum - 1];
-
-        const sequenceCardObject = {
-        sequenceCardId: sequenceObject.id,
-        question: sequenceObject.question,
-        questionText: sequenceObject.questionText,
-        answer: sequenceObject.answer,
-        correctAnswer: sequenceObject.correctAnswer,
-        quizId: sequenceObject.quizId,
-        quizQuestionNum: sequenceObject.quizQuestionNum
-        };
-        setSequenceCard(sequenceCardObject);
-        setSplitQuestion(sequenceCardObject.question.split(","));
-    }
-    }, [quiz, currentQuestionNum]);
+  useEffect(() => {
+    setSplitQuestion(question.split(","));
+  }, [question]);
 
 
-    const nextQuestion = () => {
-        console.log("next (sequence)")
-        currentQuestionNum = currentQuestionNum+1;
-        const route = QuizService.getQuizRoute(quiz, currentQuestionNum);
-        navigate(route, { state: {quiz, currentQuestionNum} })
-    }
+    // const nextQuestion = () => {
+    //     console.log("next (sequence)")
+    //     currentQuestionNum = currentQuestionNum+1;
+    //     const route = QuizService.getQuizRoute(quiz, currentQuestionNum);
+    //     navigate(route, { state: {quiz, currentQuestionNum} })
+    // }
 
 
   return (
     <div>
-      <br/><br/>
-        {sequenceCard && (
+        {question && (
           <div className="sequence-card-wrapper">
-              <div key={sequenceCard.sequenceCardId}>
+              <div>
                 {/* Spørsmålstekst */}
-                <h3>{sequenceCard.questionText}</h3>
+                <h3>{questionText}</h3>
                 <hr />
                 <div className="sequence-question-answer-wrapper">
                   <div className="sequence-answer-container">
@@ -70,7 +61,6 @@ function SequenceCardQuizPage() {
                   </div>
                 </div>
               </div>
-            <button className="sequence-card-next-btn" onClick={nextQuestion}>Next question</button>
           </div>
         )}
     </div>

@@ -1,5 +1,3 @@
-import { useState } from "react";
-
 interface FillInTheBlankProps{
     handleAnswer: (fibId: number, userAnswer: string) => void;
     fillInTheBlankId: number;

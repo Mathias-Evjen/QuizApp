@@ -13,6 +13,10 @@ import { FillInTheBlankAttempt } from "../types/fillInTheBlankAttempt";
 import { MatchingAttempt } from "../types/matchingAttempt";
 import { RankingAttempt } from "../types/rankingAttempt";
 import { SequenceAttempt } from "../types/sequenceAttempt";
+import { MultipleChoice } from "../types/multipleChoice";
+import { TrueFalse } from "../types/trueFalse";
+import { TrueFalseAttempt } from "../types/trueFalseAttempt";
+import TrueFalseComponent from "./questions/TrueFalseComponent";
 
 
 const QuizPage: React.FC = () => {
@@ -29,6 +33,7 @@ const QuizPage: React.FC = () => {
     const [matchingAttempts, setMatchingAttempts] = useState<MatchingAttempt[]>([]);
     const [rankingAttempts, setRankingAttempts] = useState<RankingAttempt[]>([]);
     const [sequenceAttempts, setSequenceAttempts] = useState<SequenceAttempt[]>([]);
+    const [trueFalseAttempts, setTrueFalseAttempts] = useState<TrueFalseAttempt[]>([]);
 
     const fetchQuiz = async () => {
         setLoading(true);
@@ -41,7 +46,9 @@ const QuizPage: React.FC = () => {
                 data.fillInTheBlankQuestions, 
                 data.matchingQuestions, 
                 data.rankingQuestions,
-                data.sequenceQuestions);
+                data.sequenceQuestions,
+                data.multipleChoiceQuestions,
+                data.trueFalseQuestions);
             console.log(data);
         } catch (error: unknown) {
             if (error instanceof Error) {
@@ -68,7 +75,7 @@ const QuizPage: React.FC = () => {
 
     const handleSetAllQuestions = (
         fib: FillInTheBlank[], matching: Matching[], ranking: Ranking[], 
-        sequence: Sequence[]
+        sequence: Sequence[], multipleChoice: MultipleChoice[], trueFalse: TrueFalse[]
     ) => {
         fib.forEach(q => {
             const fibAttempt: FillInTheBlankAttempt = {fillInTheBlankId: q.fillInTheBlankId!, quizAttemptId: quizAttempt?.quizAttemptId!, quizQuestionNum: q.quizQuestionNum, userAnswer: ""};
@@ -98,11 +105,20 @@ const QuizPage: React.FC = () => {
             );
         });
 
+        trueFalse.forEach(q => {
+            const trueFalseAttempt: TrueFalseAttempt = {trueFalseId: q.trueFalseId!, quizAttemptId: quizAttempt?.quizAttemptId!, quizQuestionNum: q.quizQuestionNum, userAnswer: null};
+            setTrueFalseAttempts(prevAttempts =>
+                [...prevAttempts, trueFalseAttempt]
+            );
+        });
+
         const combined: Question[] = [
             ...fib.map(q => ({ ...q, questionType: "fillInTheBlank" as const })),
             ...matching.map(q => ({ ...q, questionType: "matching" as const })),
             ...ranking.map(q => ({ ...q, questionType: "ranking" as const })),
-            ...sequence.map(q => ({ ...q, questionType: "sequence" as const }))
+            ...sequence.map(q => ({ ...q, questionType: "sequence" as const })),
+            ...multipleChoice.map(q => ({ ...q, questionType: "multipleChoice" as const })),
+            ...trueFalse.map(q => ({ ...q, questionType: "trueFalse" as const }))
         ];
 
         combined.sort((a, b) => a.quizQuestionNum - b.quizQuestionNum);
@@ -114,6 +130,16 @@ const QuizPage: React.FC = () => {
         setFibAttempts(prevAttempts => 
             prevAttempts.map(attempt => 
                 attempt.fillInTheBlankId === fibId
+                ? {...attempt, userAnswer: newAnswer}
+                : attempt
+            )
+        );
+    };
+
+    const handleAnswerTrueFalse = (trueFalseId: number, newAnswer: boolean) => {
+        setTrueFalseAttempts(prevAttempts =>
+            prevAttempts.map(attempt =>
+                attempt.trueFalseId === trueFalseId
                 ? {...attempt, userAnswer: newAnswer}
                 : attempt
             )
@@ -149,6 +175,14 @@ const QuizPage: React.FC = () => {
                                     question={question.question} 
                                     userAnswer={(fibAttempts.find(attempt => attempt.fillInTheBlankId === question.fillInTheBlankId))?.userAnswer!}
                                     handleAnswer={handleAnswerFib} />
+                            ) : question.questionType === "trueFalse" ? (
+                                <TrueFalseComponent
+                                    key={question.trueFalseId}
+                                    trueFalseId={question.trueFalseId!}
+                                    quizQuestionNum={question.quizQuestionNum}
+                                    question={question.question}
+                                    userAnswer={(trueFalseAttempts.find(attempt => attempt.trueFalseId === question.trueFalseId))?.userAnswer}
+                                    handleAnswer={handleAnswerTrueFalse} />
                             ) : (
                                 <h3>Question {question.quizQuestionNum}</h3>
                             )}

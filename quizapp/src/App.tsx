@@ -5,8 +5,6 @@ import Quizzes from './flashCard/quizzes/Quizzes'
 import ManageFlashCardQuiz from './flashCard/manage/ManageFlashCardQuiz'
 import NavMenu from './shared/NavMenu'
 import "./App.css";
-import { AuthProvider } from "./auth/AuthContext";
-import ProtectedRoute from "./auth/ProtectedRoute";
 import MatchingCardQuizPage from "./matching/MatchingCardQuizPage";
 import SequenceCardQuizPage from "./sequence/SequenceCardQuizPage";
 import RankingCardQuizPage from "./ranking/RankingCardQuizPage";
@@ -18,6 +16,8 @@ import ManageTrueFalseQuizPage from './trueFalse/ManageTrueFalseQuizPage'
 import TrueFalseQuizPage from "./trueFalse/TrueFalseQuizPage";
 import LoginPage from "./auth/LoginPage";
 import RegisterPage from "./auth/RegisterPage";
+import QuizPage from './quiz/QuizPage'
+import QuizManagePage from './quiz/QuizManagePage'
 
 
 const App: React.FC = () => {
@@ -44,7 +44,7 @@ const App: React.FC = () => {
             <Route path="/sequenceQuiz" element={<SequenceCardQuizPage />} />
             <Route path="/rankingQuiz" element={<RankingCardQuizPage />} />
             <Route path="/quizTrueFalse" element={<TrueFalseQuizPage />} />
-      </Routes>
+          </Routes>
         </div>
       </Router>
     </>

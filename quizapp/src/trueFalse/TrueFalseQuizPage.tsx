@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { TrueFalse } from "../types/trueFalse";
-import "./TrueFalse.css";
+import "./trueFalse.css";
 import * as QuizService from "../quiz/QuizService";
 import { useNavigate, useLocation } from "react-router-dom";
 
@@ -13,22 +13,22 @@ function TrueFalseQuizPage() {
   const [trueFalseCard, setTrueFalseCard] = useState<TrueFalse>();
   const [selectedAnswer, setSelectedAnswer] = useState<boolean | null>(null);
 
-  useEffect(() => {
-    if (quiz && currentQuestionNum) {
-      const tfObject = quiz.allQuestions[currentQuestionNum - 1];
+  // useEffect(() => {
+  //   if (quiz && currentQuestionNum) {
+  //     const tfObject = quiz.allQuestions[currentQuestionNum - 1];
 
-      const tfCardObject: TrueFalse = {
-        trueFalseId: tfObject.id,
-        question: tfObject.question,
-        correctAnswer: tfObject.correctAnswer,
-        quizId: tfObject.quizId,
-        quizQuestionNum: tfObject.quizQuestionNum,
-      };
+  //     // const tfCardObject: TrueFalse = {
+  //     //   trueFalseId: tfObject.id,
+  //     //   question: tfObject.question,
+  //     //   correctAnswer: tfObject.correctAnswer,
+  //     //   quizId: tfObject.quizId,
+  //     //   quizQuestionNum: tfObject.quizQuestionNum,
+  //     // };
 
-      setTrueFalseCard(tfCardObject);
-      setSelectedAnswer(null);
-    }
-  }, [quiz, currentQuestionNum]);
+  //     setTrueFalseCard(tfCardObject);
+  //     setSelectedAnswer(null);
+  //   }
+  // }, [quiz, currentQuestionNum]);
 
   const nextQuestion = () => {
     console.log("next (true/false)");

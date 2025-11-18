@@ -33,7 +33,7 @@ export const fetchAttempts = async (quizAttemptId: number) => {
 
 // Post submit question
 export const submitQuestion = async (attempt: FillInTheBlankAttempt) => {
-    const response = await fetch(`${API_URL}/api/fillintheblankapi/submitAttempt`, {
+    const response = await fetch(`${API_URL}/api/fillintheblankapi/submitQuestion`, {
         method: "POST",
         headers,
         body: JSON.stringify(attempt)

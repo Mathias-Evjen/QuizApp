@@ -1,4 +1,6 @@
-import { MultipleChoice } from "../types/multipleChoice";
+import { MultipleChoice } from "../../types/multipleChoice";
+import { MultiplechoiceAttempt } from "../../types/MultipleChoiceAttempt";
+
 
 const API_URL = import.meta.env.VITE_API_URL;
 
@@ -32,6 +34,15 @@ export const fetchMultipleChoiceById = async (id: number) => {
   return handleResponse(response);
 };
 
+// Post submit question
+export const submitQuestion = async (mcAttempt: MultiplechoiceAttempt) => {
+  const response = await fetch(`${API_URL}/api/MultipleChoiceAPI/submitQuestion`, {
+    method: "POST",
+    headers,
+    body: JSON.stringify(mcAttempt)
+  });
+  return handleResponse(response);
+};
 
 export const createMultipleChoice = async (question: MultipleChoice) => {
   const response = await fetch(`${API_URL}/api/MultipleChoiceAPI/create`, {

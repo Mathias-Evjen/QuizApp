@@ -49,6 +49,27 @@ namespace QuizApp.Controllers
             return Ok(dtoList);
         }
 
+        [HttpPost("submitQuestion")]
+        public async Task<IActionResult> SubmitQuestion([FromBody] TrueFalseAttemptDto trueFalseAttemptDto)
+        {
+            var trueFalseAttempt = new TrueFalseAttempt
+            {
+                TrueFalseId = trueFalseAttemptDto.TrueFalseId,
+                QuizAttemptId = trueFalseAttemptDto.QuizAttemptId,
+                UserAnswer = trueFalseAttemptDto.UserAnswer,
+                QuizQuestionNum = trueFalseAttemptDto.QuizQuestionNum
+            };
+
+            var returnOk = await _trueFalseAttemptRepository.Create(trueFalseAttempt);
+            if (!returnOk)
+            {
+                _logger.LogError("[FillInTheBlankAPIController] Question attempt creation failed {@attempt}", trueFalseAttempt);
+                return StatusCode(500, "Internal server error");
+            }
+
+            return Ok(trueFalseAttempt);
+        }
+
         [HttpPost("create")]
         public async Task<IActionResult> Create([FromBody] TrueFalseDto dto)
         {

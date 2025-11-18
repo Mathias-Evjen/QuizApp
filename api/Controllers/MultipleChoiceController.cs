@@ -57,40 +57,26 @@ namespace QuizApp.Controllers
             return Ok(questionDtos);
         }
 
-        //[HttpPost]
-        //public async Task<IActionResult> SubmitQuestion(int quizId, int quizAttemptId, int quizQuestionId, int quizQuestionNum, int numOfQuestions, string userAnswer)
-        //{
-        //    var multipleChoice = await _multipleChoiceRepository.GetById(quizQuestionId);
-        //    if (multipleChoice == null)
-        //    {
-        //        _logger.LogError("[MultipleChoiceController - Submit question] MultipleChoice question not found for the Id {Id: 0000}", quizQuestionId);
-        //        return NotFound("MultipleChoice question not found.");
-        //    }
+        [HttpPost("submitQuestion")]
+        public async Task<IActionResult> SubmitQuestion([FromBody] MultipleChoiceAttemptDto multipleChoiceAttemptDto)
+        {
+            var multipleChoiceAttempt = new MultipleChoiceAttempt
+            {
+                MultiplechoiceId = multipleChoiceAttemptDto.MultipleChoiceId,
+                QuizAttemptId = multipleChoiceAttemptDto.QuizAttemptId,
+                UserAnswer = multipleChoiceAttemptDto.UserAnswer,
+                QuizQuestionNum = multipleChoiceAttemptDto.QuizQuestionNum
+            };
 
-        //    var multipleChoiceAttempt = new MultipleChoiceAttempt
-        //    {
-        //        MultiplechoiceId = multipleChoice.MultipleChoiceId,
-        //        QuizAttemptId = quizAttemptId,
-        //        UserAnswer = userAnswer
-        //    };
+            var returnOk = await _multipleChoiceAttemptRepository.Create(multipleChoiceAttempt);
+            if (!returnOk)
+            {
+                _logger.LogError("[FillInTheBlankAPIController] Question attempt creation failed {@attempt}", multipleChoiceAttempt);
+                return StatusCode(500, "Internal server error");
+            }
 
-        //    var returnOk = await _multipleChoiceAttemptRepository.Create(multipleChoiceAttempt);
-        //    if (!returnOk)
-        //    {
-        //        _logger.LogError("[MultipleChoiceController] Question attempt creation failed {@attempt}", multipleChoiceAttempt);
-        //        return RedirectToAction("Quizzes", "Quiz");
-        //    }
-
-        //    if (multipleChoice.QuizQuestionNum == numOfQuestions)
-        //        return RedirectToAction("Results", "Quiz", new { quizAttemptId = quizAttemptId });
-
-        //    return RedirectToAction("NextQuestion", "Quiz", new
-        //    {
-        //        quizId = quizId,
-        //        quizAttemptId = quizAttemptId,
-        //        quizQuestionNum = quizQuestionNum
-        //    });
-        //}
+            return Ok(multipleChoiceAttempt);
+        }
 
         [HttpPost("create")]
         public async Task<IActionResult> Create([FromBody] MultipleChoiceDto multipleChoiceDto)

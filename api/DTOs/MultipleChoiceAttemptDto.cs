@@ -1,11 +1,11 @@
 namespace QuizApp.DTOs
 {
-    public class FillInTheBlankAttemptdto
+    public class MultipleChoiceAttemptDto
     {
-        public int? FillInTheBlankAttemptId { get; set; }
+        public int? MultipleChoiceAttemptId { get; set; }
         public int QuizQuestionNum { get; set; }
         public string UserAnswer { get; set; } = string.Empty;
-        public int FillInTheBlankId { get; set; }
+        public int MultipleChoiceId { get; set; }
         public int QuizAttemptId { get; set; }
     }
 }

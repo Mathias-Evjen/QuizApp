@@ -3,6 +3,8 @@ import { useParams } from "react-router-dom";
 import { Quiz } from "../types/quiz";
 import * as QuizService from "./QuizService";
 import * as FillIntheBlankService from "./services/FillInTheBlankService";
+import * as TrueFalseService from "./services/TrueFalseService";
+import * as MultipleChoiceService from "./services/MultipleChoiceService";
 import { Question } from "../types/Question";
 import { FillInTheBlank } from "../types/fillInTheBlank";
 import { Matching } from "../types/matching";
@@ -67,12 +69,32 @@ const QuizPage: React.FC = () => {
     };
 
     const submitFibAttempt = async (fibAttempt: FillInTheBlankAttempt) => {
-        fibAttempt.quizAttemptId = quizAttempt?.quizAttemptId!
+        fibAttempt.quizAttemptId = quizAttempt?.quizAttemptId!;
         try {
             const data = await FillIntheBlankService.submitQuestion(fibAttempt);
-            console.log(`Question ${fibAttempt.quizQuestionNum} submitted`);
+            console.log(`Question ${fibAttempt.quizQuestionNum} submitted successfully: `, data);
         } catch (error) {
             console.error(`There was an error when submitting question ${fibAttempt.quizQuestionNum}: `, error);
+        }
+    };
+
+    const submitTrueFalseAttempt = async (trueFalseAttempt: TrueFalseAttempt) => {
+        trueFalseAttempt.quizAttemptId = quizAttempt?.quizAttemptId!;
+        try {
+            const data = await TrueFalseService.submitQuestion(trueFalseAttempt);
+            console.log(`Question ${trueFalseAttempt.quizQuestionNum} submitted successfully: `, data);
+        } catch (error) {
+            console.error(`There was an error when submitting question ${trueFalseAttempt.quizQuestionNum}: `, error);
+        }
+    };
+
+    const submitMultipleChoiceAttempt = async (multipleChoiceAttempt: MultiplechoiceAttempt) => {
+        multipleChoiceAttempt.quizAttemptId = quizAttempt?.quizAttemptId!;
+        try {
+            const data = await MultipleChoiceService.submitQuestion(multipleChoiceAttempt);
+            console.log(`Question ${multipleChoiceAttempt.quizQuestionNum} submitted successfully: `, data);
+        } catch (error) {
+            console.error(`There was an error when submitting question ${multipleChoiceAttempt.quizQuestionNum}: `, error);
         }
     };
 
@@ -178,8 +200,16 @@ const QuizPage: React.FC = () => {
     };
 
     const submitQuiz = async () => {
-        fibAttempts.forEach(fibAttempt =>
-            submitFibAttempt(fibAttempt)
+        fibAttempts.forEach(attempt =>
+            submitFibAttempt(attempt)
+        );
+
+        trueFalseAttempts.forEach(attempt => 
+            submitTrueFalseAttempt(attempt)
+        );
+
+        multipleChoiceAttempts.forEach(attempt =>
+            submitMultipleChoiceAttempt(attempt)
         );
     };
 
@@ -197,7 +227,7 @@ const QuizPage: React.FC = () => {
             ) : (
                 <>
                 <div className="quiz-page-container">
-                    <h1>{quiz?.name} | attempt: {quizAttempt?.quizAttemptId}</h1>
+                    <h1>{quiz?.name}</h1>
                     {allQuestions.map(question => (
                         <>
                             {question.questionType === "fillInTheBlank" ? (

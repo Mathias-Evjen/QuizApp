@@ -1,6 +1,8 @@
-import { TrueFalse } from "../types/trueFalse";
+import { TrueFalse } from "../../types/trueFalse";
+import { TrueFalseAttempt } from "../../types/trueFalseAttempt";
 
-const API_URL = "http://localhost:5041";
+
+const API_URL = import.meta.env.VITE_API_URL;
 
 const headers = {
     "Content-Type": "application/json",
@@ -13,6 +15,16 @@ const handleResponse = async (response: Response) => {
 
 export const fetchTrueFalseQuestions = async (quizId: number) => {
     const response = await fetch(`${API_URL}/api/TrueFalseAPI/getQuestions/${quizId}`);
+    return handleResponse(response);
+};
+
+// Post submit question
+export const submitQuestion = async (trueFalseAttempt: TrueFalseAttempt) => {
+    const response = await fetch(`${API_URL}/api/TrueFalseAPI/submitQuestion`, {
+        method: "POST",
+        headers,
+        body: JSON.stringify(trueFalseAttempt)
+    });
     return handleResponse(response);
 };
 

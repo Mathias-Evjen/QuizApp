@@ -57,12 +57,9 @@ namespace QuizApp.Controllers
             return Ok(attemptDtos);
         }
 
-        [HttpPost("submitAttempt")]
-        public async Task<IActionResult> SubmitAttempt([FromBody] FillInTheBlankAttemptdto fillInTheBlankAttemptDto)
+        [HttpPost("submitQuestion")]
+        public async Task<IActionResult> SubmitQuestion([FromBody] FillInTheBlankAttemptdto fillInTheBlankAttemptDto)
         {
-
-            _logger.LogError("FillInTheBlankId: {id}", fillInTheBlankAttemptDto.FillInTheBlankId);
-            _logger.LogError("QuizAttemptId: {id}", fillInTheBlankAttemptDto.QuizAttemptId);
             var fillInTheBlankAttempt = new FillInTheBlankAttempt
             {
                 FillInTheBlankId = fillInTheBlankAttemptDto.FillInTheBlankId,

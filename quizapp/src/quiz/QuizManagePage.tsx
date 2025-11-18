@@ -1,7 +1,6 @@
 import "./Quiz.css";
-import {useState, useEffect} from "react";
+import { useState, useEffect, useOptimistic } from "react";
 import { useNavigate, useLocation } from 'react-router-dom';
-import { Quiz } from "../types/quizCard";
 import * as QuizService from "./QuizService";
 import SequenceManageForm from "../sequence/component/SequenceManageForm";
 import RankingManageForm from "../ranking/component/RankingManageForm";
@@ -9,10 +8,11 @@ import * as MatchingService from "../matching/MatchingService";
 import * as SequenceService from "../sequence/SequenceService";
 import * as RankingService from "../ranking/RankingService";
 import FillInTheBlankEdit from "./questions/FillInTheBlankEdit";
+import MultipleChoiceManageForm from "../multipleChoice/component/MultipleChoiceManageForm";
+import TrueFalseManageForm from "../trueFalse/component/TrueFalseManageForm";
 
-function QuizManagePage(){
+function QuizManagePage() {
     const navigate = useNavigate();
-
     const location = useLocation();
     const incomingQuiz:any = location.state;
     const [quiz, setQuiz] = useState<any>(incomingQuiz);
@@ -135,14 +135,25 @@ function QuizManagePage(){
                                     <hr />
                                     <FillInTheBlankEdit fillInTheblankId={q.fillInTheBlankId} question={q.question} answer={q.correctAnswer} />
                                 </div>
+                            )}{"multipleChoiceId" in q && (
+                                <div>
+                                    <hr />
+                                    <MultipleChoiceManageForm incomingMultipleChoice={q} />
+                                </div>
+                            )}{"trueFalseId" in q && (
+                                <div>
+                                    <hr />
+                                    <TrueFalseManageForm incomingTrueFalse={q} />
+                                </div>
                             )}
                         </div>
                     ))
                 ) : (
-                    <h3>No questions found!</h3>
+                <h3>No questions found!</h3>
                 )}
             </div>
         </div>
-    )
+    );
 }
-export default QuizManagePage
+
+export default QuizManagePage;

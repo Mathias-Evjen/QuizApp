@@ -1,13 +1,13 @@
 import { useState } from "react";
 
 interface FillInTheBlankProps{
-    handleAnswer: (userAnswer: string) => void;
+    // handleAnswer: (userAnswer: string) => void;
     quizQuestionNum: number;
     question: string;
     userAnswer: string;
 }
 
-const FillInTheBlankComponent: React.FC<FillInTheBlankProps> = ({ quizQuestionNum, question, userAnswer, handleAnswer }) => {
+const FillInTheBlankComponent: React.FC<FillInTheBlankProps> = ({ quizQuestionNum, question, userAnswer }) => {
     const [testAnswer, setTestAnswer] = useState<string>(userAnswer);
 
     return(

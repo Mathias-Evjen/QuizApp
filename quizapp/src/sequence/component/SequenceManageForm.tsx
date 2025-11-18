@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { SequenceCard } from "../../types/sequenceCard";
+import { Sequence } from "../../types/sequence";
 import "../Sequence.css"
 import * as QuizService from "../../quiz/QuizService";
 import { useNavigate, useLocation } from "react-router-dom";
@@ -7,13 +7,13 @@ import rightArrow from "../../shared/right-arrow.png";
 import bin from "../../shared/bin.png";
 
 interface SequenceManageFormProps {
-    incomingSequenceCard : SequenceCard;
+    incomingSequenceCard : Sequence;
 }
 
 function SequenceManageForm({ incomingSequenceCard } : SequenceManageFormProps) {
     console.log(incomingSequenceCard)
     const [splitQuestion, setSplitQuestion] = useState<string[]>(incomingSequenceCard.correctAnswer.split(","));
-    const [sequenceCard, setSequenceCard] = useState<SequenceCard>(incomingSequenceCard);
+    const [sequenceCard, setSequenceCard] = useState<Sequence>(incomingSequenceCard);
     const [questionText, setQuestionText] = useState(incomingSequenceCard.questionText);
 
     return(

@@ -1,5 +1,5 @@
-import { FillInTheBlank } from "../types/fillInTheBlank";
-import { FillInTheBlankAttempt } from "../types/fillInTheBlankAttempt";
+import { FillInTheBlank } from "../../types/fillInTheBlank";
+import { FillInTheBlankAttempt } from "../../types/fillInTheBlankAttempt";
 
 
 const API_URL = import.meta.env.VITE_API_URL;

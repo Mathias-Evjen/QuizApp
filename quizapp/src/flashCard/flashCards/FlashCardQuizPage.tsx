@@ -42,7 +42,7 @@ const FlashCardQuizPage: React.FC = () => {
             } else {
                 console.error("Unknown error", error);
             }
-            setError("Failed to fetch quizzes.");
+            setError("Failed to fetch quiz.");
         } finally {
             setLoadingQuiz(false);
         }

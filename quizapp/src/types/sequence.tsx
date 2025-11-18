@@ -1,4 +1,8 @@
-export interface SequenceCard {
+import { QuestionBase } from "./Question";
+
+export interface Sequence extends QuestionBase {
+    questionType: "sequence";
+
     sequenceCardId: number;
     question: string;
     questionText: string;

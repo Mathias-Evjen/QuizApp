@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { MatchingCard } from "../types/matchingCard";
+import { Matching } from "../types/matching";
 import "./Matching.css";
 import * as MatchingService from "./MatchingService";
 import * as QuizService from "../quiz/QuizService";
@@ -12,7 +12,7 @@ function MatchingCardQuizPage() {
   const navigate = useNavigate();
   let {quiz, currentQuestionNum} = location.state || {};
   // const [matchingCards, setMatchingCards] = useState<MatchingCard[]>([]);
-  const [matchingCard, setMatchingCard] = useState<MatchingCard>();
+  const [matchingCard, setMatchingCard] = useState<Matching>();
   // const [loadingMatchingCards, setLoadingMatchingCards] = useState<boolean>(false);
   // const [error, setError] = useState<string | null>(null);
   

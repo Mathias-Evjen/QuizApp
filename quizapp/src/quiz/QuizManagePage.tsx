@@ -8,6 +8,7 @@ import RankingManageForm from "../ranking/component/RankingManageForm";
 import * as MatchingService from "../matching/MatchingService";
 import * as SequenceService from "../sequence/SequenceService";
 import * as RankingService from "../ranking/RankingService";
+import FillInTheBlankEdit from "./questions/FillInTheBlankEdit";
 
 function QuizManagePage(){
     const navigate = useNavigate();
@@ -128,6 +129,11 @@ function QuizManagePage(){
                                 <div>
                                     <hr />
                                     <RankingManageForm incomingRankingCard={q} />
+                                </div>
+                            )}{"fillInTheBlankId" in q && (
+                                <div>
+                                    <hr />
+                                    <FillInTheBlankEdit fillInTheblankId={q.fillInTheBlankId} question={q.question} answer={q.correctAnswer} />
                                 </div>
                             )}
                         </div>

@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { SequenceCard } from "../types/sequenceCard"
+import { SequenceCard } from "../types/sequence"
 import "./Sequence.css";
 import * as SequenceService from "./SequenceService";
 import * as QuizService from "../quiz/QuizService";

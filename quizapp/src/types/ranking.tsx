@@ -1,4 +1,8 @@
-export interface RankingCard {
+import { QuestionBase } from "./Question";
+
+export interface Ranking extends QuestionBase {
+    questionType: "ranking";
+
     rankingCardId: number;
     question: string;
     questionText: string;

@@ -1,0 +1,95 @@
+import { useEffect, useState } from "react";
+import { useParams } from "react-router-dom";
+import { Quiz } from "../types/quiz";
+import * as QuizService from "./QuizService";
+import { Question } from "../types/Question";
+import { FillInTheBlank } from "../types/fillInTheBlank";
+import { Matching } from "../types/matching";
+import { Ranking } from "../types/ranking";
+import { Sequence } from "../types/sequence";
+import FillInTheBlankComponent from "./questions/FillInTheBlankComponent";
+
+
+const QuizPage: React.FC = () => {
+    const { id } = useParams<{ id: string }>();
+    const quizId = Number(id);
+
+    const [quiz, setQuiz] = useState<Quiz>()
+    const [allQuestions, setAllQuestions] = useState<Question[]>([]);
+    const [loading, setLoading] = useState<boolean>(false);
+    const [error, setError] = useState<string | null>(null);
+
+    const fetchQuiz = async () => {
+        setLoading(true);
+        setError(null);
+
+        try {
+            const data = await QuizService.fetchQuiz(quizId);
+            setQuiz(data);
+            handleSetAllQuestions(
+                data.fillInTheBlankQuestions, 
+                data.matchingQuestions, 
+                data.rankingQuestions,
+                data.sequenceQuestions);
+            console.log(data);
+        } catch (error: unknown) {
+            if (error instanceof Error) {
+                console.error(`There was a problem fetching data: ${error.message}`);
+            } else {
+                console.error("Unknown error", error);
+            }
+            setError("Failed to fetch quiz");
+        } finally {
+            setLoading(false);
+        }
+    };
+
+
+
+    const handleSetAllQuestions = (
+        fib: FillInTheBlank[], matching: Matching[], ranking: Ranking[], 
+        seq: Sequence[]
+    ) => {
+        const combined: Question[] = [
+            ...fib.map(q => ({ ...q, questionType: "fillInTheBlank" as const })),
+            ...matching.map(q => ({ ...q, questionType: "matching" as const })),
+            ...ranking.map(q => ({ ...q, questionType: "ranking" as const })),
+            ...seq.map(q => ({ ...q, questionType: "sequence" as const }))
+        ];
+
+        combined.sort((a, b) => a.quizQuestionNum - b.quizQuestionNum);
+
+        setAllQuestions(combined);
+    };
+
+    useEffect(() => {
+        fetchQuiz();
+    }, [])
+
+    return(
+        <>
+            {loading ? (
+                <p className="loading">Loading...</p>
+            ) : error ? (
+                <p className="fetch-error">{error}</p>
+            ) : (
+                <>
+                <div className="quiz-page-container">
+                    <h1>{quiz?.name}</h1>
+                    {allQuestions.map(question => (
+                        <>
+                            {question.questionType === "fillInTheBlank" ? (
+                                <FillInTheBlankComponent quizQuestionNum={question.quizQuestionNum} question={question.question} userAnswer="" />
+                            ) : (
+                                <h3>Question {question.quizQuestionNum}</h3>
+                            )}
+                        </>
+                    ))}
+                </div>
+                </>
+            )}
+        </>
+    )
+}
+
+export default QuizPage;

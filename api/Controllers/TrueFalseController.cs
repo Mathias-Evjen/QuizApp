@@ -40,7 +40,7 @@ namespace QuizApp.Controllers
             var dtoList = questions.Select(q => new TrueFalseDto
             {
                 TrueFalseId = q.TrueFalseId,
-                Question = q.QuestionText,
+                Question = q.Question,
                 CorrectAnswer = q.CorrectAnswer,
                 QuizId = q.QuizId,
                 QuizQuestionNum = q.QuizQuestionNum
@@ -57,7 +57,7 @@ namespace QuizApp.Controllers
 
             var question = new TrueFalse
             {
-                QuestionText = dto.Question,
+                Question = dto.Question,
                 CorrectAnswer = dto.CorrectAnswer,
                 QuizId = dto.QuizId,
                 QuizQuestionNum = dto.QuizQuestionNum
@@ -84,7 +84,7 @@ namespace QuizApp.Controllers
             if (existing == null)
                 return NotFound("Question not found");
 
-            existing.QuestionText = dto.Question;
+            existing.Question = dto.Question;
             existing.CorrectAnswer = dto.CorrectAnswer;
             existing.QuizQuestionNum = dto.QuizQuestionNum;
 

@@ -20,7 +20,7 @@ namespace QuizApp.ViewModels
         public TrueFalseViewModel(TrueFalse question)
         {
             TrueFalseId = question.TrueFalseId;
-            QuestionText = question.QuestionText;
+            QuestionText = question.Question;
             QuizQuestionNum = question.QuizQuestionNum;
         }
     }

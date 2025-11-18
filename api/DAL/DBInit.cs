@@ -31,14 +31,14 @@ public static class DBInit
             var qustions = new List<TrueFalse>
             {
                 new() {
-                    QuestionText = "Norge ligger i Europa",
+                    Question = "Norge ligger i Europa",
                     CorrectAnswer = true,
                     QuizId = 3,
                     Quiz = quiz!,
                     QuizQuestionNum = 1
                 },
                 new() {
-                    QuestionText = "Jorda går i bane rundt månen",
+                    Question = "Jorda går i bane rundt månen",
                     CorrectAnswer = false,
                     QuizId = 3,
                     Quiz = quiz!,

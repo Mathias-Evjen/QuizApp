@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { Quiz } from "../types/quiz";
 import * as QuizService from "./QuizService";
+import * as FillIntheBlankService from "./services/FillInTheBlankService";
 import { Question } from "../types/Question";
 import { FillInTheBlank } from "../types/fillInTheBlank";
 import { Matching } from "../types/matching";
@@ -62,6 +63,16 @@ const QuizPage: React.FC = () => {
             setError("Failed to fetch quiz");
         } finally {
             setLoading(false);
+        }
+    };
+
+    const submitFibAttempt = async (fibAttempt: FillInTheBlankAttempt) => {
+        fibAttempt.quizAttemptId = quizAttempt?.quizAttemptId!
+        try {
+            const data = await FillIntheBlankService.submitQuestion(fibAttempt);
+            console.log(`Question ${fibAttempt.quizQuestionNum} submitted`);
+        } catch (error) {
+            console.error(`There was an error when submitting question ${fibAttempt.quizQuestionNum}: `, error);
         }
     };
 
@@ -166,8 +177,10 @@ const QuizPage: React.FC = () => {
         );
     };
 
-    const submitQuiz = () => {
-
+    const submitQuiz = async () => {
+        fibAttempts.forEach(fibAttempt =>
+            submitFibAttempt(fibAttempt)
+        );
     };
 
     useEffect(() => {
@@ -219,7 +232,7 @@ const QuizPage: React.FC = () => {
                     ))}
                 </div>
 
-                <button className="button primary-button active">Submit</button>
+                <button className="button primary-button active" onClick={submitQuiz}>Submit</button>
                 </>
             )}
         </>

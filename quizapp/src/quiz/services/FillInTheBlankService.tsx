@@ -32,8 +32,8 @@ export const fetchAttempts = async (quizAttemptId: number) => {
 }
 
 // Post submit question
-export const submitQuestion = async (quizAttemptId: number, attempt: FillInTheBlankAttempt) => {
-    const response = await fetch(`${API_URL}/api/fillinthelbankapi/submitAttempts/${quizAttemptId}`, {
+export const submitQuestion = async (attempt: FillInTheBlankAttempt) => {
+    const response = await fetch(`${API_URL}/api/fillintheblankapi/submitAttempt`, {
         method: "POST",
         headers,
         body: JSON.stringify(attempt)

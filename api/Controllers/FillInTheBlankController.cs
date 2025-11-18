@@ -57,19 +57,15 @@ namespace QuizApp.Controllers
             return Ok(attemptDtos);
         }
 
-        [HttpPost("submitAttempts/{quizAttemptId}")]
-        public async Task<IActionResult> SubmitAttempt(int quizAttemptId, [FromBody] FillInTheBlankAttemptdto fillInTheBlankAttemptDto)
+        [HttpPost("submitAttempt")]
+        public async Task<IActionResult> SubmitAttempt([FromBody] FillInTheBlankAttemptdto fillInTheBlankAttemptDto)
         {
-            var fillInTheBlank = await _fillInTheBlankRepository.GetById(fillInTheBlankAttemptDto.FillInTheBlankId);
-            if (fillInTheBlank == null)
-            {
-                _logger.LogError("[FillInTheBlankAPIController - Submit question] FillInTheBlank question not found for the Id {Id: 0000}", fillInTheBlankAttemptDto.FillInTheBlankId);
-                return NotFound("FillInTheBlank question not found.");
-            }
 
+            _logger.LogError("FillInTheBlankId: {id}", fillInTheBlankAttemptDto.FillInTheBlankId);
+            _logger.LogError("QuizAttemptId: {id}", fillInTheBlankAttemptDto.QuizAttemptId);
             var fillInTheBlankAttempt = new FillInTheBlankAttempt
             {
-                FillInTheBlankId = fillInTheBlank.FillInTheBlankId,
+                FillInTheBlankId = fillInTheBlankAttemptDto.FillInTheBlankId,
                 QuizAttemptId = fillInTheBlankAttemptDto.QuizAttemptId,
                 UserAnswer = fillInTheBlankAttemptDto.UserAnswer,
                 QuizQuestionNum = fillInTheBlankAttemptDto.QuizQuestionNum

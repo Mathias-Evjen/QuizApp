@@ -19,7 +19,7 @@ const FlashCardEntry: React.FC<FlashCardEntryProps> = ({
         <div className="flash-card-entry">
             <div className="flash-card-entry-card">
                 <div className="flash-card-entry-question">
-                    <label>Question</label>
+                    <label>Question:</label>
                     <input 
                         type="text"
                         value={question}
@@ -28,7 +28,7 @@ const FlashCardEntry: React.FC<FlashCardEntryProps> = ({
                     {errors?.question && <span className="error">{errors.question}</span>}
                 </div>
                 <div className="flash-card-entry-answer">
-                    <label>Answer</label>
+                    <label>Answer:</label>
                     <input
                         type="text"
                         value={answer}

@@ -4,7 +4,6 @@ import FlashCardQuizPage from './flashCard/flashCards/FlashCardQuizPage'
 import Quizzes from './flashCard/quizzes/Quizzes'
 import ManageFlashCardQuiz from './flashCard/manage/ManageFlashCardQuiz'
 import NavMenu from './shared/NavMenu'
-import "./App.css";
 import QuizzesPage from "./quiz/QuizzesPage";
 import QuizCreatePage from "./quiz/QuizCreatePage";
 import LoginPage from "./auth/LoginPage";

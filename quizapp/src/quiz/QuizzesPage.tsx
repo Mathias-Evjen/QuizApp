@@ -1,8 +1,9 @@
 import { useState, useEffect } from "react";
-import * as QuizService from "./services/QuizService";
-import "./style/Quiz.css";
 import { Quiz} from "../types/quizCard";
 import { useNavigate } from 'react-router-dom';
+import * as QuizService from "./services/QuizService";
+import SearchBar from "../shared/SearchBar";
+import "./style/Quiz.css";
 
 
 function QuizzesPage() {
@@ -11,6 +12,9 @@ function QuizzesPage() {
   const [quizzes, setQuizzes] = useState<Quiz[]>([]);
   const [loadingQuizzes, setLoadingQuizzes] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
+
+  const [query, setQuery] = useState<string>("");
+  const filteredQuizzes = quizzes.filter(quiz => quiz.name.toLocaleLowerCase().includes(query.toLocaleLowerCase()) || quiz.description.toLocaleLowerCase().includes(query.toLocaleUpperCase()));
 
   const fetchQuizCards = async () => {
     setLoadingQuizzes(true);
@@ -57,10 +61,11 @@ function QuizzesPage() {
     <div>
         <div className="quizzes-wrapper">
           <h1>Quizzes</h1>
+          <SearchBar query={query} placeholder="Search for a quiz" handleSearch={setQuery}/>
           <hr /><br />
           <div className="quiz-cards-container">
             {quizzes.length > 0 ? (
-              quizzes.map((quiz) => (
+              filteredQuizzes.map((quiz) => (
                 <div className="quiz-card-box" key={quiz.quizId}>
                   <p className="quiz-card-name">{quiz.name}</p>
                   <p className="quiz-card-desc">"{quiz.description}"</p>

@@ -2,11 +2,12 @@ import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { FlashCardQuiz } from "../../types/flashCardQuiz";
 import { FlashCard } from "../../types/flashCard";
-import FlashCardEntry from "./FlashCardEntry";
 import * as FlashCardQuizService from "../FlashCardQuizService";
 import * as FlashCardService from "../FlashCardService";
 import FlashCardQuizForm from "../FlashCardQuizForm";
+import FlashCardEntry from "./FlashCardEntry";
 import SearchBar from "../../shared/SearchBar";
+import "../style/FlashCard.css";
 
 const ManageFlashCardQuiz: React.FC = () => {
     const navigate = useNavigate();

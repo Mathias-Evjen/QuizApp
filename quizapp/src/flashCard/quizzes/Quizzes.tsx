@@ -1,11 +1,12 @@
 import { useEffect, useState } from "react";
 import { FlashCardQuiz } from "../../types/flashCardQuiz";
-import QuizCard from "./QuizCard";
-import { Add, MoreVert, Settings, Delete, Close, Search } from "@mui/icons-material";
+import { MoreVert, Settings, Delete, Close, Search } from "@mui/icons-material";
 import { useNavigate } from "react-router-dom";
 import * as FlashCardQuizService from "../FlashCardQuizService";
+import QuizCard from "./QuizCard";
 import FlashCardQuizForm from "../FlashCardQuizForm";
 import SearchBar from "../../shared/SearchBar";
+import "../style/FlashCard.css";
 
 const Quizzes: React.FC = () => {
     const navigate = useNavigate();

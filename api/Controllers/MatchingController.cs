@@ -51,8 +51,6 @@ public class MatchingAPIController : ControllerBase
                 Question = question.Question,
                 QuizQuestionNum = question.QuizQuestionNum,
                 QuizId = question.QuizId,
-                Keys = keys,
-                Values = values
             };
         });
 
@@ -119,10 +117,12 @@ public class MatchingAPIController : ControllerBase
             QuestionText = matchingDto.QuestionText,
             QuizId = matchingDto.QuizId,
             QuizQuestionNum = matchingDto.QuizQuestionNum,
-            Question = matchingDto.Question,
             CorrectAnswer = matchingDto.CorrectAnswer
         };
-
+        KeyValuePair<string, string>[] splitQuestion = updatetMatching.SplitCorrectAnswer();
+        List<string> keys = splitQuestion.Select(kv => kv.Key).ToList();
+        List<string> values = splitQuestion.Select(kv => kv.Value).ToList();
+        updatetMatching.ShuffleQuestion(keys, values);
         bool returnOk = await _matchingRepository.Update(updatetMatching);
         if (returnOk) {
             return Ok(updatetMatching);
@@ -133,7 +133,7 @@ public class MatchingAPIController : ControllerBase
 
 
     [HttpDelete("delete/{matchingId}")]
-    public async Task<IActionResult> Delete(int matchingId, [FromQuery] int qNum, [FromQuery] int quizId)
+    public async Task<IActionResult> Delete(int matchingId, [FromQuery] int quizQuestionNum, [FromQuery] int quizId)
     {
         bool returnOk = await _matchingRepository.Delete(matchingId);
         if (!returnOk)
@@ -142,7 +142,7 @@ public class MatchingAPIController : ControllerBase
             return BadRequest("Question deletion failed");
         }
         await _quizService.ChangeQuestionCount(quizId, false);
-        await _quizService.UpdateQuestionNumbers(qNum, quizId);
+        await _quizService.UpdateQuestionNumbers(quizQuestionNum, quizId);
         return NoContent();
     }
 }

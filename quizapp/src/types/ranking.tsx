@@ -9,4 +9,6 @@ export interface Ranking extends QuestionBase {
     correctAnswer: string;
     quizId: number;
     quizQuestionNum: number;
+
+    isDirty: boolean;
 }

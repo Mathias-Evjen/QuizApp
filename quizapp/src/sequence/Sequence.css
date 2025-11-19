@@ -4,15 +4,15 @@
   min-height: 20rem;
   max-height: auto;
   position: relative;
-  border: solid 0px black;
-  border-radius: 10px;
+  border: 2px solid gray;
+  border-radius: 25px;
   font-size: 20px;
   margin: auto;
+  margin-bottom: 10px;
   padding: 20px;
-  padding-bottom: 5rem;
-  box-shadow:
+  /*box-shadow:
     rgba(60, 64, 67, 0.3) 0px 1px 2px 0px,
-    rgba(60, 64, 67, 0.15) 0px 2px 6px 2px;
+    rgba(60, 64, 67, 0.15) 0px 2px 6px 2px;*/
 }
 
 .sequence-card-next-btn {
@@ -81,6 +81,7 @@
   display: block;         /* gjør at teksten brytes riktig */
   white-space: normal;    /* tillater linjeskift */
   word-break: break-word; /* hindrer at lange ord stikker ut */
+  cursor: pointer;
 }
 
 

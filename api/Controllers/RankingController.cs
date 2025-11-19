@@ -86,10 +86,10 @@ public class RankingAPIController : ControllerBase
         {
             QuizId = rankingDto.QuizId,
             QuizQuestionNum = rankingDto.QuizQuestionNum,
-            Question = rankingDto.Question,
             QuestionText = rankingDto.QuestionText,
             CorrectAnswer = rankingDto.CorrectAnswer
         };
+        rankingQuestion.Question = rankingQuestion.ShuffleQuestion(rankingDto.CorrectAnswer.Split(",").ToList());
         bool returnOk = await _rankingRepository.Create(rankingQuestion);
         if (returnOk)
         {
@@ -122,7 +122,7 @@ public class RankingAPIController : ControllerBase
     }
 
     [HttpDelete("delete/{rankingId}")]
-    public async Task<IActionResult> Delete(int rankingId, [FromQuery] int qNum, [FromQuery] int quizId)
+    public async Task<IActionResult> Delete(int rankingId, [FromQuery] int quizQuestionNum, [FromQuery] int quizId)
     {
         bool returnOk = await _rankingRepository.Delete(rankingId);
         if (!returnOk)
@@ -131,7 +131,7 @@ public class RankingAPIController : ControllerBase
             return BadRequest("Question deletion failed");
         }
         await _quizService.ChangeQuestionCount(quizId, false);
-        await _quizService.UpdateQuestionNumbers(qNum, quizId);
+        await _quizService.UpdateQuestionNumbers(quizQuestionNum, quizId);
         return NoContent();
     }
 }

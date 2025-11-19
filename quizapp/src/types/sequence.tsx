@@ -10,4 +10,6 @@ export interface Sequence extends QuestionBase {
     correctAnswer: string;
     quizId: number;
     quizQuestionNum: number;
+
+    isDirty: boolean;
 }

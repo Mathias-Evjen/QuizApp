@@ -295,7 +295,7 @@ button:hover{
 .quiz-manage-question-delete-btn{
     position: absolute;
     right: 20px;
-    bottom: 20px;
+    top: 20px;
     margin-left: 5px;
     background-color:red;
     border-radius: 5px;

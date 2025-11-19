@@ -6,9 +6,10 @@ export interface Matching extends QuestionBase {
     matchingId?: number;
     question: string;
     questionText: string;
-    answer?: string;
+    answer: string;
+    correctAnswer: string;
     quizId: number;
     quizQuestionNum: number;
-    keys: string[];
-    values: string[];
+
+    isDirty: boolean;
 }

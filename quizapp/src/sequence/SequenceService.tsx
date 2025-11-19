@@ -1,4 +1,4 @@
-const API_URL = "http://localhost:5041";
+const API_URL = import.meta.env.VITE_API_URL;
 
 const headers = {
   'Content-Type': 'application/json',
@@ -50,8 +50,8 @@ export const updateSequence = async (sequenceId: number, sequence: any) => {
   return handleResponse(response);
 };
 // Delete sequence
-export const deleteSequence = async (sequenceId: number) => {
-  const response = await fetch(`${API_URL}/api/sequenceapi/delete/${sequenceId}`, {
+export const deleteSequence = async (sequenceId: number, quizQuestionNum: number, quizId: number) => {
+  const response = await fetch(`${API_URL}/api/sequenceapi/delete/${sequenceId}?quizQuestionNum=${quizQuestionNum}&quizId=${quizId}`, {
     method: 'DELETE',
   });
   return handleResponse(response);

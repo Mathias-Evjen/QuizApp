@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { RankingCard } from "../../types/ranking";
+import { Ranking } from "../../types/ranking";
 import "../Ranking.css"
 import * as QuizService from "../../quiz/QuizService";
 import { useNavigate, useLocation } from "react-router-dom";
@@ -7,17 +7,23 @@ import rightArrow from "../../shared/right-arrow.png";
 import bin from "../../shared/bin.png";
 
 interface RankingManageFormProps {
-    incomingRankingCard : RankingCard;
+    rankedId: number
+    incomingQuestionText: string,
+    incomingCorrectAnswer: string,
+    onChange?: (updatedQuestion: { questionText: string; correctAnswer: string; isDirty: boolean }) => void;
 }
 
-function RankingManageForm({ incomingRankingCard } : RankingManageFormProps) {
-    console.log(incomingRankingCard)
-    const [splitQuestion, setSplitQuestion] = useState<string[]>(incomingRankingCard.correctAnswer.split(","));
-    const [rankingCard, setRankingCard] = useState<RankingCard>(incomingRankingCard);
-    const [questionText, setQuestionText] = useState(incomingRankingCard.questionText);
+const RankingManageForm: React.FC<RankingManageFormProps> = ({rankedId, incomingQuestionText, incomingCorrectAnswer, onChange}) => {
+    const [splitQuestion, setSplitQuestion] = useState<string[]>(incomingCorrectAnswer.split(","));
+    const [questionText, setQuestionText] = useState(incomingQuestionText);
+
+    useEffect(() => {
+        const combinedAnswer = splitQuestion.join(",");
+        onChange?.({ questionText, correctAnswer: combinedAnswer, isDirty: true });
+    }, [splitQuestion, questionText]);
 
     return(
-        <div className="ranking-manage-form-wrapper">
+        <div className="ranking-manage-form-wrapper" key={rankedId}>
             <div className="ranking-manage-form-input-wrapper">
                 <input id="ranking-manage-form-questiontext" className="ranking-manage-form-questiontext" value={questionText} onChange={(e) => setQuestionText(e.target.value)} />
                 <label htmlFor="ranking-manage-form-questiontext" className="ranking-manage-form-label">Question text: </label>

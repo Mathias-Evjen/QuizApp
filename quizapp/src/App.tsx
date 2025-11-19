@@ -27,7 +27,7 @@ const App: React.FC = () => {
         <NavMenu />
         <div className='site-container'>
           <Routes /*element={<ProtectedRoute />} Sjekker Auth. Må putte dette rundt riktige ting*/>
-            <Route path="/" element={<Quizzes />} />
+            <Route path="/" element={<QuizzesPage />} />
             <Route path="/quiz" element={<QuizzesPage />} />
             <Route path="/quiz/:id" element={<QuizPage />} />
             <Route path="/login" element={<LoginPage />} />
@@ -37,12 +37,12 @@ const App: React.FC = () => {
             <Route path="/flashCards" element={<Quizzes />} />
             <Route path='/flashCards/:id' element={<FlashCardQuizPage />} />
             <Route path='/flashCards/manage/:id' element={<ManageFlashCardQuiz />} />
-            <Route path="/matchingQuiz" element={<MatchingCardQuizPage />} />
+            {/* <Route path="/matchingQuiz" element={<MatchingCardQuizPage />} />
             <Route path="/quizMultipleChoice" element={<MultipleChoiceQuizPage />} />
             <Route path="/manageMultipleChoice/:id" element={<ManageMultipleChoiceQuizPage />} />
             <Route path="/manageTrueFalseQuiz/:id" element={<ManageTrueFalseQuizPage />} />
             <Route path="/sequenceQuiz" element={<SequenceCardQuizPage />} />
-            <Route path="/rankingQuiz" element={<RankingCardQuizPage />} />
+            <Route path="/rankingQuiz" element={<RankingCardQuizPage />} /> */}
             <Route path="/quizTrueFalse" element={<TrueFalseQuizPage />} />
           </Routes>
         </div>

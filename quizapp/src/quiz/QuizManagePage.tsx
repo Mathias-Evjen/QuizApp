@@ -48,7 +48,8 @@ function QuizManagePage() {
             if (q.quizQuestionNum > index) {
                 return {
                     ...q,
-                    quizQuestionNum: q.quizQuestionNum - 1
+                    quizQuestionNum: q.quizQuestionNum - 1,
+                    isDirty: true
                 };
             }
             return q;
@@ -57,36 +58,57 @@ function QuizManagePage() {
     }
 
     const handleDeleteQuestion = (index:number) => {
-        //Fjerner bare fra allQuestions ikke databasen, det skjer under handleSaveQuestions()
+        if("sequenceId" in allQuestions[index]){
+            SequenceService.deleteSequence(allQuestions[index].sequenceId, allQuestions[index].quizQuestionNum, allQuestions[index].quizId)
+        } else if("rankingId" in allQuestions[index]){
+            RankingService.deleteRanking(allQuestions[index].rankingId, allQuestions[index].quizQuestionNum, allQuestions[index].quizId)
+        } else if("matchingId" in allQuestions[index]){
+            MatchingService.deleteMatching(allQuestions[index].matchingId, allQuestions[index].quizQuestionNum, allQuestions[index].quizId)
+        }
+
         const updated = allQuestions.filter((_, i) => i !== index);
         setAllQuestions(updated);
         handleQuestionNum(index);
     }
 
-    const handleSaveQuestions = () => {
-        //Gå gjennom alle questions og se om noen er fjernet.
-        //Oppdatere database hvis noen questions er fjernet og om noen er oppdatert
-        const newQuestions = allQuestions.map(q => {
-        if (q.isNew && q.correctAnswer != "") {
-            if ("matchingId" in q) {
-            const { matchingId, isNew,  ...rest } = q;
-            MatchingService.createMatching(rest);
-            return rest;
-            }
+    const handleSaveQuestions = async () => {
+        const newQuestions = await Promise.all(
+        allQuestions.map(async (q) => {
+            if (q.isNew && q.correctAnswer !== "") {
+            // Sequence
             if ("sequenceId" in q) {
-            const { sequenceId, isNew,  ...rest } = q;
-            SequenceService.createSequence(rest);
-            return rest;
+                const { isNew, sequenceId, ...rest } = q;
+                const created = await SequenceService.createSequence(rest);
+                return { ...created, isNew: false, isDirty: false };
             }
+            // Matching
+            if ("matchingId" in q) {
+                const { isNew, matchingId, ...rest } = q;
+                const created = await MatchingService.createMatching(rest);
+                return { ...created, isNew: false, isDirty: false };
+            }
+            // Ranking
             if ("rankingId" in q) {
-            const { rankingId, isNew,  ...rest } = q;
-            RankingService.createRanking(rest);
-            return rest;
+                const { isNew, rankingId, ...rest } = q;
+                const created = await RankingService.createRanking(rest);
+                return { ...created, isNew: false, isDirty: false };
             }
-        }
-        return q;
-        });
+            }
+            return q; // eksisterende spørsmål
+        })
+        );
+        console.log(newQuestions)
+        newQuestions.map(q => {
+            if(q.isDirty){
+                if("rankingId" in q){
+                    RankingService.updateRanking(q.rankingId, q);
+                }else if ("sequenceId" in q){
+                    SequenceService.updateSequence(q.sequenceId, q)
+                }
+            }
+        })
         setAllQuestions(newQuestions);
+
     }
 
     return(
@@ -117,18 +139,23 @@ function QuizManagePage() {
                             <div className="quiz-manage-question-info-wrapper">
                                 <h3 className="quiz-manage-question-num">Question number: {q.quizQuestionNum}</h3>
                                 <p className="quiz-manage-question-text">{q.questionText || q.question}</p>
-                                <button className="quiz-manage-question-edit-btn">Edit</button>
                                 <button className="quiz-manage-question-delete-btn" onClick={() => handleDeleteQuestion(index)}>Delete</button>
                             </div>
                             {"sequenceId" in q && (
                                 <div>
                                     <hr />
-                                    <SequenceManageForm incomingSequenceCard={q} />
+                                    <SequenceManageForm sequenceId={q.sequenceId} incomingQuestionText={q.questionText} incomingCorrectAnswer={q.correctAnswer} 
+                                    onChange={(updatedQuestion) => {
+                                        setAllQuestions(prev => prev.map(pq => "sequenceId" in pq && pq.sequenceId === q.sequenceId ? {...pq, ...updatedQuestion} : pq));
+                                    }} />
                                 </div>
                             )}{"rankingId" in q &&(
                                 <div>
                                     <hr />
-                                    <RankingManageForm incomingRankingCard={q} />
+                                    <RankingManageForm rankedId={q.rankedId} incomingQuestionText={q.questionText} incomingCorrectAnswer={q.correctAnswer}
+                                    onChange={(updatedQuestion) => {
+                                        setAllQuestions(prev => prev.map(pq => "rankingId" in pq && pq.rankingId === q.rankingId ? {...pq, ...updatedQuestion} : pq));
+                                    }} />
                                 </div>
                             )}{"fillInTheBlankId" in q && (
                                 <div>

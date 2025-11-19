@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { Matching } from "../types/matching";
-import "./Matching.css";
+import "../quiz/style/Matching.css";
 import * as MatchingService from "../quiz/services/MatchingService";
 // import * as QuizService from "../quiz/QuizService";
 import { useNavigate, useLocation } from "react-router-dom";

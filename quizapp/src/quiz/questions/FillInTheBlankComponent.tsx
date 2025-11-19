@@ -14,7 +14,7 @@ const FillInTheBlankComponent: React.FC<FillInTheBlankProps> = ({ fillInTheBlank
         <div className="fill-in-the-blank-container">
             <h3>Question {quizQuestionNum}</h3>
             <p>{question}</p>
-
+            <hr />
             <input 
                 value={userAnswer}
                 onChange={(e) => handleAnswer(fillInTheBlankId, e.target.value)}

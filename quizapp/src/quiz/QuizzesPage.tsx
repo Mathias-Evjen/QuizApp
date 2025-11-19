@@ -26,14 +26,14 @@ function QuizzesPage() {
       } else {
         console.error("Unknown error", error);
       }
-      setError("Failed to fetch quiz cards");
+      setError("Failed to fetch quizzes");
     } finally {
       setLoadingQuizzes(false);
     }
   };
 
   useEffect(() => {
-    console.log("Fetching quiz cards");
+    console.log("Fetching quizzes");
     fetchQuizCards();
   }, []);
 

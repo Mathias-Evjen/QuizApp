@@ -23,7 +23,8 @@ const MatchingComponent: React.FC<MatchingProps> = ({ matchingId, quizQuestionNu
             <div className="matching-card-wrapper">
                 <div>
                     {/* Spørsmålstekst */}
-                    <h3>{questionText}</h3>
+                    <h3>Question {quizQuestionNum}</h3>
+                    <p>{questionText}</p>
                     <hr />
 
                     <div className="matching-table-wrapper">

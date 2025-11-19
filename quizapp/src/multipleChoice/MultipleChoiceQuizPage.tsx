@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { MultipleChoice } from "../types/multipleChoice";
-import "./MultipleChoice.css";
-import * as QuizService from "../quiz/QuizService";
+import "../quiz/style/MultipleChoice.css";
+import * as QuizService from "../quiz/services/QuizService";
 import { useNavigate, useLocation } from "react-router-dom";
 
 function MultipleChoiceQuizPage() {

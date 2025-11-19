@@ -1,4 +1,5 @@
 import { NavLink } from "react-router-dom";
+import AuthSection from "../auth/AuthSection";
 
 const NavMenu: React.FC = () => {
     return(
@@ -9,6 +10,7 @@ const NavMenu: React.FC = () => {
                 <NavLink to="/flashCards" className={({ isActive }) => isActive ? "nav-item active " : "nav-item" }>Flash cards</NavLink>
             </div>
             <div className="login">
+                <AuthSection />
             </div>
         </nav>
     )

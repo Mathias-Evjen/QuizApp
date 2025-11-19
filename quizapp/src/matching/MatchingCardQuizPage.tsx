@@ -1,34 +1,34 @@
 import { useState, useEffect } from "react";
 import { Matching } from "../types/matching";
 import "./Matching.css";
-import * as MatchingService from "./MatchingService";
+import * as MatchingService from "../quiz/services/MatchingService";
 import * as QuizService from "../quiz/QuizService";
 import { useNavigate, useLocation } from "react-router-dom";
 
 //TODO: Finne ut en måte å oppdatere quiz objektet med svar
 
-interface MatchingProps{
-  quizQuestionNum: number,
-  questionText: string,
-  question: string,
-  userAnswer: string
-}
+// interface MatchingProps{
+//   quizQuestionNum: number,
+//   questionText: string,
+//   question: string,
+//   userAnswer: string
+// }
 
-const MatchingCardQuizPage: React.FC<MatchingProps> = ({quizQuestionNum, questionText, question, userAnswer}) => {
+const MatchingCardQuizPage: React.FC = ({}) => {
   // const location = useLocation();
   // const navigate = useNavigate();
   // let {quiz, currentQuestionNum} = location.state || {};
   // const [matchingCards, setMatchingCards] = useState<MatchingCard[]>([]);
-  const [splitQuestion, setSplitQuestion] = useState<{ keys: string[]; values: string[] } | null>(null);
-  const [answer, setAnswer] = useState<string>(userAnswer);
+  // const [splitQuestion, setSplitQuestion] = useState<{ keys: string[]; values: string[] } | null>(null);
+  // const [answer, setAnswer] = useState<string>(userAnswer);
   // const [loadingMatchingCards, setLoadingMatchingCards] = useState<boolean>(false);
   // const [error, setError] = useState<string | null>(null);
   
-  useEffect(() => {
-    setSplitQuestion(MatchingService.splitQuestion(question));
-  }, [question]);
+  // useEffect(() => {
+  //   setSplitQuestion(MatchingService.splitQuestion(question));
+  // }, [question]);
 
-  // const nextQuestion = () => {
+  // // const nextQuestion = () => {
   //   currentQuestionNum = currentQuestionNum+1;
   //   const route = QuizService.getQuizRoute(quiz, currentQuestionNum);
   //   console.log(route)
@@ -70,11 +70,11 @@ const MatchingCardQuizPage: React.FC<MatchingProps> = ({quizQuestionNum, questio
 
   return (
     <div>
-        {question && (
+        {/* {question && (
           <div className="matching-card-wrapper">
               <div>
                 {/* Spørsmålstekst */}
-                <h3>{questionText}</h3>
+                {/* <h3>{questionText}</h3>
                 <hr />
 
                 <div className="matching-table-wrapper">
@@ -91,7 +91,7 @@ const MatchingCardQuizPage: React.FC<MatchingProps> = ({quizQuestionNum, questio
                 </div>
               </div>
           </div>
-        )}
+        )} */} */
     </div>
   );
 }

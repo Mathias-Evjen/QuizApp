@@ -4,7 +4,7 @@ import { useNavigate, useLocation } from 'react-router-dom';
 import * as QuizService from "./QuizService";
 import SequenceManageForm from "../sequence/component/SequenceManageForm";
 import RankingManageForm from "../ranking/component/RankingManageForm";
-import * as MatchingService from "../matching/MatchingService";
+import * as MatchingService from "./services/MatchingService";
 import * as SequenceService from "../sequence/SequenceService";
 import * as RankingService from "../ranking/RankingService";
 import FillInTheBlankEdit from "./questions/FillInTheBlankEdit";

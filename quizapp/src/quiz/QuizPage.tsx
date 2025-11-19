@@ -25,6 +25,9 @@ import { TrueFalseAttempt } from "../types/trueFalseAttempt";
 import TrueFalseComponent from "./questions/TrueFalseComponent";
 import { MultiplechoiceAttempt } from "../types/MultipleChoiceAttempt";
 import MultipleChoiceComponent from "./questions/MultipleChoiceComponent";
+import MatchingComponent from "./questions/MatchingComponent";
+import SequenceComponent from "./questions/SequenceComponent";
+import RankingComponent from "./questions/RankingComponent";
 
 
 const QuizPage: React.FC = () => {
@@ -124,7 +127,7 @@ const QuizPage: React.FC = () => {
         });
 
         matching.forEach(q => {
-            const matchingAttempt: MatchingAttempt = {matchingId: q.matchingId!, quizAttemptId: quizAttempt?.quizAttemptId!, quizQuestionNum: q.quizQuestionNum, userAnser: ""};
+            const matchingAttempt: MatchingAttempt = {matchingId: q.matchingId!, quizAttemptId: quizAttempt?.quizAttemptId!, quizQuestionNum: q.quizQuestionNum, userAnswer: ""};
             setMatchingAttempts(prevAttempts => 
                 [...prevAttempts, matchingAttempt]
             );
@@ -202,6 +205,18 @@ const QuizPage: React.FC = () => {
         );
     };
 
+    const handleAnswerMatching = (matchingId: number, newAnswer: string) => {
+
+    };
+
+    const handleAnswerSequence = (sequenceId: number, newAnswer: string) => {
+
+    };
+
+    const handleAnswerRanking = (rankingId: number, newAnswer: string) => {
+
+    };
+
     const submitQuiz = async () => {
         fibAttempts.forEach(attempt =>
             submitFibAttempt(attempt)
@@ -215,21 +230,6 @@ const QuizPage: React.FC = () => {
             submitMultipleChoiceAttempt(attempt)
         );
     };
-
-    const renderComponent = (question:Question) => {
-        if(question.questionType === "fillInTheBlank"){
-            return <FillInTheBlankComponent key={question.fillInTheBlankId} quizQuestionNum={question.quizQuestionNum} question={question.question} userAnswer="" />;
-        } else if(question.questionType === "sequence"){
-            return <SequenceCardQuizPage key={question.sequenceId} quizQuestionNum={question.quizQuestionNum} questionText={question.questionText} question={question.question} userAnswer="" />;
-        } else if(question.questionType === "ranking"){
-            return <RankingCardQuizPage key={question.rankingId} quizQuestionNum={question.quizQuestionNum} questionText={question.questionText} question={question.question} userAnswer="" />;
-        } 
-        else if(question.questionType === "matching"){
-            return <MatchingCardQuizPage key={question.matchingId} quizQuestionNum={question.quizQuestionNum} questionText={question.questionText} question={question.question} userAnswer="" />;
-        } 
-        
-        //return <h3>Question {question.quizQuestionNum}</h3>;
-    }
 
     useEffect(() => {
         createQuizAttempt();
@@ -273,8 +273,33 @@ const QuizPage: React.FC = () => {
                                     userAnswer={(multipleChoiceAttempts.find(attempt => attempt.multipleChoiceId === question.multipleChoiceId))?.userAnswer}
                                     options={question.options}
                                     handleAnswer={(handleAnswerMultipleChoice)} />
+                            ) : question.questionType === "matching" ? (
+                                <MatchingComponent
+                                    key={question.matchingId}
+                                    matchingId={question.matchingId!}
+                                    quizQuestionNum={question.quizQuestionNum}
+                                    question={question.question}
+                                    questionText={question.questionText}
+                                    userAnswer={(matchingAttempts.find(attempt => attempt.matchingId === question.matchingId))?.userAnswer}
+                                    handleAnswer={handleAnswerMatching} />
+                            ) : question.questionType === "sequence" ? (
+                                <SequenceComponent
+                                    key={question.sequenceId}
+                                    sequenceId={question.sequenceId!}
+                                    quizQuestionNum={question.quizQuestionNum}
+                                    question={question.question}
+                                    questionText={question.questionText}
+                                    userAnswer={(sequenceAttempts.find(attempt => attempt.sequenceId === question.sequenceId))?.userAnswer}
+                                    handleAnswer={handleAnswerSequence} />
                             ) : (
-                                <h3>Question {question.quizQuestionNum}</h3>
+                                <RankingComponent
+                                    key={question.rankingId}
+                                    rankingId={question.rankingId!}
+                                    quizQuestionNum={question.quizQuestionNum}
+                                    question={question.question}
+                                    questionText={question.questionText}
+                                    userAnswer={(rankingAttempts.find(attempt => attempt.rankingId === question.rankingId))?.userAnswer}
+                                    handleAnswer={handleAnswerRanking} />
                             )}
                         </>
                     ))}

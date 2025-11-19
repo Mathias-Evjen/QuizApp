@@ -3,6 +3,6 @@ export interface MatchingAttempt {
     matchingId: number;
     quizAttemptId: number;
     quizQuestionNum: number;
-    userAnser: string;
+    userAnswer: string;
     answeredCorrectly?: boolean;
 }

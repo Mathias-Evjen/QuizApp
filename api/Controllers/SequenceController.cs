@@ -51,20 +51,13 @@ public class SequenceAPIController : ControllerBase
         return Ok(questionDtos);
     }
 
-    [HttpPost("submitAttempts/{quizAttemptId}")]
-    public async Task<IActionResult> SubmitAttempt(int quizAttemptId, [FromBody] SequenceAttemptDto sequenceAttemptDto)
+    [HttpPost("submitQuestion")]
+    public async Task<IActionResult> SubmitAttempt([FromBody] SequenceAttemptDto sequenceAttemptDto)
     {
-        var sequence = await _sequenceRepository.GetById(sequenceAttemptDto.SequenceId);
-        if (sequence == null)
-        {
-            _logger.LogError("[SequenceAPIController - Submit question] Sequence question not found for the Id {Id: 0000}", sequenceAttemptDto.SequenceId);
-            return NotFound("Sequence question not found.");
-        }
-
         var sequenceAttempt = new SequenceAttempt
         {
-            SequenceId = sequence.SequenceId,
-            QuizAttemptId = quizAttemptId,
+            SequenceId = sequenceAttemptDto.SequenceId,
+            QuizAttemptId = sequenceAttemptDto.QuizAttemptId,
             UserAnswer = sequenceAttemptDto.UserAnswer,
             QuizQuestionNum = sequenceAttemptDto.QuizQuestionNum
         };

@@ -51,20 +51,13 @@ public class RankingAPIController : ControllerBase
         return Ok(questionDtos);
     }
 
-    [HttpPost("submitAttempts/{quizAttemptId}")]
-    public async Task<IActionResult> SubmitAttempt(int quizAttemptId, [FromBody] RankingAttemptDto rankingAttemptDto)
+    [HttpPost("submitQuestion")]
+    public async Task<IActionResult> SubmitAttempt([FromBody] RankingAttemptDto rankingAttemptDto)
     {
-        var ranking = await _rankingRepository.GetById(rankingAttemptDto.RankingId);
-        if (ranking == null)
-        {
-            _logger.LogError("[RankingAPIController - Submit question] Ranking question not found for the Id {Id: 0000}", rankingAttemptDto.RankingId);
-            return NotFound("Ranking question not found.");
-        }
-
         var rankingAttempt = new RankingAttempt
         {
-            RankingId = ranking.RankingId,
-            QuizAttemptId = quizAttemptId,
+            RankingId = rankingAttemptDto.RankingId,
+            QuizAttemptId = rankingAttemptDto.QuizAttemptId,
             UserAnswer = rankingAttemptDto.UserAnswer,
             QuizQuestionNum = rankingAttemptDto.QuizQuestionNum
         };

@@ -57,20 +57,13 @@ public class MatchingAPIController : ControllerBase
         return Ok(questionDtos);
     }
 
-    [HttpPost("submitAttempts/{quizAttemptId}")]
-    public async Task<IActionResult> SubmitAttempt(int quizAttemptId, [FromBody] MatchingAttemptDto matchingAttemptDto)
+    [HttpPost("submitQuestion")]
+    public async Task<IActionResult> SubmitAttempt([FromBody] MatchingAttemptDto matchingAttemptDto)
     {
-        var matching = await _matchingRepository.GetById(matchingAttemptDto.MatchingId);
-        if (matching == null)
-        {
-            _logger.LogError("[MatchingAPIController - Submit question] Matching question not found for the Id {Id: 0000}", matchingAttemptDto.MatchingId);
-            return NotFound("Matching question not found.");
-        }
-
         var matchingAttempt = new MatchingAttempt
         {
-            MatchingId = matching.MatchingId,
-            QuizAttemptId = quizAttemptId,
+            MatchingId = matchingAttemptDto.MatchingId,
+            QuizAttemptId = matchingAttemptDto.QuizAttemptId,
             UserAnswer = matchingAttemptDto.UserAnswer,
             QuizQuestionNum = matchingAttemptDto.QuizQuestionNum
         };

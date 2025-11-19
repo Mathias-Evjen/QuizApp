@@ -1,3 +1,5 @@
+import { RankingAttempt } from "../../types/rankingAttempt";
+
 const API_URL = import.meta.env.VITE_API_URL;
 
 const headers = {
@@ -22,6 +24,7 @@ export const fetchRankings = async (quizId: number) => {
   const response = await fetch(`${API_URL}/api/RankingAPI/getQuestions/${quizId}`);
   return handleResponse(response);
 };
+
 // Post create ranking
 export const createRanking = async (ranking: any) => {
   const response = await fetch(`${API_URL}/api/rankingapi/create`, {
@@ -31,15 +34,17 @@ export const createRanking = async (ranking: any) => {
   });
   return handleResponse(response);
 };
+
 //Submit ranking attempt
-export const submitRankingAttempt = async (quizAttemptId: number, ranking: any) => {
-  const response = await fetch(`${API_URL}/api/rankingapi/submitAttempts/${quizAttemptId}"`, {
+export const submitQuestion = async (rankingAttempt: RankingAttempt) => {
+  const response = await fetch(`${API_URL}/api/rankingapi/submitQuestion}"`, {
     method: 'POST',
     headers,
-    body: JSON.stringify(ranking),
+    body: JSON.stringify(rankingAttempt),
   });
   return handleResponse(response);
 };
+
 // Put update ranking
 export const updateRanking = async (rankingId: number, ranking: any) => {
   const response = await fetch(`${API_URL}/api/rankingapi/update/${rankingId}`, {
@@ -49,6 +54,7 @@ export const updateRanking = async (rankingId: number, ranking: any) => {
   });
   return handleResponse(response);
 };
+
 // Delete ranking
 export const deleteRanking = async (rankingId: number, quizQuestionNum: number, quizId: number) => {
   const response = await fetch(`${API_URL}/api/rankingapi/delete/${rankingId}?quizQuestionNum=${quizQuestionNum}&quizId=${quizId}`, {

@@ -1,3 +1,5 @@
+import { SequenceAttempt } from "../../types/sequenceAttempt";
+
 const API_URL = import.meta.env.VITE_API_URL;
 
 const headers = {
@@ -22,6 +24,7 @@ export const fetchSequences = async (quizId: number) => {
   const response = await fetch(`${API_URL}/api/SequenceAPI/getQuestions/${quizId}`);
   return handleResponse(response);
 };
+
 // Post create sequence
 export const createSequence = async (sequence: any) => {
   const response = await fetch(`${API_URL}/api/sequenceapi/create`, {
@@ -31,15 +34,17 @@ export const createSequence = async (sequence: any) => {
   });
   return handleResponse(response);
 };
+
 //Submit sequence attempt
-export const submitSequenceAttempt = async (quizAttemptId: number, sequence: any) => {
-  const response = await fetch(`${API_URL}/api/sequenceapi/submitAttempts/${quizAttemptId}"`, {
+export const submitQuestion= async (sequenceAttempt: SequenceAttempt) => {
+  const response = await fetch(`${API_URL}/api/sequenceapi/submitQuestion"`, {
     method: 'POST',
     headers,
-    body: JSON.stringify(sequence),
+    body: JSON.stringify(sequenceAttempt),
   });
   return handleResponse(response);
 };
+
 // Put update sequence
 export const updateSequence = async (sequenceId: number, sequence: any) => {
   const response = await fetch(`${API_URL}/api/sequenceapi/update/${sequenceId}`, {
@@ -49,6 +54,7 @@ export const updateSequence = async (sequenceId: number, sequence: any) => {
   });
   return handleResponse(response);
 };
+
 // Delete sequence
 export const deleteSequence = async (sequenceId: number, quizQuestionNum: number, quizId: number) => {
   const response = await fetch(`${API_URL}/api/sequenceapi/delete/${sequenceId}?quizQuestionNum=${quizQuestionNum}&quizId=${quizId}`, {

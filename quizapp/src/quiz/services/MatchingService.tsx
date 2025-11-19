@@ -1,3 +1,5 @@
+import { MatchingAttempt } from "../../types/matchingAttempt";
+
 const API_URL = import.meta.env.VITE_API_URL;
 
 const headers = {
@@ -22,6 +24,7 @@ export const fetchMatchings = async (quizId: number) => {
   const response = await fetch(`${API_URL}/api/MatchingAPI/getQuestions/${quizId}`);
   return handleResponse(response);
 };
+
 // Post create matching
 export const createMatching = async (matching: any) => {
   const response = await fetch(`${API_URL}/api/matchingapi/create`, {
@@ -31,15 +34,17 @@ export const createMatching = async (matching: any) => {
   });
   return handleResponse(response);
 };
+
 //Submit matching attempt
-export const submitMatchingAttempt = async (quizAttemptId: number, matching: any) => {
-  const response = await fetch(`${API_URL}/api/matchingapi/submitAttempts/${quizAttemptId}"`, {
+export const submitQuestion = async (matchingAttempt: MatchingAttempt) => {
+  const response = await fetch(`${API_URL}/api/matchingapi/submitQuestion"`, {
     method: 'POST',
     headers,
-    body: JSON.stringify(matching),
+    body: JSON.stringify(matchingAttempt),
   });
   return handleResponse(response);
 };
+
 // Put update matching
 export const updateMatching = async (matchingId: number, matching: any) => {
   const response = await fetch(`${API_URL}/api/matchingapi/update/${matchingId}`, {
@@ -49,6 +54,7 @@ export const updateMatching = async (matchingId: number, matching: any) => {
   });
   return handleResponse(response);
 };
+
 // Delete matching
 export const deleteMatching = async (matchingId: number, quizQuestionNum: number, quizId: number) => {
   const response = await fetch(`${API_URL}/api/matchingapi/delete/${matchingId}?quizQuestionNum=${quizQuestionNum}&quizId=${quizId}`, {

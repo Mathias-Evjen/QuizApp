@@ -5,15 +5,15 @@ import * as QuizService from "./QuizService";
 import * as FillIntheBlankService from "./services/FillInTheBlankService";
 import * as TrueFalseService from "./services/TrueFalseService";
 import * as MultipleChoiceService from "./services/MultipleChoiceService";
+import * as MatchingService from "./services/MatchingService";
+import * as SequenceService from "./services/SequenceService";
+import * as RankingService from "./services/RankingService";
 import { Question } from "../types/Question";
 import { FillInTheBlank } from "../types/fillInTheBlank";
 import { Matching } from "../types/matching";
 import { Ranking } from "../types/ranking";
 import { Sequence } from "../types/sequence";
 import FillInTheBlankComponent from "./questions/FillInTheBlankComponent";
-import SequenceCardQuizPage from "../sequence/SequenceCardQuizPage";
-import RankingCardQuizPage from "../ranking/RankingCardQuizPage";
-import MatchingCardQuizPage from "../matching/MatchingCardQuizPage";
 import { QuizAttempt } from "../types/quizAttempt";
 import { FillInTheBlankAttempt } from "../types/fillInTheBlankAttempt";
 import { MatchingAttempt } from "../types/matchingAttempt";
@@ -74,6 +74,17 @@ const QuizPage: React.FC = () => {
         }
     };
 
+    const createQuizAttempt = async () => {
+        const quizAttempt: QuizAttempt = {quizId: quizId};
+        try {
+            const data = await QuizService.createQuizAttempt(quizAttempt);
+            setQuizAttempt(data);
+            console.log(data);
+        } catch (error) {
+            console.error("There was a problem with the fetch operation: ", error);
+        }
+    };
+
     const submitFibAttempt = async (fibAttempt: FillInTheBlankAttempt) => {
         fibAttempt.quizAttemptId = quizAttempt?.quizAttemptId!;
         try {
@@ -104,14 +115,33 @@ const QuizPage: React.FC = () => {
         }
     };
 
-    const createQuizAttempt = async () => {
-        const quizAttempt: QuizAttempt = {quizId: quizId};
+    const submitMatchingAttempt = async (matchingAttempt: MatchingAttempt) => {
+        matchingAttempt.quizAttemptId = quizAttempt?.quizAttemptId!;
         try {
-            const data = await QuizService.createQuizAttempt(quizAttempt);
-            setQuizAttempt(data);
-            console.log(data);
+            const data = await MatchingService.submitQuestion(matchingAttempt);
+            console.log(`Question ${matchingAttempt.quizQuestionNum} submitted successfully: `, data);
         } catch (error) {
-            console.error("There was a problem with the fetch operation: ", error);
+            console.error(`There was an error when submitting question ${matchingAttempt.quizQuestionNum}: `, error);
+        }
+    };
+
+    const submitSequenceAttempt = async (sequenceAttempt: SequenceAttempt) => {
+        sequenceAttempt.quizAttemptId = quizAttempt?.quizAttemptId!;
+        try {
+            const data = await SequenceService.submitQuestion(sequenceAttempt);
+            console.log(`Question ${sequenceAttempt.quizQuestionNum} submitted successfully: `, data);
+        } catch (error) {
+            console.error(`There was an error when submitting question ${sequenceAttempt.quizQuestionNum}: `, error);
+        }
+    };
+
+    const submitRankingAttempt = async (rankingAttempt: RankingAttempt) => {
+        rankingAttempt.quizAttemptId = quizAttempt?.quizAttemptId!;
+        try {
+            const data = await RankingService.submitQuestion(rankingAttempt);
+            console.log(`Question ${rankingAttempt.quizQuestionNum} submitted successfully: `, data);
+        } catch (error) {
+            console.error(`There was an error when submitting question ${rankingAttempt.quizQuestionNum}: `, error);
         }
     };
 
@@ -206,15 +236,33 @@ const QuizPage: React.FC = () => {
     };
 
     const handleAnswerMatching = (matchingId: number, newAnswer: string) => {
-
+        setMatchingAttempts(prevAttempts =>
+            prevAttempts.map(attempt =>
+                attempt.matchingId === matchingId
+                ? {...attempt, userAnswer: newAnswer}
+                : attempt
+            )
+        );
     };
 
     const handleAnswerSequence = (sequenceId: number, newAnswer: string) => {
-
+        setSequenceAttempts(prevAttempts =>
+            prevAttempts.map(attempt =>
+                attempt.sequenceId === sequenceId
+                ? {...attempt, userAnswer: newAnswer}
+                : attempt
+            )
+        );
     };
 
     const handleAnswerRanking = (rankingId: number, newAnswer: string) => {
-
+        setRankingAttempts(prevAttempts =>
+            prevAttempts.map(attempt =>
+                attempt.rankingId === rankingId
+                ? {...attempt, userAnswer: newAnswer}
+                : attempt
+            )
+        );
     };
 
     const submitQuiz = async () => {
@@ -228,6 +276,18 @@ const QuizPage: React.FC = () => {
 
         multipleChoiceAttempts.forEach(attempt =>
             submitMultipleChoiceAttempt(attempt)
+        );
+
+        matchingAttempts.forEach(attempt =>
+            submitMatchingAttempt(attempt)
+        );
+
+        sequenceAttempts.forEach(attempt =>
+            submitSequenceAttempt(attempt)
+        );
+
+        rankingAttempts.forEach(attempt => 
+            submitRankingAttempt(attempt)
         );
     };
 

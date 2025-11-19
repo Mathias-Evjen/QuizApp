@@ -1,5 +1,5 @@
 import { Delete } from "@mui/icons-material";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 interface FillInTheBlankProps{
     // onQuestionChanged: (fillInTheBlankId: number, newQuestion: string) => void;
@@ -8,13 +8,21 @@ interface FillInTheBlankProps{
     fillInTheblankId: number;
     question: string;
     answer: string;
-    errors?: {question?: string, answer?: string}
+    errors?: {question?: string, answer?: string};
+    onChange?: (updatedQuestion: { question: string; correctAnswer: string; isDirty: boolean }) => void;
 }
 
 const FillInTheBlankEdit: React.FC<FillInTheBlankProps> = ({ 
-    fillInTheblankId, question, answer,  errors,
+    fillInTheblankId, question, answer,  errors, onChange
     // onQuestionChanged, onAnswerChanged, onDeletePressed 
     }) => {
+
+    const [questionEdit, setQuestionEdit] = useState<string>(question);
+    const [correctAnswerEdit, setCorrectAnswerEdit] = useState<string>(answer);
+
+    useEffect(() => {
+        onChange?.({ question: questionEdit, correctAnswer: correctAnswerEdit, isDirty: true });
+    }, [questionEdit, correctAnswerEdit]);
 
     return(
         <div className="fill-in-the-blank-edit-container">
@@ -27,6 +35,7 @@ const FillInTheBlankEdit: React.FC<FillInTheBlankProps> = ({
                             type="text"
                             value={question}
                             // onChange={(e) => onQuestionChanged(fillInTheblankId, e.target.value)}
+                            onChange={(e) => setQuestionEdit(e.target.value)}
                             placeholder="Write a question..." />
                     </div>
                     
@@ -36,6 +45,7 @@ const FillInTheBlankEdit: React.FC<FillInTheBlankProps> = ({
                             type="text"
                             value={answer}
                             // onChange={(e) => onAnswerChanged(fillInTheblankId, e.target.value)}
+                            onChange={(e) => setCorrectAnswerEdit(e.target.value)}
                             placeholder="Write the answer..." />
                     </div>
                     

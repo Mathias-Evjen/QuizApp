@@ -25,7 +25,7 @@ const App: React.FC = () => {
             <Route path="/quiz" element={<QuizzesPage />} />
             <Route path="/quiz/:id" element={<QuizPage />} />
             <Route path="/quizCreate" element={<QuizCreatePage />} />
-            <Route path="/quizManage" element={<QuizManagePage />} />
+            <Route path="/quizManage/:id" element={<QuizManagePage />} />
             <Route path="/flashCards" element={<Quizzes />} />
             <Route path='/flashCards/:id' element={<FlashCardQuizPage />} />
             <Route path='/flashCards/manage/:id' element={<ManageFlashCardQuiz />} />

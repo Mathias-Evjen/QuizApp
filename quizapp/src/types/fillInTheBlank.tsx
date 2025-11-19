@@ -6,6 +6,7 @@ export interface FillInTheBlank extends QuestionBase {
     fillInTheBlankId?: number;
     question: string;
     quizId: number;
+    correctAnswer?: string;
 
     isDirty?: boolean;
     isNew?: boolean;

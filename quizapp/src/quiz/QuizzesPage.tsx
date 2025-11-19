@@ -64,7 +64,7 @@ function QuizzesPage() {
                   <p className="quiz-card-num-questions">Questions: {card.numOfQuestions}</p>
                   <div className="quiz-card-buttons">
                     <button className="quiz-card-btn-open" onClick={() => openQuiz(card.quizId!)}>Open</button>
-                    <button className="quiz-card-btn-manage" onClick={() => navigate("/quizManage", {state: card})}>Manage</button>
+                    <button className="quiz-card-btn-manage" onClick={() => navigate(`/quizManage/${card.quizId!}`)}>Manage</button>
                   </div>
                 </div>
               ))

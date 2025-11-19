@@ -11,5 +11,7 @@ export interface Matching extends QuestionBase {
     quizId: number;
     quizQuestionNum: number;
 
-    isDirty: boolean;
+    isDirty?: boolean;
+    isNew?: boolean;
+    tempId?: number;
 }

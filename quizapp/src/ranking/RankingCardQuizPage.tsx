@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { Ranking } from "../types/ranking"
 import "./Ranking.css";
 import * as RankingService from "../quiz/services/RankingService";
-import * as QuizService from "../quiz/QuizService";
+import * as QuizService from "../quiz/services/QuizService";
 import { useNavigate, useLocation } from "react-router-dom";
 
 interface RankingProps{

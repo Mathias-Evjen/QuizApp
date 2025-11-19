@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
-import * as QuizService from "./QuizService";
-import "./Quiz.css";
+import * as QuizService from "./services/QuizService";
+import "./style/Quiz.css";
 import { Quiz} from "../types/quizCard";
 import { useNavigate } from 'react-router-dom';
 
@@ -8,17 +8,17 @@ import { useNavigate } from 'react-router-dom';
 function QuizzesPage() {
   const navigate = useNavigate();
 
-  const [quizCards, setQuizCards] = useState<Quiz[]>([]);
-  const [loadingQuizCards, setLoadingQuizCards] = useState<boolean>(false);
+  const [quizzes, setQuizzes] = useState<Quiz[]>([]);
+  const [loadingQuizzes, setLoadingQuizzes] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
 
   const fetchQuizCards = async () => {
-    setLoadingQuizCards(true);
+    setLoadingQuizzes(true);
     setError(null);
 
     try {
       const data = await QuizService.fetchQuizzes();
-      setQuizCards(data);
+      setQuizzes(data);
       console.log(data);
     } catch (error: unknown) {
       if (error instanceof Error) {
@@ -28,7 +28,7 @@ function QuizzesPage() {
       }
       setError("Failed to fetch quiz cards");
     } finally {
-      setLoadingQuizCards(false);
+      setLoadingQuizzes(false);
     }
   };
 
@@ -37,7 +37,7 @@ function QuizzesPage() {
     fetchQuizCards();
   }, []);
 
-  if (loadingQuizCards) {
+  if (loadingQuizzes) {
     return <div>Loading...</div>;
   }
 
@@ -46,9 +46,12 @@ function QuizzesPage() {
   }
 
   const openQuiz = (quizId: number) => {
-    
-    navigate(`/quiz/${quizId}`)
-  }
+    navigate(`/quiz/${quizId}`);
+  };
+
+  const manageQuiz = (quizId: number) => {
+    navigate(`/quiz/manage/${quizId}`);
+  };
 
   return (
     <div>
@@ -56,15 +59,15 @@ function QuizzesPage() {
           <h1>Quizzes</h1>
           <hr /><br />
           <div className="quiz-cards-container">
-            {quizCards.length > 0 ? (
-              quizCards.map((card) => (
-                <div className="quiz-card-box" key={card.quizId}>
-                  <p className="quiz-card-name">{card.name}</p>
-                  <p className="quiz-card-desc">"{card.description}"</p>
-                  <p className="quiz-card-num-questions">Questions: {card.numOfQuestions}</p>
+            {quizzes.length > 0 ? (
+              quizzes.map((quiz) => (
+                <div className="quiz-card-box" key={quiz.quizId}>
+                  <p className="quiz-card-name">{quiz.name}</p>
+                  <p className="quiz-card-desc">"{quiz.description}"</p>
+                  <p className="quiz-card-num-questions">Questions: {quiz.numOfQuestions}</p>
                   <div className="quiz-card-buttons">
-                    <button className="quiz-card-btn-open" onClick={() => openQuiz(card.quizId!)}>Open</button>
-                    <button className="quiz-card-btn-manage" onClick={() => navigate("/quizManage", {state: card})}>Manage</button>
+                    <button className="quiz-card-btn-open" onClick={() => openQuiz(quiz.quizId!)}>Open</button>
+                    <button className="quiz-card-btn-manage" onClick={() => manageQuiz(quiz.quizId!)}>Manage</button>
                   </div>
                 </div>
               ))

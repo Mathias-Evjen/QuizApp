@@ -1,5 +1,5 @@
-import * as QuizService from "./QuizService";
-import "./Quiz.css";
+import * as QuizService from "./services/QuizService";
+import "./style/Quiz.css";
 import { useNavigate } from 'react-router-dom';
 import { Quiz } from "../types/quizCard";
 import {useState, useEffect} from "react";

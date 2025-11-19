@@ -1,42 +1,98 @@
-import "./Quiz.css";
-import { useState, useEffect, useOptimistic } from "react";
-import { useNavigate, useLocation } from 'react-router-dom';
-import * as QuizService from "./QuizService";
-import SequenceManageForm from "../sequence/component/SequenceManageForm";
-import RankingManageForm from "../ranking/component/RankingManageForm";
-import * as MatchingService from "./services/MatchingService";
-import * as SequenceService from "./services/SequenceService";
-import * as RankingService from "./services/RankingService";
-import FillInTheBlankEdit from "./questions/FillInTheBlankEdit";
-import MultipleChoiceManageForm from "../multipleChoice/component/MultipleChoiceManageForm";
-import TrueFalseManageForm from "../trueFalse/component/TrueFalseManageForm";
+import "../style/Quiz.css";
+import { Quiz } from "../../types/quiz";
+import { FillInTheBlank } from "../../types/fillInTheBlank";
+import { Matching } from "../../types/matching";
+import { Ranking } from "../../types/ranking";
+import { TrueFalse } from "../../types/trueFalse";
+import { MultipleChoice } from "../../types/multipleChoice";
+import { Sequence } from "../../types/sequence";
+import { Question, QuestionType } from "../../types/Question";
+import { useNavigate, useParams } from 'react-router-dom';
+import { useEffect, useState } from "react";
+import * as QuizService from "../services/QuizService";
+import * as MatchingService from "../services/MatchingService";
+import * as SequenceService from "../services/SequenceService";
+import * as RankingService from "../services/RankingService";
+import FillInTheBlankManageFrom from "./FillInTheBlankManageForm";
+import SequenceManageForm from "./SequenceManageForm";
+import RankingManageForm from "./RankingManageForm";
+import MultipleChoiceManageForm from "./MultipleChoiceManageForm";
+import TrueFalseManageForm from "./TrueFalseManageForm";
 
 function QuizManagePage() {
     const navigate = useNavigate();
-    const location = useLocation();
-    const incomingQuiz:any = location.state;
-    const [quiz, setQuiz] = useState<any>(incomingQuiz);
+    
+    const { id } = useParams<{ id: string }>();
+    const quizId = Number(id);
+
+    const [quiz, setQuiz] = useState<Quiz>();
+    const [allQuestions, setAllQuestions] = useState<Question[]>([]);
+    const [loading, setLoading] = useState<boolean>(false);
+    const [error, setError] = useState<string | null>(null);
+
     console.log(quiz);
-    const [allQuestions, setAllQuestions] = useState([...(incomingQuiz.allQuestions || [])].sort(
-        (a, b) => a.quizQuestionNum - b.quizQuestionNum
-    ));
-    const [selectedType, setSelectedType] = useState("");
+    const [selectedType, setSelectedType] = useState<QuestionType | "">("");
     console.log(allQuestions);
 
+    const fetchQuiz = async () => {
+        setLoading(true);
+        setError(null);
+
+        try {
+            const data = await QuizService.fetchQuiz(quizId);
+            setQuiz(data);
+            handleSetAllQuestions(
+                data.fillInTheBlankQuestions, 
+                data.matchingQuestions, 
+                data.rankingQuestions,
+                data.sequenceQuestions,
+                data.multipleChoiceQuestions,
+                data.trueFalseQuestions);
+            console.log(data);
+        } catch (error: unknown) {
+            if (error instanceof Error) {
+                console.error(`There was a problem fetching data: ${error.message}`);
+            } else {
+                console.error("Unknown error", error);
+            }
+            setError("Failed to fetch quiz");
+        } finally {
+            setLoading(false);
+        }
+    };
+
+    const handleSetAllQuestions = (
+        fib: FillInTheBlank[], matching: Matching[], ranking: Ranking[], 
+        sequence: Sequence[], multipleChoice: MultipleChoice[], trueFalse: TrueFalse[]
+    ) => {
+
+        const combined: Question[] = [
+            ...fib.map(q => ({ ...q, questionType: "fillInTheBlank" as const })),
+            ...matching.map(q => ({ ...q, questionType: "matching" as const })),
+            ...ranking.map(q => ({ ...q, questionType: "ranking" as const })),
+            ...sequence.map(q => ({ ...q, questionType: "sequence" as const })),
+            ...multipleChoice.map(q => ({ ...q, questionType: "multipleChoice" as const })),
+            ...trueFalse.map(q => ({ ...q, questionType: "trueFalse" as const }))
+        ];
+
+        combined.sort((a, b) => a.quizQuestionNum - b.quizQuestionNum);
+
+        setAllQuestions(combined);
+    };
 
     const handleAddQuestion = () => {
-        if(selectedType != ""){
-            const questionNum = (allQuestions[allQuestions.length-1].quizQuestionNum)+1;
-            const newQuestion = {
-                [selectedType]: null,
-                questionText: "New question",
-                question: "",
-                correctAnswer: "",
-                quizQuestionNum: questionNum,
-                quizId: quiz.quizId,
-                isNew: true
-            }
-            setAllQuestions([...allQuestions, newQuestion]);
+        if(selectedType !== ""){
+            // const questionNum = (allQuestions[allQuestions.length-1].quizQuestionNum)+1;
+            // const newQuestion: Question = {
+            //     questionType: selectedType,
+            //     questionText: "New question",
+            //     question: "",
+            //     correctAnswer: "",
+            //     quizQuestionNum: questionNum,
+            //     quizId: quiz?.quizId!,
+            //     isNew: true
+            // }
+            // setAllQuestions([...allQuestions, newQuestion]);
             return;
         }
         console.log("Must choose a question type!")
@@ -58,12 +114,12 @@ function QuizManagePage() {
     }
 
     const handleDeleteQuestion = (index:number) => {
-        if("sequenceId" in allQuestions[index]){
-            SequenceService.deleteSequence(allQuestions[index].sequenceId, allQuestions[index].quizQuestionNum, allQuestions[index].quizId)
-        } else if("rankingId" in allQuestions[index]){
-            RankingService.deleteRanking(allQuestions[index].rankingId, allQuestions[index].quizQuestionNum, allQuestions[index].quizId)
-        } else if("matchingId" in allQuestions[index]){
-            MatchingService.deleteMatching(allQuestions[index].matchingId, allQuestions[index].quizQuestionNum, allQuestions[index].quizId)
+        if(allQuestions[index].questionType === "sequence"){
+            SequenceService.deleteSequence(allQuestions[index].sequenceId!, allQuestions[index].quizQuestionNum, allQuestions[index].quizId)
+        } else if(allQuestions[index].questionType === "ranking"){
+            RankingService.deleteRanking(allQuestions[index].rankingId!, allQuestions[index].quizQuestionNum, allQuestions[index].quizId)
+        } else if(allQuestions[index].questionType === "matching"){
+            MatchingService.deleteMatching(allQuestions[index].matchingId!, allQuestions[index].quizQuestionNum, allQuestions[index].quizId)
         }
 
         const updated = allQuestions.filter((_, i) => i !== index);
@@ -76,19 +132,19 @@ function QuizManagePage() {
         allQuestions.map(async (q) => {
             if (q.isNew && q.correctAnswer !== "") {
             // Sequence
-            if ("sequenceId" in q) {
+            if (q.questionType === "sequence") {
                 const { isNew, sequenceId, ...rest } = q;
                 const created = await SequenceService.createSequence(rest);
                 return { ...created, isNew: false, isDirty: false };
             }
             // Matching
-            if ("matchingId" in q) {
+            if (q.questionType === "matching") {
                 const { isNew, matchingId, ...rest } = q;
                 const created = await MatchingService.createMatching(rest);
                 return { ...created, isNew: false, isDirty: false };
             }
             // Ranking
-            if ("rankingId" in q) {
+            if (q.questionType === "ranking") {
                 const { isNew, rankingId, ...rest } = q;
                 const created = await RankingService.createRanking(rest);
                 return { ...created, isNew: false, isDirty: false };
@@ -108,24 +164,27 @@ function QuizManagePage() {
             }
         })
         setAllQuestions(newQuestions);
-
     }
+
+    useEffect(() => {
+        fetchQuiz();
+    }, []);
 
     return(
         <div className="quiz-manage-wrapper">
             <button className="quiz-back-btn" onClick={() => navigate(-1)}>{"<"}</button>
             <div className="quiz-manage-header">
-                <h3>{quiz.name}</h3>
-                <p>"{quiz.description}"</p>
-                <p className="quiz-manage-num-questions">Number of questions: {quiz.numOfQuestions}</p>
-                <select className="quiz-manage-header-select" onChange={(e) => setSelectedType(e.target.value)}>
+                <h3>{quiz?.name}</h3>
+                <p>"{quiz?.description}"</p>
+                <p className="quiz-manage-num-questions">Number of questions: {quiz?.numOfQuestions}</p>
+                <select className="quiz-manage-header-select" onChange={(e) => setSelectedType(e.target.value as QuestionType | "")}>
                     <option value="">Choose type:</option>
-                    <option value="fillInTheBlankId">Fill in the blank</option>
-                    <option value="matchingId">Matching</option>
-                    <option value="sequenceId">Sequence</option>
-                    <option value="rankingId">Ranking</option>
-                    <option value="multipleChoiceId">Multiple choice</option>
-                    <option value="trueFalseId">True or false</option>
+                    <option value="fillInTheBlank">Fill in the blank</option>
+                    <option value="matching">Matching</option>
+                    <option value="sequence">Sequence</option>
+                    <option value="ranking">Ranking</option>
+                    <option value="multipleChoice">Multiple choice</option>
+                    <option value="trueFalse">True or false</option>
                 </select>
                 <button className="quiz-manage-header-btn-add" onClick={handleAddQuestion}>Add Question</button>
                 <hr /><br/>
@@ -160,7 +219,7 @@ function QuizManagePage() {
                             )}{"fillInTheBlankId" in q && (
                                 <div>
                                     <hr />
-                                    <FillInTheBlankEdit fillInTheblankId={q.fillInTheBlankId} question={q.question} answer={q.correctAnswer} />
+                                    <FillInTheBlankManageFrom fillInTheblankId={q.fillInTheBlankId} question={q.question} answer={q.correctAnswer} />
                                 </div>
                             )}{"multipleChoiceId" in q && (
                                 <div>

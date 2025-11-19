@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { Sequence } from "../types/sequence"
 import "./Sequence.css";
 import * as SequenceService from "../quiz/services/SequenceService";
-import * as QuizService from "../quiz/QuizService";
+import * as QuizService from "../quiz/services/QuizService";
 import { useNavigate, useLocation } from "react-router-dom";
 
 interface SequenceProps{

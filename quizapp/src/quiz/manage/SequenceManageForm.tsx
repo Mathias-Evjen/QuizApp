@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { Sequence } from "../../types/sequence";
-import "../Sequence.css"
-import * as QuizService from "../../quiz/QuizService";
+import "../style/Sequence.css"
+import * as QuizService from "../services/QuizService";
 import { useNavigate, useLocation } from "react-router-dom";
 import rightArrow from "../../shared/right-arrow.png";
 import bin from "../../shared/bin.png";

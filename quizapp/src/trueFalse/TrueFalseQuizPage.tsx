@@ -1,7 +1,6 @@
 import { useState, useEffect } from "react";
 import { TrueFalse } from "../types/trueFalse";
-import "./trueFalse.css";
-import * as QuizService from "../quiz/QuizService";
+import * as QuizService from "../quiz/services/QuizService";
 import { useNavigate, useLocation } from "react-router-dom";
 
 function TrueFalseQuizPage() {

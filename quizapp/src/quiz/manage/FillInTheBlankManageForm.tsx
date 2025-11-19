@@ -11,7 +11,7 @@ interface FillInTheBlankProps{
     errors?: {question?: string, answer?: string}
 }
 
-const FillInTheBlankEdit: React.FC<FillInTheBlankProps> = ({ 
+const FillInTheBlankManageFrom: React.FC<FillInTheBlankProps> = ({ 
     fillInTheblankId, question, answer,  errors,
     // onQuestionChanged, onAnswerChanged, onDeletePressed 
     }) => {
@@ -47,4 +47,4 @@ const FillInTheBlankEdit: React.FC<FillInTheBlankProps> = ({
     )
 }
 
-export default FillInTheBlankEdit;
+export default FillInTheBlankManageFrom;

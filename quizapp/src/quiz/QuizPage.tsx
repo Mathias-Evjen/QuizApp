@@ -1,19 +1,11 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { Quiz } from "../types/quiz";
-import * as QuizService from "./QuizService";
-import * as FillIntheBlankService from "./services/FillInTheBlankService";
-import * as TrueFalseService from "./services/TrueFalseService";
-import * as MultipleChoiceService from "./services/MultipleChoiceService";
-import * as MatchingService from "./services/MatchingService";
-import * as SequenceService from "./services/SequenceService";
-import * as RankingService from "./services/RankingService";
 import { Question } from "../types/Question";
 import { FillInTheBlank } from "../types/fillInTheBlank";
 import { Matching } from "../types/matching";
 import { Ranking } from "../types/ranking";
 import { Sequence } from "../types/sequence";
-import FillInTheBlankComponent from "./questions/FillInTheBlankComponent";
 import { QuizAttempt } from "../types/quizAttempt";
 import { FillInTheBlankAttempt } from "../types/fillInTheBlankAttempt";
 import { MatchingAttempt } from "../types/matchingAttempt";
@@ -22,8 +14,16 @@ import { SequenceAttempt } from "../types/sequenceAttempt";
 import { MultipleChoice } from "../types/multipleChoice";
 import { TrueFalse } from "../types/trueFalse";
 import { TrueFalseAttempt } from "../types/trueFalseAttempt";
-import TrueFalseComponent from "./questions/TrueFalseComponent";
 import { MultiplechoiceAttempt } from "../types/MultipleChoiceAttempt";
+import * as QuizService from "./services/QuizService";
+import * as FillIntheBlankService from "./services/FillInTheBlankService";
+import * as TrueFalseService from "./services/TrueFalseService";
+import * as MultipleChoiceService from "./services/MultipleChoiceService";
+import * as MatchingService from "./services/MatchingService";
+import * as SequenceService from "./services/SequenceService";
+import * as RankingService from "./services/RankingService";
+import FillInTheBlankComponent from "./questions/FillInTheBlankComponent";
+import TrueFalseComponent from "./questions/TrueFalseComponent";
 import MultipleChoiceComponent from "./questions/MultipleChoiceComponent";
 import MatchingComponent from "./questions/MatchingComponent";
 import SequenceComponent from "./questions/SequenceComponent";
@@ -46,6 +46,10 @@ const QuizPage: React.FC = () => {
     const [sequenceAttempts, setSequenceAttempts] = useState<SequenceAttempt[]>([]);
     const [trueFalseAttempts, setTrueFalseAttempts] = useState<TrueFalseAttempt[]>([]);
     const [multipleChoiceAttempts, setMultipleChoiceAttempts] = useState<MultiplechoiceAttempt[]>([]);
+
+    // -----------------------
+    //     CRUD Operations 
+    // -----------------------
 
     const fetchQuiz = async () => {
         setLoading(true);
@@ -144,6 +148,10 @@ const QuizPage: React.FC = () => {
             console.error(`There was an error when submitting question ${rankingAttempt.quizQuestionNum}: `, error);
         }
     };
+
+    // ------------------------------------------
+    //     Setting questions and user answers
+    // ------------------------------------------
 
     const handleSetAllQuestions = (
         fib: FillInTheBlank[], matching: Matching[], ranking: Ranking[], 

@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { MultipleChoice } from "../../types/multipleChoice";
-import "../MultipleChoice.css";
+import "../style/MultipleChoice.css";
 
 interface MultipleChoiceManageFormProps {
     incomingMultipleChoice: MultipleChoice;

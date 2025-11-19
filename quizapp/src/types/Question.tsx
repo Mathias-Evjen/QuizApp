@@ -6,7 +6,6 @@ import { Sequence } from "./sequence";
 import { TrueFalse } from "./trueFalse";
 
 export interface QuestionBase {
-    quizQuestionNum: number;
     questionType: QuestionType;
 }
 

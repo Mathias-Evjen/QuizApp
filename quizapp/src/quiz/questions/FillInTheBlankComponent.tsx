@@ -1,4 +1,4 @@
-import "./style/FillInTheBlank.css";
+import "../style/FillInTheBlank.css";
 
 interface FillInTheBlankProps{
     handleAnswer: (fibId: number, newAnswer: string) => void;

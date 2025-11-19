@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import * as MatchingService from "../services/MatchingService";
-import "./style/Matching.css";
+import "../style/Matching.css";
 
 interface MatchingProps {
     handleAnswer: (matchingId: number, newAnswer: string) => void;

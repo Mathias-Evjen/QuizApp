@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { TrueFalse } from "../../types/trueFalse";
-import "../trueFalse.css";
+import "../style/TrueFalse.css";
 
 interface TrueFalseManageFormProps {
     incomingTrueFalse: TrueFalse;

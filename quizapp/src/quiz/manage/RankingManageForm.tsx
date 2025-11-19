@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { Ranking } from "../../types/ranking";
-import "../Ranking.css"
-import * as QuizService from "../../quiz/QuizService";
+import "../style/Ranking.css"
+import * as QuizService from "../services/QuizService";
 import { useNavigate, useLocation } from "react-router-dom";
 import rightArrow from "../../shared/right-arrow.png";
 import bin from "../../shared/bin.png";

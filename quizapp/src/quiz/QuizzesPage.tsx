@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { Quiz} from "../types/quizCard";
 import { useNavigate } from 'react-router-dom';
+import { useAuth } from "../auth/AuthContext";
 import * as QuizService from "./services/QuizService";
 import SearchBar from "../shared/SearchBar";
 import "./style/Quiz.css";
@@ -15,6 +16,8 @@ function QuizzesPage() {
 
   const [query, setQuery] = useState<string>("");
   const filteredQuizzes = quizzes.filter(quiz => quiz.name.toLocaleLowerCase().includes(query.toLocaleLowerCase()) || quiz.description.toLocaleLowerCase().includes(query.toLocaleUpperCase()));
+
+  const { user } = useAuth();
 
   const fetchQuizCards = async () => {
     setLoadingQuizzes(true);
@@ -72,7 +75,9 @@ function QuizzesPage() {
                   <p className="quiz-card-num-questions">Questions: {quiz.numOfQuestions}</p>
                   <div className="quiz-card-buttons">
                     <button className="quiz-card-btn-open" onClick={() => openQuiz(quiz.quizId!)}>Open</button>
-                    <button className="quiz-card-btn-manage" onClick={() => manageQuiz(quiz.quizId!)}>Manage</button>
+                    {user && (
+                      <button className="quiz-card-btn-manage" onClick={() => manageQuiz(quiz.quizId!)}>Manage</button>
+                    )}
                   </div>
                 </div>
               ))
@@ -80,7 +85,9 @@ function QuizzesPage() {
               <h3>No quizzes found.</h3>
             )}
           </div>
-          <button className="quiz-create" onClick={() => navigate("/quizCreate")}>Create</button>
+          {user && (
+            <button className="quiz-create" onClick={() => navigate("/quizCreate")}>Create</button>
+          )}
         </div>
     </div>
   )

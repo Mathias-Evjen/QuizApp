@@ -26,6 +26,7 @@ import ManageMultipleChoiceQuizPage from "./multipleChoice/ManageMultipleChoiceQ
 /* TRUE/FALSE */
 import ManageTrueFalseQuizPage from "./trueFalse/ManageTrueFalseQuizPage";
 import TrueFalseQuizPage from "./trueFalse/TrueFalseQuizPage";
+import QuizResultPage from "./quiz/QuizResultPage";
 
 
 const App: React.FC = () => {
@@ -45,6 +46,7 @@ const App: React.FC = () => {
 
             {/* QUIZ TAKE */}
             <Route path="/quiz/:id" element={<QuizPage />} />
+            <Route path="/quiz/:id/result" element={<QuizResultPage />} />
 
             {/* FLASHCARDS */}
             <Route path="/flashCards" element={<FlashCardQuizzesPage />} />

@@ -2,19 +2,19 @@ import "./Quiz.css";
 import {useState, useEffect} from "react";
 import { useNavigate, useLocation, useParams, data } from 'react-router-dom';
 import { Quiz } from "../types/quizCard";
-import * as QuizService from "./QuizService";
+import * as QuizService from "./services/QuizService";
 import { Question } from "../types/Question";
 import { FillInTheBlank } from "../types/fillInTheBlank";
 import { Matching } from "../types/matching";
 import { Ranking } from "../types/ranking";
 import { Sequence } from "../types/sequence";
-import SequenceManageForm from "../sequence/component/SequenceManageForm";
-import RankingManageForm from "../ranking/component/RankingManageForm";
-import * as MatchingService from "../matching/MatchingService";
-import * as SequenceService from "../sequence/SequenceService";
-import * as RankingService from "../ranking/RankingService";
+import SequenceManageForm from "./manage/SequenceManageForm";
+import RankingManageForm from "./manage/RankingManageForm";
+import * as MatchingService from "./services/MatchingService";
+import * as SequenceService from "./services/SequenceService";
+import * as RankingService from "./services/RankingService";
 import * as FillInTheBlankService from "./services/FillInTheBlankService"
-import FillInTheBlankEdit from "./questions/FillInTheBlankEdit";
+import FillInTheBlankEdit from "./manage/FillInTheBlankManageForm";
 
 
 function QuizManagePage(){

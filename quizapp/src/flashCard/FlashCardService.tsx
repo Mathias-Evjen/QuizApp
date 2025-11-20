@@ -17,6 +17,17 @@ const handleResponse = async (response: Response) => {
     }
 }
 
+const getAuthHeaders = () => {
+    const token = localStorage.getItem("token");
+    const headers: HeadersInit = {
+        "Content-Type": "application/json",
+    };
+    if (token) {
+        headers["Authorization"] = `Bearer ${token}`;
+    }
+    return headers;
+}
+
 // Get flash cards
 export const fetchFlashCards = async (quizId: number) => {
     const response = await fetch(`${API_URL}/api/flashcardapi/getFlashCards/${quizId}`);
@@ -27,7 +38,7 @@ export const fetchFlashCards = async (quizId: number) => {
 export const createFlashCard = async (flashCard: FlashCard) => {
     const response = await fetch(`${API_URL}/api/flashcardapi/create`, {
         method: "POST",
-        headers,
+        headers: getAuthHeaders(),
         body: JSON.stringify(flashCard)
     });
     return handleResponse(response);
@@ -37,7 +48,7 @@ export const createFlashCard = async (flashCard: FlashCard) => {
 export const updateFlashCard = async (flashCard: FlashCard) => {
     const response = await fetch(`${API_URL}/api/flashcardapi/update/${flashCard.flashCardId}`, {
         method: "PUT",
-        headers,
+        headers: getAuthHeaders(),
         body: JSON.stringify(flashCard)
     });
     return handleResponse(response);
@@ -50,7 +61,8 @@ export const deleteFlashCard = async (flashCardId: number, quizQuestionNum: numb
         quizId: `${quizId}`
     });
     const response = await fetch(`${API_URL}/api/flashcardapi/delete/${flashCardId}?${params}`, {
-        method: "DELETE"
+        method: "DELETE",
+        headers: getAuthHeaders()
     });
     return handleResponse(response);
 }

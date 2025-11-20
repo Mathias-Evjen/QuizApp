@@ -1,5 +1,5 @@
 import { useNavigate } from 'react-router-dom';
-import { QuizAttempt } from '../types/quizAttempt';
+import { QuizAttempt } from '../../types/quizAttempt';
 
 const API_URL = import.meta.env.VITE_API_URL;
 
@@ -19,6 +19,17 @@ const handleResponse = async (response: Response) => {
   }
 };
 
+const getAuthHeaders = () => {
+    const token = localStorage.getItem("token");
+    const headers: HeadersInit = {
+        "Content-Type": "application/json",
+    };
+    if (token) {
+        headers["Authorization"] = `Bearer ${token}`;
+    }
+    return headers;
+};
+
 // Get quizzes
 export const fetchQuizzes = async () => {
   const response = await fetch(`${API_URL}/api/quizapi/getquizzes`);
@@ -35,7 +46,7 @@ export const fetchQuiz = async (quizId: number) => {
 export const createQuiz = async (quiz: any) => {
   const response = await fetch(`${API_URL}/api/quizapi/create`, {
     method: 'POST',
-    headers,
+    headers: getAuthHeaders(),
     body: JSON.stringify(quiz),
   });
   return handleResponse(response);
@@ -55,7 +66,7 @@ export const createQuizAttempt = async (quizAttempt: QuizAttempt) => {
 export const updateQuiz = async (quizId: number, quiz: any) => {
   const response = await fetch(`${API_URL}/api/quizapi/update/${quizId}`, {
     method: 'PUT',
-    headers,
+    headers: getAuthHeaders(),
     body: JSON.stringify(quiz),
   });
   return handleResponse(response);
@@ -65,6 +76,7 @@ export const updateQuiz = async (quizId: number, quiz: any) => {
 export const deleteQuiz = async (quizId: number) => {
   const response = await fetch(`${API_URL}/api/quizapi/delete/${quizId}`, {
     method: 'DELETE',
+    headers: getAuthHeaders()
   });
   return handleResponse(response);
 };

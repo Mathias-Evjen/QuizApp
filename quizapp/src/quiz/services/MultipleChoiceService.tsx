@@ -21,6 +21,16 @@ const handleResponse = async (response: Response) => {
   }
 };
 
+const getAuthHeaders = () => {
+    const token = localStorage.getItem("token");
+    const headers: HeadersInit = {
+        "Content-Type": "application/json",
+    };
+    if (token) {
+        headers["Authorization"] = `Bearer ${token}`;
+    }
+    return headers;
+};
 
 export const fetchMultipleChoiceQuestions = async (quizId: number) => {
   const response = await fetch(`${API_URL}/api/MultipleChoiceAPI/getQuestions/${quizId}`);
@@ -47,7 +57,7 @@ export const submitQuestion = async (mcAttempt: MultiplechoiceAttempt) => {
 export const createMultipleChoice = async (question: MultipleChoice) => {
   const response = await fetch(`${API_URL}/api/MultipleChoiceAPI/create`, {
     method: 'POST',
-    headers,
+    headers: getAuthHeaders(),
     body: JSON.stringify(question),
   });
   return handleResponse(response);
@@ -57,7 +67,7 @@ export const createMultipleChoice = async (question: MultipleChoice) => {
 export const updateMultipleChoice = async (id: number, question: MultipleChoice) => {
   const response = await fetch(`${API_URL}/api/MultipleChoiceAPI/update/${id}`, {
     method: 'PUT',
-    headers,
+    headers: getAuthHeaders(),
     body: JSON.stringify(question),
   });
   return handleResponse(response);
@@ -67,6 +77,7 @@ export const updateMultipleChoice = async (id: number, question: MultipleChoice)
 export const deleteMultipleChoice = async (id: number, qNum: number, quizId: number) => {
   const response = await fetch(`${API_URL}/api/MultipleChoiceAPI/delete/${id}?qNum=${qNum}&quizId=${quizId}`, {
     method: 'DELETE',
+    headers: getAuthHeaders()
   });
   return handleResponse(response);
 };

@@ -9,8 +9,26 @@ const headers = {
 };
 
 const handleResponse = async (response: Response) => {
-    if (response.ok) return response.status === 204 ? null : response.json();
-    throw new Error(await response.text());
+  if (response.ok) {  // HTTP status code success 200-299
+    if (response.status === 204) { // Detele returns 204 No content
+      return null;
+    }
+    return response.json(); // other returns response body as JSON
+  } else {
+    const errorText = await response.text();
+    throw new Error(errorText || 'Network response was not ok');
+  }
+};
+
+const getAuthHeaders = () => {
+    const token = localStorage.getItem("token");
+    const headers: HeadersInit = {
+        "Content-Type": "application/json",
+    };
+    if (token) {
+        headers["Authorization"] = `Bearer ${token}`;
+    }
+    return headers;
 };
 
 export const fetchTrueFalseQuestions = async (quizId: number) => {
@@ -31,7 +49,7 @@ export const submitQuestion = async (trueFalseAttempt: TrueFalseAttempt) => {
 export const createTrueFalse = async (question: TrueFalse) => {
     const response = await fetch(`${API_URL}/api/TrueFalseAPI/create`, {
         method: "POST",
-        headers,
+        headers: getAuthHeaders(),
         body: JSON.stringify(question),
     });
     return handleResponse(response);
@@ -40,7 +58,7 @@ export const createTrueFalse = async (question: TrueFalse) => {
 export const updateTrueFalse = async (id: number, question: TrueFalse) => {
     const response = await fetch(`${API_URL}/api/TrueFalseAPI/update/${id}`, {
         method: "PUT",
-        headers,
+        headers: getAuthHeaders(),
         body: JSON.stringify(question),
     });
     return handleResponse(response);
@@ -49,7 +67,7 @@ export const updateTrueFalse = async (id: number, question: TrueFalse) => {
 export const deleteTrueFalse = async (id: number, qNum: number, quizId: number) => {
     const response = await fetch(
         `${API_URL}/api/TrueFalseAPI/delete/${id}?qNum=${qNum}&quizId=${quizId}`,
-        { method: "DELETE" }
+        { method: "DELETE", headers: getAuthHeaders() }
     );
     return handleResponse(response);
 };

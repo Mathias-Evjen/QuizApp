@@ -1,4 +1,5 @@
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using QuizApp.DAL;
 using QuizApp.DTOs;
@@ -78,6 +79,7 @@ namespace QuizApp.Controllers
             return Ok(multipleChoiceAttempt);
         }
 
+        [Authorize]
         [HttpPost("create")]
         public async Task<IActionResult> Create([FromBody] MultipleChoiceDto multipleChoiceDto)
         {
@@ -108,6 +110,7 @@ namespace QuizApp.Controllers
             return StatusCode(500, "Internal server error");
         }
 
+        [Authorize]
         [HttpPut("update/{multipleChoiceId}")]
         public async Task<IActionResult> Edit(int multipleChoiceId, [FromBody] MultipleChoiceDto multipleChoiceDto)
         {
@@ -140,6 +143,7 @@ namespace QuizApp.Controllers
             return StatusCode(500, "Internal server error");
         }
 
+        [Authorize]
         [HttpDelete("delete/{questionId}")]
         public async Task<IActionResult> Delete(int questionId, [FromQuery] int qNum, [FromQuery] int quizId)
         {

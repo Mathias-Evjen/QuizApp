@@ -4,6 +4,7 @@ using QuizApp.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 using QuizApp.Services;
 using QuizApp.DTOs;
+using Microsoft.AspNetCore.Authorization;
 
 namespace QuizApp.Controllers;
 
@@ -72,6 +73,7 @@ public class RankingAPIController : ControllerBase
         return Ok(rankingAttempt);
     }
 
+    [Authorize]
     [HttpPost("create")]
     public async Task<IActionResult> CreateRankingQuestion([FromBody] RankingDto rankingDto)
     {
@@ -93,6 +95,7 @@ public class RankingAPIController : ControllerBase
         return StatusCode(500, "Internal server error");
     }
 
+    [Authorize]
     [HttpPut("update/{rankingId}")]
     public async Task<IActionResult> Update([FromBody] RankingDto rankingDto)
     {
@@ -114,6 +117,7 @@ public class RankingAPIController : ControllerBase
         return StatusCode(500, "Internal server error");
     }
 
+    [Authorize]
     [HttpDelete("delete/{rankingId}")]
     public async Task<IActionResult> Delete(int rankingId, [FromQuery] int quizQuestionNum, [FromQuery] int quizId)
     {

@@ -4,6 +4,7 @@ using QuizApp.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 using QuizApp.Services;
 using QuizApp.DTOs;
+using Microsoft.AspNetCore.Authorization;
 
 namespace QuizApp.Controllers;
 
@@ -72,7 +73,7 @@ public class SequenceAPIController : ControllerBase
         return Ok(sequenceAttempt);
     }
 
-
+    [Authorize]
     [HttpPost("create")]
     public async Task<IActionResult> CreateSequenceQuestion([FromBody] SequenceDto sequenceDto)
     {
@@ -94,6 +95,7 @@ public class SequenceAPIController : ControllerBase
         return StatusCode(500, "Internal server error");
     }
 
+    [Authorize]
     [HttpPut("update/{sequenceId}")]
     public async Task<IActionResult> Update([FromBody] SequenceDto sequenceDto)
     {
@@ -115,6 +117,7 @@ public class SequenceAPIController : ControllerBase
         return StatusCode(500, "Internal server error");
     }
 
+    [Authorize]
     [HttpDelete("delete/{sequenceId}")]
     public async Task<IActionResult> Delete(int sequenceId, [FromQuery] int quizQuestionNum, [FromQuery] int quizId)
     {

@@ -1,9 +1,9 @@
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using QuizApp.DAL;
 using QuizApp.DTOs;
 using QuizApp.Models;
 using QuizApp.Services;
-using QuizApp.ViewModels;
 
 namespace QuizApp.Controllers;
 
@@ -78,7 +78,7 @@ public class MatchingAPIController : ControllerBase
         return Ok(matchingAttempt);
     }
 
-
+    [Authorize]
     [HttpPost("create")]
     public async Task<IActionResult> CreateMatchingQuestion([FromBody] MatchingDto matchingDto)
     {
@@ -100,7 +100,7 @@ public class MatchingAPIController : ControllerBase
         return StatusCode(500, "Internal server error");
     }
 
-
+    [Authorize]
     [HttpPut("update/{matchingId}")]
     public async Task<IActionResult> Update([FromBody] MatchingDto matchingDto)
     {
@@ -124,7 +124,7 @@ public class MatchingAPIController : ControllerBase
         return StatusCode(500, "Internal server error");
     }
 
-
+    [Authorize]
     [HttpDelete("delete/{matchingId}")]
     public async Task<IActionResult> Delete(int matchingId, [FromQuery] int quizQuestionNum, [FromQuery] int quizId)
     {

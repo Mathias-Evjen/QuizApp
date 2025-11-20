@@ -3,6 +3,7 @@ using QuizApp.DAL;
 using QuizApp.Models;
 using QuizApp.Services;
 using QuizApp.DTOs;
+using Microsoft.AspNetCore.Authorization;
 
 namespace QuizApp.Controllers
 {
@@ -78,6 +79,7 @@ namespace QuizApp.Controllers
             return Ok(fillInTheBlankAttempt);
         }
 
+        [Authorize]
         [HttpPost("create")]
         public async Task<IActionResult> Create([FromBody] FillInTheBlankDto fillInTheBlankDto)
         {
@@ -102,7 +104,8 @@ namespace QuizApp.Controllers
             _logger.LogError("[FillInTheBlankAPIController] Question creation failed {@question}", newQuestion);
             return StatusCode(500, "Internal server error");
         }
-    
+
+        [Authorize]
         [HttpPut("update/{fillInTheBlankId}")]
         public async Task<IActionResult> Edit(int fillInTheBlankId, [FromBody] FillInTheBlankDto fillQuestionDto)
         {
@@ -128,6 +131,7 @@ namespace QuizApp.Controllers
             return StatusCode(500, "Internal server error");
         }
 
+        [Authorize]
         [HttpDelete("delete/{fillInTheBlankId}")]
         public async Task<IActionResult> Delete(int fillInTheBlankId, [FromQuery] int qNum, [FromQuery] int quizId)
         {

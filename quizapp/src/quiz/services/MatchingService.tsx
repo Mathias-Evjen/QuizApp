@@ -18,6 +18,17 @@ const handleResponse = async (response: Response) => {
   }
 };
 
+const getAuthHeaders = () => {
+    const token = localStorage.getItem("token");
+    const headers: HeadersInit = {
+        "Content-Type": "application/json",
+    };
+    if (token) {
+        headers["Authorization"] = `Bearer ${token}`;
+    }
+    return headers;
+};
+
 // Get matchings
 export const fetchMatchings = async (quizId: number) => {
   console.log(quizId);
@@ -29,7 +40,7 @@ export const fetchMatchings = async (quizId: number) => {
 export const createMatching = async (matching: any) => {
   const response = await fetch(`${API_URL}/api/matchingapi/create`, {
     method: 'POST',
-    headers,
+    headers: getAuthHeaders(),
     body: JSON.stringify(matching),
   });
   return handleResponse(response);
@@ -49,7 +60,7 @@ export const submitQuestion = async (matchingAttempt: MatchingAttempt) => {
 export const updateMatching = async (matchingId: number, matching: any) => {
   const response = await fetch(`${API_URL}/api/matchingapi/update/${matchingId}`, {
     method: 'PUT',
-    headers,
+    headers: getAuthHeaders(),
     body: JSON.stringify(matching),
   });
   return handleResponse(response);
@@ -59,6 +70,7 @@ export const updateMatching = async (matchingId: number, matching: any) => {
 export const deleteMatching = async (matchingId: number, quizQuestionNum: number, quizId: number) => {
   const response = await fetch(`${API_URL}/api/matchingapi/delete/${matchingId}?quizQuestionNum=${quizQuestionNum}&quizId=${quizId}`, {
     method: 'DELETE',
+    headers: getAuthHeaders()
   });
   return handleResponse(response);
 };

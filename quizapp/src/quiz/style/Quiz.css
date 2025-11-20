@@ -68,12 +68,19 @@ button:hover{
     max-height: 8rem;
     border: solid 1px lightgray;
     border-radius: 10px;
+    background-color: white;
     margin: auto;
     margin-bottom: 10px;
     padding: 20px;
     text-align: left;
     position: relative;
 }
+
+.quiz-card-box:hover {
+    cursor: pointer;
+    filter: brightness(0.95);
+}
+
 .quiz-card-name{
     font-weight: bold;
     font-size: 19px;

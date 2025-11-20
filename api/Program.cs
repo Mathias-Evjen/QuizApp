@@ -12,6 +12,13 @@ using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
 
+builder.Services.AddDbContext<QuizDbContext>(options =>
+{
+    options.UseSqlite(
+        builder.Configuration["ConnectionStrings:QuizDbContextConnection"]
+    );
+});
+
 builder.Services.AddDbContext<AuthDbContext>(options =>
 {
     options.UseSqlite(builder.Configuration["ConnectionStrings:AuthDbContextConnection"]);
@@ -29,7 +36,7 @@ builder.Services.AddSwaggerGen(c =>
 
     c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
     {
-        Description = "JWT Authorization header using the Bearer scheme. Example: \"Bearer {token}\"",
+        Description = "JWT Authorization header using the Bearer scheme. Example: \"Authorization: Bearer {token}\"",
         Name = "Authorization",
         In = ParameterLocation.Header,
         Type = SecuritySchemeType.ApiKey,
@@ -52,13 +59,6 @@ builder.Services.AddSwaggerGen(c =>
     });
 });
 
-builder.Services.AddDbContext<QuizDbContext>(options =>
-{
-    options.UseSqlite(
-        builder.Configuration["ConnectionStrings:QuizDbContextConnection"]
-    );
-});
-
 builder.Services.AddControllers().AddNewtonsoftJson(options =>
 {
     options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore;
@@ -67,7 +67,7 @@ builder.Services.AddControllers().AddNewtonsoftJson(options =>
 builder.Services.AddCors(options =>
     {
         options.AddPolicy("CorsPolicy",
-            builder => builder.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());
+            builder => builder.WithOrigins("http://localhost:5173").AllowAnyMethod().AllowAnyHeader().AllowCredentials());
     });
 
 builder.Services.AddScoped(typeof(IQuestionRepository<>), typeof(QuestionRepository<>));
@@ -108,6 +108,36 @@ builder.Services.AddAuthentication(options =>
             )
         )
     };
+
+    options.Events = new JwtBearerEvents
+    {
+        OnMessageReceived = context =>
+        {
+            var token = context.Request.Headers["Authorization"].FirstOrDefault()?.Split(" ").LastOrDefault();
+            Console.WriteLine($"OnMessageReceived - Token: {token}");
+            return Task.CompletedTask;
+        },
+        OnTokenValidated = context =>
+        {
+            Console.WriteLine("OnTokenValidated: SUCCESS");
+            return Task.CompletedTask;
+        },
+        OnAuthenticationFailed = context =>
+        {
+            Console.WriteLine($"OnAuthenticationFailed: {context.Exception.Message}");
+            Console.WriteLine($"Exception Type: {context.Exception.GetType().Name}");
+            if (context.Exception.InnerException != null)
+            {
+                Console.WriteLine($"Inner Exception: {context.Exception.InnerException.Message}");
+            }
+            return Task.CompletedTask;
+        },
+        OnChallenge = context =>
+        {
+            Console.WriteLine($"OnChallenge: {context.Error} - {context.ErrorDescription}");
+            return Task.CompletedTask;
+        }
+    };
 });
 
 var loggerConfiguration = new LoggerConfiguration()
@@ -133,6 +163,7 @@ if (app.Environment.IsDevelopment())
 app.UseStaticFiles();
 app.UseRouting();
 app.UseCors("CorsPolicy");
+
 app.UseAuthentication();
 app.UseAuthorization();
 app.MapControllers();

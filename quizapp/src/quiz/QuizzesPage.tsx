@@ -5,6 +5,7 @@ import { useAuth } from "../auth/AuthContext";
 import * as QuizService from "./services/QuizService";
 import SearchBar from "../shared/SearchBar";
 import "./style/Quiz.css";
+import QuizCard from "./QuizCard";
 
 
 function QuizzesPage() {
@@ -19,7 +20,7 @@ function QuizzesPage() {
 
   const { user } = useAuth();
 
-  const fetchQuizCards = async () => {
+  const fetchQuizzes = async () => {
     setLoadingQuizzes(true);
     setError(null);
 
@@ -41,7 +42,7 @@ function QuizzesPage() {
 
   useEffect(() => {
     console.log("Fetching quizzes");
-    fetchQuizCards();
+    fetchQuizzes();
   }, []);
 
   if (loadingQuizzes) {
@@ -67,22 +68,21 @@ function QuizzesPage() {
           <SearchBar query={query} placeholder="Search for a quiz" handleSearch={setQuery}/>
           <hr /><br />
           <div className="quiz-cards-container">
-            {quizzes.length > 0 ? (
-              filteredQuizzes.map((quiz) => (
-                <div className="quiz-card-box" key={quiz.quizId}>
-                  <p className="quiz-card-name">{quiz.name}</p>
-                  <p className="quiz-card-desc">"{quiz.description}"</p>
-                  <p className="quiz-card-num-questions">Questions: {quiz.numOfQuestions}</p>
-                  <div className="quiz-card-buttons">
-                    <button className="quiz-card-btn-open" onClick={() => openQuiz(quiz.quizId!)}>Open</button>
-                    {user && (
-                      <button className="quiz-card-btn-manage" onClick={() => manageQuiz(quiz.quizId!)}>Manage</button>
-                    )}
-                  </div>
-                </div>
-              ))
+            {quizzes.length === 0 ? (
+              <h3>There are no quizzes to show</h3>
+            ) : filteredQuizzes.length === 0 ? (
+              <h3>There are no quizzes matching "{query}"</h3>
             ) : (
-              <h3>No quizzes found.</h3>
+              filteredQuizzes.map((quiz) => (
+                <QuizCard
+                  key={quiz.quizId}
+                  quizId={quiz.quizId!}
+                  name={quiz.name}
+                  description={quiz.description}
+                  numOfQuestions={quiz.numOfQuestions!}
+                  openManageQuiz={manageQuiz} 
+                  user={user} />
+              ))
             )}
           </div>
           {user && (

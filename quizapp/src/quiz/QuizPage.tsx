@@ -348,10 +348,20 @@ const QuizPage: React.FC = () => {
             }
         });
 
-        navigate('/quiz/${quizId}/result', {
+        navigate(`/quiz/${quizId}/result`, {
             state: {
                 score,
-                total
+                total,
+                quiz,
+                allQuestions,
+                attempts: {
+                    fibAttempts,
+                    trueFalseAttempts,
+                    multipleChoiceAttempts,
+                    matchingAttempts,
+                    sequenceAttempts,
+                    rankingAttempts
+                }
             }
         });
     }
@@ -360,109 +370,109 @@ const QuizPage: React.FC = () => {
 
 
 
-        //        fibAttempts.forEach(attempt =>
-        //            submitFibAttempt(attempt)
-        //        );
-        //
-        //        trueFalseAttempts.forEach(attempt =>
-        //            submitTrueFalseAttempt(attempt)
-        //        );
-        //
-        //        multipleChoiceAttempts.forEach(attempt =>
-        //            submitMultipleChoiceAttempt(attempt)
-        //        );
-        //
-        //        matchingAttempts.forEach(attempt =>
-        //            submitMatchingAttempt(attempt)
-        //        );
-        //
-        //        sequenceAttempts.forEach(attempt =>
-        //            submitSequenceAttempt(attempt)
-        //        );
-        //
-        //        rankingAttempts.forEach(attempt => 
-        //            submitRankingAttempt(attempt)
-        //        );
-        //    };
+    //        fibAttempts.forEach(attempt =>
+    //            submitFibAttempt(attempt)
+    //        );
+    //
+    //        trueFalseAttempts.forEach(attempt =>
+    //            submitTrueFalseAttempt(attempt)
+    //        );
+    //
+    //        multipleChoiceAttempts.forEach(attempt =>
+    //            submitMultipleChoiceAttempt(attempt)
+    //        );
+    //
+    //        matchingAttempts.forEach(attempt =>
+    //            submitMatchingAttempt(attempt)
+    //        );
+    //
+    //        sequenceAttempts.forEach(attempt =>
+    //            submitSequenceAttempt(attempt)
+    //        );
+    //
+    //        rankingAttempts.forEach(attempt => 
+    //            submitRankingAttempt(attempt)
+    //        );
+    //    };
 
-        useEffect(() => {
-            createQuizAttempt();
-            fetchQuiz();
-        }, [])
+    useEffect(() => {
+        createQuizAttempt();
+        fetchQuiz();
+    }, [])
 
-        return (
-            <>
-                {loading ? (
-                    <p className="loading">Loading...</p>
-                ) : error ? (
-                    <p className="fetch-error">{error}</p>
-                ) : (
-                    <>
-                        <div className="quiz-page-container">
-                            <h1>{quiz?.name}</h1>
-                            {allQuestions.map(question => (
-                                <>
-                                    {question.questionType === "fillInTheBlank" ? (
-                                        <FillInTheBlankComponent
-                                            key={question.fillInTheBlankId}
-                                            fillInTheBlankId={question.fillInTheBlankId!}
-                                            quizQuestionNum={question.quizQuestionNum}
-                                            question={question.question}
-                                            userAnswer={(fibAttempts.find(attempt => attempt.fillInTheBlankId === question.fillInTheBlankId))?.userAnswer!}
-                                            handleAnswer={handleAnswerFib} />
-                                    ) : question.questionType === "trueFalse" ? (
-                                        <TrueFalseComponent
-                                            key={question.trueFalseId}
-                                            trueFalseId={question.trueFalseId!}
-                                            quizQuestionNum={question.quizQuestionNum}
-                                            question={question.question}
-                                            userAnswer={(trueFalseAttempts.find(attempt => attempt.trueFalseId === question.trueFalseId))?.userAnswer}
-                                            handleAnswer={handleAnswerTrueFalse} />
-                                    ) : question.questionType === "multipleChoice" ? (
-                                        <MultipleChoiceComponent
-                                            key={question.multipleChoiceId}
-                                            multipleChoiceId={question.multipleChoiceId!}
-                                            quizQuestionNum={question.quizQuestionNum}
-                                            question={question.question}
-                                            userAnswer={(multipleChoiceAttempts.find(attempt => attempt.multipleChoiceId === question.multipleChoiceId))?.userAnswer}
-                                            options={question.options}
-                                            handleAnswer={(handleAnswerMultipleChoice)} />
-                                    ) : question.questionType === "matching" ? (
-                                        <MatchingComponent
-                                            key={question.matchingId}
-                                            matchingId={question.matchingId!}
-                                            quizQuestionNum={question.quizQuestionNum}
-                                            question={question.question}
-                                            questionText={question.questionText}
-                                            userAnswer={(matchingAttempts.find(attempt => attempt.matchingId === question.matchingId))?.userAnswer}
-                                            handleAnswer={handleAnswerMatching} />
-                                    ) : question.questionType === "sequence" ? (
-                                        <SequenceComponent
-                                            key={question.sequenceId}
-                                            sequenceId={question.sequenceId!}
-                                            quizQuestionNum={question.quizQuestionNum}
-                                            question={question.question}
-                                            questionText={question.questionText}
-                                            userAnswer={(sequenceAttempts.find(attempt => attempt.sequenceId === question.sequenceId))?.userAnswer}
-                                            handleAnswer={handleAnswerSequence} />
-                                    ) : (
-                                        <RankingComponent
-                                            key={question.rankingId}
-                                            rankingId={question.rankingId!}
-                                            quizQuestionNum={question.quizQuestionNum}
-                                            question={question.question}
-                                            questionText={question.questionText}
-                                            userAnswer={(rankingAttempts.find(attempt => attempt.rankingId === question.rankingId))?.userAnswer}
-                                            handleAnswer={handleAnswerRanking} />
-                                    )}
-                                </>
-                            ))}
-                            <button className="button primary-button active" onClick={submitQuiz}>Submit</button>
-                        </div>
-                    </>
-                )}
-            </>
-        )
-    }
+    return (
+        <>
+            {loading ? (
+                <p className="loading">Loading...</p>
+            ) : error ? (
+                <p className="fetch-error">{error}</p>
+            ) : (
+                <>
+                    <div className="quiz-page-container">
+                        <h1>{quiz?.name}</h1>
+                        {allQuestions.map(question => (
+                            <>
+                                {question.questionType === "fillInTheBlank" ? (
+                                    <FillInTheBlankComponent
+                                        key={question.fillInTheBlankId}
+                                        fillInTheBlankId={question.fillInTheBlankId!}
+                                        quizQuestionNum={question.quizQuestionNum}
+                                        question={question.question}
+                                        userAnswer={(fibAttempts.find(attempt => attempt.fillInTheBlankId === question.fillInTheBlankId))?.userAnswer!}
+                                        handleAnswer={handleAnswerFib} />
+                                ) : question.questionType === "trueFalse" ? (
+                                    <TrueFalseComponent
+                                        key={question.trueFalseId}
+                                        trueFalseId={question.trueFalseId!}
+                                        quizQuestionNum={question.quizQuestionNum}
+                                        question={question.question}
+                                        userAnswer={(trueFalseAttempts.find(attempt => attempt.trueFalseId === question.trueFalseId))?.userAnswer}
+                                        handleAnswer={handleAnswerTrueFalse} />
+                                ) : question.questionType === "multipleChoice" ? (
+                                    <MultipleChoiceComponent
+                                        key={question.multipleChoiceId}
+                                        multipleChoiceId={question.multipleChoiceId!}
+                                        quizQuestionNum={question.quizQuestionNum}
+                                        question={question.question}
+                                        userAnswer={(multipleChoiceAttempts.find(attempt => attempt.multipleChoiceId === question.multipleChoiceId))?.userAnswer}
+                                        options={question.options}
+                                        handleAnswer={(handleAnswerMultipleChoice)} />
+                                ) : question.questionType === "matching" ? (
+                                    <MatchingComponent
+                                        key={question.matchingId}
+                                        matchingId={question.matchingId!}
+                                        quizQuestionNum={question.quizQuestionNum}
+                                        question={question.question}
+                                        questionText={question.questionText}
+                                        userAnswer={(matchingAttempts.find(attempt => attempt.matchingId === question.matchingId))?.userAnswer}
+                                        handleAnswer={handleAnswerMatching} />
+                                ) : question.questionType === "sequence" ? (
+                                    <SequenceComponent
+                                        key={question.sequenceId}
+                                        sequenceId={question.sequenceId!}
+                                        quizQuestionNum={question.quizQuestionNum}
+                                        question={question.question}
+                                        questionText={question.questionText}
+                                        userAnswer={(sequenceAttempts.find(attempt => attempt.sequenceId === question.sequenceId))?.userAnswer}
+                                        handleAnswer={handleAnswerSequence} />
+                                ) : (
+                                    <RankingComponent
+                                        key={question.rankingId}
+                                        rankingId={question.rankingId!}
+                                        quizQuestionNum={question.quizQuestionNum}
+                                        question={question.question}
+                                        questionText={question.questionText}
+                                        userAnswer={(rankingAttempts.find(attempt => attempt.rankingId === question.rankingId))?.userAnswer}
+                                        handleAnswer={handleAnswerRanking} />
+                                )}
+                            </>
+                        ))}
+                        <button className="button primary-button active" onClick={submitQuiz}>Submit</button>
+                    </div>
+                </>
+            )}
+        </>
+    )
+}
 
-    export default QuizPage;
+export default QuizPage;

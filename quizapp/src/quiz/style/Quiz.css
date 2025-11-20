@@ -229,9 +229,9 @@ button:hover{
     font-size: 15px;
 }
 .quiz-manage-btn-save{
-    position: absolute;
-    top: 0px;
-    right: 10px;
+    position: fixed;
+    top: 5rem;
+    right: 2rem;
     background-color:#32CD32;
     border-radius: 5px;
     padding: 7px;

@@ -79,7 +79,6 @@ export function splitQuestion(question: string): { keys: string[]; values: strin
   if (!question || question.trim() === "") {
     return { keys: [], values: [] };
   }
-  console.log(question)
   const parts = question.split(",");
   if (parts.length % 2 !== 0) {
     throw new Error("Amount of values in question must be even");
@@ -94,4 +93,19 @@ export function splitQuestion(question: string): { keys: string[]; values: strin
   }
 
   return { keys, values };
+}
+
+
+export function assemble(splitQuestion: { keys: string[]; values: string[] } | null): string {
+  if (!splitQuestion || splitQuestion.keys.length === 0 || splitQuestion.values.length === 0) {
+    return "Empty lists!";
+  }
+
+  if (splitQuestion.keys.length !== splitQuestion.values.length) {
+    return "Lists are not the same length!";
+  }
+
+  return splitQuestion.keys
+    .map((key, i) => `${key},${splitQuestion.values[i]}`)
+    .join(",");
 }

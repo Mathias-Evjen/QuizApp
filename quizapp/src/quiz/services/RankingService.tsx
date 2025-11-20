@@ -48,7 +48,7 @@ export const createRanking = async (ranking: any) => {
 
 //Submit ranking attempt
 export const submitQuestion = async (rankingAttempt: RankingAttempt) => {
-  const response = await fetch(`${API_URL}/api/rankingapi/submitQuestion}"`, {
+  const response = await fetch(`${API_URL}/api/rankingapi/submitQuestion`, {
     method: 'POST',
     headers,
     body: JSON.stringify(rankingAttempt),

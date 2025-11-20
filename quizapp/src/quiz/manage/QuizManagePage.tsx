@@ -303,11 +303,11 @@ function QuizManagePage() {
                                     <div className="quiz-manage-question-wrapper">
                                         <div className="quiz-manage-question-info-wrapper">
                                             <h3 className="quiz-manage-question-num">Question number: {q.quizQuestionNum}</h3>
-                                            <p className="quiz-manage-question-text">{q.questionText || q.question}</p>
                                             <button className="quiz-manage-question-delete-btn" onClick={() => handleDeleteQuestion(index)}>Delete</button>
                                         </div>
                                         {"sequenceId" in q && (
                                             <div>
+                                                <p className="quiz-manage-question-text">Sequence question - Add items in order</p>
                                                 <hr />
                                                 <SequenceManageForm sequenceId={q.sequenceId} incomingQuestionText={q.questionText} incomingCorrectAnswer={q.correctAnswer} 
                                                 onChange={(updatedQuestion) => {
@@ -316,6 +316,7 @@ function QuizManagePage() {
                                             </div>
                                         )}{"rankingId" in q &&(
                                             <div>
+                                                <p className="quiz-manage-question-text">Ranking question - Add items in order</p>
                                                 <hr />
                                                 <RankingManageForm rankedId={q.rankedId} incomingQuestionText={q.questionText} incomingCorrectAnswer={q.correctAnswer}
                                                 onChange={(updatedQuestion) => {
@@ -324,6 +325,7 @@ function QuizManagePage() {
                                             </div>
                                         )}{"fillInTheBlankId" in q && (
                                             <div>
+                                                <p className="quiz-manage-question-text">Fill in the blank question</p>
                                                 <hr />
                                                 <FillInTheBlankManageForm fillInTheblankId={q.fillInTheBlankId} question={q.question} answer={q.correctAnswer}
                                                 onChange={(updatedQuestion) => {
@@ -331,6 +333,7 @@ function QuizManagePage() {
                                             </div>
                                         )}{"multipleChoiceId" in q && (
                                             <div>
+                                                <p className="quiz-manage-question-text">Multiple choice question</p>
                                                 <hr />
                                                 <MultipleChoiceManageForm multipleChoiceId={q.multipleChoiceId} incomingQuestion={q.question} incomingOptions={q.options}
                                                 onChange={(updatedQuestion) => {
@@ -339,6 +342,7 @@ function QuizManagePage() {
                                             </div>
                                         )}{"trueFalseId" in q && (
                                             <div>
+                                                <p className="quiz-manage-question-text">True or false question</p>
                                                 <hr />
                                                 <TrueFalseManageForm trueFalseId={q.trueFalseId} incomingQuestion={q.question} incomingCorrectAnswer={q.correctAnswer}
                                                 onChange={(updatedQuestion) => {
@@ -347,6 +351,7 @@ function QuizManagePage() {
                                             </div>
                                         )}{"matchingId" in q &&(
                                             <div>
+                                                <p className="quiz-manage-question-text">Matching question - Add matching items</p>
                                                 <hr />
                                                 <MatchingManageForm matchingId={q.matchingId} incomingQuestionText={q.questionText} incomingCorrectAnswer={q.correctAnswer}
                                                 onChange={(updatedQuestion) => {

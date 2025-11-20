@@ -108,7 +108,7 @@ public class RankingAPIController : ControllerBase
             Question = rankingDto.Question,
             CorrectAnswer = rankingDto.CorrectAnswer
         };
-
+        updatetRanking.Question = updatetRanking.ShuffleQuestion(updatetRanking.CorrectAnswer.Split(",").ToList());
         bool returnOk = await _rankingRepository.Update(updatetRanking);
         if (returnOk) {
             return Ok(updatetRanking);

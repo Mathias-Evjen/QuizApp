@@ -2,7 +2,7 @@
   min-width: 40rem;
   max-width: 40rem;
   min-height: 25rem;
-  max-height: 40rem;
+  max-height: auto;
   position: relative;
   border: 2px solid gray;
   border-radius: 25px;
@@ -14,7 +14,65 @@
     rgba(60, 64, 67, 0.3) 0px 1px 2px 0px,
     rgba(60, 64, 67, 0.15) 0px 2px 6px 2px;*/
 }
-.matching-table-wrapper {
+
+/* Container */
+.matching-grid {
+  display: grid;
+  grid-template-columns: 1fr;   /* én rad per linje */
+  width: 80%;
+  height: 80%;
+  margin: auto;
+  margin-top: 3rem;
+  margin-bottom: 2rem;
+  gap: 12px;                    /* avstand mellom radene */
+  border: 1px solid grey;
+  border-radius: 10px;
+}
+
+/* Én rad i grid-en */
+.matching-grid-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;  /* key | value */
+  align-items: center;
+  padding: 10px;
+  border-bottom: 1px solid grey;  /* linje mellom rader */
+  column-gap: 10px;
+}
+
+/* Siste rad uten linje */
+.matching-grid-row:last-child {
+  border-bottom: none;
+}
+
+/* Key & Value styling */
+.matching-grid-key,
+.matching-grid-value {
+  text-align: center;
+  padding: 8px;
+  border: 2px solid transparent;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: border 0.15s ease;
+  width: 13.3rem;            /* fast bredde */
+  max-width: 13.3rem;        /* låser bredden */
+  word-wrap: break-word;   /* bryt ord når nødvendig */
+  white-space: normal;     /* tillat flere linjer */
+}
+
+.matching-grid-key:hover {
+  border: 2px solid grey;
+}
+
+.matching-grid-key.selected {
+  border: 2px solid black;
+}
+
+.matching-grid-value.keySelected:hover {
+  border: 2px solid grey;
+}
+
+
+/* .matching-table-wrapper {
   width: 80%;
   height: 80%;
   margin: auto;
@@ -26,17 +84,38 @@
   min-height: 100%;
   max-height: 100%;
   border-collapse: separate;
-  border-spacing: 0 20px;
+  border-spacing: 50px;
+  border: 1px solid grey;
+  border-radius: 10px;
+  margin-bottom: 20px;
 }
-.matching-table-tr{
-  margin-bottom: 100px;
+.matching-table-tr {
+
 }
 .matching-table-keys-td {
-  text-align: left;
+  text-align: center;
+  cursor: pointer;
+  border: 2px solid transparent;
+  border-radius: 10px;
+  padding: 5px;
+  margin-bottom: 10px;
+}
+.matching-table-keys-td:hover {
+  border: 2px solid grey;
+}
+.matching-table-keys-td.selected {
+  border: 2px solid black;
 }
 .matching-table-values-td {
-  text-align: right;
+  text-align: center;
+  cursor: pointer;
+  border: 2px solid transparent;
+  border-radius: 10px;
+  padding: 5px;
 }
+.matching-table-values-td.keySelected:hover {
+  border: 2px solid grey;
+} */
 .matching-card-next-btn {
   position: absolute;
   bottom: 20px;

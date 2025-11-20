@@ -1,50 +1,107 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
+import rightArrow from "../../shared/right-arrow.png";
 
 interface SequenceProps {
-    handleAnswer: (sequenceId: number, newAnswer: string) => void;
-    sequenceId: number;
-    quizQuestionNum: number;
-    question: string;
-    questionText: string;
-    userAnswer: string | undefined;
+  handleAnswer: (sequenceId: number, newAnswer: string) => void;
+  sequenceId: number;
+  quizQuestionNum: number;
+  question: string;
+  questionText: string;
+  userAnswer: string | undefined;
 }
 
-const SequenceComponent: React.FC<SequenceProps> = ({ sequenceId, quizQuestionNum, question, questionText, userAnswer, handleAnswer }) => {
-    const [splitQuestion, setSplitQuestion] = useState<string[]>([]);
+const SequenceComponent: React.FC<SequenceProps> = ({
+  sequenceId,
+  quizQuestionNum,
+  question,
+  questionText,
+  userAnswer,
+  handleAnswer
+}) => {
+  const [splitQuestion, setSplitQuestion] = useState<string[]>(question.split(","));
 
+  // Tomme svarbokser, én for hver item
+  const [answers, setAnswers] = useState<(string | null)[]>(Array(splitQuestion.length).fill(null));
 
-    useEffect(() => {
-        setSplitQuestion(question.split(","));
-    }, [question]);
+  // Når man begynner å dra
+  const handleDragStart = (e: React.DragEvent, value: string) => {
+    e.dataTransfer.setData("text/plain", value);
+  };
 
-    return(
-        <div>
-            <div className="sequence-card-wrapper">
-                <div>
-                    {/* Spørsmålstekst */}
-                    <h3>Question {quizQuestionNum}</h3>
-                    <p>{questionText}</p>
-                    <hr />
-                    <div className="sequence-question-answer-wrapper">
-                    <div className="sequence-answer-container">
-                        {splitQuestion.map(() => (
-                        <div className="sequence-item-wrapper">
-                            <label className="sequence-item-label"></label>
-                        </div>
-                        ))}
-                    </div>
-                    <div className="sequence-item-container">
-                        {splitQuestion.map((key:string) => (
-                        <div className="sequence-item-wrapper">
-                            <label className="sequence-item-label">{key}</label>
-                        </div>
-                        ))}
-                    </div>
-                    </div>
-                </div>
+  // Når man drar over en answer-boks
+  const handleDragOver = (e: React.DragEvent) => {
+    e.preventDefault(); // nødvendig for å aktivere drop
+  };
+
+  // Når man slipper i en answer-boks
+  const handleDrop = (e: React.DragEvent, index: number) => {
+    e.preventDefault();
+    const value = e.dataTransfer.getData("text/plain");
+
+    const newAnswers = [...answers];
+    newAnswers[index] = value;
+    setAnswers(newAnswers);
+    const newSplitQuestion = splitQuestion.filter(item => item !== value);
+    setSplitQuestion(newSplitQuestion);
+
+    handleAnswer(sequenceId, newAnswers.join(",")); // send svar tilbake til backend
+  };
+  
+  const handleRemoveAnswer = (itemValue: string, index: number) => {
+    if (!itemValue) return;
+
+    // Legg tilbake i item-container
+    setSplitQuestion([...splitQuestion, itemValue]);
+
+    // Fjern fra answer-boksen
+    const newAnswers = [...answers];
+    newAnswers[index] = "";
+    setAnswers(newAnswers);
+  }
+
+  return (
+    <div className="sequence-card-wrapper">
+      <h3>Question {quizQuestionNum}</h3>
+      <p>{questionText}</p>
+      <hr />
+
+      <div className="sequence-question-answer-wrapper">
+
+        {/* ANSWER CONTAINER */}
+        <div className="sequence-answer-container">
+          {answers.map((ans, i) => (
+            <div
+              key={i}
+              className="sequence-item-wrapper answer-box"
+              onDragOver={handleDragOver}
+              onDrop={(e) => handleDrop(e, i)}
+              onClick={() => ans && handleRemoveAnswer(ans, i)}
+            >
+              <label className="sequence-item-label">
+                {ans || ""}
+              </label>
+              <img src={rightArrow} alt="Right arrow icon" className="sequence-answer-right-arrow" />
             </div>
+          ))}
         </div>
-    )
-}
+
+        {/* ITEM CONTAINER */}
+        <div className="sequence-item-container">
+          {splitQuestion.map((key: string, i) => (
+            <div
+              key={i}
+              className="sequence-item-wrapper draggable-item"
+              draggable
+              onDragStart={(e) => handleDragStart(e, key)}
+            >
+              <label className="sequence-item-label">{key}</label>
+            </div>
+          ))}
+        </div>
+
+      </div>
+    </div>
+  );
+};
 
 export default SequenceComponent;

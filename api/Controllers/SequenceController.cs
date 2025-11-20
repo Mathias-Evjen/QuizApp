@@ -105,9 +105,10 @@ public class SequenceAPIController : ControllerBase
             QuestionText = sequenceDto.QuestionText,
             QuizId = sequenceDto.QuizId,
             QuizQuestionNum = sequenceDto.QuizQuestionNum,
-            Question = sequenceDto.Question,
+            Question = sequenceDto.CorrectAnswer,
             CorrectAnswer = sequenceDto.CorrectAnswer
         };
+        updatetSequence.Question = updatetSequence.ShuffleQuestion(updatetSequence.CorrectAnswer.Split(",").ToList());
 
         bool returnOk = await _sequenceRepository.Update(updatetSequence);
         if (returnOk) {

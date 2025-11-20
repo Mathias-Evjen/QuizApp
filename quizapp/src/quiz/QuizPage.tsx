@@ -123,6 +123,7 @@ const QuizPage: React.FC = () => {
 
     const submitMatchingAttempt = async (matchingAttempt: MatchingAttempt) => {
         matchingAttempt.quizAttemptId = quizAttempt?.quizAttemptId!;
+        console.log(matchingAttempt)
         try {
             const data = await MatchingService.submitQuestion(matchingAttempt);
             console.log(`Question ${matchingAttempt.quizQuestionNum} submitted successfully: `, data);
@@ -249,6 +250,7 @@ const QuizPage: React.FC = () => {
     };
 
     const handleAnswerMatching = (matchingId: number, newAnswer: string) => {
+        console.log(newAnswer)
         setMatchingAttempts(prevAttempts =>
             prevAttempts.map(attempt =>
                 attempt.matchingId === matchingId

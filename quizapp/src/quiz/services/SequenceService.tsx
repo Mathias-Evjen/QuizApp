@@ -48,7 +48,7 @@ export const createSequence = async (sequence: any) => {
 
 //Submit sequence attempt
 export const submitQuestion= async (sequenceAttempt: SequenceAttempt) => {
-  const response = await fetch(`${API_URL}/api/sequenceapi/submitQuestion"`, {
+  const response = await fetch(`${API_URL}/api/sequenceapi/submitQuestion`, {
     method: 'POST',
     headers,
     body: JSON.stringify(sequenceAttempt),

@@ -3,46 +3,73 @@ import * as MatchingService from "../services/MatchingService";
 import "../style/Matching.css";
 
 interface MatchingProps {
-    handleAnswer: (matchingId: number, newAnswer: string) => void;
-    matchingId: number;
-    quizQuestionNum: number;
-    question: string;
-    questionText: string;
-    userAnswer: string | undefined;
+  handleAnswer: (matchingId: number, newAnswer: string) => void;
+  matchingId: number;
+  quizQuestionNum: number;
+  question: string;
+  questionText: string;
+  userAnswer: string | undefined;
 }
 
-const MatchingComponent: React.FC<MatchingProps> = ({ matchingId, quizQuestionNum, question, questionText, userAnswer, handleAnswer }) => {
-    const [splitQuestion, setSplitQuestion] = useState<{ keys: string[]; values: string[] } | null>(null);
+const MatchingComponent: React.FC<MatchingProps> = ({
+  matchingId,
+  quizQuestionNum,
+  question,
+  questionText,
+  userAnswer,
+  handleAnswer
+}) => {
+  const [splitQuestion, setSplitQuestion] = useState<{ keys: string[]; values: string[] } | null>(MatchingService.splitQuestion(question));
+  const [selectedKeyIndex, setSelectedKeyIndex] = useState<number | null>(null);
 
-    useEffect(() => {
-        setSplitQuestion(MatchingService.splitQuestion(question));
-    }, [question]);
+//   useEffect(() => {
+//     setSplitQuestion(MatchingService.splitQuestion(question));
+//   }, [question]);
 
-    return(
-        <div>
-            <div className="matching-card-wrapper">
-                <div>
-                    {/* Spørsmålstekst */}
-                    <h3>Question {quizQuestionNum}</h3>
-                    <p>{questionText}</p>
-                    <hr />
+  const handleKeyClick = (keyIndex: number) => {
+    setSelectedKeyIndex(keyIndex); 
+  };
 
-                    <div className="matching-table-wrapper">
-                    <table className="matching-table">
-                        <tbody>
-                        {splitQuestion && splitQuestion.keys.map((key:string, i:number) => (
-                            <tr className="matching-table-tr" key={i}>
-                            <td className="matching-table-keys-td">{key}</td>
-                            <td className="matching-table-values-td">{splitQuestion.values[i]}</td>
-                            </tr>
-                        ))}
-                        </tbody>
-                        </table>
-                    </div>
-                </div>
+  const handleValueClick = (valueIndex: number) => {
+    if (selectedKeyIndex === null || !splitQuestion) return;
+
+    const newValues = [...splitQuestion.values];
+    [newValues[selectedKeyIndex], newValues[valueIndex]] = [newValues[valueIndex], newValues[selectedKeyIndex]];
+
+    setSplitQuestion({ ...splitQuestion, values: newValues });
+    setSelectedKeyIndex(null); 
+
+    handleAnswer(matchingId, MatchingService.assemble({ keys: splitQuestion.keys, values: newValues }));
+  };
+
+  if (!splitQuestion) return null;
+
+  return (
+    <div className="matching-card-wrapper">
+      <h3>Question {quizQuestionNum}</h3>
+      <p>{questionText}</p>
+      <hr />
+        <div className="matching-grid">
+        {splitQuestion.keys.map((key, i) => (
+            <div className="matching-grid-row" key={i}>
+            <div
+                className={`matching-grid-key ${selectedKeyIndex === i ? "selected" : ""}`}
+                onClick={() => handleKeyClick(i)}
+            >
+                {key}
             </div>
+
+            <div
+                className={`matching-grid-value ${selectedKeyIndex !== null ? "keySelected" : ""}`}
+                onClick={() => handleValueClick(i)}
+            >
+                {splitQuestion.values[i]}
+            </div>
+            </div>
+        ))}
         </div>
-    )
-}
+    </div>
+  );
+};
 
 export default MatchingComponent;

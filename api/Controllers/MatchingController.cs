@@ -67,7 +67,6 @@ public class MatchingAPIController : ControllerBase
             UserAnswer = matchingAttemptDto.UserAnswer,
             QuizQuestionNum = matchingAttemptDto.QuizQuestionNum
         };
-
         var returnOk = await _matchingAttemptRepository.Create(matchingAttempt);
         if (!returnOk)
         {
@@ -90,6 +89,11 @@ public class MatchingAPIController : ControllerBase
             QuestionText = matchingDto.QuestionText,
             CorrectAnswer = matchingDto.CorrectAnswer
         };
+        var splitCorrect = matchingQuestion.SplitCorrectAnswer();
+        var keys = splitCorrect.Select(kv => kv.Key).ToList();
+        var values = splitCorrect.Select(kv => kv.Value).ToList();
+        matchingQuestion.ShuffleQuestion(keys, values); 
+
         bool returnOk = await _matchingRepository.Create(matchingQuestion);
         if (returnOk)
         {

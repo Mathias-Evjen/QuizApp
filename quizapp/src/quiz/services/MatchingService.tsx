@@ -48,7 +48,7 @@ export const createMatching = async (matching: any) => {
 
 //Submit matching attempt
 export const submitQuestion = async (matchingAttempt: MatchingAttempt) => {
-  const response = await fetch(`${API_URL}/api/matchingapi/submitQuestion"`, {
+  const response = await fetch(`${API_URL}/api/matchingapi/submitQuestion`, {
     method: 'POST',
     headers,
     body: JSON.stringify(matchingAttempt),

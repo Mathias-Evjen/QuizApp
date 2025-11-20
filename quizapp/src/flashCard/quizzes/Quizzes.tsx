@@ -1,11 +1,13 @@
 import { useEffect, useState } from "react";
 import { FlashCardQuiz } from "../../types/flashCardQuiz";
-import QuizCard from "./QuizCard";
-import { Add, MoreVert, Settings, Delete, Close, Search } from "@mui/icons-material";
+import { MoreVert, Settings, Delete, Close } from "@mui/icons-material";
 import { useNavigate } from "react-router-dom";
+import { useAuth } from "../../auth/AuthContext";
 import * as FlashCardQuizService from "../FlashCardQuizService";
+import QuizCard from "./QuizCard";
 import FlashCardQuizForm from "../FlashCardQuizForm";
 import SearchBar from "../../shared/SearchBar";
+import "../style/FlashCard.css";
 
 const Quizzes: React.FC = () => {
     const navigate = useNavigate();
@@ -21,6 +23,7 @@ const Quizzes: React.FC = () => {
     const [query, setQuery] = useState<string>("")
     const filteredQuizzes = quizzes.filter(quiz => quiz.name.toLocaleLowerCase().includes(query.toLocaleLowerCase()) || quiz.description?.toLocaleLowerCase().includes(query.toLocaleUpperCase()));
 
+    const { user } = useAuth();
 
     // -----------------------
     //     CRUD Operations 
@@ -112,7 +115,9 @@ const Quizzes: React.FC = () => {
                     <div className="flash-card-quiz-container">
                         <div className="page-top-container">
                             <SearchBar query={query} placeholder="Search for a quiz" handleSearch={setQuery} />
-                            <button className="button primary-button active" onClick={() => handleShowCreate(true)}>Create</button>
+                            {user && (
+                                <button className="button primary-button active" onClick={() => handleShowCreate(true)}>Create</button>
+                            )}
                         </div>
                         {quizzes.length === 0 ? (
                             <p>There are no quizzes to show</p>
@@ -132,9 +137,11 @@ const Quizzes: React.FC = () => {
                                         <div className="flash-card-quiz-edit" onClick={() => handleEdit(quiz.flashCardQuizId!)}><Settings /></div>
                                         <div className="flash-card-quiz-delete" onClick={() => handleShowDelete(quiz, true)}><Delete /></div>
                                     </div>
-                                    <button className={"flash-card-quiz-more-button"} onClick={(e) => {e.stopPropagation(); handleShowMoreOptions(quiz.flashCardQuizId!)}}>
-                                        {quiz.showOptions ? <Close /> : <MoreVert/>}
-                                    </button>
+                                    {user && (
+                                        <button className={"flash-card-quiz-more-button"} onClick={(e) => {e.stopPropagation(); handleShowMoreOptions(quiz.flashCardQuizId!)}}>
+                                            {quiz.showOptions ? <Close /> : <MoreVert/>}
+                                        </button>
+                                    )}
                                 </div>
                             ))
                         )}

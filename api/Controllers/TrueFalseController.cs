@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using QuizApp.DAL;
 using QuizApp.DTOs;
@@ -70,6 +71,7 @@ namespace QuizApp.Controllers
             return Ok(trueFalseAttempt);
         }
 
+        [Authorize]
         [HttpPost("create")]
         public async Task<IActionResult> Create([FromBody] TrueFalseDto dto)
         {
@@ -95,6 +97,7 @@ namespace QuizApp.Controllers
             return StatusCode(500, "Internal server error");
         }
 
+        [Authorize]
         [HttpPut("update/{id}")]
         public async Task<IActionResult> Edit(int id, [FromBody] TrueFalseDto dto)
         {
@@ -116,6 +119,7 @@ namespace QuizApp.Controllers
             return StatusCode(500, "Internal server error");
         }
 
+        [Authorize]
         [HttpDelete("delete/{id}")]
         public async Task<IActionResult> Delete(int id, [FromQuery] int qNum, [FromQuery] int quizId)
         {

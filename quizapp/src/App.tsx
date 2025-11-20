@@ -1,5 +1,4 @@
 import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
-import "./App.css";
 
 import { AuthProvider } from "./auth/AuthContext";
 import ProtectedRoute from "./auth/ProtectedRoute";
@@ -19,12 +18,6 @@ import FlashCardQuizPage from "./flashCard/flashCards/FlashCardQuizPage";
 import FlashCardQuizzesPage from "./flashCard/quizzes/Quizzes";
 import ManageFlashCardQuiz from "./flashCard/manage/ManageFlashCardQuiz";
 
-/* MATCHING */
-import MatchingCardQuizPage from "./matching/MatchingCardQuizPage";
-
-/* SEQUENCE + RANKING */
-import SequenceCardQuizPage from "./sequence/SequenceCardQuizPage";
-import RankingCardQuizPage from "./ranking/RankingCardQuizPage";
 
 /* MULTIPLE CHOICE */
 import MultipleChoiceQuizPage from "./multipleChoice/MultipleChoiceQuizPage";
@@ -58,9 +51,6 @@ const App: React.FC = () => {
             <Route path="/flashCards/:id" element={<FlashCardQuizPage />} />
 
             {/* QUESTION TYPES PUBLIC VIEW */}
-            <Route path="/matchingQuiz" element={<MatchingCardQuizPage />} />
-            {/* <Route path="/sequenceQuiz" element={<SequenceCardQuizPage />} /> */}
-            {/* <Route path="/rankingQuiz" element={<RankingCardQuizPage />} /> */}
             <Route path="/quizMultipleChoice" element={<MultipleChoiceQuizPage />} />
             <Route path="/quizTrueFalse" element={<TrueFalseQuizPage />} />
 

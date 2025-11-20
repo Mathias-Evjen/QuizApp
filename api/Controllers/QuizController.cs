@@ -4,6 +4,7 @@ using QuizApp.ViewModels;
 using QuizApp.DAL;
 using QuizApp.Services;
 using QuizApp.DTOs;
+using Microsoft.AspNetCore.Authorization;
 
 namespace QuizApp.Controllers;
 
@@ -116,12 +117,7 @@ public class QuizAPIController : ControllerBase
     //     return View(quizResultViewModel);
     // }
     
-    // [HttpGet]
-    // public IActionResult Create()
-    // {
-    //     return View();
-    // }
-
+    [Authorize]
     [HttpPost("create")]
     public async Task<IActionResult> Create([FromBody] QuizDto quizDto)
     {
@@ -162,7 +158,7 @@ public class QuizAPIController : ControllerBase
         return StatusCode(500, "Internal server error");
     }
 
-
+    [Authorize]
     [HttpPut("update/{quizId}")]
     public async Task<IActionResult> Update(int quizId, [FromBody] QuizDto quizDto)
     {
@@ -186,6 +182,7 @@ public class QuizAPIController : ControllerBase
         return StatusCode(500, "Internal server error");
     }
 
+    [Authorize]
     [HttpDelete("delete/{id}")]
     public async Task<IActionResult> DeleteConfirmed(int id)
     {

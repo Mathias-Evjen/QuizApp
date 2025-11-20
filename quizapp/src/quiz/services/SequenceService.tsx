@@ -18,6 +18,17 @@ const handleResponse = async (response: Response) => {
   }
 };
 
+const getAuthHeaders = () => {
+    const token = localStorage.getItem("token");
+    const headers: HeadersInit = {
+        "Content-Type": "application/json",
+    };
+    if (token) {
+        headers["Authorization"] = `Bearer ${token}`;
+    }
+    return headers;
+};
+
 // Get sequences
 export const fetchSequences = async (quizId: number) => {
   console.log(quizId);
@@ -29,7 +40,7 @@ export const fetchSequences = async (quizId: number) => {
 export const createSequence = async (sequence: any) => {
   const response = await fetch(`${API_URL}/api/sequenceapi/create`, {
     method: 'POST',
-    headers,
+    headers: getAuthHeaders(),
     body: JSON.stringify(sequence),
   });
   return handleResponse(response);
@@ -49,7 +60,7 @@ export const submitQuestion= async (sequenceAttempt: SequenceAttempt) => {
 export const updateSequence = async (sequenceId: number, sequence: any) => {
   const response = await fetch(`${API_URL}/api/sequenceapi/update/${sequenceId}`, {
     method: 'PUT',
-    headers,
+    headers: getAuthHeaders(),
     body: JSON.stringify(sequence),
   });
   return handleResponse(response);
@@ -59,6 +70,7 @@ export const updateSequence = async (sequenceId: number, sequence: any) => {
 export const deleteSequence = async (sequenceId: number, quizQuestionNum: number, quizId: number) => {
   const response = await fetch(`${API_URL}/api/sequenceapi/delete/${sequenceId}?quizQuestionNum=${quizQuestionNum}&quizId=${quizId}`, {
     method: 'DELETE',
+    headers: getAuthHeaders()
   });
   return handleResponse(response);
 };

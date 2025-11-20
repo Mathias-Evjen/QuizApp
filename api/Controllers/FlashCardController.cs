@@ -3,6 +3,7 @@ using QuizApp.Models;
 using QuizApp.DAL;
 using QuizApp.Services;
 using QuizApp.DTOs;
+using Microsoft.AspNetCore.Authorization;
 
 namespace QuizApp.Controllers
 {
@@ -38,6 +39,7 @@ namespace QuizApp.Controllers
             return Ok(flashCardDtos);
         }
 
+        [Authorize]
         [HttpPost("create")]
         public async Task<IActionResult> Create([FromBody] FlashCardDto flashCardDto)
         {
@@ -63,6 +65,7 @@ namespace QuizApp.Controllers
             return StatusCode(500, "Internal server error");
         }
 
+        [Authorize]
         [HttpPut("update/{flashCardId}")]
         public async Task<IActionResult> Edit(int flashCardId, [FromBody] FlashCardDto flashCardDto)
         {
@@ -91,6 +94,7 @@ namespace QuizApp.Controllers
             return StatusCode(500, "Internal server error");
         }
 
+        [Authorize]
         [HttpDelete("delete/{flashCardId}")]
         public async Task<IActionResult> Delete(int flashCardId, [FromQuery] int qNum, [FromQuery] int quizId)
         {

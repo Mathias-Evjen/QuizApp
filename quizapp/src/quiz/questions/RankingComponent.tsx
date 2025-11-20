@@ -21,7 +21,8 @@ const RankingComponent: React.FC<RankingProps> = ({ rankingId, quizQuestionNum, 
             <div className="ranking-card-wrapper">
                 <div>
                     {/* Spørsmålstekst */}
-                    <h3>{questionText}</h3>
+                    <h3>Question {quizQuestionNum}</h3>
+                    <p>{questionText}</p>
                     <hr />
                 </div>
             </div>

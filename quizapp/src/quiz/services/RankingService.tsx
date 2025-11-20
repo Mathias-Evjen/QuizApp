@@ -18,6 +18,17 @@ const handleResponse = async (response: Response) => {
   }
 };
 
+const getAuthHeaders = () => {
+    const token = localStorage.getItem("token");
+    const headers: HeadersInit = {
+        "Content-Type": "application/json",
+    };
+    if (token) {
+        headers["Authorization"] = `Bearer ${token}`;
+    }
+    return headers;
+};
+
 // Get rankings
 export const fetchRankings = async (quizId: number) => {
   console.log(quizId);
@@ -29,7 +40,7 @@ export const fetchRankings = async (quizId: number) => {
 export const createRanking = async (ranking: any) => {
   const response = await fetch(`${API_URL}/api/rankingapi/create`, {
     method: 'POST',
-    headers,
+    headers: getAuthHeaders(),
     body: JSON.stringify(ranking),
   });
   return handleResponse(response);
@@ -49,7 +60,7 @@ export const submitQuestion = async (rankingAttempt: RankingAttempt) => {
 export const updateRanking = async (rankingId: number, ranking: any) => {
   const response = await fetch(`${API_URL}/api/rankingapi/update/${rankingId}`, {
     method: 'PUT',
-    headers,
+    headers: getAuthHeaders(),
     body: JSON.stringify(ranking),
   });
   return handleResponse(response);
@@ -59,6 +70,7 @@ export const updateRanking = async (rankingId: number, ranking: any) => {
 export const deleteRanking = async (rankingId: number, quizQuestionNum: number, quizId: number) => {
   const response = await fetch(`${API_URL}/api/rankingapi/delete/${rankingId}?quizQuestionNum=${quizQuestionNum}&quizId=${quizId}`, {
     method: 'DELETE',
+    headers: getAuthHeaders()
   });
   return handleResponse(response);
 };

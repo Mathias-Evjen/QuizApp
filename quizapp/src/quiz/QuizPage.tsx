@@ -47,6 +47,8 @@ const QuizPage: React.FC = () => {
     const [trueFalseAttempts, setTrueFalseAttempts] = useState<TrueFalseAttempt[]>([]);
     const [multipleChoiceAttempts, setMultipleChoiceAttempts] = useState<MultiplechoiceAttempt[]>([]);
 
+    const [isDirty, setIsDirty] = useState<boolean>(false);
+
     // -----------------------
     //     CRUD Operations 
     // -----------------------
@@ -221,6 +223,7 @@ const QuizPage: React.FC = () => {
                 : attempt
             )
         );
+        setIsDirty(true);
     };
 
     const handleAnswerTrueFalse = (trueFalseId: number, newAnswer: boolean) => {
@@ -231,6 +234,7 @@ const QuizPage: React.FC = () => {
                 : attempt
             )
         );
+        setIsDirty(true);
     };
 
     const handleAnswerMultipleChoice = (multipleChoiceId: number, newAnswer: string) => {
@@ -241,6 +245,7 @@ const QuizPage: React.FC = () => {
                 : attempt
             )
         );
+        setIsDirty(true);
     };
 
     const handleAnswerMatching = (matchingId: number, newAnswer: string) => {
@@ -251,6 +256,7 @@ const QuizPage: React.FC = () => {
                 : attempt
             )
         );
+        setIsDirty(true);
     };
 
     const handleAnswerSequence = (sequenceId: number, newAnswer: string) => {
@@ -261,6 +267,7 @@ const QuizPage: React.FC = () => {
                 : attempt
             )
         );
+        setIsDirty(true);
     };
 
     const handleAnswerRanking = (rankingId: number, newAnswer: string) => {
@@ -271,6 +278,7 @@ const QuizPage: React.FC = () => {
                 : attempt
             )
         );
+        setIsDirty(true);
     };
 
     const submitQuiz = async () => {
@@ -371,9 +379,8 @@ const QuizPage: React.FC = () => {
                             )}
                         </>
                     ))}
+                    <button className="button primary-button active" onClick={submitQuiz}>Submit</button>
                 </div>
-
-                <button className="button primary-button active" onClick={submitQuiz}>Submit</button>
                 </>
             )}
         </>

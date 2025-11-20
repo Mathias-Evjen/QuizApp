@@ -18,6 +18,17 @@ const handleResponse = async (response: Response) => {
   }
 };
 
+const getAuthHeaders = () => {
+    const token = localStorage.getItem("token");
+    const headers: HeadersInit = {
+        "Content-Type": "application/json",
+    };
+    if (token) {
+        headers["Authorization"] = `Bearer ${token}`;
+    }
+    return headers;
+};
+
 // Get matchings
 export const fetchMatchings = async (quizId: number) => {
   console.log(quizId);
@@ -29,7 +40,7 @@ export const fetchMatchings = async (quizId: number) => {
 export const createMatching = async (matching: any) => {
   const response = await fetch(`${API_URL}/api/matchingapi/create`, {
     method: 'POST',
-    headers,
+    headers: getAuthHeaders(),
     body: JSON.stringify(matching),
   });
   return handleResponse(response);
@@ -49,7 +60,7 @@ export const submitQuestion = async (matchingAttempt: MatchingAttempt) => {
 export const updateMatching = async (matchingId: number, matching: any) => {
   const response = await fetch(`${API_URL}/api/matchingapi/update/${matchingId}`, {
     method: 'PUT',
-    headers,
+    headers: getAuthHeaders(),
     body: JSON.stringify(matching),
   });
   return handleResponse(response);
@@ -59,6 +70,7 @@ export const updateMatching = async (matchingId: number, matching: any) => {
 export const deleteMatching = async (matchingId: number, quizQuestionNum: number, quizId: number) => {
   const response = await fetch(`${API_URL}/api/matchingapi/delete/${matchingId}?quizQuestionNum=${quizQuestionNum}&quizId=${quizId}`, {
     method: 'DELETE',
+    headers: getAuthHeaders()
   });
   return handleResponse(response);
 };
@@ -67,7 +79,6 @@ export function splitQuestion(question: string): { keys: string[]; values: strin
   if (!question || question.trim() === "") {
     return { keys: [], values: [] };
   }
-  console.log(question)
   const parts = question.split(",");
   if (parts.length % 2 !== 0) {
     throw new Error("Amount of values in question must be even");
@@ -82,4 +93,19 @@ export function splitQuestion(question: string): { keys: string[]; values: strin
   }
 
   return { keys, values };
+}
+
+
+export function assemble(splitQuestion: { keys: string[]; values: string[] } | null): string {
+  if (!splitQuestion || splitQuestion.keys.length === 0 || splitQuestion.values.length === 0) {
+    return "Empty lists!";
+  }
+
+  if (splitQuestion.keys.length !== splitQuestion.values.length) {
+    return "Lists are not the same length!";
+  }
+
+  return splitQuestion.keys
+    .map((key, i) => `${key},${splitQuestion.values[i]}`)
+    .join(",");
 }

@@ -1,5 +1,6 @@
 import { NavLink } from "react-router-dom";
 import AuthSection from "../auth/AuthSection";
+import "../App.css";
 
 const NavMenu: React.FC = () => {
     return(

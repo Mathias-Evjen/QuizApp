@@ -229,9 +229,9 @@ button:hover{
     font-size: 15px;
 }
 .quiz-manage-btn-save{
-    position: absolute;
-    top: 0px;
-    right: 10px;
+    position: fixed;
+    top: 5rem;
+    right: 2rem;
     background-color:#32CD32;
     border-radius: 5px;
     padding: 7px;
@@ -316,4 +316,19 @@ button:hover{
     cursor: pointer;
     font-size: 15px;
     border: solid 0px #1E90FF;
+}
+
+.quiz-page-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 30px;
+    margin-top: 50px;
+    margin-bottom: 50px;
+    width: 800px;
+    border-radius: 25px;
+    box-shadow:
+    rgba(60, 64, 67, 0.3) 0px 1px 2px 0px,
+    rgba(60, 64, 67, 0.15) 0px 2px 6px 2px;
 }

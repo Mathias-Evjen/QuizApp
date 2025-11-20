@@ -19,6 +19,17 @@ const handleResponse = async (response: Response) => {
     }
 }
 
+const getAuthHeaders = () => {
+    const token = localStorage.getItem("token");
+    const headers: HeadersInit = {
+        "Content-Type": "application/json",
+    };
+    if (token) {
+        headers["Authorization"] = `Bearer ${token}`;
+    }
+    return headers;
+}
+
 // Get questions
 export const fetchQuestions = async (quizId: number) => {
     const response = await fetch(`${API_URL}/api/fillintheblankapi/getQuestions/${quizId}`);
@@ -45,7 +56,7 @@ export const submitQuestion = async (attempt: FillInTheBlankAttempt) => {
 export const createQuestion = async (question: FillInTheBlank) => {
     const response = await fetch(`${API_URL}/api/fillintheblankapi/create`, {
         method: "POST",
-        headers,
+        headers: getAuthHeaders(),
         body: JSON.stringify(question)
     });
     return handleResponse(response);
@@ -55,7 +66,7 @@ export const createQuestion = async (question: FillInTheBlank) => {
 export const updateQuestion = async (fillInTheBlankId: number, question: FillInTheBlank) => {
     const response = await fetch(`${API_URL}/api/fillintheblankapi/update/${fillInTheBlankId}`, {
         method: "PUT",
-        headers,
+        headers: getAuthHeaders(),
         body: JSON.stringify(question)
     });
     return handleResponse(response);
@@ -68,7 +79,8 @@ export const deleteQuestion = async (fillInTheBlankId: number, quizQuestionNum: 
         quizId: `${quizId}`
     });
     const response = await fetch(`${API_URL}/api/fillintheblankapi/delete/${fillInTheBlankId}?${params}`, {
-        method: "DELETE"
+        method: "DELETE",
+        headers: getAuthHeaders()
     });
     return handleResponse(response);
 }

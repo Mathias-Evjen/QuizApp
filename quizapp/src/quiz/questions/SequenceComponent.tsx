@@ -22,7 +22,8 @@ const SequenceComponent: React.FC<SequenceProps> = ({ sequenceId, quizQuestionNu
             <div className="sequence-card-wrapper">
                 <div>
                     {/* Spørsmålstekst */}
-                    <h3>{questionText}</h3>
+                    <h3>Question {quizQuestionNum}</h3>
+                    <p>{questionText}</p>
                     <hr />
                     <div className="sequence-question-answer-wrapper">
                     <div className="sequence-answer-container">

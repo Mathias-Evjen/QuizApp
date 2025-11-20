@@ -1,8 +1,10 @@
 import { useState, useEffect } from "react";
-import * as QuizService from "./services/QuizService";
-import "./style/Quiz.css";
 import { Quiz} from "../types/quizCard";
 import { useNavigate } from 'react-router-dom';
+import { useAuth } from "../auth/AuthContext";
+import * as QuizService from "./services/QuizService";
+import SearchBar from "../shared/SearchBar";
+import "./style/Quiz.css";
 
 
 function QuizzesPage() {
@@ -11,6 +13,11 @@ function QuizzesPage() {
   const [quizzes, setQuizzes] = useState<Quiz[]>([]);
   const [loadingQuizzes, setLoadingQuizzes] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
+
+  const [query, setQuery] = useState<string>("");
+  const filteredQuizzes = quizzes.filter(quiz => quiz.name.toLocaleLowerCase().includes(query.toLocaleLowerCase()) || quiz.description.toLocaleLowerCase().includes(query.toLocaleUpperCase()));
+
+  const { user } = useAuth();
 
   const fetchQuizCards = async () => {
     setLoadingQuizzes(true);
@@ -26,14 +33,14 @@ function QuizzesPage() {
       } else {
         console.error("Unknown error", error);
       }
-      setError("Failed to fetch quiz cards");
+      setError("Failed to fetch quizzes");
     } finally {
       setLoadingQuizzes(false);
     }
   };
 
   useEffect(() => {
-    console.log("Fetching quiz cards");
+    console.log("Fetching quizzes");
     fetchQuizCards();
   }, []);
 
@@ -57,17 +64,20 @@ function QuizzesPage() {
     <div>
         <div className="quizzes-wrapper">
           <h1>Quizzes</h1>
+          <SearchBar query={query} placeholder="Search for a quiz" handleSearch={setQuery}/>
           <hr /><br />
           <div className="quiz-cards-container">
             {quizzes.length > 0 ? (
-              quizzes.map((quiz) => (
+              filteredQuizzes.map((quiz) => (
                 <div className="quiz-card-box" key={quiz.quizId}>
                   <p className="quiz-card-name">{quiz.name}</p>
                   <p className="quiz-card-desc">"{quiz.description}"</p>
                   <p className="quiz-card-num-questions">Questions: {quiz.numOfQuestions}</p>
                   <div className="quiz-card-buttons">
                     <button className="quiz-card-btn-open" onClick={() => openQuiz(quiz.quizId!)}>Open</button>
-                    <button className="quiz-card-btn-manage" onClick={() => manageQuiz(quiz.quizId!)}>Manage</button>
+                    {user && (
+                      <button className="quiz-card-btn-manage" onClick={() => manageQuiz(quiz.quizId!)}>Manage</button>
+                    )}
                   </div>
                 </div>
               ))
@@ -75,7 +85,9 @@ function QuizzesPage() {
               <h3>No quizzes found.</h3>
             )}
           </div>
-          <button className="quiz-create" onClick={() => navigate("/quizCreate")}>Create</button>
+          {user && (
+            <button className="quiz-create" onClick={() => navigate("/quizCreate")}>Create</button>
+          )}
         </div>
     </div>
   )

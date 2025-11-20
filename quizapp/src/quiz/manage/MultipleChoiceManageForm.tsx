@@ -1,16 +1,19 @@
-import { useState } from "react";
-import { MultipleChoice } from "../../types/multipleChoice";
+import { useState, useEffect } from "react";
+import { MultipleChoice, Option } from "../../types/multipleChoice";
 import "../style/MultipleChoice.css";
 
 interface MultipleChoiceManageFormProps {
-    incomingMultipleChoice: MultipleChoice;
+    multipleChoiceId: number,
+    incomingQuestion: string,
+    incomingOptions: Option[],
+    onChange?: (updatedQuestion: { question: string; options: Option[]; isDirty: boolean }) => void;
 }
 
-function MultipleChoiceManageForm({ incomingMultipleChoice }: MultipleChoiceManageFormProps) {
+function MultipleChoiceManageForm({ multipleChoiceId, incomingQuestion, incomingOptions, onChange }: MultipleChoiceManageFormProps) {
 
-    const safeOptions = Array.isArray(incomingMultipleChoice.options) ? incomingMultipleChoice.options : [];
+    const safeOptions = Array.isArray(incomingOptions) ? incomingOptions : [];
 
-    const [questionText, setQuestionText] = useState(incomingMultipleChoice.question);
+    const [questionText, setQuestionText] = useState(incomingQuestion);
     const [options, setOptions] = useState([...safeOptions]);
 
     const handleOptionChange = (index: number, value: string) => {
@@ -32,6 +35,10 @@ function MultipleChoiceManageForm({ incomingMultipleChoice }: MultipleChoiceMana
     const addOption = () => {
         setOptions([...options, { text: "", isCorrect: false }]);
     };
+
+    useEffect(() => {
+        onChange?.({ question: questionText, options, isDirty: true });
+    }, [questionText, options]);
 
     return (
         <div className="multiplechoice-manage-form-wrapper">

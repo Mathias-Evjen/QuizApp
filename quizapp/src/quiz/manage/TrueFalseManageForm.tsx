@@ -1,14 +1,22 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { TrueFalse } from "../../types/trueFalse";
 import "../style/TrueFalse.css";
 
 interface TrueFalseManageFormProps {
-    incomingTrueFalse: TrueFalse;
+    trueFalseId: number,
+    incomingQuestion: string,
+    incomingCorrectAnswer: boolean,
+    onChange?: (updatedQuestion: { question: string; correctAnswer: boolean; isDirty: boolean }) => void;
 }
 
-function TrueFalseManageForm({ incomingTrueFalse }: TrueFalseManageFormProps) {
-    const [questionText, setQuestionText] = useState(incomingTrueFalse.question);
-    const [correctAnswer, setCorrectAnswer] = useState<boolean>(incomingTrueFalse.correctAnswer);
+function TrueFalseManageForm({ trueFalseId, incomingQuestion, incomingCorrectAnswer, onChange }: TrueFalseManageFormProps) {
+    const [questionText, setQuestionText] = useState(incomingQuestion);
+    const [correctAnswer, setCorrectAnswer] = useState<boolean>(incomingCorrectAnswer);
+
+    useEffect(() => {
+        onChange?.({ question: questionText, correctAnswer, isDirty: true });
+    }, [questionText, correctAnswer]);
+
 
     return (
         <div className="tf-manage-form-wrapper">

@@ -20,7 +20,7 @@ function QuizCreatePage(){
             //Hente name og desc og lage quiz card    
             const data = await QuizService.createQuiz(quiz);
             console.log('Quiz created successfully:', data);
-            navigate('/'); // Navigate back after successful creation
+            navigate('/quiz'); // Navigate back after successful creation
         } catch (error) {
         console.error('There was a problem with the fetch operation:', error);
         }

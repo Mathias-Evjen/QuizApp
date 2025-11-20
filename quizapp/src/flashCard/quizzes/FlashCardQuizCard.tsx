@@ -6,18 +6,18 @@ interface QuizCardProps {
     name: string;
     description?: string;
     numOfQuestions?: number;
-    showOptions: boolean;
+    showOptions?: boolean;
 }
 
-const QuizCard: React.FC<QuizCardProps> = ({ id, name, description, numOfQuestions, showOptions}) => {
+const FlashCardQuizCard: React.FC<QuizCardProps> = ({ id, name, description, numOfQuestions, showOptions}) => {
     const navigate = useNavigate();
 
-    const handleClick = () => {
+    const handleOpen = () => {
         navigate(`/flashCards/${id}`);
     }
 
     return(
-        <div className={`flash-card-quiz-card ${showOptions ? "show-options" : ""}`} onClick={handleClick}>
+        <div className={`flash-card-quiz-card ${showOptions ? "show-options" : ""}`} onClick={handleOpen}>
             <div className="flash-card-quiz-card-content">
                 <div className="flash-card-quiz-title">
                     <h3>{name}</h3>
@@ -34,4 +34,4 @@ const QuizCard: React.FC<QuizCardProps> = ({ id, name, description, numOfQuestio
     )
 }
 
-export default QuizCard;
+export default FlashCardQuizCard;

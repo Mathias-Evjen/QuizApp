@@ -4,7 +4,7 @@ import { MoreVert, Settings, Delete, Close } from "@mui/icons-material";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../../auth/AuthContext";
 import * as FlashCardQuizService from "../FlashCardQuizService";
-import QuizCard from "./QuizCard";
+import QuizCard from "./FlashCardQuizCard";
 import FlashCardQuizForm from "../FlashCardQuizForm";
 import SearchBar from "../../shared/SearchBar";
 import "../style/FlashCard.css";
@@ -120,9 +120,9 @@ const Quizzes: React.FC = () => {
                             )}
                         </div>
                         {quizzes.length === 0 ? (
-                            <p>There are no quizzes to show</p>
+                            <h3>There are no quizzes to show</h3>
                         ) : filteredQuizzes.length === 0 ? (
-                            <p>There are no quizzes matching search</p>
+                            <h3>There are no quizzes matching "{query}"</h3>
                         ) : (
                             filteredQuizzes.map(quiz => (
                                 <div className="flash-card-quiz-entry" key={quiz.flashCardQuizId}>

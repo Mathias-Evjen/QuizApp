@@ -59,9 +59,8 @@ namespace QuizApp.Controllers
 
             if (user != null && await _userManager.CheckPasswordAsync(user, loginDto.Password))
             {
-                var token = GenerateJwtToken(user);
                 _logger.LogInformation("[AuthController] Login success: {@username}", loginDto.Username);
-
+                var token = GenerateJwtToken(user);
                 return Ok(new { Token = token });
             }
 
@@ -105,6 +104,7 @@ namespace QuizApp.Controllers
                 expires: DateTime.UtcNow.AddHours(2),
                 signingCredentials: credentials);
 
+            _logger.LogInformation("[AuthAPIController] JWT toke ncreated for {@username}", user.UserName);
             return new JwtSecurityTokenHandler().WriteToken(token);
         }
     }

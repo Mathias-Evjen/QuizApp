@@ -12,6 +12,7 @@ import QuizzesPage from "./quiz/QuizzesPage";
 import QuizPage from "./quiz/QuizPage";
 import QuizCreatePage from "./quiz/QuizCreatePage";
 import QuizManagePage from "./quiz/manage/QuizManagePage";
+import QuizResultPage from "./quiz/QuizResultPage";
 
 /* FLASHCARD SYSTEM */
 import FlashCardQuizPage from "./flashCard/flashCards/FlashCardQuizPage";
@@ -26,7 +27,7 @@ import ManageMultipleChoiceQuizPage from "./multipleChoice/ManageMultipleChoiceQ
 /* TRUE/FALSE */
 import ManageTrueFalseQuizPage from "./trueFalse/ManageTrueFalseQuizPage";
 import TrueFalseQuizPage from "./trueFalse/TrueFalseQuizPage";
-import QuizResultPage from "./quiz/QuizResultPage";
+import HomePage from "./home/HomePage";
 
 
 const App: React.FC = () => {
@@ -39,12 +40,13 @@ const App: React.FC = () => {
           <Routes>
 
             {/* PUBLIC */}
-            <Route path="/" element={<QuizzesPage />} />
+            <Route path="/" element={<HomePage />} />
 
             <Route path="/login" element={<LoginPage />} />
             <Route path="/register" element={<RegisterPage />} />
 
-            {/* QUIZ TAKE */}
+            {/* QUIZ */}
+            <Route path="/quiz" element={<QuizzesPage />} />
             <Route path="/quiz/:id" element={<QuizPage />} />
             <Route path="/quiz/:id/result" element={<QuizResultPage />} />
 

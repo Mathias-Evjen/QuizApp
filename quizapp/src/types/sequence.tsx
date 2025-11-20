@@ -6,7 +6,6 @@ export interface Sequence extends QuestionBase {
     sequenceId?: number;
     question: string;
     questionText: string;
-    answer: string;
     correctAnswer: string;
     quizId: number;
     quizQuestionNum: number;

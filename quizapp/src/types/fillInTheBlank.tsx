@@ -8,6 +8,7 @@ export interface FillInTheBlank extends QuestionBase {
     correctAnswer: string;
     quizId: number;
     quizQuestionNum: number;
+    correctAnswer?: string;
 
     isDirty?: boolean;
     isNew?: boolean;

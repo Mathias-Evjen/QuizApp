@@ -1,5 +1,4 @@
 import { useNavigate } from "react-router-dom";
-import { useAuth } from "../auth/AuthContext";
 import "./style/Quiz.css";
 import { User } from "../types/user";
 
@@ -26,7 +25,7 @@ const QuizCard: React.FC<QuizCardProps> = ({ quizId, name, description, numOfQue
             <p className="quiz-card-num-questions">Questions: {numOfQuestions}</p>
             <div className="quiz-card-buttons">
             {user && (
-                <button className="quiz-card-btn-manage" onClick={() => openManageQuiz && openManageQuiz(quizId)}>Manage</button>
+                <button className="quiz-card-btn-manage" onClick={(e) => {openManageQuiz && openManageQuiz(quizId); e.stopPropagation() }}>Manage</button>
             )}
             </div>
         </div>

@@ -264,7 +264,6 @@ function QuizManagePage() {
             }
         })
         setAllQuestions(newQuestions);
-        fetchQuiz();
     }
 
     useEffect(() => {

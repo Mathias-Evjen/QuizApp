@@ -3,8 +3,15 @@ import { useLocation, useNavigate } from "react-router-dom";
 const QuizResultPage: React.FC = () => {
     const location = useLocation();
     const navigate = useNavigate();
+    const { score, total } = location.state || { score: 0, total: 0 };
 
-    const { results } = location.state || {};
+    return (
+        <div>
+            <h1>Quiz Result</h1>
+            <h2>{score} / {total} correct</h2>
+            <button>Back to quizzes</button>
+        </div>
+    );
+};
 
-    return
-}
+export default QuizResultPage;

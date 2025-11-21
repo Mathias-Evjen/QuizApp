@@ -52,7 +52,7 @@ const App: React.FC = () => {
             <Route element={<ProtectedRoute />}>
               {/* QUIZ ADMIN */}
               <Route path="/quiz/manage/:id" element={<QuizManagePage />} />
-              <Route path="/quizCreate" element={<QuizCreatePage />} />
+              <Route path="/quiz/create" element={<QuizCreatePage />} />
 
               {/* FLASHCARD ADMIN */}
               <Route path="/flashCards/manage/:id" element={<ManageFlashCardQuiz />} />

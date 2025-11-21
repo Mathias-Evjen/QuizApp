@@ -63,6 +63,10 @@
   display: flex;
 }
 
+.nav-item.user {
+  width: 120px;
+}
+
 .dropdown {
   display: flex;
   flex-direction: column;

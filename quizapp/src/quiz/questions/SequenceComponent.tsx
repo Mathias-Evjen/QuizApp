@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import rightArrow from "../../shared/right-arrow.png";
 
 interface SequenceProps {
@@ -36,15 +36,16 @@ const SequenceComponent: React.FC<SequenceProps> = ({
   // Når man slipper i en answer-boks
   const handleDrop = (e: React.DragEvent, index: number) => {
     e.preventDefault();
-    const value = e.dataTransfer.getData("text/plain");
-
-    const newAnswers = [...answers];
-    newAnswers[index] = value;
-    setAnswers(newAnswers);
-    const newSplitQuestion = splitQuestion.filter(item => item !== value);
-    setSplitQuestion(newSplitQuestion);
-
-    handleAnswer(sequenceId, newAnswers.join(",")); // send svar tilbake til backend
+    if(!answers[index]){
+      const value = e.dataTransfer.getData("text/plain");
+  
+      const newAnswers = [...answers];
+      newAnswers[index] = value;
+      setAnswers(newAnswers);
+      const newSplitQuestion = splitQuestion.filter(item => item !== value);
+      setSplitQuestion(newSplitQuestion);
+  
+    }
   };
   
   const handleRemoveAnswer = (itemValue: string, index: number) => {
@@ -58,6 +59,10 @@ const SequenceComponent: React.FC<SequenceProps> = ({
     newAnswers[index] = "";
     setAnswers(newAnswers);
   }
+
+  useEffect(() => {
+    handleAnswer(sequenceId, answers.join(","));
+  }, [answers])
 
   return (
     <div className="sequence-card-wrapper">

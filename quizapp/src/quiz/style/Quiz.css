@@ -441,3 +441,66 @@ button:hover{
     rgba(60, 64, 67, 0.3) 0px 1px 2px 0px,
     rgba(60, 64, 67, 0.15) 0px 2px 6px 2px;
 }
+
+/*__Quiz Result__*/
+.quiz-result-page {
+    max-width: 900px;
+    margin: auto;
+    padding: 20px;
+}
+
+.quiz-result-score {
+    font-size: 26px;
+    margin-bottom: 25px;
+    font-weight: bold;
+    text-align: center;
+}
+
+.quiz-result-question-list {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.quiz-result-question-box {
+    padding: 20px;
+    border-radius: 12px;
+    border: 2px solid #ccc;
+    background: #fafafa;
+}
+
+.quiz-result-question-box.correct {
+    border-color: #47b56c;
+    background: #e7f7ed;
+}
+
+.quiz-result-question-box.incorrect {
+    border-color: #d9534f;
+    background: #fcebea;
+}
+
+.quiz-result-answer {
+    font-weight: bold;
+}
+
+.quiz-resultcorrect-answer {
+    margin-top: 8px;
+    color: #d9534f;
+    font-weight: bold;
+}
+
+.quiz-result-btn-back {
+    margin-top: 40px;
+    display: block;
+    padding: 12px 20px;
+    background: #007bff;
+    border: none;
+    color: white;
+    border-radius: 8px;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+.quiz-result-btn-back:hover {
+    background: #0062cc;
+}

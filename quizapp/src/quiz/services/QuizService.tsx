@@ -1,4 +1,5 @@
 import { QuizAttempt } from '../../types/quizAttempt';
+import { Quiz } from "../../types/quiz";
 
 const API_URL = import.meta.env.VITE_API_URL;
 
@@ -42,7 +43,7 @@ export const fetchQuiz = async (quizId: number) => {
 };
 
 // Post create quiz
-export const createQuiz = async (quiz: any) => {
+export const createQuiz = async (quiz: Quiz) => {
     const response = await fetch(`${API_URL}/api/quizapi/create`, {
         method: 'POST',
         headers: getAuthHeaders(),
@@ -62,7 +63,7 @@ export const createQuizAttempt = async (quizAttempt: QuizAttempt) => {
 };
 
 // Put update quiz
-export const updateQuiz = async (quizId: number, quiz: any) => {
+export const updateQuiz = async (quizId: number, quiz: Quiz) => {
     const response = await fetch(`${API_URL}/api/quizapi/update/${quizId}`, {
         method: 'PUT',
         headers: getAuthHeaders(),

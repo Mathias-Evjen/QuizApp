@@ -7,7 +7,6 @@ namespace QuizApp.ViewModels
     {
         public int MatchingId { get; set; }
         public string Question { get; set; } = string.Empty;
-        public string QuestionText { get; set; } = string.Empty;
         public int QuizQuestionNum { get; set; }
         
         [Required(ErrorMessage = "Must answer")]
@@ -22,14 +21,7 @@ namespace QuizApp.ViewModels
         {
             MatchingId = question.MatchingId;
             Question = question.Question;
-            QuestionText = question.QuestionText;
 
-
-            foreach (var pair in question.SplitQuestion())
-            {
-                Keys.Add(pair.Key);
-                Values.Add(pair.Value);
-            }
         }
     }
 

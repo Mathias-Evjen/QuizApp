@@ -444,8 +444,8 @@ const QuizPage: React.FC = () => {
                                         key={question.matchingId}
                                         matchingId={question.matchingId!}
                                         quizQuestionNum={question.quizQuestionNum}
+                                        questionItems={MatchingService.assemble(MatchingService.shuffleQuestion(MatchingService.splitQuestion(question.correctAnswer).keys,MatchingService.splitQuestion(question.correctAnswer).values))}
                                         question={question.question}
-                                        questionText={question.questionText}
                                         userAnswer={(matchingAttempts.find(attempt => attempt.matchingId === question.matchingId))?.userAnswer}
                                         handleAnswer={handleAnswerMatching} />
                                 ) : question.questionType === "sequence" ? (
@@ -453,8 +453,8 @@ const QuizPage: React.FC = () => {
                                         key={question.sequenceId}
                                         sequenceId={question.sequenceId!}
                                         quizQuestionNum={question.quizQuestionNum}
+                                        questionItems={SequenceService.shuffleQuestion(question.correctAnswer.split(","))}
                                         question={question.question}
-                                        questionText={question.questionText}
                                         userAnswer={(sequenceAttempts.find(attempt => attempt.sequenceId === question.sequenceId))?.userAnswer}
                                         handleAnswer={handleAnswerSequence} />
                                 ) : (
@@ -462,8 +462,8 @@ const QuizPage: React.FC = () => {
                                         key={question.rankingId}
                                         rankingId={question.rankingId!}
                                         quizQuestionNum={question.quizQuestionNum}
+                                        questionItems={RankingService.shuffleQuestion(question.correctAnswer.split(","))}
                                         question={question.question}
-                                        questionText={question.questionText}
                                         userAnswer={(rankingAttempts.find(attempt => attempt.rankingId === question.rankingId))?.userAnswer}
                                         handleAnswer={handleAnswerRanking} />
                                 )}

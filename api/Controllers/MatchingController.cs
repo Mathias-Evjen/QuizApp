@@ -38,16 +38,10 @@ public class MatchingAPIController : ControllerBase
             _logger.LogError("[MatchingAPIController] Questions list not found while executing _matchingRepository.GetAll()");
             return NotFound("Matching questions not found");
         }
-        var questionDtos = questions.Select(question => {
-            var keyValuePairs = question.SplitQuestion();
-
-            var keys = keyValuePairs.Select(kvp => kvp.Key).ToList();
-            var values = keyValuePairs.Select(kvp => kvp.Value).ToList();
-        
+        var questionDtos = questions.Select(question => {        
             return new MatchingDto
             {
                 MatchingId = question.MatchingId,
-                QuestionText = question.QuestionText,
                 Question = question.Question,
                 QuizQuestionNum = question.QuizQuestionNum,
                 QuizId = question.QuizId,
@@ -86,14 +80,8 @@ public class MatchingAPIController : ControllerBase
             QuizId = matchingDto.QuizId,
             QuizQuestionNum = matchingDto.QuizQuestionNum,
             Question = matchingDto.Question,
-            QuestionText = matchingDto.QuestionText,
             CorrectAnswer = matchingDto.CorrectAnswer
         };
-        var splitCorrect = matchingQuestion.SplitCorrectAnswer();
-        var keys = splitCorrect.Select(kv => kv.Key).ToList();
-        var values = splitCorrect.Select(kv => kv.Value).ToList();
-        matchingQuestion.ShuffleQuestion(keys, values); 
-
         bool returnOk = await _matchingRepository.Create(matchingQuestion);
         if (returnOk)
         {
@@ -111,15 +99,11 @@ public class MatchingAPIController : ControllerBase
         Matching updatetMatching = new()
         {
             MatchingId = matchingDto.MatchingId,
-            QuestionText = matchingDto.QuestionText,
             QuizId = matchingDto.QuizId,
             QuizQuestionNum = matchingDto.QuizQuestionNum,
+            Question = matchingDto.Question,
             CorrectAnswer = matchingDto.CorrectAnswer
         };
-        KeyValuePair<string, string>[] splitQuestion = updatetMatching.SplitCorrectAnswer();
-        List<string> keys = splitQuestion.Select(kv => kv.Key).ToList();
-        List<string> values = splitQuestion.Select(kv => kv.Value).ToList();
-        updatetMatching.ShuffleQuestion(keys, values);
         bool returnOk = await _matchingRepository.Update(updatetMatching);
         if (returnOk) {
             return Ok(updatetMatching);

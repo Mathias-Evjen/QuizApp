@@ -42,7 +42,6 @@ public class SequenceAPIController : ControllerBase
             return new SequenceDto
             {
                 SequenceId = question.SequenceId,
-                QuestionText = question.QuestionText,
                 Question = question.Question,
                 QuizQuestionNum = question.QuizQuestionNum,
                 QuizId = question.QuizId
@@ -81,10 +80,9 @@ public class SequenceAPIController : ControllerBase
         {
             QuizId = sequenceDto.QuizId,
             QuizQuestionNum = sequenceDto.QuizQuestionNum,
-            QuestionText = sequenceDto.QuestionText,
+            Question = sequenceDto.Question,
             CorrectAnswer = sequenceDto.CorrectAnswer
         };
-        sequenceQuestion.Question = sequenceQuestion.ShuffleQuestion(sequenceDto.CorrectAnswer.Split(",").ToList());
         bool returnOk = await _sequenceRepository.Create(sequenceQuestion);
         if (returnOk)
         {
@@ -102,14 +100,11 @@ public class SequenceAPIController : ControllerBase
         Sequence updatetSequence = new()
         {
             SequenceId = sequenceDto.SequenceId,
-            QuestionText = sequenceDto.QuestionText,
             QuizId = sequenceDto.QuizId,
             QuizQuestionNum = sequenceDto.QuizQuestionNum,
-            Question = sequenceDto.CorrectAnswer,
+            Question = sequenceDto.Question,
             CorrectAnswer = sequenceDto.CorrectAnswer
         };
-        updatetSequence.Question = updatetSequence.ShuffleQuestion(updatetSequence.CorrectAnswer.Split(",").ToList());
-
         bool returnOk = await _sequenceRepository.Update(updatetSequence);
         if (returnOk) {
             return Ok(updatetSequence);

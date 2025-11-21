@@ -7,19 +7,19 @@ import bin from "../../shared/bin.png";
 
 interface MatchingManageFormProps {
     matchingId: number,
-    incomingQuestionText: string,
+    incomingQuestion: string,
     incomingCorrectAnswer: string
-    onChange?: (updatedQuestion: { questionText: string; correctAnswer: string; isDirty: boolean }) => void;
+    onChange?: (updatedQuestion: { question: string; correctAnswer: string; isDirty: boolean }) => void;
 }
 
-const MatchingManageForm: React.FC<MatchingManageFormProps> = ({matchingId, incomingQuestionText, incomingCorrectAnswer, onChange}) => {
+const MatchingManageForm: React.FC<MatchingManageFormProps> = ({matchingId, incomingQuestion, incomingCorrectAnswer, onChange}) => {
     const [splitQuestion, setSplitQuestion] = useState<{ keys: string[]; values: string[] }>({keys: [],values: [],});
-    const [questionText, setQuestionText] = useState(incomingQuestionText);
+    const [question, setQuestion] = useState(incomingQuestion);
 
     useEffect(() => {
         const combinedAnswer = splitQuestion.keys.map((k, i) => `${k},${splitQuestion.values[i]}`).join(",");
-        onChange?.({ questionText, correctAnswer: combinedAnswer, isDirty: true });
-    }, [splitQuestion, questionText]);
+        onChange?.({ question, correctAnswer: combinedAnswer, isDirty: true });
+    }, [splitQuestion, question]);
 
     useEffect(() => {
         setSplitQuestion(MatchingService.splitQuestion(incomingCorrectAnswer));
@@ -31,8 +31,8 @@ const MatchingManageForm: React.FC<MatchingManageFormProps> = ({matchingId, inco
         <input
             id="matching-manage-form-questiontext"
             className="matching-manage-form-questiontext"
-            value={questionText}
-            onChange={(e) => setQuestionText(e.target.value)}
+            value={question}
+            onChange={(e) => setQuestion(e.target.value)}
         />
         <label htmlFor="matching-manage-form-questiontext" className="matching-manage-form-label">
             Question text:

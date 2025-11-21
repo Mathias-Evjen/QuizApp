@@ -252,10 +252,10 @@ button:hover{
     border: solid 0px #32CD32;
 }
 .quiz-manage-description{
-    position: absolute;
-    top: 30px;
-    left: 0px;
-
+    display: block;
+    white-space: normal;
+    word-break: break-word;
+    width: 20rem;
 }
 .quiz-manage-question-container{
     display: flex;

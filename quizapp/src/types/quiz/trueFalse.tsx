@@ -1,4 +1,4 @@
-import { QuestionBase } from "./Question";
+import { QuestionBase } from "./quiz/Question";
 
 export interface TrueFalse extends QuestionBase {
   questionType: "trueFalse";

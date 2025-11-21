@@ -1,5 +1,5 @@
-import { QuizAttempt } from '../../types/quizAttempt';
-import { Quiz } from "../../types/quiz";
+import { QuizAttempt } from '../../types/attempts/quizAttempt';
+import { Quiz } from "../../types/quiz/quiz";
 
 const API_URL = import.meta.env.VITE_API_URL;
 

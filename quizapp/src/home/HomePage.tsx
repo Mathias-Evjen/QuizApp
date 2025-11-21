@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
-import { Quiz } from "../types/quiz";
-import { FlashCardQuiz } from "../types/flashCardQuiz";
+import { Quiz } from "../types/quiz/quiz";
+import { FlashCardQuiz } from "../types/flashcard/flashCardQuiz";
 import { useNavigate } from "react-router-dom";
 import * as QuizService from "../quiz/services/QuizService";
 import * as FlashCardQuizService from "../flashCard/FlashCardQuizService";

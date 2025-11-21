@@ -1,20 +1,21 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import { Quiz } from "../types/quiz";
-import { Question } from "../types/Question";
-import { FillInTheBlank } from "../types/fillInTheBlank";
-import { Matching } from "../types/matching";
-import { Ranking } from "../types/ranking";
-import { Sequence } from "../types/sequence";
-import { QuizAttempt } from "../types/quizAttempt";
-import { FillInTheBlankAttempt } from "../types/fillInTheBlankAttempt";
-import { MatchingAttempt } from "../types/matchingAttempt";
-import { RankingAttempt } from "../types/rankingAttempt";
-import { SequenceAttempt } from "../types/sequenceAttempt";
-import { MultipleChoice } from "../types/multipleChoice";
-import { TrueFalse } from "../types/trueFalse";
-import { TrueFalseAttempt } from "../types/trueFalseAttempt";
-import { MultiplechoiceAttempt } from "../types/MultipleChoiceAttempt";
+import { Quiz } from "../types/quiz/quiz";
+import { Question } from "../types/quiz/Question";
+import { FillInTheBlank } from "../types/quiz/fillInTheBlank";
+import { Matching } from "../types/quiz/matching";
+import { Ranking } from "../types/quiz/ranking";
+import { TrueFalse } from "../types/quiz/trueFalse";
+import { MultipleChoice } from "../types/quiz/multipleChoice";
+import { Sequence } from "../types/quiz/sequence";
+import { QuizAttempt } from "../types/attempts/quizAttempt";
+import { FillInTheBlankAttempt } from "../types/attempts/fillInTheBlankAttempt";
+import { MatchingAttempt } from "../types/attempts/matchingAttempt";
+import { RankingAttempt } from "../types/attempts/rankingAttempt";
+import { SequenceAttempt } from "../types/attempts/sequenceAttempt";
+import { useNavigate } from "react-router-dom";
+import { TrueFalseAttempt } from "../types/attempts/trueFalseAttempt";
+import { MultiplechoiceAttempt } from "../types/attempts/MultipleChoiceAttempt";
 import * as QuizService from "./services/QuizService";
 import * as FillIntheBlankService from "./services/FillInTheBlankService";
 import * as TrueFalseService from "./services/TrueFalseService";
@@ -28,7 +29,6 @@ import MultipleChoiceComponent from "./questions/MultipleChoiceComponent";
 import MatchingComponent from "./questions/MatchingComponent";
 import SequenceComponent from "./questions/SequenceComponent";
 import RankingComponent from "./questions/RankingComponent";
-import { useNavigate } from "react-router-dom";
 
 
 
@@ -367,35 +367,6 @@ const QuizPage: React.FC = () => {
             }
         });
     }
-
-
-
-
-
-    //        fibAttempts.forEach(attempt =>
-    //            submitFibAttempt(attempt)
-    //        );
-    //
-    //        trueFalseAttempts.forEach(attempt =>
-    //            submitTrueFalseAttempt(attempt)
-    //        );
-    //
-    //        multipleChoiceAttempts.forEach(attempt =>
-    //            submitMultipleChoiceAttempt(attempt)
-    //        );
-    //
-    //        matchingAttempts.forEach(attempt =>
-    //            submitMatchingAttempt(attempt)
-    //        );
-    //
-    //        sequenceAttempts.forEach(attempt =>
-    //            submitSequenceAttempt(attempt)
-    //        );
-    //
-    //        rankingAttempts.forEach(attempt => 
-    //            submitRankingAttempt(attempt)
-    //        );
-    //    };
 
     useEffect(() => {
         createQuizAttempt();

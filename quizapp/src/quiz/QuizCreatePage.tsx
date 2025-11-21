@@ -1,7 +1,7 @@
 import * as QuizService from "./services/QuizService";
 import "./style/Quiz.css";
 import { useNavigate } from 'react-router-dom';
-import { Quiz } from "../types/quiz";
+import { Quiz } from "../types/quiz/quiz";
 import { useForm } from "react-hook-form";
 
 type QuizFormData = {

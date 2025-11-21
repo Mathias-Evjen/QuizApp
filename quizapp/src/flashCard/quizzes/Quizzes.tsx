@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { FlashCardQuiz } from "../../types/flashCardQuiz";
+import { FlashCardQuiz } from "../../types/flashcard/flashCardQuiz";
 import { MoreVert, Settings, Delete, Close } from "@mui/icons-material";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../../auth/AuthContext";
@@ -120,6 +120,7 @@ const Quizzes: React.FC = () => {
                                 <button className="button primary-button active" onClick={() => handleShowCreate(true)}>Create</button>
                             )}
                         </div>
+                        <hr />
                         {quizzes.length === 0 ? (
                             <h3>There are no quizzes to show</h3>
                         ) : filteredQuizzes.length === 0 ? (

@@ -1,4 +1,4 @@
-import { SequenceAttempt } from "../../types/sequenceAttempt";
+import { SequenceAttempt } from "../../types/attempts/sequenceAttempt";
 import { Sequence } from "../../types/sequence";
 
 const API_URL = import.meta.env.VITE_API_URL;

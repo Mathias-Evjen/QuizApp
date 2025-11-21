@@ -1,12 +1,12 @@
 import "../style/Quiz.css";
-import { Quiz } from "../../types/quiz";
-import { FillInTheBlank } from "../../types/fillInTheBlank";
-import { Matching } from "../../types/matching";
-import { Ranking } from "../../types/ranking";
-import { TrueFalse } from "../../types/trueFalse";
-import { MultipleChoice } from "../../types/multipleChoice";
-import { Sequence } from "../../types/sequence";
-import { Question } from "../../types/Question";
+import { Quiz } from "../../types/quiz/quiz";
+import { Question } from "../../types/quiz/Question";
+import { FillInTheBlank } from "../../types/quiz/fillInTheBlank";
+import { Matching } from "../../types/quiz/matching";
+import { Ranking } from "../../types/quiz/ranking";
+import { MultipleChoice } from "../../types/quiz/multipleChoice";
+import { TrueFalse } from "../../types/quiz/trueFalse";
+import { Sequence } from "../../types/quiz/sequence";
 import { useNavigate, useParams } from 'react-router-dom';
 import { useEffect, useState } from "react";
 import * as QuizService from "../services/QuizService";
@@ -253,7 +253,7 @@ function QuizManagePage() {
             return q;
         })
         );
-        newQuestions.map(q => {
+        newQuestions.map((q: Question) => {
             if(q.isDirty){
                 if(q.questionType === "ranking"){
                     RankingService.updateRanking(q.rankingId, q);

@@ -1,4 +1,4 @@
-import { MatchingAttempt } from "../../types/matchingAttempt";
+import { MatchingAttempt } from "../../types/attempts/matchingAttempt";
 import { Matching } from "../../types/matching";
 
 const API_URL = import.meta.env.VITE_API_URL;

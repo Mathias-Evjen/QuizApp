@@ -1,4 +1,4 @@
-import { LoginDto, RegisterDto } from '../types/auth';
+import { LoginDto, RegisterDto } from '../types/auth/auth';
 
 const API_URL = import.meta.env.VITE_API_URL;
 

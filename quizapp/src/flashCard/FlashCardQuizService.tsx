@@ -1,4 +1,4 @@
-import { FlashCardQuiz } from "../types/flashCardQuiz";
+import { FlashCardQuiz } from "../types/flashcard/flashCardQuiz";
 
 const API_URL = import.meta.env.VITE_API_URL;
 

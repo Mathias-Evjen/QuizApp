@@ -1,4 +1,4 @@
-import { RankingAttempt } from "../../types/rankingAttempt";
+import { RankingAttempt } from "../../types/attempts/rankingAttempt";
 import { Ranking } from "../../types/ranking";
 
 const API_URL = import.meta.env.VITE_API_URL;

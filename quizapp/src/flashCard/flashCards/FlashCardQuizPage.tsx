@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import { FlashCard } from "../../types/flashCard";
-import { FlashCardQuiz } from "../../types/flashCardQuiz";
+import { FlashCard } from "../../types/flashcard/flashCard";
+import { FlashCardQuiz } from "../../types/flashcard/flashCardQuiz";
 import { KeyboardArrowLeft, KeyboardArrowRight, Shuffle, ShuffleOn } from "@mui/icons-material";
 import FlashCardComponent from "./FlashCardComponent";
 import InfoCard from "./InfoCard";

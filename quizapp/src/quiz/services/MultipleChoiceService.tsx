@@ -1,5 +1,5 @@
 import { MultipleChoice } from "../../types/multipleChoice";
-import { MultiplechoiceAttempt } from "../../types/MultipleChoiceAttempt";
+import { MultiplechoiceAttempt } from "../../types/attempts/MultipleChoiceAttempt";
 
 
 const API_URL = import.meta.env.VITE_API_URL;

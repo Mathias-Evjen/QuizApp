@@ -1,13 +1,13 @@
 import { useLocation, useNavigate } from "react-router-dom";
 import "./style/Quiz.css";
 
-import { Question } from "../types/Question";
-import { FillInTheBlankAttempt } from "../types/fillInTheBlankAttempt";
-import { TrueFalseAttempt } from "../types/trueFalseAttempt";
-import { MultiplechoiceAttempt } from "../types/MultipleChoiceAttempt";
-import { MatchingAttempt } from "../types/matchingAttempt";
-import { RankingAttempt } from "../types/rankingAttempt";
-import { SequenceAttempt } from "../types/sequenceAttempt";
+import { Question } from "../types/quiz/Question";
+import { FillInTheBlankAttempt } from "../types/attempts/fillInTheBlankAttempt";
+import { TrueFalseAttempt } from "../types/attempts/trueFalseAttempt";
+import { MultiplechoiceAttempt } from "../types/attempts/MultipleChoiceAttempt";
+import { MatchingAttempt } from "../types/attempts/matchingAttempt";
+import { RankingAttempt } from "../types/attempts/rankingAttempt";
+import { SequenceAttempt } from "../types/attempts/sequenceAttempt";
 
 
 const QuizResultPage: React.FC = () => {

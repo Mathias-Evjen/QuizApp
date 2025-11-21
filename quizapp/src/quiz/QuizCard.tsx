@@ -1,6 +1,6 @@
 import { useNavigate } from "react-router-dom";
 import "./style/Quiz.css";
-import { User } from "../types/user";
+import { User } from "../types/auth/user";
 
 interface QuizCardProps {
     quizId: number;

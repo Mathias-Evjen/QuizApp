@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { Quiz} from "../types/quiz";
+import { Quiz} from "../types/quiz/quiz";
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from "../auth/AuthContext";
 import { Close, Delete, MoreVert, Settings } from "@mui/icons-material";
@@ -97,7 +97,7 @@ function QuizzesPage() {
             <div className="quizzes-wrapper">
             <h1>Quizzes</h1>
             <SearchBar query={query} placeholder="Search for a quiz" handleSearch={setQuery}/>
-            <hr /><br />
+            <br /><hr /><br />
             <div className="quiz-cards-container">
                 {quizzes.length === 0 ? (
                 <h3>There are no quizzes to show</h3>

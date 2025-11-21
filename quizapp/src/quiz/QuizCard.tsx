@@ -21,7 +21,9 @@ const QuizCard: React.FC<QuizCardProps> = ({ quizId, name, description, numOfQue
     return(
         <div className="quiz-card-box" onClick={handleOpen}>
             <p className="quiz-card-name">{name}</p>
-            <p className="quiz-card-desc">"{description}"</p>
+            <div className="">
+                <p className="quiz-card-desc">"{description}"</p>
+            </div>
             <p className="quiz-card-num-questions">Questions: {numOfQuestions}</p>
             <div className="quiz-card-buttons">
             {user && (

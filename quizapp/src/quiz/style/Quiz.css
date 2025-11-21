@@ -64,8 +64,8 @@ button:hover{
 .quiz-card-box{
     width: 100%;
     box-sizing: border-box;
-    min-height: 8rem;
-    max-height: 8rem;
+    min-height: 10rem;
+    max-height: 10rem;
     border: solid 1px lightgray;
     border-radius: 10px;
     background-color: white;
@@ -88,8 +88,15 @@ button:hover{
     top: 0px;
 }
 .quiz-card-desc{
+    width: 75%;
     position: absolute;
     bottom: 0px;
+    line-clamp: 3;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 .quiz-card-num-questions{
     position: absolute;
@@ -153,6 +160,7 @@ button:hover{
 .quiz-create-input-name,
 .quiz-create-input-desc {
   display: flex;
+  position: relative;
   align-items: center; /* label og input på linje */
   gap: 1rem;         /* mellomrom mellom label og input */
 }
@@ -164,11 +172,28 @@ button:hover{
 }
 
 .quiz-create-input-name input,
-.quiz-create-input-desc input {
+.quiz-create-input-desc textarea {
   flex: 1;
   padding: 6px;
   border-radius: 6px;
   border: 1px solid grey;
+  width: 120px;
+  font-size: 15px;
+}
+
+.quiz-create-input-desc textarea {
+    resize: none;
+    box-sizing: border-box;
+    overflow-wrap: break-word;
+    white-space: pre-wrap;
+    height: 75px;
+    font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
+}
+
+.quiz-create-input-name span,
+.quiz-create-input-desc span {
+    font-size: 15px;
+    padding-left: 120px;
 }
 
 .quiz-create-btn{

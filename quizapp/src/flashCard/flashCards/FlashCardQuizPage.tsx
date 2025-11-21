@@ -159,18 +159,7 @@ const FlashCardQuizPage: React.FC = () => {
                                 answer={flashCards[flashCardIndex].answer}
                                 showAnswer={flashCards[flashCardIndex].showAnswer!}
                                 color={flashCards[flashCardIndex].color!}
-                                toggleAnswer={() => toggleShowAnswer(flashCards[flashCardIndex].flashCardId!)} />
-
-                            {quiz?.description ? (
-                                <div className="flash-card-sidebar">
-                                <div className="flash-card-page-description">
-                                    <h2>Description:</h2>
-                                    <p>{quiz?.description}</p>
-                                </div>
-                                
-                            </div>
-                            ) : ("")}
-                            
+                                toggleAnswer={() => toggleShowAnswer(flashCards[flashCardIndex].flashCardId!)} />                            
 
                             <div className="flash-card-menu">
                                 <button className="button nav-button" onClick={handlePrevCard}><KeyboardArrowLeft /></button>

@@ -82,9 +82,6 @@
   border-bottom: 2px solid rgb(222, 222, 222);
 }
 
-
-/* Fill in the blank */
-
 /* General buttons */
 
 .button {
@@ -128,11 +125,11 @@
 }
 
 
-/* Testside */
-
-.test-side {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
+.error {
+  position: absolute;
+  color: red;
+  bottom: -26px;
+  left: 0;
+  font-size: 20px;
+  pointer-events: none;
 }

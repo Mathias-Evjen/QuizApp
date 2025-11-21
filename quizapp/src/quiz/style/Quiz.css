@@ -95,6 +95,9 @@ button:hover{
     position: absolute;
     top: 0px;
     right: 20px;
+    display: block;
+    white-space: normal;
+    word-break: break-word;
 }
 .quiz-card-buttons{
     position: absolute;
@@ -252,6 +255,7 @@ button:hover{
     position: absolute;
     top: 30px;
     left: 0px;
+
 }
 .quiz-manage-question-container{
     display: flex;

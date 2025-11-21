@@ -5,7 +5,6 @@ export interface Ranking extends QuestionBase {
 
     rankingId?: number;
     question: string;
-    questionText: string;
     correctAnswer: string;
     quizId: number;
     quizQuestionNum: number;

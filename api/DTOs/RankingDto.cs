@@ -7,8 +7,6 @@ namespace QuizApp.DTOs
         public int RankingId { get; set; }
 
         [Required(ErrorMessage = "Must contain question text")]
-        public string QuestionText { get; set; } = string.Empty;
-
         public string Question { get; set; } = string.Empty;
 
         [Required(ErrorMessage = "Must contain a correct answer")]

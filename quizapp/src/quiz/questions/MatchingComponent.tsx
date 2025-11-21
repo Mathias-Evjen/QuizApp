@@ -6,20 +6,20 @@ interface MatchingProps {
   handleAnswer: (matchingId: number, newAnswer: string) => void;
   matchingId: number;
   quizQuestionNum: number;
+  questionItems: string;
   question: string;
-  questionText: string;
   userAnswer: string | undefined;
 }
 
 const MatchingComponent: React.FC<MatchingProps> = ({
   matchingId,
   quizQuestionNum,
+  questionItems,
   question,
-  questionText,
   userAnswer,
   handleAnswer
 }) => {
-  const [splitQuestion, setSplitQuestion] = useState<{ keys: string[]; values: string[] } | null>(MatchingService.splitQuestion(question));
+  const [splitQuestion, setSplitQuestion] = useState<{ keys: string[]; values: string[] } | null>(MatchingService.splitQuestion(questionItems));
   const [selectedKeyIndex, setSelectedKeyIndex] = useState<number | null>(null);
 
 //   useEffect(() => {
@@ -47,7 +47,7 @@ const MatchingComponent: React.FC<MatchingProps> = ({
   return (
     <div className="matching-card-wrapper">
       <h3>Question {quizQuestionNum}</h3>
-      <p>{questionText}</p>
+      <p>{question}</p>
       <hr />
         <div className="matching-grid">
         {splitQuestion.keys.map((key, i) => (

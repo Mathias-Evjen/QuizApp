@@ -1,4 +1,5 @@
 import { MatchingAttempt } from "../../types/matchingAttempt";
+import { Matching } from "../../types/matching";
 
 const API_URL = import.meta.env.VITE_API_URL;
 
@@ -37,7 +38,7 @@ export const fetchMatchings = async (quizId: number) => {
 };
 
 // Post create matching
-export const createMatching = async (matching: any) => {
+export const createMatching = async (matching: Matching) => {
   const response = await fetch(`${API_URL}/api/matchingapi/create`, {
     method: 'POST',
     headers: getAuthHeaders(),
@@ -57,7 +58,7 @@ export const submitQuestion = async (matchingAttempt: MatchingAttempt) => {
 };
 
 // Put update matching
-export const updateMatching = async (matchingId: number, matching: any) => {
+export const updateMatching = async (matchingId: number, matching: Matching) => {
   const response = await fetch(`${API_URL}/api/matchingapi/update/${matchingId}`, {
     method: 'PUT',
     headers: getAuthHeaders(),
@@ -108,4 +109,26 @@ export function assemble(splitQuestion: { keys: string[]; values: string[] } | n
   return splitQuestion.keys
     .map((key, i) => `${key},${splitQuestion.values[i]}`)
     .join(",");
+}
+
+export function shuffleQuestion(keys: string[], values: string[]) {
+    if (!values || values.length === 0) {
+        throw new Error("Values list is empty or null");
+    }
+
+    // Lag en kopi slik at originalen ikke muteres
+    const shuffledValues = [...values];
+
+    // Fisher-Yates shuffle
+    for (let i = shuffledValues.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        const temp = shuffledValues[i];
+        shuffledValues[i] = shuffledValues[j];
+        shuffledValues[j] = temp;
+    }
+
+    return {
+        keys: [...keys],        // returnerer uendret kopi
+        values: shuffledValues  // returnerer stokket liste
+    };
 }

@@ -197,6 +197,7 @@ button:hover{
     text-align: left;
     margin: auto;
     margin-top: 50px;
+    margin-bottom: 50px;
     padding: 40px;
     box-shadow:
     rgba(60, 64, 67, 0.3) 0px 1px 2px 0px,
@@ -253,11 +254,14 @@ button:hover{
     left: 0px;
 }
 .quiz-manage-question-container{
+    display: flex;
+    flex-direction: column;
     min-width: 100%;
     max-width: 100%;
     min-height: 100%;
     max-height: 100%;
     position: relative;
+    gap: 20px;
 }
 .quiz-manage-question-wrapper{
     width: 100%;

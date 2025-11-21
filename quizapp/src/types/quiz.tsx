@@ -3,6 +3,8 @@ import { Question } from "./Question";
 export interface Quiz {
     quizId?: number;
     name: string;
-    description?: string;
+    description: string;
     numOfQuestions?: number;
+
+    showOptions?: boolean;
 }

@@ -3,15 +3,14 @@ import "./style/Quiz.css";
 import { User } from "../types/user";
 
 interface QuizCardProps {
-    openManageQuiz?: (quizId: number) => void;
     quizId: number;
     name: string;
     description: string;
     numOfQuestions: number;
-    user?: User | null;
+    showOptions?: boolean;
 }
 
-const QuizCard: React.FC<QuizCardProps> = ({ quizId, name, description, numOfQuestions, user, openManageQuiz }) => {
+const QuizCard: React.FC<QuizCardProps> = ({ quizId, name, description, numOfQuestions, showOptions}) => {
     const navigate = useNavigate();
 
     const handleOpen = () => {
@@ -19,16 +18,13 @@ const QuizCard: React.FC<QuizCardProps> = ({ quizId, name, description, numOfQue
     }
 
     return(
-        <div className="quiz-card-box" onClick={handleOpen}>
+        <div className={`quiz-card-box ${showOptions ? "show-options" : ""}`} onClick={handleOpen}>
             <p className="quiz-card-name">{name}</p>
             <div className="">
                 <p className="quiz-card-desc">"{description}"</p>
             </div>
             <p className="quiz-card-num-questions">Questions: {numOfQuestions}</p>
             <div className="quiz-card-buttons">
-            {user && (
-                <button className="quiz-card-btn-manage" onClick={(e) => {openManageQuiz && openManageQuiz(quizId); e.stopPropagation() }}>Manage</button>
-            )}
             </div>
         </div>
     )

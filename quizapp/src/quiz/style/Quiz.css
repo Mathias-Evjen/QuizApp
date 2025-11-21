@@ -47,6 +47,23 @@ button:hover{
     max-height: 100%;
     position: relative;
 }
+
+.quiz-entry {
+    display: flex;
+    position: relative;
+    width: 100%;
+}
+
+.quiz-more-button {
+    border: none;
+    background-color: transparent;
+    color: rgb(89, 89, 89);
+}
+
+.quiz-more-button svg {
+    font-size: 30px;
+}
+
 .quiz-create{
     margin: auto;
     margin-top: 20px;
@@ -74,11 +91,66 @@ button:hover{
     padding: 20px;
     text-align: left;
     position: relative;
+
+    z-index: 1;
+
+    transform-origin: right center;
+    transition: transform 0.2s ease-in-out;
 }
 
 .quiz-card-box:hover {
     cursor: pointer;
     filter: brightness(0.95);
+}
+
+.quiz-card-box.show-options {
+    transform: translateX(-200px);
+}
+
+.quiz-options {
+    position: absolute;
+    top: 0px;
+    right: 39px;
+    display: flex;
+    flex-direction: row;
+    justify-content: end;
+    align-items: center;
+    width: 250px;
+    height: 10rem;
+    box-sizing: border-box;
+    border-top-right-radius: 10px;
+    border-bottom-right-radius: 10px;
+    z-index: 0;
+    background-color: gray;
+}
+
+.quiz-options:hover {
+    cursor: pointer;
+}
+
+.quiz-options svg {
+    font-size: 25px;
+    color: white;
+}
+
+.quiz-edit {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100px;
+    height: 100%;
+    background-color: gray;
+}
+
+.quiz-delete {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100px;
+    height: 100%;
+    background-color: red;
+    border-top-right-radius: 10px;
+    border-bottom-right-radius: 10px;
 }
 
 .quiz-card-name{

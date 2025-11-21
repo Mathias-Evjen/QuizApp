@@ -6,7 +6,7 @@ import { Ranking } from "../../types/ranking";
 import { TrueFalse } from "../../types/trueFalse";
 import { MultipleChoice } from "../../types/multipleChoice";
 import { Sequence } from "../../types/sequence";
-import { Question, QuestionType } from "../../types/Question";
+import { Question } from "../../types/Question";
 import { useNavigate, useParams } from 'react-router-dom';
 import { useEffect, useState } from "react";
 import * as QuizService from "../services/QuizService";
@@ -166,6 +166,7 @@ function QuizManagePage() {
 
         setAllQuestions(prev => [...prev, newQuestion]);
         setNumOfQuestions(prev => prev+1);
+        setSelectedType("");
         return;
     }
 
@@ -185,17 +186,17 @@ function QuizManagePage() {
     }
 
     const handleDeleteQuestion = (index:number) => {
-        if("sequenceId" in allQuestions[index] && allQuestions[index].sequenceId && !allQuestions[index].isNew){
+        if(allQuestions[index].questionType === "sequence" && allQuestions[index].sequenceId && !allQuestions[index].isNew){
             SequenceService.deleteSequence(allQuestions[index].sequenceId, allQuestions[index].quizQuestionNum, allQuestions[index].quizId)
-        } else if("rankingId" in allQuestions[index] && allQuestions[index].rankingId && !allQuestions[index].isNew){
+        } else if(allQuestions[index].questionType === "ranking" && allQuestions[index].rankingId && !allQuestions[index].isNew){
             RankingService.deleteRanking(allQuestions[index].rankingId, allQuestions[index].quizQuestionNum, allQuestions[index].quizId)
-        } else if("matchingId" in allQuestions[index] && allQuestions[index].matchingId && !allQuestions[index].isNew){
+        } else if(allQuestions[index].questionType === "matching" && allQuestions[index].matchingId && !allQuestions[index].isNew){
             MatchingService.deleteMatching(allQuestions[index].matchingId, allQuestions[index].quizQuestionNum, allQuestions[index].quizId)
-        } else if("fillInTheBlankId" in allQuestions[index] && allQuestions[index].fillInTheBlankId && !allQuestions[index].isNew){
+        } else if(allQuestions[index].questionType === "fillInTheBlank" && allQuestions[index].fillInTheBlankId && !allQuestions[index].isNew){
             FillInTheBlankService.deleteQuestion(allQuestions[index].fillInTheBlankId, allQuestions[index].quizQuestionNum, allQuestions[index].quizId)
-        } else if("trueFalseId" in allQuestions[index] && allQuestions[index].trueFalseId && !allQuestions[index].isNew){
+        } else if(allQuestions[index].questionType === "trueFalse" && allQuestions[index].trueFalseId && !allQuestions[index].isNew){
             TrueFalseService.deleteTrueFalse(allQuestions[index].trueFalseId, allQuestions[index].quizQuestionNum, allQuestions[index].quizId)
-        } else if("multipleChoiceId" in allQuestions[index] && allQuestions[index].multipleChoiceId && !allQuestions[index].isNew){
+        } else if(allQuestions[index].questionType === "multipleChoice" && allQuestions[index].multipleChoiceId && !allQuestions[index].isNew){
             MultipleChoiceService.deleteMultipleChoice(allQuestions[index].multipleChoiceId, allQuestions[index].quizQuestionNum, allQuestions[index].quizId)
         }
 
@@ -209,27 +210,27 @@ function QuizManagePage() {
         const newQuestions = await Promise.all(
         allQuestions.map(async (q) => {
             if (q.isNew && q.correctAnswer !== "") {
-            if ("sequenceId" in q) {
+            if (q.questionType === "sequence") {
                 const { isNew, sequenceId, ...rest } = q;
                 const created = await SequenceService.createSequence(rest);
                 return { ...created, isNew: false, isDirty: false };
             }
-            if ("matchingId" in q) {
+            if (q.questionType === "matching") {
                 const { isNew, matchingId, ...rest } = q;
                 const created = await MatchingService.createMatching(rest);
                 return { ...created, isNew: false, isDirty: false };
             }
-            if ("rankingId" in q) {
+            if (q.questionType === "ranking") {
                 const { isNew, rankingId, ...rest } = q;
                 const created = await RankingService.createRanking(rest);
                 return { ...created, isNew: false, isDirty: false };
             }
-            if ("fillInTheBlankId" in q) {
+            if (q.questionType === "fillInTheBlank") {
                 const { isNew, fillInTheBlankId, ...rest } = q;
                 const created = await FillInTheBlankService.createQuestion(rest);
                 return { ...created, isNew: false, isDirty: false };
             }
-            if ("trueFalseId" in q) {
+            if (q.questionType === "trueFalse") {
                 const { isNew, trueFalseId, ...rest } = q;
                 const created = await TrueFalseService.createTrueFalse(rest);
                 return { ...created, isNew: false, isDirty: false };
@@ -245,17 +246,17 @@ function QuizManagePage() {
         );
         newQuestions.map(q => {
             if(q.isDirty){
-                if("rankingId" in q){
+                if(q.questionType === "ranking"){
                     RankingService.updateRanking(q.rankingId, q);
-                }else if ("sequenceId" in q){
+                }else if (q.questionType === "sequence"){
                     SequenceService.updateSequence(q.sequenceId, q)
-                }else if ("matchingId" in q){
+                }else if (q.questionType === "matching"){
                     MatchingService.updateMatching(q.matchingId, q)
-                }else if ("fillInTheBlankId" in q){
+                }else if (q.questionType === "fillInTheBlank"){
                     FillInTheBlankService.updateQuestion(q.fillInTheBlankId, q)
-                }else if ("trueFalseId" in q){
+                }else if (q.questionType === "trueFalse"){
                     TrueFalseService.updateTrueFalse(q.trueFalseId, q)
-                }else if ("multipleChoiceId" in q){
+                }else if (q.questionType === "multipleChoice"){
                     MultipleChoiceService.updateMultipleChoice(q.multipleChoiceId, q)
                 }
             }
@@ -280,7 +281,7 @@ function QuizManagePage() {
                             <h3>{quiz?.name}</h3>
                             <p className="quiz-manage-description">"{quiz?.description}"</p>
                             <p className="quiz-manage-num-questions">Number of questions: {numOfQuestions}</p>
-                            <select className="quiz-manage-header-select" onChange={(e) => setSelectedType(e.target.value)}>
+                            <select className="quiz-manage-header-select" value={selectedType} onChange={(e) => setSelectedType(e.target.value)}>
                                 <option value="">Choose type:</option>
                                 <option value="fillInTheBlank">Fill in the blank</option>
                                 <option value="matching">Matching</option>
@@ -302,57 +303,57 @@ function QuizManagePage() {
                                             <h3 className="quiz-manage-question-num">Question number: {q.quizQuestionNum}</h3>
                                             <button className="quiz-manage-question-delete-btn" onClick={() => handleDeleteQuestion(index)}>Delete</button>
                                         </div>
-                                        {"sequenceId" in q && (
+                                        {q.questionType === "sequence" && (
                                             <div>
                                                 <p className="quiz-manage-question-text">Sequence question - Add items in order</p>
                                                 <hr />
                                                 <SequenceManageForm sequenceId={q.sequenceId} incomingQuestion={q.question} incomingCorrectAnswer={q.correctAnswer} 
                                                 onChange={(updatedQuestion) => {
-                                                    setAllQuestions(prev => prev.map(pq => "sequenceId" in pq && pq.sequenceId === q.sequenceId ? {...pq, ...updatedQuestion} : pq));
+                                                    setAllQuestions(prev => prev.map(pq => pq.questionType === "sequence" && pq.sequenceId === q.sequenceId ? {...pq, ...updatedQuestion} : pq));
                                                 }} />
                                             </div>
-                                        )}{"rankingId" in q &&(
+                                        )}{q.questionType === "ranking" &&(
                                             <div>
                                                 <p className="quiz-manage-question-text">Ranking question - Add items in order</p>
                                                 <hr />
                                                 <RankingManageForm rankedId={q.rankedId} incomingQuestion={q.question} incomingCorrectAnswer={q.correctAnswer}
                                                 onChange={(updatedQuestion) => {
-                                                    setAllQuestions(prev => prev.map(pq => "rankingId" in pq && pq.rankingId === q.rankingId ? {...pq, ...updatedQuestion} : pq));
+                                                    setAllQuestions(prev => prev.map(pq => pq.questionType === "ranking" && pq.rankingId === q.rankingId ? {...pq, ...updatedQuestion} : pq));
                                                 }} />
                                             </div>
-                                        )}{"fillInTheBlankId" in q && (
+                                        )}{q.questionType === "fillInTheBlank" && (
                                             <div>
                                                 <p className="quiz-manage-question-text">Fill in the blank question</p>
                                                 <hr />
                                                 <FillInTheBlankManageForm fillInTheblankId={q.fillInTheBlankId} question={q.question} answer={q.correctAnswer}
                                                 onChange={(updatedQuestion) => {
-                                                    setAllQuestions(prev => prev.map(pq => "fillInTheBlankId" in pq && pq.fillInTheBlankId === q.fillInTheBlankId ? {...pq, ...updatedQuestion} : pq));}} />
+                                                    setAllQuestions(prev => prev.map(pq => pq.questionType === "fillInTheBlank" && pq.fillInTheBlankId === q.fillInTheBlankId ? {...pq, ...updatedQuestion} : pq));}} />
                                             </div>
-                                        )}{"multipleChoiceId" in q && (
+                                        )}{q.questionType === "multipleChoice" && (
                                             <div>
                                                 <p className="quiz-manage-question-text">Multiple choice question</p>
                                                 <hr />
                                                 <MultipleChoiceManageForm multipleChoiceId={q.multipleChoiceId} incomingQuestion={q.question} incomingOptions={q.options}
                                                 onChange={(updatedQuestion) => {
-                                                    setAllQuestions(prev => prev.map(pq => "multipleChoiceId" in pq && pq.multipleChoiceId === q.multipleChoiceId ? {...pq, ...updatedQuestion} : pq));
+                                                    setAllQuestions(prev => prev.map(pq => pq.questionType === "multipleChoice" && pq.multipleChoiceId === q.multipleChoiceId ? {...pq, ...updatedQuestion} : pq));
                                                 }} />
                                             </div>
-                                        )}{"trueFalseId" in q && (
+                                        )}{q.questionType === "trueFalse" && (
                                             <div>
                                                 <p className="quiz-manage-question-text">True or false question</p>
                                                 <hr />
                                                 <TrueFalseManageForm trueFalseId={q.trueFalseId} incomingQuestion={q.question} incomingCorrectAnswer={q.correctAnswer}
                                                 onChange={(updatedQuestion) => {
-                                                    setAllQuestions(prev => prev.map(pq => "trueFalseId" in pq && pq.trueFalseId === q.trueFalseId ? {...pq, ...updatedQuestion} : pq));
+                                                    setAllQuestions(prev => prev.map(pq => pq.questionType === "trueFalse" && pq.trueFalseId === q.trueFalseId ? {...pq, ...updatedQuestion} : pq));
                                                 }} />
                                             </div>
-                                        )}{"matchingId" in q &&(
+                                        )}{q.questionType === "matching" &&(
                                             <div>
                                                 <p className="quiz-manage-question-text">Matching question - Add matching items</p>
                                                 <hr />
                                                 <MatchingManageForm matchingId={q.matchingId} incomingQuestion={q.question} incomingCorrectAnswer={q.correctAnswer}
                                                 onChange={(updatedQuestion) => {
-                                                    setAllQuestions(prev => prev.map(pq => "matchingId" in pq && pq.matchingId === q.matchingId ? {...pq, ...updatedQuestion} : pq));
+                                                    setAllQuestions(prev => prev.map(pq => pq.questionType === "matching" && pq.matchingId === q.matchingId ? {...pq, ...updatedQuestion} : pq));
                                                 }} />
                                             </div>
                                         )}

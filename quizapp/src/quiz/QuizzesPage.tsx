@@ -86,7 +86,7 @@ function QuizzesPage() {
             )}
           </div>
           {user && (
-            <button className="quiz-create" onClick={() => navigate("/quizCreate")}>Create</button>
+            <button className="quiz-create" onClick={() => navigate("/quiz/create")}>Create</button>
           )}
         </div>
     </div>

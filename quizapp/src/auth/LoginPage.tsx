@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useAuth } from './AuthContext';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { Form, Button, Container, Alert } from 'react-bootstrap';
 
 const LoginPage: React.FC = () => {
@@ -10,6 +10,9 @@ const LoginPage: React.FC = () => {
 
     const { login } = useAuth();
     const navigate = useNavigate();
+    const location = useLocation();
+
+    const fromLocation = location.state?.from || { pathname: "/" };
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
@@ -17,7 +20,7 @@ const LoginPage: React.FC = () => {
 
         try {
             await login({ username, password });
-            navigate('/'); 
+            navigate(fromLocation.pathname, { replace: true }); 
         } catch (err) {
             console.error(err);
             setError('Invalid username or password.');

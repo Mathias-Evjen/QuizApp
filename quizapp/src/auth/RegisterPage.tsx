@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { Form, Button, Container, Alert } from 'react-bootstrap';
 import * as authService from './AuthService';
 
@@ -12,6 +12,9 @@ const RegisterPage: React.FC = () => {
     const [error, setError] = useState<string | null>(null);
     const [success, setSuccess] = useState<string | null>(null);
     const navigate = useNavigate();
+    const location = useLocation();
+
+    const fromLocation = location.state?.from || {pathname: "/"};
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -24,7 +27,7 @@ const RegisterPage: React.FC = () => {
         try {
             await authService.register(formData);
             setSuccess('Registration successful! You can now log in.');
-            setTimeout(() => navigate('/login'), 2000); // Redirect after 2 seconds
+            setTimeout(() => navigate('/login', {state: { from: fromLocation }}), 2000); // Redirect after 2 seconds
         } catch (err) {
             if (err instanceof Error) {
                 setError(err.message);

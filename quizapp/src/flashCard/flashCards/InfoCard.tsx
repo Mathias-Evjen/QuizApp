@@ -7,7 +7,7 @@ const InfoCard: React.FC = () => {
         <div className="flash-card-page-info-icon">
             <InfoOutline />
             <div className="flash-card-info-card">
-                <p>Info her</p>
+                <h4>Info her</h4>
                 <div className="info-row">
                     <div className="key-info">
                         <div className="keyboard-key">

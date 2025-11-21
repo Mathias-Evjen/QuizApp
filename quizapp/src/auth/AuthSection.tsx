@@ -1,29 +1,40 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
+import React, { useState } from 'react';
+import { NavLink } from 'react-router-dom';
 import { useAuth } from './AuthContext';
-import { Nav, Dropdown } from 'react-bootstrap';
+import { Dropdown } from 'react-bootstrap';
+import "../App.css";
 
 const AuthSection: React.FC = () => {
     const { user, logout } = useAuth();
+    
+    const [showMenu, setShowMenu] = useState<boolean>(false);
+
+    const handleShowMenu = () => {
+        setShowMenu(!showMenu);
+    };
 
     return (
-        <Nav>
+        <>
             {user ? (
-                <Dropdown align="end">
-                    <Dropdown.Toggle as={Nav.Link} id="dropdown-user">
-                        Welcome, {user.sub}
-                    </Dropdown.Toggle>
-                    <Dropdown.Menu>
-                        <Dropdown.Item onClick={logout}>Logout</Dropdown.Item>
-                    </Dropdown.Menu>
-                </Dropdown>
+                <div className={showMenu ? "dropdown" : "nav-item"}>
+                    <div className='nav-item' onClick={handleShowMenu}>
+                        <p>Welcome, {user.sub}</p>
+                    </div>
+                    {showMenu ? (
+                        <div className='nav-item' onClick={logout}>
+                            <p>Logout</p>
+                        </div>
+                    ) : (
+                        <></>
+                    )}
+                </div>
             ) : (
                 <>
-                    <Nav.Link as={Link} to="/login">Login</Nav.Link>
-                    <Nav.Link as={Link} to="/register">Register</Nav.Link>  
+                    <NavLink className='nav-item' to="/login">Login</NavLink>
+                    <NavLink className='nav-item' to="/register">Register</NavLink>  
                 </>
             )}
-        </Nav>
+        </>
     );
 };
 

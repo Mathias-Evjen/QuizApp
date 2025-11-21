@@ -19,14 +19,7 @@ import FlashCardQuizPage from "./flashCard/flashCards/FlashCardQuizPage";
 import FlashCardQuizzesPage from "./flashCard/quizzes/Quizzes";
 import ManageFlashCardQuiz from "./flashCard/manage/ManageFlashCardQuiz";
 
-
-/* MULTIPLE CHOICE */
-import MultipleChoiceQuizPage from "./multipleChoice/MultipleChoiceQuizPage";
-import ManageMultipleChoiceQuizPage from "./multipleChoice/ManageMultipleChoiceQuizPage";
-
-/* TRUE/FALSE */
-import ManageTrueFalseQuizPage from "./trueFalse/ManageTrueFalseQuizPage";
-import TrueFalseQuizPage from "./trueFalse/TrueFalseQuizPage";
+/* HOME PAGE */
 import HomePage from "./home/HomePage";
 
 
@@ -54,10 +47,6 @@ const App: React.FC = () => {
             <Route path="/flashCards" element={<FlashCardQuizzesPage />} />
             <Route path="/flashCards/:id" element={<FlashCardQuizPage />} />
 
-            {/* QUESTION TYPES PUBLIC VIEW */}
-            <Route path="/quizMultipleChoice" element={<MultipleChoiceQuizPage />} />
-            <Route path="/quizTrueFalse" element={<TrueFalseQuizPage />} />
-
 
             {/* PROTECTED ROUTES */}
             <Route element={<ProtectedRoute />}>
@@ -67,12 +56,6 @@ const App: React.FC = () => {
 
               {/* FLASHCARD ADMIN */}
               <Route path="/flashCards/manage/:id" element={<ManageFlashCardQuiz />} />
-
-              {/* MULTIPLE CHOICE ADMIN */}
-              <Route path="/manageMultipleChoice/:id" element={<ManageMultipleChoiceQuizPage />} />
-
-              {/* TRUE/FALSE ADMIN */}
-              <Route path="/manageTrueFalseQuiz/:id" element={<ManageTrueFalseQuizPage />} />
             </Route>
 
             <Route path="*" element={<Navigate to="/" replace />} />

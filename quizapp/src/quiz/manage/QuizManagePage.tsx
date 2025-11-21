@@ -169,6 +169,7 @@ function QuizManagePage() {
 
         setAllQuestions(prev => [...prev, newQuestion]);
         setNumOfQuestions(prev => prev+1);
+        setSelectedType("");
         return;
     }
 
@@ -283,7 +284,7 @@ function QuizManagePage() {
                             <h3>{quiz?.name}</h3>
                             <p>"{quiz?.description}"</p>
                             <p className="quiz-manage-num-questions">Number of questions: {numOfQuestions}</p>
-                            <select className="quiz-manage-header-select" onChange={(e) => setSelectedType(e.target.value)}>
+                            <select className="quiz-manage-header-select" value={selectedType} onChange={(e) => setSelectedType(e.target.value)}>
                                 <option value="">Choose type:</option>
                                 <option value="fillInTheBlank">Fill in the blank</option>
                                 <option value="matching">Matching</option>

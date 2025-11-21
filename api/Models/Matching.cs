@@ -9,7 +9,6 @@ namespace QuizApp.Models
     {
         public int MatchingId { get; set; }
         public string Question { get; set; } = string.Empty;
-        public string QuestionText { get; set; } = string.Empty;
         public string Answer { get; set; } = string.Empty;
         public string CorrectAnswer { get; set; } = string.Empty;
         public int QuizId { get; set; }
@@ -17,24 +16,24 @@ namespace QuizApp.Models
         public int TotalRows { get; set; }
 
 
-        public KeyValuePair<string, string>[] SplitQuestion()
-        {
-            if (string.IsNullOrEmpty(Question))
-            {
-                return Array.Empty<KeyValuePair<string, string>>();
-            }
-            var partsQuestion = Question.Split(',');
-            if (partsQuestion.Length % 2 != 0)
-            {
-                throw new InvalidOperationException("Amount of values in Question needs to be even");
-            }
-            var pairsQuestion = new List<KeyValuePair<string, string>>();
-            for (int i = 0; i < partsQuestion.Length; i += 2)
-            {
-                pairsQuestion.Add(new KeyValuePair<string, string>(partsQuestion[i].Trim(), partsQuestion[i + 1].Trim()));
-            }
-            return pairsQuestion.ToArray();
-        }
+        // public KeyValuePair<string, string>[] SplitQuestion()
+        // {
+        //     if (string.IsNullOrEmpty(Question))
+        //     {
+        //         return Array.Empty<KeyValuePair<string, string>>();
+        //     }
+        //     var partsQuestion = Question.Split(',');
+        //     if (partsQuestion.Length % 2 != 0)
+        //     {
+        //         throw new InvalidOperationException("Amount of values in Question needs to be even");
+        //     }
+        //     var pairsQuestion = new List<KeyValuePair<string, string>>();
+        //     for (int i = 0; i < partsQuestion.Length; i += 2)
+        //     {
+        //         pairsQuestion.Add(new KeyValuePair<string, string>(partsQuestion[i].Trim(), partsQuestion[i + 1].Trim()));
+        //     }
+        //     return pairsQuestion.ToArray();
+        // }
 
         public KeyValuePair<string,string>[] SplitCorrectAnswer()
         {
@@ -84,33 +83,33 @@ namespace QuizApp.Models
             }
             return questionOrAnswer;
         }
-        public string ShuffleQuestion(List<string> keys, List<string> values)
-        {
-            if (values == null || values.Count == 0)
-            {
-                Console.WriteLine("Values er tom");
-                throw new InvalidOperationException("Values list is empty or null");
-            }
+        // public string ShuffleQuestion(List<string> keys, List<string> values)
+        // {
+        //     if (values == null || values.Count == 0)
+        //     {
+        //         Console.WriteLine("Values er tom");
+        //         throw new InvalidOperationException("Values list is empty or null");
+        //     }
 
-            Console.WriteLine("Shuffling");
+        //     Console.WriteLine("Shuffling");
 
-            Random random = new Random(); // Opprett en ny Random-instans
-            int n = values.Count;
+        //     Random random = new Random(); // Opprett en ny Random-instans
+        //     int n = values.Count;
 
-            // Fisher-Yates-algoritmen for stokking
-            for (int i = n - 1; i > 0; i--)
-            {
-                int j = random.Next(0, i + 1); // Velg en tilfeldig indeks mellom 0 og i
-                // Bytt elementene på indeks i og j
-                string temp = values[i];
-                values[i] = values[j];
-                values[j] = temp;
-            }
+        //     // Fisher-Yates-algoritmen for stokking
+        //     for (int i = n - 1; i > 0; i--)
+        //     {
+        //         int j = random.Next(0, i + 1); // Velg en tilfeldig indeks mellom 0 og i
+        //         // Bytt elementene på indeks i og j
+        //         string temp = values[i];
+        //         values[i] = values[j];
+        //         values[j] = temp;
+        //     }
 
-            string shuffledQuestion = Assemble(keys, values, 3);
+        //     string shuffledQuestion = Assemble(keys, values, 3);
 
-            return shuffledQuestion; // Returner den stokket listen
-        }
+        //     return shuffledQuestion; // Returner den stokket listen
+        // }
 
     }
 }

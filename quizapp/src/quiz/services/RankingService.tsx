@@ -1,4 +1,5 @@
 import { RankingAttempt } from "../../types/rankingAttempt";
+import { Ranking } from "../../types/ranking";
 
 const API_URL = import.meta.env.VITE_API_URL;
 
@@ -37,7 +38,7 @@ export const fetchRankings = async (quizId: number) => {
 };
 
 // Post create ranking
-export const createRanking = async (ranking: any) => {
+export const createRanking = async (ranking: Ranking) => {
   const response = await fetch(`${API_URL}/api/rankingapi/create`, {
     method: 'POST',
     headers: getAuthHeaders(),
@@ -57,7 +58,7 @@ export const submitQuestion = async (rankingAttempt: RankingAttempt) => {
 };
 
 // Put update ranking
-export const updateRanking = async (rankingId: number, ranking: any) => {
+export const updateRanking = async (rankingId: number, ranking: Ranking) => {
   const response = await fetch(`${API_URL}/api/rankingapi/update/${rankingId}`, {
     method: 'PUT',
     headers: getAuthHeaders(),
@@ -74,3 +75,23 @@ export const deleteRanking = async (rankingId: number, quizQuestionNum: number, 
   });
   return handleResponse(response);
 };
+
+
+export function shuffleQuestion(values: string[]): string[] {
+    if (!values || values.length === 0) {
+        throw new Error("Values list is empty or null");
+    }
+
+    // Lag en kopi slik at originalen ikke muteres
+    const shuffledValues = [...values];
+
+    // Fisher-Yates shuffle
+    for (let i = shuffledValues.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        const temp = shuffledValues[i];
+        shuffledValues[i] = shuffledValues[j];
+        shuffledValues[j] = temp;
+    }
+
+    return values;
+}

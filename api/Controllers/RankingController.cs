@@ -42,7 +42,6 @@ public class RankingAPIController : ControllerBase
             return new RankingDto
             {
                 RankingId = question.RankingId,
-                QuestionText = question.QuestionText,
                 Question = question.Question,
                 QuizQuestionNum = question.QuizQuestionNum,
                 QuizId = question.QuizId
@@ -81,10 +80,9 @@ public class RankingAPIController : ControllerBase
         {
             QuizId = rankingDto.QuizId,
             QuizQuestionNum = rankingDto.QuizQuestionNum,
-            QuestionText = rankingDto.QuestionText,
+            Question = rankingDto.Question,
             CorrectAnswer = rankingDto.CorrectAnswer
         };
-        rankingQuestion.Question = rankingQuestion.ShuffleQuestion(rankingDto.CorrectAnswer.Split(",").ToList());
         bool returnOk = await _rankingRepository.Create(rankingQuestion);
         if (returnOk)
         {
@@ -102,13 +100,11 @@ public class RankingAPIController : ControllerBase
         Ranking updatetRanking = new()
         {
             RankingId = rankingDto.RankingId,
-            QuestionText = rankingDto.QuestionText,
             QuizId = rankingDto.QuizId,
             QuizQuestionNum = rankingDto.QuizQuestionNum,
             Question = rankingDto.Question,
             CorrectAnswer = rankingDto.CorrectAnswer
         };
-        updatetRanking.Question = updatetRanking.ShuffleQuestion(updatetRanking.CorrectAnswer.Split(",").ToList());
         bool returnOk = await _rankingRepository.Update(updatetRanking);
         if (returnOk) {
             return Ok(updatetRanking);

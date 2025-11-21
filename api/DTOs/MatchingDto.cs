@@ -7,13 +7,10 @@ namespace QuizApp.DTOs
         public int MatchingId { get; set; }
 
         [Required(ErrorMessage = "Must contain question text")]
-        public string QuestionText { get; set; } = string.Empty;
-
         public string Question { get; set; } = string.Empty;
 
         [Required(ErrorMessage = "Must contain a correct answer")]
         public string CorrectAnswer { get; set; } = string.Empty;
-
 
         public int TotalRows { get; set; }
         public int QuizId { get; set; }

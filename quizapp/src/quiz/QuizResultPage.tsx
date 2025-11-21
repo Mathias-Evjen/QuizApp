@@ -77,7 +77,7 @@ const QuizResultPage: React.FC = () => {
                             key={`${q.questionType}-${q.quizQuestionNum}`}
                             className={`quiz-result-question-box ${correct ? "correct" : "incorrect"}`}
                         >
-                            <h3>Q{q.quizQuestionNum}: {("questionText" in q ? q.questionText : q.question)}</h3>
+                            <h3>Q{q.quizQuestionNum}: {q.question}</h3>
 
                             <p>
                                 <strong>Your answer:</strong>{" "}

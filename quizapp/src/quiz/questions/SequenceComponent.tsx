@@ -5,20 +5,20 @@ interface SequenceProps {
   handleAnswer: (sequenceId: number, newAnswer: string) => void;
   sequenceId: number;
   quizQuestionNum: number;
+  questionItems: string[];
   question: string;
-  questionText: string;
   userAnswer: string | undefined;
 }
 
 const SequenceComponent: React.FC<SequenceProps> = ({
   sequenceId,
   quizQuestionNum,
+  questionItems,
   question,
-  questionText,
   userAnswer,
   handleAnswer
 }) => {
-  const [splitQuestion, setSplitQuestion] = useState<string[]>(question.split(","));
+  const [splitQuestion, setSplitQuestion] = useState<string[]>(questionItems);
 
   // Tomme svarbokser, én for hver item
   const [answers, setAnswers] = useState<(string | null)[]>(Array(splitQuestion.length).fill(null));
@@ -62,7 +62,7 @@ const SequenceComponent: React.FC<SequenceProps> = ({
   return (
     <div className="sequence-card-wrapper">
       <h3>Question {quizQuestionNum}</h3>
-      <p>{questionText}</p>
+      <p>{question}</p>
       <hr />
 
       <div className="sequence-question-answer-wrapper">

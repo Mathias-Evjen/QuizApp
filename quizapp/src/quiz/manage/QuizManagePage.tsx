@@ -93,8 +93,7 @@ function QuizManagePage() {
             newQuestion = {
                 questionType: "sequence",
                 sequenceId: undefined,
-                questionText: "New question",
-                question: "",
+                question: "New question",
                 correctAnswer: "",
                 quizQuestionNum: questionNum,
                 quizId,
@@ -106,8 +105,7 @@ function QuizManagePage() {
             newQuestion = {
                 questionType: "ranking",
                 rankingId: undefined,
-                questionText: "New question",
-                question: "",
+                question: "New question",
                 correctAnswer: "",
                 quizQuestionNum: questionNum,
                 quizId,
@@ -119,8 +117,7 @@ function QuizManagePage() {
             newQuestion = {
                 questionType: "matching",
                 matchingId: undefined,
-                questionText: "New question",
-                question: "",
+                question: "New question",
                 correctAnswer: "",
                 quizQuestionNum: questionNum,
                 quizId,
@@ -281,7 +278,7 @@ function QuizManagePage() {
                         <button className="quiz-back-btn" onClick={() => navigate(-1)}>{"<"}</button>
                         <div className="quiz-manage-header">
                             <h3>{quiz?.name}</h3>
-                            <p>"{quiz?.description}"</p>
+                            <p className="quiz-manage-description">"{quiz?.description}"</p>
                             <p className="quiz-manage-num-questions">Number of questions: {numOfQuestions}</p>
                             <select className="quiz-manage-header-select" onChange={(e) => setSelectedType(e.target.value)}>
                                 <option value="">Choose type:</option>
@@ -309,7 +306,7 @@ function QuizManagePage() {
                                             <div>
                                                 <p className="quiz-manage-question-text">Sequence question - Add items in order</p>
                                                 <hr />
-                                                <SequenceManageForm sequenceId={q.sequenceId} incomingQuestionText={q.questionText} incomingCorrectAnswer={q.correctAnswer} 
+                                                <SequenceManageForm sequenceId={q.sequenceId} incomingQuestion={q.question} incomingCorrectAnswer={q.correctAnswer} 
                                                 onChange={(updatedQuestion) => {
                                                     setAllQuestions(prev => prev.map(pq => "sequenceId" in pq && pq.sequenceId === q.sequenceId ? {...pq, ...updatedQuestion} : pq));
                                                 }} />
@@ -318,7 +315,7 @@ function QuizManagePage() {
                                             <div>
                                                 <p className="quiz-manage-question-text">Ranking question - Add items in order</p>
                                                 <hr />
-                                                <RankingManageForm rankedId={q.rankedId} incomingQuestionText={q.questionText} incomingCorrectAnswer={q.correctAnswer}
+                                                <RankingManageForm rankedId={q.rankedId} incomingQuestion={q.question} incomingCorrectAnswer={q.correctAnswer}
                                                 onChange={(updatedQuestion) => {
                                                     setAllQuestions(prev => prev.map(pq => "rankingId" in pq && pq.rankingId === q.rankingId ? {...pq, ...updatedQuestion} : pq));
                                                 }} />
@@ -353,7 +350,7 @@ function QuizManagePage() {
                                             <div>
                                                 <p className="quiz-manage-question-text">Matching question - Add matching items</p>
                                                 <hr />
-                                                <MatchingManageForm matchingId={q.matchingId} incomingQuestionText={q.questionText} incomingCorrectAnswer={q.correctAnswer}
+                                                <MatchingManageForm matchingId={q.matchingId} incomingQuestion={q.question} incomingCorrectAnswer={q.correctAnswer}
                                                 onChange={(updatedQuestion) => {
                                                     setAllQuestions(prev => prev.map(pq => "matchingId" in pq && pq.matchingId === q.matchingId ? {...pq, ...updatedQuestion} : pq));
                                                 }} />

@@ -4,21 +4,21 @@ interface RankingProps {
   handleAnswer: (rankingId: number, newAnswer: string) => void;
   rankingId: number;
   quizQuestionNum: number;
+  questionItems: string[];
   question: string;
-  questionText: string;
   userAnswer: string | undefined;
 }
 
 const RankingComponent: React.FC<RankingProps> = ({
   rankingId,
   quizQuestionNum,
+  questionItems,
   question,
-  questionText,
   userAnswer,
   handleAnswer
 }) => {
 
-  const [splitQuestion, setSplitQuestion] = useState<string[]>(question.split(","));
+  const [splitQuestion, setSplitQuestion] = useState<string[]>(questionItems);
 
   // Tomme svarbokser, én for hver item
   const [answers, setAnswers] = useState<(string | null)[]>(Array(splitQuestion.length).fill(null));
@@ -63,7 +63,7 @@ const RankingComponent: React.FC<RankingProps> = ({
   return (
     <div className="ranking-card-wrapper">
       <h3>Question {quizQuestionNum}</h3>
-      <p>{questionText}</p>
+      <p>{question}</p>
       <hr />
 
       <div className="ranking-question-answer-wrapper">

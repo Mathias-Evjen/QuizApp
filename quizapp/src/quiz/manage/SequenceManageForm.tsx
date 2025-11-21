@@ -8,24 +8,24 @@ import bin from "../../shared/bin.png";
 
 interface SequenceManageFormProps {
     sequenceId: number,
-    incomingQuestionText: string,
+    incomingQuestion: string,
     incomingCorrectAnswer: string
-    onChange?: (updatedQuestion: { questionText: string; correctAnswer: string; isDirty: boolean }) => void;
+    onChange?: (updatedQuestion: { question: string; correctAnswer: string; isDirty: boolean }) => void;
 }
 
-const SequenceManageForm: React.FC<SequenceManageFormProps> = ({sequenceId, incomingQuestionText, incomingCorrectAnswer, onChange}) => {
+const SequenceManageForm: React.FC<SequenceManageFormProps> = ({sequenceId, incomingQuestion, incomingCorrectAnswer, onChange}) => {
     const [splitQuestion, setSplitQuestion] = useState<string[]>(incomingCorrectAnswer ? incomingCorrectAnswer.split(",") : []);
-    const [questionText, setQuestionText] = useState(incomingQuestionText);
+    const [question, setQuestion] = useState(incomingQuestion);
 
     useEffect(() => {
         const combinedAnswer = splitQuestion.join(",");
-        onChange?.({ questionText, correctAnswer: combinedAnswer, isDirty: true });
-    }, [splitQuestion, questionText]);
+        onChange?.({ question, correctAnswer: combinedAnswer, isDirty: true });
+    }, [splitQuestion, question]);
 
     return(
         <div className="sequence-manage-form-wrapper" key={sequenceId}>
             <div className="sequence-manage-form-input-wrapper">
-                <input id="sequence-manage-form-questiontext" className="sequence-manage-form-questiontext" value={questionText} onChange={(e) => setQuestionText(e.target.value)} />
+                <input id="sequence-manage-form-questiontext" className="sequence-manage-form-questiontext" value={question} onChange={(e) => setQuestion(e.target.value)} />
                 <label htmlFor="sequence-manage-form-questiontext" className="sequence-manage-form-label">Question text: </label>
             </div>
             <br/>

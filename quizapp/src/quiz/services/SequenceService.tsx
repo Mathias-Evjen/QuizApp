@@ -1,4 +1,5 @@
 import { SequenceAttempt } from "../../types/sequenceAttempt";
+import { Sequence } from "../../types/sequence";
 
 const API_URL = import.meta.env.VITE_API_URL;
 
@@ -37,7 +38,7 @@ export const fetchSequences = async (quizId: number) => {
 };
 
 // Post create sequence
-export const createSequence = async (sequence: any) => {
+export const createSequence = async (sequence: Sequence) => {
   const response = await fetch(`${API_URL}/api/sequenceapi/create`, {
     method: 'POST',
     headers: getAuthHeaders(),
@@ -57,7 +58,7 @@ export const submitQuestion= async (sequenceAttempt: SequenceAttempt) => {
 };
 
 // Put update sequence
-export const updateSequence = async (sequenceId: number, sequence: any) => {
+export const updateSequence = async (sequenceId: number, sequence: Sequence) => {
   const response = await fetch(`${API_URL}/api/sequenceapi/update/${sequenceId}`, {
     method: 'PUT',
     headers: getAuthHeaders(),
@@ -74,3 +75,23 @@ export const deleteSequence = async (sequenceId: number, quizQuestionNum: number
   });
   return handleResponse(response);
 };
+
+
+export function shuffleQuestion(values: string[]): string[] {
+    if (!values || values.length === 0) {
+        throw new Error("Values list is empty or null");
+    }
+
+    // Lag en kopi slik at originalen ikke muteres
+    const shuffledValues = [...values];
+
+    // Fisher-Yates shuffle
+    for (let i = shuffledValues.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        const temp = shuffledValues[i];
+        shuffledValues[i] = shuffledValues[j];
+        shuffledValues[j] = temp;
+    }
+
+    return values;
+}

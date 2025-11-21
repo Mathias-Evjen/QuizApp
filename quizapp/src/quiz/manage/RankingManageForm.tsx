@@ -8,24 +8,24 @@ import bin from "../../shared/bin.png";
 
 interface RankingManageFormProps {
     rankedId: number
-    incomingQuestionText: string,
+    incomingQuestion: string,
     incomingCorrectAnswer: string,
-    onChange?: (updatedQuestion: { questionText: string; correctAnswer: string; isDirty: boolean }) => void;
+    onChange?: (updatedQuestion: { question: string; correctAnswer: string; isDirty: boolean }) => void;
 }
 
-const RankingManageForm: React.FC<RankingManageFormProps> = ({rankedId, incomingQuestionText, incomingCorrectAnswer, onChange}) => {
+const RankingManageForm: React.FC<RankingManageFormProps> = ({rankedId, incomingQuestion, incomingCorrectAnswer, onChange}) => {
     const [splitQuestion, setSplitQuestion] = useState<string[]>(incomingCorrectAnswer.split(","));
-    const [questionText, setQuestionText] = useState(incomingQuestionText);
+    const [question, setQuestion] = useState(incomingQuestion);
 
     useEffect(() => {
         const combinedAnswer = splitQuestion.join(",");
-        onChange?.({ questionText, correctAnswer: combinedAnswer, isDirty: true });
-    }, [splitQuestion, questionText]);
+        onChange?.({ question, correctAnswer: combinedAnswer, isDirty: true });
+    }, [splitQuestion, question]);
 
     return(
         <div className="ranking-manage-form-wrapper" key={rankedId}>
             <div className="ranking-manage-form-input-wrapper">
-                <input id="ranking-manage-form-questiontext" className="ranking-manage-form-questiontext" value={questionText} onChange={(e) => setQuestionText(e.target.value)} />
+                <input id="ranking-manage-form-questiontext" className="ranking-manage-form-questiontext" value={question} onChange={(e) => setQuestion(e.target.value)} />
                 <label htmlFor="ranking-manage-form-questiontext" className="ranking-manage-form-label">Question text: </label>
             </div>
             <br/>

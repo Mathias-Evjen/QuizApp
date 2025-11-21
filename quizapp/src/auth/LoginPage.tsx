@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useAuth } from './AuthContext';
 import { useLocation, useNavigate } from 'react-router-dom';
-import { Form, Button, Container, Alert } from 'react-bootstrap';
+import "./Auth.css";
 
 const LoginPage: React.FC = () => {
     const [username, setUsername] = useState('');
@@ -20,7 +20,7 @@ const LoginPage: React.FC = () => {
 
         try {
             await login({ username, password });
-            navigate(fromLocation.pathname, { replace: true }); 
+            navigate(fromLocation.pathname, { replace: true });
         } catch (err) {
             console.error(err);
             setError('Invalid username or password.');
@@ -28,40 +28,27 @@ const LoginPage: React.FC = () => {
     };
 
     return (
-        <Container className="mt-5" style={{ maxWidth: "450px" }}>
-            <h2 className="mb-4">Login</h2>
+        <div className="auth-login-container">
+            <div className="auth-login-card">
+                <h1>Login</h1>
 
-            {error && <Alert variant="danger">{error}</Alert>}
+                {error && <p className="auth-login-error">{error}</p>}
 
-            <Form onSubmit={handleSubmit}>
-                <Form.Group className="mb-3" controlId="formBasicUsername">
-                    <Form.Label>Username</Form.Label>
-                    <Form.Control
-                        type="text"
-                        placeholder="Enter username"
-                        value={username}
-                        onChange={(e) => setUsername(e.target.value)}
-                        required
-                    />
-                </Form.Group>
-
-                <Form.Group className="mb-3" controlId="formBasicPassword">
-                    <Form.Label>Password</Form.Label>
-                    <Form.Control
-                        type="password"
-                        placeholder="Password"
-                        value={password}
-                        onChange={(e) => setPassword(e.target.value)}
-                        required
-                    />
-                </Form.Group>
-
-                <Button variant="primary" type="submit" className="w-100">
-                    Login
-                </Button>
-            </Form>
-        </Container>
+                <form onSubmit={handleSubmit} className="auth-login-form">
+                    <input type="text" placeholder="Username" value={username} onChange={(e) => setUsername(e.target.value)} required/>
+                    <input type="password" placeholder="Password" value={password} onChange={(e) => setPassword(e.target.value)} required/>
+                    <button type="submit" className="auth-login-btn">
+                        Login
+                    </button>
+                </form>
+                <p className="auth-login-switch">
+                    Don't have an account?
+                    <span onClick={() => navigate("/register")}> Register</span>
+                </p>
+            </div>
+        </div>
     );
 };
+
 
 export default LoginPage;

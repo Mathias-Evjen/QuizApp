@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
-import { Form, Button, Container, Alert } from 'react-bootstrap';
 import * as authService from './AuthService';
+import "./Auth.css";
 
 const RegisterPage: React.FC = () => {
     const [formData, setFormData] = useState({
@@ -14,7 +14,7 @@ const RegisterPage: React.FC = () => {
     const navigate = useNavigate();
     const location = useLocation();
 
-    const fromLocation = location.state?.from || {pathname: "/"};
+    const fromLocation = location.state?.from || { pathname: "/" };
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -27,7 +27,7 @@ const RegisterPage: React.FC = () => {
         try {
             await authService.register(formData);
             setSuccess('Registration successful! You can now log in.');
-            setTimeout(() => navigate('/login', {state: { from: fromLocation }}), 2000); // Redirect after 2 seconds
+            setTimeout(() => navigate('/login', { state: { from: fromLocation } }), 2000);
         } catch (err) {
             if (err instanceof Error) {
                 setError(err.message);
@@ -39,29 +39,27 @@ const RegisterPage: React.FC = () => {
     };
 
     return (
-        <Container className="mt-5">
-            <h2>Register</h2>
-            {error && <Alert variant="danger">{error}</Alert>}
-            {success && <Alert variant="success">{success}</Alert>}
-            <Form onSubmit={handleSubmit}>
-                <Form.Group className="mb-3">
-                    <Form.Label>Username</Form.Label>
-                    <Form.Control type="text" name="username" value={formData.username} onChange={handleChange} required />
-                </Form.Group>
+        <div className="auth-register-container">
+            <div className="auth-register-card">
+                <h1>Register</h1>
 
-                <Form.Group className="mb-3">
-                    <Form.Label>Email</Form.Label>
-                    <Form.Control type="email" name="email" value={formData.email} onChange={handleChange} required />
-                </Form.Group>
+                {error && <p className="auth-register-error">{error}</p>}
+                {success && <p className="auth-register-success">{success}</p>}
 
-                <Form.Group className="mb-3">
-                    <Form.Label>Password</Form.Label>
-                    <Form.Control type="password" name="password" value={formData.password} onChange={handleChange} required />
-                </Form.Group>
-
-                <Button variant="primary" type="submit">Register</Button>
-            </Form>
-        </Container>
+                <form className="auth-register-form" onSubmit={handleSubmit} noValidate>
+                    <input type="text" name="username" placeholder="Username" value={formData.username} onChange={handleChange} required/>
+                    <input type="email" name="email" placeholder="Email" value={formData.email} onChange={handleChange} required/>
+                    <input type="password" name="password" placeholder="Password" value={formData.password} onChange={handleChange} required/>
+                    <button type="submit" className="auth-register-btn">
+                        Register
+                    </button>
+                </form>
+                <p className="auth-register-switch">
+                    Already have an account?
+                    <span onClick={() => navigate("/login")}> Login</span>
+                </p>
+            </div>
+        </div>
     );
 };
 

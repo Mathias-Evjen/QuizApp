@@ -15,7 +15,7 @@ namespace QuizApp.DTOs
         public int QuizQuestionNum { get; set; }
 
         [Required(ErrorMessage = "At least one option is required")]
-        [MinLength(4, ErrorMessage = "There must be at least four options")]
+        [MinLength(2, ErrorMessage = "There must be at least two options")]
         public List<OptionDto> Options { get; set; } = new();
     }
 }

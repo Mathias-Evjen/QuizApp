@@ -246,6 +246,10 @@ function QuizManagePage() {
             }
         }
         if (q.questionType === "multipleChoice" && q.isNew) {
+            if (q.options.length < 2){
+                alert("Multiple Choice must have atleast 2 options")
+                return q;
+            }
             const { isNew, multipleChoiceId, ...rest } = q;
             const created = await MultipleChoiceService.createMultipleChoice(rest);
             return { ...created, isNew: false, isDirty: false, questionType: "multipleChoice" };

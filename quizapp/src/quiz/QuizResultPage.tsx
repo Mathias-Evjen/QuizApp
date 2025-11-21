@@ -56,9 +56,78 @@ const QuizResultPage: React.FC = () => {
         return null;
     };
 
-    const isCorrect = (q: Question, userAnswer: any) => {
-        return userAnswer != null && userAnswer === q.correctAnswer;
-    }
+    const getCorrectAnswerText = (q: Question): string => {
+        if (q.questionType === "multipleChoice" && "options" in q) {
+            const correctOptions = q.options
+                .filter((o: any) => o.isCorrect)
+                .map((o: any) => o.text);
+
+            return correctOptions.join(", ");
+        }
+
+        if (q.correctAnswer === undefined || q.correctAnswer === null) {
+            return "";
+        }
+
+        return String(q.correctAnswer);
+    };
+
+    const formatUserAnswer = (answer: any): string => {
+        if (Array.isArray(answer)) {
+            return answer.join(", ");
+        }
+
+        if (typeof answer === "boolean") {
+            return answer ? "True" : "False";
+        }
+
+        if (answer === null || answer === undefined) {
+            return "";
+        }
+
+        return String(answer);
+    };
+
+    const isCorrect = (q: Question, userAnswer: any): boolean => {
+        if (userAnswer === null || userAnswer === undefined) return false;
+
+        if (q.questionType === "fillInTheBlank") {
+            if (!q.correctAnswer || typeof userAnswer !== "string") return false;
+            return userAnswer.trim().toLowerCase() === q.correctAnswer.trim().toLowerCase();
+        }
+
+        if (q.questionType === "trueFalse") {
+            if (typeof userAnswer !== "boolean") return false;
+            return userAnswer === q.correctAnswer;
+        }
+
+        if (q.questionType === "multipleChoice" && "options" in q) {
+            if (!Array.isArray(userAnswer)) return false;
+
+            const correctAnswers = q.options
+                .filter((o: any) => o.isCorrect)
+                .map((o: any) => o.text)
+                .sort();
+
+            const userAnswers = [...userAnswer].sort();
+
+            if (correctAnswers.length === 0) return false;
+            if (correctAnswers.length !== userAnswers.length) return false;
+
+            return correctAnswers.every((t, i) => t === userAnswers[i]);
+        }
+
+        if (
+            q.questionType === "matching" ||
+            q.questionType === "sequence" ||
+            q.questionType === "ranking"
+        ) {
+            if (!q.correctAnswer || typeof userAnswer !== "string") return false;
+            return userAnswer.trim() === q.correctAnswer.trim();
+        }
+
+        return false;
+    };
 
     return (
         <div className="quiz-result-page">
@@ -81,13 +150,13 @@ const QuizResultPage: React.FC = () => {
 
                             <p>
                                 <strong>Your answer:</strong>{" "}
-                                <span className="quiz-result-answer">{String(userAnswer)}</span>
+                                <span className="quiz-result-answer">{formatUserAnswer(userAnswer)}</span>
                             </p>
 
                             {!correct && (
                                 <p className="quiz-result-correct-answer">
                                     <strong>Correct answer:</strong>{" "}
-                                    {String(q.correctAnswer)}
+                                    {getCorrectAnswerText(q)}
                                 </p>
                             )}
                         </div>

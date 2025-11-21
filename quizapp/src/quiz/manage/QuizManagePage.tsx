@@ -35,6 +35,9 @@ function QuizManagePage() {
     const [numOfQuestions, setNumOfQuestions] = useState<number>(quiz?.numOfQuestions || 0);
     const [loading, setLoading] = useState<boolean>(false);
     const [error, setError] = useState<string | null>(null);
+    const [notificationType, setNotificationType] = useState<string>("empty");
+    const [notificationText, setNotificationText] = useState<string>("");
+    const [notificationExit ,setNotificationExit] = useState<boolean>(false);
 
     const fetchQuiz = async () => {
         setLoading(true);
@@ -167,6 +170,9 @@ function QuizManagePage() {
         setAllQuestions(prev => [...prev, newQuestion]);
         setNumOfQuestions(prev => prev+1);
         setSelectedType("");
+        setNotificationType("add");
+        setNotificationText("Added question!")
+        handleNotification();
         return;
     }
 
@@ -204,6 +210,9 @@ function QuizManagePage() {
         setAllQuestions(updated);
         handleQuestionNum(index);
         setNumOfQuestions(prev => prev-1);
+        setNotificationType("delete")
+        setNotificationText("Deleted question!")
+        handleNotification();
     }
 
     const handleSaveQuestions = async () => {
@@ -213,33 +222,33 @@ function QuizManagePage() {
             if (q.questionType === "sequence") {
                 const { isNew, sequenceId, ...rest } = q;
                 const created = await SequenceService.createSequence(rest);
-                return { ...created, isNew: false, isDirty: false };
+                return { ...created, isNew: false, isDirty: false, questionType: "sequence" };
             }
             if (q.questionType === "matching") {
                 const { isNew, matchingId, ...rest } = q;
                 const created = await MatchingService.createMatching(rest);
-                return { ...created, isNew: false, isDirty: false };
+                return { ...created, isNew: false, isDirty: false, questionType: "matching" };
             }
             if (q.questionType === "ranking") {
                 const { isNew, rankingId, ...rest } = q;
                 const created = await RankingService.createRanking(rest);
-                return { ...created, isNew: false, isDirty: false };
+                return { ...created, isNew: false, isDirty: false, questionType: "ranking" };
             }
             if (q.questionType === "fillInTheBlank") {
                 const { isNew, fillInTheBlankId, ...rest } = q;
                 const created = await FillInTheBlankService.createQuestion(rest);
-                return { ...created, isNew: false, isDirty: false };
+                return { ...created, isNew: false, isDirty: false, questionType: "fillInTheBlank" };
             }
             if (q.questionType === "trueFalse") {
                 const { isNew, trueFalseId, ...rest } = q;
                 const created = await TrueFalseService.createTrueFalse(rest);
-                return { ...created, isNew: false, isDirty: false };
+                return { ...created, isNew: false, isDirty: false, questionType: "trueFalse" };
             }
         }
         if (q.questionType === "multipleChoice" && q.isNew) {
             const { isNew, multipleChoiceId, ...rest } = q;
             const created = await MultipleChoiceService.createMultipleChoice(rest);
-            return { ...created, isNew: false, isDirty: false };
+            return { ...created, isNew: false, isDirty: false, questionType: "multipleChoice" };
         }
             return q;
         })
@@ -262,6 +271,22 @@ function QuizManagePage() {
             }
         })
         setAllQuestions(newQuestions);
+        setNotificationType("save");
+        setNotificationText("Saved quiz!")
+        handleNotification();
+    }
+
+    const handleNotification = () => {
+        setNotificationExit(false);
+        setTimeout(() => {
+            setNotificationExit(true);
+
+            
+            setTimeout(() => {
+                setNotificationText("");
+                setNotificationType("");
+            }, 350);
+        }, 3000); 
     }
 
     useEffect(() => {
@@ -269,7 +294,10 @@ function QuizManagePage() {
     }, []);
 
     return(
-            <>
+            <>  
+                <div className={`quiz-manage-notification-wrapper ${notificationType} ${notificationExit ? "exit" : ""}`}>
+                    <label>{notificationText}</label>
+                </div>
                 {loading ? (
                     <p className="loading">Loading...</p>
                 ) : error ? (

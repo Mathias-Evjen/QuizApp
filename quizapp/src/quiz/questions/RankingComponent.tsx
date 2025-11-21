@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 interface RankingProps {
   handleAnswer: (rankingId: number, newAnswer: string) => void;
@@ -36,16 +36,17 @@ const RankingComponent: React.FC<RankingProps> = ({
   // Når man slipper i en answer-boks
   const handleDrop = (e: React.DragEvent, index: number) => {
     e.preventDefault();
-    const value = e.dataTransfer.getData("text/plain");
-
-    const newAnswers = [...answers];
-    newAnswers[index] = value;
-    setAnswers(newAnswers);
-
-    const newSplitQuestion = splitQuestion.filter(item => item !== value);
-    setSplitQuestion(newSplitQuestion);
-
-    handleAnswer(rankingId, newAnswers.join(",")); // send svar tilbake til backend
+    if(!answers[index]){
+      const value = e.dataTransfer.getData("text/plain");
+  
+      const newAnswers = [...answers];
+      newAnswers[index] = value;
+      setAnswers(newAnswers);
+  
+      const newSplitQuestion = splitQuestion.filter(item => item !== value);
+      setSplitQuestion(newSplitQuestion);
+  
+    }
   };
 
   const handleRemoveAnswer = (itemValue: string, index: number) => {
@@ -59,6 +60,10 @@ const RankingComponent: React.FC<RankingProps> = ({
     newAnswers[index] = "";
     setAnswers(newAnswers);
   }
+
+  useEffect(() => {
+    handleAnswer(rankingId, answers.join(","));
+  }, [answers])
 
   return (
     <div className="ranking-card-wrapper">

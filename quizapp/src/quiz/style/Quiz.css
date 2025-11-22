@@ -226,7 +226,7 @@ button:hover{
   margin: auto;
   display: flex;
   flex-direction: column;
-  gap: 2rem; /* vertikalt mellomrom mellom feltene */
+  gap: 2rem; 
   margin-bottom: 50px;
   margin-top: 20px;
 }
@@ -235,13 +235,13 @@ button:hover{
 .quiz-create-input-desc {
   display: flex;
   position: relative;
-  align-items: center; /* label og input på linje */
-  gap: 1rem;         /* mellomrom mellom label og input */
+  align-items: center; 
+  gap: 1rem;       
 }
 
 .quiz-create-input-name label,
 .quiz-create-input-desc label {
-  width: 100px; /* fast bredde gir lik justering */
+  width: 100px;
   text-align: right;
 }
 
@@ -284,6 +284,16 @@ button:hover{
 }
 
 /*__Quiz Manage__*/
+.quiz-manage-sticky-bar{
+    position: sticky;
+    top: 0px;
+    width: 98vw;
+    height: auto;
+    padding: 10px;
+    padding-right: 10px;
+    text-align: right;
+    z-index: 100;
+}
 .quiz-manage-wrapper{
     min-width: 40rem;
     max-width: 50rem;
@@ -313,9 +323,6 @@ button:hover{
     right: 10px;
 }
 .quiz-manage-header-btn-add{
-    position: absolute;
-    bottom: 50px;
-    right: 10px;
     background-color:#1E90FF;
     border-radius: 5px;
     padding: 7px;
@@ -323,11 +330,9 @@ button:hover{
     cursor: pointer;
     font-size: 15px;
     border: solid 0px #1E90FF;
+    margin-left: 5px;
 }
 .quiz-manage-header-select{
-    position: absolute;
-    bottom: 50px;
-    right: 140px;
     border: 1px solid grey;
     border-radius: 5px;
     background-color: #F2F2F2;
@@ -336,16 +341,14 @@ button:hover{
     font-size: 15px;
 }
 .quiz-manage-btn-save{
-    position: fixed;
-    top: 5rem;
-    right: 2rem;
-    background-color:#32CD32;
+    background-color:#32cd32;
     border-radius: 5px;
     padding: 7px;
     color: white;
     cursor: pointer;
     font-size: 15px;
     border: solid 0px #32CD32;
+    margin-left: 2rem;
 }
 .quiz-manage-description{
     display: block;

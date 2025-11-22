@@ -21,6 +21,7 @@ const MatchingComponent: React.FC<MatchingProps> = ({
 }) => {
   const [splitQuestion, setSplitQuestion] = useState<{ keys: string[]; values: string[] } | null>(MatchingService.splitQuestion(questionItems));
   const [selectedKeyIndex, setSelectedKeyIndex] = useState<number | null>(null);
+  const [answer, setAnswer] = useState<string>(questionItems);
 
 //   useEffect(() => {
 //     setSplitQuestion(MatchingService.splitQuestion(question));
@@ -39,7 +40,7 @@ const MatchingComponent: React.FC<MatchingProps> = ({
     setSplitQuestion({ ...splitQuestion, values: newValues });
     setSelectedKeyIndex(null); 
 
-    handleAnswer(matchingId, MatchingService.assemble({ keys: splitQuestion.keys, values: newValues }));
+    handleAnswer(matchingId, MatchingService.assemble({ keys: splitQuestion.keys, values: splitQuestion.values}))
   };
 
   if (!splitQuestion) return null;

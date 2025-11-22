@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { MultipleChoice, Option } from "../../types/multipleChoice";
+import { MultipleChoice, Option } from "../../types/quiz/multipleChoice";
 import "../style/MultipleChoice.css";
 
 interface MultipleChoiceManageFormProps {

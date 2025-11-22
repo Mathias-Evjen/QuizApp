@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { TrueFalse } from "../../types/trueFalse";
+import { TrueFalse } from "../../types/quiz/trueFalse";
 import "../style/TrueFalse.css";
 
 interface TrueFalseManageFormProps {

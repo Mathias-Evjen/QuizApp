@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { Sequence } from "../../types/sequence";
+import { Sequence } from "../../types/quiz/sequence";
 import "../style/Sequence.css"
 import * as QuizService from "../services/QuizService";
 import { useNavigate, useLocation } from "react-router-dom";

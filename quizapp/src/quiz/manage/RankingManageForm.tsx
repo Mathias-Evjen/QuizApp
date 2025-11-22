@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { Ranking } from "../../types/ranking";
+import { Ranking } from "../../types/quiz/ranking";
 import "../style/Ranking.css"
 import * as QuizService from "../services/QuizService";
 import { useNavigate, useLocation } from "react-router-dom";

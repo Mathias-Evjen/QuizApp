@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { Matching } from "../../types/matching";
+import { Matching } from "../../types/quiz/matching";
 import * as MatchingService from "../services/MatchingService";
 import "../style/Matching.css";
 import rightArrow from "../../shared/right-arrow.png";

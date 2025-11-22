@@ -1,4 +1,4 @@
-import { QuestionBase } from "./quiz/Question";
+import { QuestionBase } from "./Question";
 
 export interface Ranking extends QuestionBase {
     questionType: "ranking";

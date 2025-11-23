@@ -99,16 +99,29 @@
 }
 
 .multiplechoice-manage-form-delete-btn {
-    width: 34px;
-    height: 34px;
+    width: 32px;
+    height: 32px;
     border: none;
     background: #ff4d4d;
-    border-radius: 8px;
+    border-radius: 50%;
     cursor: pointer;
     display: flex;
     align-items: center;
     justify-content: center;
     transition: 0.15s ease;
+    padding: 0;
+}
+
+.multiplechoice-manage-form-delete-btn:hover {
+    background: #e63939;
+    transform: scale(1.05);
+}
+
+.multiplechoice-manage-form-delete-btn img {
+    width: 25px;
+    height: 25px;
+    object-fit: contain;
+    pointer-events: none;
 }
 
 .multiplechoice-manage-form-btn-add {

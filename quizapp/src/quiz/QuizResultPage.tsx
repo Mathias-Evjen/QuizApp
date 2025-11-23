@@ -133,7 +133,7 @@ const QuizResultPage: React.FC = () => {
         <div className="quiz-result-page">
             <h1>{quiz.name} — Results</h1>
             <h2 className="quiz-result-score">
-                {score} / {total} correct
+                {score} / {total} Correct
             </h2>
 
             <div className="quiz-result-question-list">

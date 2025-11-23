@@ -402,9 +402,22 @@ button:hover{
 
 /*__Quiz Result__*/
 .quiz-result-page {
-    max-width: 900px;
+    min-width: 40rem;
+    max-width: 50rem;
+    min-height: auto;
+    max-height: none;
+    position: relative;
+    border: solid 0px black;
+    border-radius: 10px;
+    font-size: 17px;
+    text-align: left;
     margin: auto;
-    padding: 20px;
+    margin-top: 50px;
+    margin-bottom: 50px;
+    padding: 40px;
+    box-shadow:
+    rgba(60, 64, 67, 0.3) 0px 1px 2px 0px,
+    rgba(60, 64, 67, 0.15) 0px 2px 6px 2px;
 }
 
 .quiz-result-score {
@@ -422,9 +435,15 @@ button:hover{
 
 .quiz-result-question-box {
     padding: 20px;
-    border-radius: 12px;
-    border: 2px solid #ccc;
-    background: #fafafa;
+    border-radius: 10px;
+    border: solid 1px lightgrey;
+    width: 100%;
+    box-sizing: border-box;
+    height: auto;
+    border: solid 1px lightgray;
+    margin: auto;
+    text-align: left;
+    position: relative;
 }
 
 .quiz-result-question-box.correct {

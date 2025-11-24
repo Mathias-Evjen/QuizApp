@@ -53,7 +53,7 @@ function MultipleChoiceManageForm({ multipleChoiceId, incomingQuestion, incoming
                         <input className="multiplechoice-manage-form-option-input" value={op.text} onChange={(e) => handleOptionChange(index, e.target.value)} />
                         <input type="checkbox" className="multiplechoice-manage-form-option-correct-checkbox" checked={op.isCorrect} onChange={() => handleCorrectToggle(index)} />
                         <button className="multiplechoice-manage-form-delete-btn" onClick={() => removeOption(index)}>
-                            X
+                            <img src="/src/shared/bin.png" alt="delete"/>
                         </button>
                     </div>
                 ))}

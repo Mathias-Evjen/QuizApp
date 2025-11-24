@@ -331,8 +331,8 @@ const QuizPage: React.FC = () => {
             if (q.questionType === "multipleChoice") {
                 const att = multipleChoiceAttempts.find(a => a.multipleChoiceId === q.multipleChoiceId);
                 const correctOption = q.options.find(o => o.isCorrect);
-
                 if (att?.userAnswer && correctOption && att.userAnswer === correctOption.text) {
+                    att.answeredCorrectly = true;
                     score++;
                 }
             }

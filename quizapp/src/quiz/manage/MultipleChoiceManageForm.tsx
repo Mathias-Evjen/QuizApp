@@ -56,7 +56,7 @@ function MultipleChoiceManageForm({ multipleChoiceId, incomingQuestion, incoming
                         <input className="multiplechoice-manage-form-option-input" value={op.text} onChange={(e) => handleOptionChange(index, e.target.value)} />
                         <input type="radio" name={`correct_option_${multipleChoiceId}`} className="multiplechoice-manage-form-option-correct-radio" checked={op.isCorrect} onChange={() => handleCorrectToggle(index)} />
                         <button className="multiplechoice-manage-form-delete-btn" onClick={() => removeOption(index)}>
-                            <img src="/src/shared/bin.png" alt="delete" />
+                            <img src="/src/assets/bin.png" alt="delete" />
                         </button>
                     </div>
                 ))}

@@ -435,7 +435,6 @@ const QuizPage: React.FC = () => {
                                         quizQuestionNum={question.quizQuestionNum}
                                         questionItems={MatchingService.assemble(MatchingService.shuffleQuestion(MatchingService.splitQuestion(question.correctAnswer).keys, MatchingService.splitQuestion(question.correctAnswer).values))}
                                         question={question.question}
-                                        userAnswer={(matchingAttempts.find(attempt => attempt.matchingId === question.matchingId))?.userAnswer}
                                         handleAnswer={handleAnswerMatching} />
                                 ) : question.questionType === "sequence" ? (
                                     <SequenceComponent

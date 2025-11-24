@@ -8,7 +8,6 @@ interface MatchingProps {
   quizQuestionNum: number;
   questionItems: string;
   question: string;
-  userAnswer: string | undefined;
 }
 
 const MatchingComponent: React.FC<MatchingProps> = ({
@@ -16,11 +15,11 @@ const MatchingComponent: React.FC<MatchingProps> = ({
   quizQuestionNum,
   questionItems,
   question,
-  userAnswer,
   handleAnswer
 }) => {
   const [splitQuestion, setSplitQuestion] = useState<{ keys: string[]; values: string[] } | null>(MatchingService.splitQuestion(questionItems));
   const [selectedKeyIndex, setSelectedKeyIndex] = useState<number | null>(null);
+  const [answer, setAnswer] = useState<string>(questionItems);
 
   const handleKeyClick = (keyIndex: number) => {
     setSelectedKeyIndex(keyIndex); 

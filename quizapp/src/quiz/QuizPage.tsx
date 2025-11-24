@@ -215,7 +215,7 @@ const QuizPage: React.FC = () => {
         });
 
         multipleChoice.forEach(q => {
-            const multipleChoiceAttempt: MultiplechoiceAttempt = { questionType: "multipleChoice", multipleChoiceId: q.multipleChoiceId!, quizAttemptId: quizAttempt?.quizAttemptId!, quizQuestionNum: q.quizQuestionNum, userAnswer: [] };
+            const multipleChoiceAttempt: MultiplechoiceAttempt = { questionType: "multipleChoice", multipleChoiceId: q.multipleChoiceId!, quizAttemptId: quizAttempt?.quizAttemptId!, quizQuestionNum: q.quizQuestionNum, userAnswer: "" };
             setMultipleChoiceAttempts(prevAttempts =>
                 [...prevAttempts, multipleChoiceAttempt]
             );
@@ -333,6 +333,7 @@ const QuizPage: React.FC = () => {
                 const correctOption = q.options.find(o => o.isCorrect);
 
                 if (att?.userAnswer && correctOption && att.userAnswer === correctOption.text) {
+                    att.answeredCorrectly = true;
                     score++;
                 }
             }
@@ -394,10 +395,9 @@ const QuizPage: React.FC = () => {
                     <div className="quiz-page-container">
                         <h1>{quiz?.name}</h1>
                         {allQuestions.map(question => (
-                            <>
+                            <div key={question.quizQuestionNum}>
                                 {question.questionType === "fillInTheBlank" ? (
                                     <FillInTheBlankComponent
-                                        key={question.fillInTheBlankId}
                                         fillInTheBlankId={question.fillInTheBlankId!}
                                         quizQuestionNum={question.quizQuestionNum}
                                         question={question.question}
@@ -405,7 +405,6 @@ const QuizPage: React.FC = () => {
                                         handleAnswer={handleAnswerFib} />
                                 ) : question.questionType === "trueFalse" ? (
                                     <TrueFalseComponent
-                                        key={question.trueFalseId}
                                         trueFalseId={question.trueFalseId!}
                                         quizQuestionNum={question.quizQuestionNum}
                                         question={question.question}
@@ -413,7 +412,6 @@ const QuizPage: React.FC = () => {
                                         handleAnswer={handleAnswerTrueFalse} />
                                 ) : question.questionType === "multipleChoice" ? (
                                     <MultipleChoiceComponent
-                                        key={question.multipleChoiceId}
                                         multipleChoiceId={question.multipleChoiceId!}
                                         quizQuestionNum={question.quizQuestionNum}
                                         question={question.question}
@@ -422,7 +420,6 @@ const QuizPage: React.FC = () => {
                                         handleAnswer={(handleAnswerMultipleChoice)} />
                                 ) : question.questionType === "matching" ? (
                                     <MatchingComponent
-                                        key={question.matchingId}
                                         matchingId={question.matchingId!}
                                         quizQuestionNum={question.quizQuestionNum}
                                         questionItems={MatchingService.assemble(MatchingService.shuffleQuestion(MatchingService.splitQuestion(question.correctAnswer).keys, MatchingService.splitQuestion(question.correctAnswer).values))}
@@ -430,7 +427,6 @@ const QuizPage: React.FC = () => {
                                         handleAnswer={handleAnswerMatching} />
                                 ) : question.questionType === "sequence" ? (
                                     <SequenceComponent
-                                        key={question.sequenceId}
                                         sequenceId={question.sequenceId!}
                                         quizQuestionNum={question.quizQuestionNum}
                                         questionItems={SequenceService.shuffleQuestion(question.correctAnswer.split(","))}
@@ -439,7 +435,6 @@ const QuizPage: React.FC = () => {
                                         handleAnswer={handleAnswerSequence} />
                                 ) : (
                                     <RankingComponent
-                                        key={question.rankingId}
                                         rankingId={question.rankingId!}
                                         quizQuestionNum={question.quizQuestionNum}
                                         questionItems={RankingService.shuffleQuestion(question.correctAnswer.split(","))}
@@ -447,7 +442,7 @@ const QuizPage: React.FC = () => {
                                         userAnswer={(rankingAttempts.find(attempt => attempt.rankingId === question.rankingId))?.userAnswer}
                                         handleAnswer={handleAnswerRanking} />
                                 )}
-                            </>
+                            </div>
                         ))}
                         <button className="button primary-button active" onClick={submitQuiz}>Submit</button>
                     </div>

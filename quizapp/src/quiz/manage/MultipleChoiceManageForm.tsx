@@ -23,8 +23,11 @@ function MultipleChoiceManageForm({ multipleChoiceId, incomingQuestion, incoming
     };
 
     const handleCorrectToggle = (index: number) => {
-        const updated = [...options];
-        updated[index].isCorrect = !updated[index].isCorrect;
+        const updated = options.map((opt, i) => ({
+            ...opt,
+            isCorrect: i === index
+        }));
+
         setOptions(updated);
     };
 
@@ -51,9 +54,9 @@ function MultipleChoiceManageForm({ multipleChoiceId, incomingQuestion, incoming
                 {options.map((op, index) => (
                     <div className="multiplechoice-manage-form-option-wrapper" key={index}>
                         <input className="multiplechoice-manage-form-option-input" value={op.text} onChange={(e) => handleOptionChange(index, e.target.value)} />
-                        <input type="checkbox" className="multiplechoice-manage-form-option-correct-checkbox" checked={op.isCorrect} onChange={() => handleCorrectToggle(index)} />
+                        <input type="radio" name={`correct_option_${multipleChoiceId}`} className="multiplechoice-manage-form-option-correct-radio" checked={op.isCorrect} onChange={() => handleCorrectToggle(index)} />
                         <button className="multiplechoice-manage-form-delete-btn" onClick={() => removeOption(index)}>
-                            <img src="/src/shared/bin.png" alt="delete"/>
+                            <img src="/src/shared/bin.png" alt="delete" />
                         </button>
                     </div>
                 ))}

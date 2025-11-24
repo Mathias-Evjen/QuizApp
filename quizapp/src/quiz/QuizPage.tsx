@@ -199,7 +199,7 @@ const QuizPage: React.FC = () => {
         });
 
         multipleChoice.forEach(q => {
-            const multipleChoiceAttempt: MultiplechoiceAttempt = { multipleChoiceId: q.multipleChoiceId!, quizAttemptId: quizAttempt?.quizAttemptId!, quizQuestionNum: q.quizQuestionNum, userAnswer: [] };
+            const multipleChoiceAttempt: MultiplechoiceAttempt = { multipleChoiceId: q.multipleChoiceId!, quizAttemptId: quizAttempt?.quizAttemptId!, quizQuestionNum: q.quizQuestionNum, userAnswer: "" };
             setMultipleChoiceAttempts(prevAttempts =>
                 [...prevAttempts, multipleChoiceAttempt]
             );
@@ -241,7 +241,7 @@ const QuizPage: React.FC = () => {
         setIsDirty(true);
     };
 
-    const handleAnswerMultipleChoice = (multipleChoiceId: number, newAnswer: string[]) => {
+    const handleAnswerMultipleChoice = (multipleChoiceId: number, newAnswer: string) => {
         setMultipleChoiceAttempts(prevAttempts =>
             prevAttempts.map(attempt =>
                 attempt.multipleChoiceId === multipleChoiceId
@@ -323,16 +323,9 @@ const QuizPage: React.FC = () => {
 
             if (q.questionType === "multipleChoice") {
                 const att = multipleChoiceAttempts.find(a => a.multipleChoiceId === q.multipleChoiceId);
-                if (!att || !Array.isArray(att.userAnswer)) return;
+                const correctOption = q.options.find(o => o.isCorrect);
 
-                const correct = q.options
-                    .filter(o => o.isCorrect)
-                    .map(o => o.text)
-                    .sort();
-
-                const user = [...att.userAnswer].sort();
-
-                if (correct.length === user.length && correct.every((t, i) => t === user[i])) {
+                if (att?.userAnswer && correctOption && att.userAnswer === correctOption.text) {
                     score++;
                 }
             }

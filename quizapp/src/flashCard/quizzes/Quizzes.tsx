@@ -22,7 +22,7 @@ const Quizzes: React.FC = () => {
     const [quizToDelete, setQuizToDelete] = useState<FlashCardQuiz | null>(null);
 
     const [query, setQuery] = useState<string>("")
-    const filteredQuizzes = quizzes.filter(quiz => quiz.name.toLocaleLowerCase().includes(query.toLocaleLowerCase()) || quiz.description?.toLocaleLowerCase().includes(query.toLocaleUpperCase()));
+    const filteredQuizzes = quizzes.filter(quiz => quiz.name.toLocaleLowerCase().includes(query.toLocaleLowerCase()) || quiz.description?.toLocaleLowerCase().includes(query.toLocaleLowerCase()));
 
     const { user } = useAuth();
 

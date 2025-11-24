@@ -108,36 +108,6 @@ builder.Services.AddAuthentication(options =>
             )
         )
     };
-
-    options.Events = new JwtBearerEvents
-    {
-        OnMessageReceived = context =>
-        {
-            var token = context.Request.Headers["Authorization"].FirstOrDefault()?.Split(" ").LastOrDefault();
-            Console.WriteLine($"OnMessageReceived - Token: {token}");
-            return Task.CompletedTask;
-        },
-        OnTokenValidated = context =>
-        {
-            Console.WriteLine("OnTokenValidated: SUCCESS");
-            return Task.CompletedTask;
-        },
-        OnAuthenticationFailed = context =>
-        {
-            Console.WriteLine($"OnAuthenticationFailed: {context.Exception.Message}");
-            Console.WriteLine($"Exception Type: {context.Exception.GetType().Name}");
-            if (context.Exception.InnerException != null)
-            {
-                Console.WriteLine($"Inner Exception: {context.Exception.InnerException.Message}");
-            }
-            return Task.CompletedTask;
-        },
-        OnChallenge = context =>
-        {
-            Console.WriteLine($"OnChallenge: {context.Error} - {context.ErrorDescription}");
-            return Task.CompletedTask;
-        }
-    };
 });
 
 var loggerConfiguration = new LoggerConfiguration()

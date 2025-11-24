@@ -17,7 +17,10 @@ function QuizzesPage() {
     const [error, setError] = useState<string | null>(null);
 
     const [query, setQuery] = useState<string>("");
-    const filteredQuizzes = quizzes.filter(quiz => quiz.name.toLocaleLowerCase().includes(query.toLocaleLowerCase()) || quiz.description.toLocaleLowerCase().includes(query.toLocaleUpperCase()));
+    const filteredQuizzes = quizzes.filter(quiz => 
+        quiz.name.toLocaleLowerCase().includes(query.toLocaleLowerCase()) || 
+        quiz.description.toLocaleLowerCase().includes(query.toLocaleLowerCase()
+    ));
 
     const [showDelete, setShowDelete] = useState<boolean>(false);
     const [quizToDelete, setQuizToDelete] = useState<Quiz | null>(null);

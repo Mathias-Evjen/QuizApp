@@ -40,10 +40,14 @@ const MatchingComponent: React.FC<MatchingProps> = ({
     setSplitQuestion({ ...splitQuestion, values: newValues });
     setSelectedKeyIndex(null); 
 
-    handleAnswer(matchingId, MatchingService.assemble({ keys: splitQuestion.keys, values: splitQuestion.values}))
+    setAnswer(MatchingService.assemble({ keys: splitQuestion.keys, values: newValues}))
   };
 
   if (!splitQuestion) return null;
+
+  useEffect(() => {
+    handleAnswer(matchingId, answer)
+  }, [answer])
 
   return (
     <div className="matching-card-wrapper">

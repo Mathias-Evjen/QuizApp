@@ -335,7 +335,7 @@ function QuizManagePage() {
                             <div className="quiz-manage-question-container">
                                 <br/><br/>
                                 {allQuestions.length > 0 ? (
-                                    allQuestions.map((q:any, index:number) => (
+                                    allQuestions.map((q:Question, index:number) => (
                                         <div className="quiz-manage-question-wrapper">
                                             <div className="quiz-manage-question-info-wrapper">
                                                 <h3 className="quiz-manage-question-num">Question number: {q.quizQuestionNum}</h3>
@@ -354,7 +354,7 @@ function QuizManagePage() {
                                                 <div>
                                                     <p className="quiz-manage-question-text">Ranking question - Add items in order</p>
                                                     <hr />
-                                                    <RankingManageForm rankedId={q.rankedId} incomingQuestion={q.question} incomingCorrectAnswer={q.correctAnswer}
+                                                    <RankingManageForm rankedId={q.rankingId} incomingQuestion={q.question} incomingCorrectAnswer={q.correctAnswer}
                                                     onChange={(updatedQuestion) => {
                                                         setAllQuestions(prev => prev.map(pq => pq.questionType === "ranking" && pq.rankingId === q.rankingId ? {...pq, ...updatedQuestion} : pq));
                                                     }} />

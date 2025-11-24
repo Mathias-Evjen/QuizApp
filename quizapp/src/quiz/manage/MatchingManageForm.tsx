@@ -5,7 +5,7 @@ import rightArrow from "../../assets/right-arrow.png";
 import bin from "../../assets/bin.png";
 
 interface MatchingManageFormProps {
-    matchingId: number,
+    matchingId?: number,
     incomingQuestion: string,
     incomingCorrectAnswer: string
     onChange?: (updatedQuestion: { question: string; correctAnswer: string; isDirty: boolean }) => void;

@@ -4,7 +4,7 @@ import rightArrow from "../../assets/right-arrow.png";
 import bin from "../../assets/bin.png";
 
 interface SequenceManageFormProps {
-    sequenceId: number,
+    sequenceId?: number,
     incomingQuestion: string,
     incomingCorrectAnswer: string
     onChange?: (updatedQuestion: { question: string; correctAnswer: string; isDirty: boolean }) => void;

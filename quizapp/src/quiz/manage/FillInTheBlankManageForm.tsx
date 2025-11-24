@@ -5,7 +5,7 @@ interface FillInTheBlankProps{
     // onQuestionChanged: (fillInTheBlankId: number, newQuestion: string) => void;
     // onAnswerChanged: (fillInTheBlankId: number, newAnswer: string) => void;
     // onDeletePressed: (fillInTheBlankId: number, quizQuestionNum: number) => void;
-    fillInTheblankId: number;
+    fillInTheblankId?: number;
     question: string;
     answer: string;
     errors?: {question?: string, answer?: string};

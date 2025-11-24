@@ -1,10 +1,10 @@
 import { useState, useEffect } from "react";
-import "../style/Ranking.css"
 import rightArrow from "../../assets/right-arrow.png";
 import bin from "../../assets/bin.png";
+import "../style/Ranking.css"
 
 interface RankingManageFormProps {
-    rankedId: number
+    rankedId?: number
     incomingQuestion: string,
     incomingCorrectAnswer: string,
     onChange?: (updatedQuestion: { question: string; correctAnswer: string; isDirty: boolean }) => void;

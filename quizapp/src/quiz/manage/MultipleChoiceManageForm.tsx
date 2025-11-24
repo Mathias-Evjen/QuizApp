@@ -3,7 +3,7 @@ import { MultipleChoice, Option } from "../../types/quiz/multipleChoice";
 import "../style/MultipleChoice.css";
 
 interface MultipleChoiceManageFormProps {
-    multipleChoiceId: number,
+    multipleChoiceId?: number,
     incomingQuestion: string,
     incomingOptions: Option[],
     onChange?: (updatedQuestion: { question: string; options: Option[]; isDirty: boolean }) => void;

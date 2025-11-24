@@ -1,5 +1,5 @@
-import { TrueFalse } from "../../types/trueFalse";
-import { TrueFalseAttempt } from "../../types/trueFalseAttempt";
+import { TrueFalse } from "../../types/quiz/trueFalse";
+import { TrueFalseAttempt } from "../../types/attempts/trueFalseAttempt";
 
 
 const API_URL = import.meta.env.VITE_API_URL;

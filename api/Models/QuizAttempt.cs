@@ -10,7 +10,7 @@ namespace QuizApp.Models
         public virtual Quiz Quiz { get; set; } = default!;
         public int NumOfCorrectAnswers { get; set; }
         public virtual List<FillInTheBlankAttempt> FillInTheBlankAttempts { get; set; } = [];
-        public virtual List<TrueFalseAttempt> TrueFalseQuestionAttempts { get; set; } = [];
+        public virtual List<TrueFalseAttempt> TrueFalseAttempts { get; set; } = [];
         public virtual List<MultipleChoiceAttempt> MultipleChoiceAttempts { get; set; } = [];
         public virtual List<MatchingAttempt> MatchingAttempts { get; set; } = [];
         public virtual List<SequenceAttempt> SequenceAttempts { get; set; } = [];
@@ -20,7 +20,7 @@ namespace QuizApp.Models
         [NotMapped]
         public IEnumerable<QuestionAttempt> AllQuestionAttempts =>
             FillInTheBlankAttempts.Cast<QuestionAttempt>()
-                .Concat(TrueFalseQuestionAttempts)
+                .Concat(TrueFalseAttempts)
                 .Concat(MultipleChoiceAttempts)
                 .Concat(MatchingAttempts)
                 .Concat(SequenceAttempts)

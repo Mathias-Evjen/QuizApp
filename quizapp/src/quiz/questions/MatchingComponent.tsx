@@ -8,7 +8,6 @@ interface MatchingProps {
   quizQuestionNum: number;
   questionItems: string;
   question: string;
-  userAnswer: string | undefined;
 }
 
 const MatchingComponent: React.FC<MatchingProps> = ({
@@ -16,15 +15,11 @@ const MatchingComponent: React.FC<MatchingProps> = ({
   quizQuestionNum,
   questionItems,
   question,
-  userAnswer,
   handleAnswer
 }) => {
   const [splitQuestion, setSplitQuestion] = useState<{ keys: string[]; values: string[] } | null>(MatchingService.splitQuestion(questionItems));
   const [selectedKeyIndex, setSelectedKeyIndex] = useState<number | null>(null);
-
-//   useEffect(() => {
-//     setSplitQuestion(MatchingService.splitQuestion(question));
-//   }, [question]);
+  const [answer, setAnswer] = useState<string>(questionItems);
 
   const handleKeyClick = (keyIndex: number) => {
     setSelectedKeyIndex(keyIndex); 
@@ -39,10 +34,14 @@ const MatchingComponent: React.FC<MatchingProps> = ({
     setSplitQuestion({ ...splitQuestion, values: newValues });
     setSelectedKeyIndex(null); 
 
-    handleAnswer(matchingId, MatchingService.assemble({ keys: splitQuestion.keys, values: newValues }));
+    setAnswer(MatchingService.assemble({ keys: splitQuestion.keys, values: newValues}))
   };
 
   if (!splitQuestion) return null;
+
+  useEffect(() => {
+    handleAnswer(matchingId, answer)
+  }, [answer])
 
   return (
     <div className="matching-card-wrapper">

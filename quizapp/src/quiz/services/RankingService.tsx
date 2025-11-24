@@ -1,5 +1,5 @@
-import { RankingAttempt } from "../../types/rankingAttempt";
-import { Ranking } from "../../types/ranking";
+import { RankingAttempt } from "../../types/attempts/rankingAttempt";
+import { Ranking } from "../../types/quiz/ranking";
 
 const API_URL = import.meta.env.VITE_API_URL;
 

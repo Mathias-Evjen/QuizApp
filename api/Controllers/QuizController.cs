@@ -76,46 +76,6 @@ public class QuizAPIController : ControllerBase
         }
         return Ok(quizAttempt);
     }
-
-    // [HttpGet]
-    // public async Task<IActionResult> Results(int quizAttemptId)
-    // {
-    //     var quizAttempt = await _quizAttemptRepository.GetById(quizAttemptId);
-    //     if (quizAttempt == null)
-    //     {
-    //         _logger.LogError("[QuizAPIController - GetQuizAttemptById] Quiz attempt not found for the Id {Id: 0000}", quizAttemptId);
-    //         return NotFound("Quiz not found.");
-    //     }
-
-    //     var quiz = await _quizRepository.GetById(quizAttempt.QuizId);
-    //     if (quiz == null)
-    //     {
-    //         _logger.LogError("[QuizAPIController - Get Quiz By Id] Quiz not found for the Id {Id: 0000}", quizAttempt.QuizId);
-    //         return NotFound("Quiz not found.");
-    //     }
-
-    //     for (int i = 0; i < quiz.AllQuestions.Count(); i++)
-    //     {
-    //         var question = quiz.AllQuestions.ElementAt(i);
-    //         var questionAttempt = quizAttempt.AllQuestionAttempts.ElementAt(i);
-    //         if (question is FillInTheBlank fib && questionAttempt is FillInTheBlankAttempt fibAttempt)
-    //         {
-    //             fibAttempt.AnsweredCorrectly = _quizService.CheckAnswer(fib.CorrectAnswer, fibAttempt.UserAnswer);
-    //         }
-    //         if (question is TrueFalse tf && questionAttempt is TrueFalseAttempt tfAttempt)
-    //         {
-    //             tfAttempt.AnsweredCorrectly = _quizService.CheckAnswer(tf.CorrectAnswer, tfAttempt.UserAnswer);
-    //         }
-    //         if (question is MultipleChoice mc && questionAttempt is MultipleChoiceAttempt mcAttempt)
-    //         {
-    //             mcAttempt.AnsweredCorrectly = _quizService.CheckAnswer(mc.CorrectAnswer!, mcAttempt.UserAnswer);
-    //         }
-    //     }
-
-    //     var quizResultViewModel = new QuizResultViewModel(quiz, quizAttempt);
-
-    //     return View(quizResultViewModel);
-    // }
     
     [Authorize]
     [HttpPost("create")]
@@ -179,6 +139,28 @@ public class QuizAPIController : ControllerBase
             return Ok(quiz);
 
         _logger.LogError("[QuizAPIController] Quiz update failed {@quiz}", quiz);
+        return StatusCode(500, "Internal server error");
+    }
+
+    [HttpPut("update/attempt/{quizAttemptId}")]
+    public async Task<IActionResult> Update(int quizAttemptId, [FromBody] QuizAttemptDto quizAttemptDto)
+    {
+        if (quizAttemptDto == null) 
+            return BadRequest("Quiz attempt data cannot be null");
+        var quizAttempt = await _quizAttemptRepository.GetById(quizAttemptId);
+        if (quizAttempt == null)
+        {
+            _logger.LogError("[QuizAPIController] Quiz attempt not found for the Id {Id: 0000}", quizAttemptId);
+            return NotFound("Quiz attempt not found for the QuizAttemptId");
+        }
+
+        quizAttempt.NumOfCorrectAnswers = quizAttemptDto.NumOfCorrectAnswers;
+
+        bool returnOk = await _quizAttemptRepository.Update(quizAttempt);
+        if (returnOk)
+            return Ok(quizAttempt);
+        
+        _logger.LogError("[QuizAPIController] Quiz attempt update failed {@quizAttempt}", quizAttempt);
         return StatusCode(500, "Internal server error");
     }
 

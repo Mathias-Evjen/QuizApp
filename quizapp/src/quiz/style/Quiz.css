@@ -47,6 +47,23 @@ button:hover{
     max-height: 100%;
     position: relative;
 }
+
+.quiz-entry {
+    display: flex;
+    position: relative;
+    width: 100%;
+}
+
+.quiz-more-button {
+    border: none;
+    background-color: transparent;
+    color: rgb(89, 89, 89);
+}
+
+.quiz-more-button svg {
+    font-size: 30px;
+}
+
 .quiz-create{
     margin: auto;
     margin-top: 20px;
@@ -64,8 +81,8 @@ button:hover{
 .quiz-card-box{
     width: 100%;
     box-sizing: border-box;
-    min-height: 8rem;
-    max-height: 8rem;
+    min-height: 10rem;
+    max-height: 10rem;
     border: solid 1px lightgray;
     border-radius: 10px;
     background-color: white;
@@ -74,11 +91,65 @@ button:hover{
     padding: 20px;
     text-align: left;
     position: relative;
+
+    z-index: 1;
+
+    transform-origin: right center;
+    transition: transform 0.2s ease-in-out;
 }
 
 .quiz-card-box:hover {
     cursor: pointer;
     filter: brightness(0.95);
+}
+
+.quiz-card-box.show-options {
+    transform: translateX(-150px);
+}
+
+.quiz-options {
+    position: absolute;
+    top: 0px;
+    right: 39px;
+    display: flex;
+    flex-direction: column;
+    align-items: end;
+    width: 250px;
+    height: 10rem;
+    box-sizing: border-box;
+    border-top-right-radius: 10px;
+    border-bottom-right-radius: 10px;
+    z-index: 0;
+    background-color: gray;
+}
+
+.quiz-options:hover {
+    cursor: pointer;
+}
+
+.quiz-options svg {
+    font-size: 25px;
+    color: white;
+}
+
+.quiz-edit {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 150px;
+    height: 100%;
+    background-color: gray;
+    border-top-right-radius: 10px;
+}
+
+.quiz-delete {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 150px;
+    height: 100%;
+    background-color: red;
+    border-bottom-right-radius: 10px;
 }
 
 .quiz-card-name{
@@ -88,8 +159,15 @@ button:hover{
     top: 0px;
 }
 .quiz-card-desc{
+    width: 75%;
     position: absolute;
     bottom: 0px;
+    line-clamp: 3;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 .quiz-card-num-questions{
     position: absolute;
@@ -148,7 +226,7 @@ button:hover{
   margin: auto;
   display: flex;
   flex-direction: column;
-  gap: 2rem; /* vertikalt mellomrom mellom feltene */
+  gap: 2rem; 
   margin-bottom: 50px;
   margin-top: 20px;
 }
@@ -156,22 +234,40 @@ button:hover{
 .quiz-create-input-name,
 .quiz-create-input-desc {
   display: flex;
-  align-items: center; /* label og input på linje */
-  gap: 1rem;         /* mellomrom mellom label og input */
+  position: relative;
+  align-items: center; 
+  gap: 1rem;       
 }
 
 .quiz-create-input-name label,
 .quiz-create-input-desc label {
-  width: 100px; /* fast bredde gir lik justering */
+  width: 100px;
   text-align: right;
 }
 
 .quiz-create-input-name input,
-.quiz-create-input-desc input {
+.quiz-create-input-desc textarea {
   flex: 1;
   padding: 6px;
   border-radius: 6px;
   border: 1px solid grey;
+  width: 120px;
+  font-size: 15px;
+}
+
+.quiz-create-input-desc textarea {
+    resize: none;
+    box-sizing: border-box;
+    overflow-wrap: break-word;
+    white-space: pre-wrap;
+    height: 75px;
+    font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
+}
+
+.quiz-create-input-name span,
+.quiz-create-input-desc span {
+    font-size: 15px;
+    padding-left: 120px;
 }
 
 .quiz-create-btn{
@@ -188,6 +284,16 @@ button:hover{
 }
 
 /*__Quiz Manage__*/
+.quiz-manage-sticky-bar{
+    position: sticky;
+    top: 0px;
+    width: 98vw;
+    height: auto;
+    padding: 10px;
+    padding-right: 10px;
+    text-align: right;
+    z-index: 100;
+}
 .quiz-manage-wrapper{
     min-width: 40rem;
     max-width: 50rem;
@@ -217,9 +323,6 @@ button:hover{
     right: 10px;
 }
 .quiz-manage-header-btn-add{
-    position: absolute;
-    bottom: 50px;
-    right: 10px;
     background-color:#1E90FF;
     border-radius: 5px;
     padding: 7px;
@@ -227,11 +330,9 @@ button:hover{
     cursor: pointer;
     font-size: 15px;
     border: solid 0px #1E90FF;
+    margin-left: 5px;
 }
 .quiz-manage-header-select{
-    position: absolute;
-    bottom: 50px;
-    right: 140px;
     border: 1px solid grey;
     border-radius: 5px;
     background-color: #F2F2F2;
@@ -240,16 +341,14 @@ button:hover{
     font-size: 15px;
 }
 .quiz-manage-btn-save{
-    position: fixed;
-    top: 5rem;
-    right: 2rem;
-    background-color:#32CD32;
+    background-color:#32cd32;
     border-radius: 5px;
     padding: 7px;
     color: white;
     cursor: pointer;
     font-size: 15px;
     border: solid 0px #32CD32;
+    margin-left: 2rem;
 }
 .quiz-manage-description{
     display: block;

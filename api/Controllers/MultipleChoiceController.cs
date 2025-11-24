@@ -66,7 +66,8 @@ namespace QuizApp.Controllers
                 MultiplechoiceId = multipleChoiceAttemptDto.MultipleChoiceId,
                 QuizAttemptId = multipleChoiceAttemptDto.QuizAttemptId,
                 UserAnswer = multipleChoiceAttemptDto.UserAnswer,
-                QuizQuestionNum = multipleChoiceAttemptDto.QuizQuestionNum
+                QuizQuestionNum = multipleChoiceAttemptDto.QuizQuestionNum,
+                AnsweredCorrectly = multipleChoiceAttemptDto.AnsweredCorrectly
             };
 
             var returnOk = await _multipleChoiceAttemptRepository.Create(multipleChoiceAttempt);

@@ -1,5 +1,5 @@
-import { MultipleChoice } from "../../types/multipleChoice";
-import { MultiplechoiceAttempt } from "../../types/MultipleChoiceAttempt";
+import { MultipleChoice } from "../../types/quiz/multipleChoice";
+import { MultiplechoiceAttempt } from "../../types/attempts/MultipleChoiceAttempt";
 
 
 const API_URL = import.meta.env.VITE_API_URL;
@@ -7,7 +7,6 @@ const API_URL = import.meta.env.VITE_API_URL;
 const headers = {
   'Content-Type': 'application/json',
 };
-
 
 const handleResponse = async (response: Response) => {
   if (response.ok) {

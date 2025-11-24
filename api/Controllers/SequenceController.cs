@@ -59,7 +59,8 @@ public class SequenceAPIController : ControllerBase
             SequenceId = sequenceAttemptDto.SequenceId,
             QuizAttemptId = sequenceAttemptDto.QuizAttemptId,
             UserAnswer = sequenceAttemptDto.UserAnswer,
-            QuizQuestionNum = sequenceAttemptDto.QuizQuestionNum
+            QuizQuestionNum = sequenceAttemptDto.QuizQuestionNum,
+            AnsweredCorrectly = sequenceAttemptDto.AnsweredCorrectly
         };
 
         var returnOk = await _sequenceAttemptRepository.Create(sequenceAttempt);

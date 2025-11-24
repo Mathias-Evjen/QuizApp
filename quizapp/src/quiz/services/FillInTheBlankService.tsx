@@ -1,5 +1,5 @@
-import { FillInTheBlank } from "../../types/fillInTheBlank";
-import { FillInTheBlankAttempt } from "../../types/fillInTheBlankAttempt";
+import { FillInTheBlank } from "../../types/quiz/fillInTheBlank";
+import { FillInTheBlankAttempt } from "../../types/attempts/fillInTheBlankAttempt";
 
 
 const API_URL = import.meta.env.VITE_API_URL;
@@ -33,12 +33,6 @@ const getAuthHeaders = () => {
 // Get questions
 export const fetchQuestions = async (quizId: number) => {
     const response = await fetch(`${API_URL}/api/fillintheblankapi/getQuestions/${quizId}`);
-    return handleResponse(response);
-}
-
-// Get question attempts
-export const fetchAttempts = async (quizAttemptId: number) => {
-    const response = await fetch(`${API_URL}/api/fillintheblankapi/getAttempts/${quizAttemptId}`);
     return handleResponse(response);
 }
 

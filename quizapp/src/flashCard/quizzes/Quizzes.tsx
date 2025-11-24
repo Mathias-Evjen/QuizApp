@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { FlashCardQuiz } from "../../types/flashCardQuiz";
+import { FlashCardQuiz } from "../../types/flashcard/flashCardQuiz";
 import { MoreVert, Settings, Delete, Close } from "@mui/icons-material";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../../auth/AuthContext";
@@ -8,6 +8,7 @@ import QuizCard from "./FlashCardQuizCard";
 import FlashCardQuizForm from "../FlashCardQuizForm";
 import SearchBar from "../../shared/SearchBar";
 import "../style/FlashCard.css";
+import FlashCardQuizCard from "./FlashCardQuizCard";
 
 const Quizzes: React.FC = () => {
     const navigate = useNavigate();
@@ -21,7 +22,7 @@ const Quizzes: React.FC = () => {
     const [quizToDelete, setQuizToDelete] = useState<FlashCardQuiz | null>(null);
 
     const [query, setQuery] = useState<string>("")
-    const filteredQuizzes = quizzes.filter(quiz => quiz.name.toLocaleLowerCase().includes(query.toLocaleLowerCase()) || quiz.description?.toLocaleLowerCase().includes(query.toLocaleUpperCase()));
+    const filteredQuizzes = quizzes.filter(quiz => quiz.name.toLocaleLowerCase().includes(query.toLocaleLowerCase()) || quiz.description?.toLocaleLowerCase().includes(query.toLocaleLowerCase()));
 
     const { user } = useAuth();
 
@@ -68,7 +69,7 @@ const Quizzes: React.FC = () => {
         try {
             await FlashCardQuizService.deleteQuiz(quizId);
             setQuizzes(prevQuizzes => prevQuizzes.filter(quiz => quiz.flashCardQuizId !== quizId));
-            console.log("Quiz deleted: ", quizId)
+            console.log("Quiz deleted: ", quizId);
             handleShowDelete(null, false);
         } catch (error) {
             console.error("Error deleting flash card quiz: ", error)
@@ -119,6 +120,7 @@ const Quizzes: React.FC = () => {
                                 <button className="button primary-button active" onClick={() => handleShowCreate(true)}>Create</button>
                             )}
                         </div>
+                        <hr />
                         {quizzes.length === 0 ? (
                             <h3>There are no quizzes to show</h3>
                         ) : filteredQuizzes.length === 0 ? (
@@ -126,7 +128,7 @@ const Quizzes: React.FC = () => {
                         ) : (
                             filteredQuizzes.map(quiz => (
                                 <div className="flash-card-quiz-entry" key={quiz.flashCardQuizId}>
-                                    <QuizCard
+                                    <FlashCardQuizCard
                                         id={quiz.flashCardQuizId}
                                         name={quiz.name}
                                         description={quiz.description}
@@ -138,7 +140,7 @@ const Quizzes: React.FC = () => {
                                         <div className="flash-card-quiz-delete" onClick={() => handleShowDelete(quiz, true)}><Delete /></div>
                                     </div>
                                     {user && (
-                                        <button className={"flash-card-quiz-more-button"} onClick={(e) => {e.stopPropagation(); handleShowMoreOptions(quiz.flashCardQuizId!)}}>
+                                        <button className="flash-card-quiz-more-button" onClick={(e) => {e.stopPropagation(); handleShowMoreOptions(quiz.flashCardQuizId!)}}>
                                             {quiz.showOptions ? <Close /> : <MoreVert/>}
                                         </button>
                                     )}

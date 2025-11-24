@@ -44,7 +44,6 @@ const FlashCardQuizForm: React.FC<QuizFormProps> = ({ isUpdate, name, descriptio
                 <div className="input-description">
                     <label>Description</label>
                     <textarea
-                        className="description"
                         placeholder="Enter description or leave empty..."
                         {...register("description", {
                             maxLength: {value: 400, message: "Description too long"}

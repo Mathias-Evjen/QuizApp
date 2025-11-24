@@ -1,4 +1,4 @@
-import { FlashCard } from "../types/flashCard";
+import { FlashCard } from "../types/flashcard/flashCard";
 
 const API_URL = import.meta.env.VITE_API_URL;
 

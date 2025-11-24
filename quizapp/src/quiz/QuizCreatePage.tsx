@@ -1,20 +1,31 @@
 import * as QuizService from "./services/QuizService";
 import "./style/Quiz.css";
 import { useNavigate } from 'react-router-dom';
-import { Quiz } from "../types/quizCard";
-import {useState, useEffect} from "react";
+import { Quiz } from "../types/quiz/quiz";
+import { useForm } from "react-hook-form";
+
+type QuizFormData = {
+    name: string;
+    description: string;
+}
 
 function QuizCreatePage(){
     const navigate = useNavigate(); // Create a navigate function
 
-    const [name, setName] = useState("");
-    const [desc, setDesc] = useState("");
+    const { register, handleSubmit, formState: { errors } } = useForm<QuizFormData>({
+        defaultValues: {
+            name: "",
+            description: ""
+        }
+    });
 
-    const handleQuizCreated = async () => {
+    const handleQuizCreated = async (data: QuizFormData) => {
+        const newName = data.name;
+        const newDescription = data.description;
         try {
             const quiz:Quiz = {
-                name: name,
-                description: desc,
+                name: newName,
+                description: newDescription,
                 numOfQuestions: 0
             }
             //Hente name og desc og lage quiz card    
@@ -27,24 +38,41 @@ function QuizCreatePage(){
     }
 
     return(
-        <div className="quiz-create-wrapper">
-            <button className="quiz-back-btn" onClick={() => navigate(-1)}>{"<"}</button>
-            <h3>Create quiz</h3>
-            <hr /> <br/>
-            <div className="quiz-create-input-wrapper">
-            <div className="quiz-create-input-name">
-                <label htmlFor="quiz-create-input-name">Name:</label>
-                <input id="quiz-create-input-name" type="text" value={name} onChange={(e) => setName(e.target.value)} />
-            </div>
+        <form onSubmit={handleSubmit(handleQuizCreated)}>
+            <div className="quiz-create-wrapper">
+                <button className="quiz-back-btn" onClick={() => navigate(-1)}>{"<"}</button>
+                <h3>Create quiz</h3>
+                <hr /> <br/>
+                <div className="quiz-create-input-wrapper">
+                <div className="quiz-create-input-name">
+                    <label htmlFor="quiz-create-input-name">Name:</label>
+                    <input 
+                        id="quiz-create-input-name" 
+                        type="text" 
+                        placeholder="Enter a name..."
+                        {...register("name", {
+                            required: {value: true, message: "Name is required"},
+                            maxLength: {value: 60, message: "Name too long"}
+                        })}/>
+                    {errors.name && <span className={`error ${errors.name ? "visible" : ""}`}>{errors.name.message}</span>}
+                </div>
 
-            <div className="quiz-create-input-desc">
-                <label htmlFor="quiz-create-input-desc">Description:</label>
-                <input id="quiz-create-input-desc" type="text" value={desc} onChange={(e) => setDesc(e.target.value)} />
-            </div>
-            </div>
+                <div className="quiz-create-input-desc">
+                    <label htmlFor="quiz-create-input-desc">Description:</label>
+                    <textarea 
+                        id="quiz-create-input-desc" 
+                        placeholder="Enter description..."
+                        {...register("description", {
+                            required: {value: true, message: "Description is required"},
+                            maxLength: {value: 400, message: "Description too long"}
+                        })} />
+                    {errors.description && <span className={`error ${errors.description ? "visible" : ""}`}>{errors.description.message}</span>}
+                </div>
+                </div>
 
-            <button className="quiz-create-btn" onClick={() => handleQuizCreated()}>Create</button>
-        </div>
+                <button type="submit" className="quiz-create-btn">Create</button>
+            </div>
+        </form>
     )
 }
 

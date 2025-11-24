@@ -1,9 +1,9 @@
-import { QuestionBase } from "./Question";
+import { QuestionBase } from "./question";
 
-export interface Ranking extends QuestionBase {
-    questionType: "ranking";
+export interface Sequence extends QuestionBase {
+    questionType: "sequence";
 
-    rankingId?: number;
+    sequenceId?: number;
     question: string;
     correctAnswer: string;
     quizId: number;

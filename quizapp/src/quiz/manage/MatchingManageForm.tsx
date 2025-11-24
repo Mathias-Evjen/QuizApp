@@ -1,12 +1,11 @@
 import { useState, useEffect } from "react";
-import { Matching } from "../../types/matching";
 import * as MatchingService from "../services/MatchingService";
 import "../style/Matching.css";
-import rightArrow from "../../shared/right-arrow.png";
-import bin from "../../shared/bin.png";
+import rightArrow from "../../assets/right-arrow.png";
+import bin from "../../assets/bin.png";
 
 interface MatchingManageFormProps {
-    matchingId: number,
+    matchingId?: number,
     incomingQuestion: string,
     incomingCorrectAnswer: string
     onChange?: (updatedQuestion: { question: string; correctAnswer: string; isDirty: boolean }) => void;

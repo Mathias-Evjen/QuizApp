@@ -7,7 +7,9 @@ const InfoCard: React.FC = () => {
         <div className="flash-card-page-info-icon">
             <InfoOutline />
             <div className="flash-card-info-card">
-                <h4>Info her</h4>
+                <div className="flash-card-info-title">
+                    <h3>Keyboard controls</h3>
+                </div>
                 <div className="info-row">
                     <div className="key-info">
                         <div className="keyboard-key">
@@ -30,8 +32,8 @@ const InfoCard: React.FC = () => {
                         <div className="keyboard-key">
                             <SpaceBar />
                         </div>
+                        <p>Show answer</p>
                     </div>
-                    <p>Show answer</p>
                 </div>
             </div>
         </div>

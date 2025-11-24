@@ -22,6 +22,10 @@
     rgba(60, 64, 67, 0.15) 0px 2px 6px 2px;
 }
 
+.flash-card-quiz-container hr {
+  width: 90%;
+}
+
 .page-top-container {
   display: flex;
   flex-direction: row;
@@ -248,14 +252,6 @@
   justify-content: center;
 }
 
-.error {
-  position: absolute;
-  color: red;
-  bottom: -26px;
-  left: 0;
-  font-size: 20px;
-  pointer-events: none;
-}
 
 .confirm-delete {
   position: fixed;
@@ -530,9 +526,8 @@
   align-items: start;
   border: 2px solid gray;
   border-radius: 30px;
-  width: 250px;
-  height: 200px;
-  padding: 20px;
+  width: 275px;
+  height: 275px;
   user-select: none;
 
   transition: ease-in-out 0.2s;
@@ -548,10 +543,19 @@
   color: rgb(50, 50, 50);
 }
 
+.flash-card-info-title {
+  display: flex;
+  width: 100%;
+  justify-content: center;
+  align-items: center;
+  padding-bottom: 15px;
+}
+
 .info-row {
   display: flex;
   flex-direction: row;
-  justify-content: space-between;
+  width: 100%;
+  justify-content: space-evenly;
   align-items: center;
   color: rgb(65, 65, 65);
 }
@@ -559,6 +563,8 @@
 .key-info {
   display: flex;
   flex-direction: column;
+  justify-content: center;
+  align-items: center;
   padding: 0 10px 0 10px;
 }
 

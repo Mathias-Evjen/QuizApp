@@ -1,9 +1,9 @@
 import { useState, useEffect } from "react";
-import { TrueFalse } from "../../types/trueFalse";
+import { TrueFalse } from "../../types/quiz/trueFalse";
 import "../style/TrueFalse.css";
 
 interface TrueFalseManageFormProps {
-    trueFalseId: number,
+    trueFalseId?: number,
     incomingQuestion: string,
     incomingCorrectAnswer: boolean,
     onChange?: (updatedQuestion: { question: string; correctAnswer: boolean; isDirty: boolean }) => void;

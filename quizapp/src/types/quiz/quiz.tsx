@@ -3,4 +3,6 @@ export interface Quiz {
     name: string;
     description: string;
     numOfQuestions?: number;
+
+    showOptions?: boolean;
 }

@@ -37,27 +37,6 @@ namespace QuizApp.Controllers
             return Ok(questionDtos);
         }
 
-        [HttpGet("getAttempts/{quizAttemptId}")]
-        public async Task<IActionResult> GetAttempts(int quizAttemptId)
-        {
-            var attempts = await _fillInTheBlankAttemptRepository.GetAll(fiba => fiba.QuizAttemptId == quizAttemptId);
-            if (attempts == null)
-            {
-                _logger.LogError("[FillInTheBlankAPIController] FillInTheBlank attempt list not found while executing _fillInTheBlankAttemptRepository.GetAll()");
-                return NotFound("Attempts not found");
-            }
-
-            var attemptDtos = attempts.Select(attempt => new FillInTheBlankAttemptdto
-            {
-                FillInTheBlankAttemptId = attempt.FillInTheBlankId,
-                UserAnswer = attempt.UserAnswer,
-                QuizQuestionNum = attempt.QuizQuestionNum,
-                QuizAttemptId = attempt.QuizAttemptId
-            });
-
-            return Ok(attemptDtos);
-        }
-
         [HttpPost("submitQuestion")]
         public async Task<IActionResult> SubmitQuestion([FromBody] FillInTheBlankAttemptdto fillInTheBlankAttemptDto)
         {
@@ -66,7 +45,8 @@ namespace QuizApp.Controllers
                 FillInTheBlankId = fillInTheBlankAttemptDto.FillInTheBlankId,
                 QuizAttemptId = fillInTheBlankAttemptDto.QuizAttemptId,
                 UserAnswer = fillInTheBlankAttemptDto.UserAnswer,
-                QuizQuestionNum = fillInTheBlankAttemptDto.QuizQuestionNum
+                QuizQuestionNum = fillInTheBlankAttemptDto.QuizQuestionNum,
+                AnsweredCorrectly = fillInTheBlankAttemptDto.AnsweredCorrectly
             };
 
             var returnOk = await _fillInTheBlankAttemptRepository.Create(fillInTheBlankAttempt);

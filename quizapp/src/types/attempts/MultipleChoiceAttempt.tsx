@@ -7,6 +7,6 @@ export interface MultiplechoiceAttempt extends QuestionAttemptBase {
     multipleChoiceId: number;
     quizAttemptId: number;
     quizQuestionNum: number;
-    userAnswer: string[];
+    userAnswer: string;
     answeredCorrectly?: boolean;
 }

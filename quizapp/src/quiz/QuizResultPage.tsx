@@ -216,19 +216,8 @@ const QuizResultPage: React.FC = () => {
         }
 
         if (q.questionType === "multipleChoice" && "options" in q) {
-            if (!Array.isArray(userAnswer)) return false;
-
-            const correctAnswers = q.options
-                .filter((o: any) => o.isCorrect)
-                .map((o: any) => o.text)
-                .sort();
-
-            const userAnswers = [...userAnswer].sort();
-
-            if (correctAnswers.length === 0) return false;
-            if (correctAnswers.length !== userAnswers.length) return false;
-
-            return correctAnswers.every((t, i) => t === userAnswers[i]);
+            if (!q.correctAnswer || typeof userAnswer !== "string") return false;
+            return userAnswer === q.correctAnswer;
         }
 
         if (

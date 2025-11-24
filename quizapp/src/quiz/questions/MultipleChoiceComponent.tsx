@@ -1,4 +1,4 @@
-import { Option } from "../../types/multipleChoice";
+import { Option } from "../../types/quiz/multipleChoice";
 
 interface MultipleChoiceProps {
     handleAnswer: (multiplechoiceId: number, newAnswer: string[]) => void;

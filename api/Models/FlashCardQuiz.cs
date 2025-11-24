@@ -7,7 +7,7 @@ namespace QuizApp.Models
         public int FlashCardQuizId { get; set; }
 
         [Required(ErrorMessage = "Must give a name")]
-        [StringLength(50)]
+        [StringLength(60)]
         public string Name { get; set; } = string.Empty;
         //public User creator { get; set; }
         public virtual List<FlashCard>? FlashCards { get; set; }

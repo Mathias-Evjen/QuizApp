@@ -1,5 +1,5 @@
 import { MatchingAttempt } from "../../types/attempts/matchingAttempt";
-import { Matching } from "../../types/matching";
+import { Matching } from "../../types/quiz/matching";
 
 const API_URL = import.meta.env.VITE_API_URL;
 

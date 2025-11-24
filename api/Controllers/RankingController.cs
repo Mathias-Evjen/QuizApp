@@ -59,7 +59,8 @@ public class RankingAPIController : ControllerBase
             RankingId = rankingAttemptDto.RankingId,
             QuizAttemptId = rankingAttemptDto.QuizAttemptId,
             UserAnswer = rankingAttemptDto.UserAnswer,
-            QuizQuestionNum = rankingAttemptDto.QuizQuestionNum
+            QuizQuestionNum = rankingAttemptDto.QuizQuestionNum,
+            AnsweredCorrectly = rankingAttemptDto.AnsweredCorrectly
         };
 
         var returnOk = await _rankingAttemptRepository.Create(rankingAttempt);

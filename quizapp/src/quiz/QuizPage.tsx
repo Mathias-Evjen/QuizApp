@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { Quiz } from "../types/quiz/quiz";
-import { Question } from "../types/quiz/Question";
+import { Question } from "../types/quiz/question";
 import { FillInTheBlank } from "../types/quiz/fillInTheBlank";
 import { Matching } from "../types/quiz/matching";
 import { Ranking } from "../types/quiz/ranking";
@@ -94,6 +94,22 @@ const QuizPage: React.FC = () => {
         }
     };
 
+    const updateQuizAttemptScore = async (score: number) => {
+        const updatedAttempt = {
+            ...quizAttempt!,
+            numOfCorrectAnswers: score
+        };
+
+        setQuizAttempt(updatedAttempt)
+        
+        try {
+            const data = await QuizService.updateQuizScore(updatedAttempt.quizAttemptId!, updatedAttempt);
+            console.log("Quiz attempt updated successfully:", data);
+        } catch (error) {
+            console.error("There was a problem with the fetch operation: ", error)
+        }
+    } 
+
     const submitFibAttempt = async (fibAttempt: FillInTheBlankAttempt) => {
         fibAttempt.quizAttemptId = quizAttempt?.quizAttemptId!;
         try {
@@ -164,42 +180,42 @@ const QuizPage: React.FC = () => {
         sequence: Sequence[], multipleChoice: MultipleChoice[], trueFalse: TrueFalse[]
     ) => {
         fib.forEach(q => {
-            const fibAttempt: FillInTheBlankAttempt = { fillInTheBlankId: q.fillInTheBlankId!, quizAttemptId: quizAttempt?.quizAttemptId!, quizQuestionNum: q.quizQuestionNum, userAnswer: "" };
+            const fibAttempt: FillInTheBlankAttempt = { questionType: "fillInTheBlank", fillInTheBlankId: q.fillInTheBlankId!, quizAttemptId: quizAttempt?.quizAttemptId!, quizQuestionNum: q.quizQuestionNum, userAnswer: "" };
             setFibAttempts(prevAttempts =>
                 [...prevAttempts, fibAttempt]
             );
         });
 
         matching.forEach(q => {
-            const matchingAttempt: MatchingAttempt = { matchingId: q.matchingId!, quizAttemptId: quizAttempt?.quizAttemptId!, quizQuestionNum: q.quizQuestionNum, userAnswer: "" };
+            const matchingAttempt: MatchingAttempt = { questionType: "matching", matchingId: q.matchingId!, quizAttemptId: quizAttempt?.quizAttemptId!, quizQuestionNum: q.quizQuestionNum, userAnswer: "" };
             setMatchingAttempts(prevAttempts =>
                 [...prevAttempts, matchingAttempt]
             );
         });
 
         ranking.forEach(q => {
-            const rankingAttempt: RankingAttempt = { rankingId: q.rankingId!, quizAttemptId: quizAttempt?.quizAttemptId!, quizQuestionNum: q.quizQuestionNum, userAnswer: "" };
+            const rankingAttempt: RankingAttempt = { questionType: "ranking", rankingId: q.rankingId!, quizAttemptId: quizAttempt?.quizAttemptId!, quizQuestionNum: q.quizQuestionNum, userAnswer: "" };
             setRankingAttempts(prevAttempts =>
                 [...prevAttempts, rankingAttempt]
             );
         });
 
         sequence.forEach(q => {
-            const sequenceAttempt: SequenceAttempt = { sequenceId: q.sequenceId!, quizAttemptId: quizAttempt?.quizAttemptId!, quizQuestionNum: q.quizQuestionNum, userAnswer: "" };
+            const sequenceAttempt: SequenceAttempt = { questionType: "sequence", sequenceId: q.sequenceId!, quizAttemptId: quizAttempt?.quizAttemptId!, quizQuestionNum: q.quizQuestionNum, userAnswer: "" };
             setSequenceAttempts(prevAttempts =>
                 [...prevAttempts, sequenceAttempt]
             );
         });
 
         trueFalse.forEach(q => {
-            const trueFalseAttempt: TrueFalseAttempt = { trueFalseId: q.trueFalseId!, quizAttemptId: quizAttempt?.quizAttemptId!, quizQuestionNum: q.quizQuestionNum, userAnswer: null };
+            const trueFalseAttempt: TrueFalseAttempt = { questionType: "trueFalse", trueFalseId: q.trueFalseId!, quizAttemptId: quizAttempt?.quizAttemptId!, quizQuestionNum: q.quizQuestionNum, userAnswer: null };
             setTrueFalseAttempts(prevAttempts =>
                 [...prevAttempts, trueFalseAttempt]
             );
         });
 
         multipleChoice.forEach(q => {
-            const multipleChoiceAttempt: MultiplechoiceAttempt = { multipleChoiceId: q.multipleChoiceId!, quizAttemptId: quizAttempt?.quizAttemptId!, quizQuestionNum: q.quizQuestionNum, userAnswer: [] };
+            const multipleChoiceAttempt: MultiplechoiceAttempt = { questionType: "multipleChoice", multipleChoiceId: q.multipleChoiceId!, quizAttemptId: quizAttempt?.quizAttemptId!, quizQuestionNum: q.quizQuestionNum, userAnswer: [] };
             setMultipleChoiceAttempts(prevAttempts =>
                 [...prevAttempts, multipleChoiceAttempt]
             );
@@ -292,89 +308,83 @@ const QuizPage: React.FC = () => {
             return;
         }
 
-        const submitCalls: Promise<any>[] = [];
-
-        fibAttempts.forEach(a => submitCalls.push(submitFibAttempt(a)));
-        trueFalseAttempts.forEach(a => submitCalls.push(submitTrueFalseAttempt(a)));
-        multipleChoiceAttempts.forEach(a => submitCalls.push(submitMultipleChoiceAttempt(a)));
-        matchingAttempts.forEach(a => submitCalls.push(submitMatchingAttempt(a)));
-        sequenceAttempts.forEach(a => submitCalls.push(submitSequenceAttempt(a)));
-        rankingAttempts.forEach(a => submitCalls.push(submitRankingAttempt(a)));
-
-        await Promise.all(submitCalls);
-
+        
         let score = 0;
         let total = allQuestions.length;
-
+        
         allQuestions.forEach(q => {
-            if (q.questionType === "fillInTheBlank" && q.correctAnswer) {
+            if (q.questionType === "fillInTheBlank") {
                 const att = fibAttempts.find(a => a.fillInTheBlankId === q.fillInTheBlankId);
                 if (att?.userAnswer?.trim().toLowerCase() === q.correctAnswer.trim().toLowerCase()) {
+                    att.answeredCorrectly = true;
                     score++;
                 }
             }
-
+            
             if (q.questionType === "trueFalse") {
                 const att = trueFalseAttempts.find(a => a.trueFalseId === q.trueFalseId);
                 if (att?.userAnswer === q.correctAnswer) {
+                    att.answeredCorrectly = true;
                     score++;
                 }
             }
-
+            
             if (q.questionType === "multipleChoice") {
                 const att = multipleChoiceAttempts.find(a => a.multipleChoiceId === q.multipleChoiceId);
                 if (!att || !Array.isArray(att.userAnswer)) return;
-
+                
                 const correct = q.options
-                    .filter(o => o.isCorrect)
-                    .map(o => o.text)
-                    .sort();
-
+                .filter(o => o.isCorrect)
+                .map(o => o.text)
+                .sort();
+                
                 const user = [...att.userAnswer].sort();
-
+                
                 if (correct.length === user.length && correct.every((t, i) => t === user[i])) {
+                    att.answeredCorrectly = true;
                     score++;
                 }
             }
-
+            
             if (q.questionType === "matching") {
                 const att = matchingAttempts.find(a => a.matchingId === q.matchingId);
                 if (att?.userAnswer === q.correctAnswer) {
+                    att.answeredCorrectly = true;
                     score++;
                 }
             }
-
+            
             if (q.questionType === "sequence") {
                 const att = sequenceAttempts.find(a => a.sequenceId === q.sequenceId);
                 if (att?.userAnswer === q.correctAnswer) {
+                    att.answeredCorrectly = true;
                     score++;
                 }
             }
-
+            
             if (q.questionType === "ranking") {
                 const att = rankingAttempts.find(a => a.rankingId === q.rankingId);
                 if (att?.userAnswer === q.correctAnswer) {
+                    att.answeredCorrectly = true;
                     score++;
                 }
             }
         });
+        
+        const submitCalls = [
+            ...fibAttempts.map(submitFibAttempt),
+            ...trueFalseAttempts.map(submitTrueFalseAttempt),
+            ...multipleChoiceAttempts.map(submitMultipleChoiceAttempt),
+            ...matchingAttempts.map(submitMatchingAttempt),
+            ...sequenceAttempts.map(submitSequenceAttempt),
+            ...rankingAttempts.map(submitRankingAttempt),
+            updateQuizAttemptScore(score)
+        ];
 
-        navigate(`/quiz/${quizId}/result`, {
-            state: {
-                score,
-                total,
-                quiz,
-                allQuestions,
-                attempts: {
-                    fibAttempts,
-                    trueFalseAttempts,
-                    multipleChoiceAttempts,
-                    matchingAttempts,
-                    sequenceAttempts,
-                    rankingAttempts
-                }
-            }
-        });
+        await Promise.all(submitCalls);
+
+
+        navigate(`/quiz/results/${quiz?.quizId}/${quizAttempt.quizAttemptId}`);
     }
 
     useEffect(() => {

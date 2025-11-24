@@ -1,10 +1,7 @@
 import { useState, useEffect } from "react";
-import { Ranking } from "../../types/quiz/ranking";
 import "../style/Ranking.css"
-import * as QuizService from "../services/QuizService";
-import { useNavigate, useLocation } from "react-router-dom";
-import rightArrow from "../../shared/right-arrow.png";
-import bin from "../../shared/bin.png";
+import rightArrow from "../../assets/right-arrow.png";
+import bin from "../../assets/bin.png";
 
 interface RankingManageFormProps {
     rankedId: number

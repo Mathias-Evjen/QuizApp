@@ -1,10 +1,7 @@
 import { useState, useEffect } from "react";
-import { Sequence } from "../../types/quiz/sequence";
 import "../style/Sequence.css"
-import * as QuizService from "../services/QuizService";
-import { useNavigate, useLocation } from "react-router-dom";
-import rightArrow from "../../shared/right-arrow.png";
-import bin from "../../shared/bin.png";
+import rightArrow from "../../assets/right-arrow.png";
+import bin from "../../assets/bin.png";
 
 interface SequenceManageFormProps {
     sequenceId: number,

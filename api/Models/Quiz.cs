@@ -1,3 +1,4 @@
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace QuizApp.Models
@@ -5,8 +6,14 @@ namespace QuizApp.Models
     public class Quiz 
     {
         public int QuizId { get; set; }
+
+        [Required(ErrorMessage = "Must give a name")]
+        [StringLength(60)]
         public string Name { get; set; } = string.Empty;
         public int NumOfQuestions { get; set; } = 0;
+
+        [Required(ErrorMessage = "Must give a description")]
+        [StringLength(400)]
         public string Description { get; set; } = string.Empty;
 
         public virtual List<FillInTheBlank> FillInTheBlankQuestions { get; set; } = [];

@@ -1,4 +1,4 @@
-import { QuestionBase } from "./Question";
+import { QuestionBase } from "./question";
 
 export interface FillInTheBlank extends QuestionBase {
     questionType: "fillInTheBlank";
@@ -7,7 +7,7 @@ export interface FillInTheBlank extends QuestionBase {
     question: string;
     quizId: number;
     quizQuestionNum: number;
-    correctAnswer?: string;
+    correctAnswer: string;
 
     isDirty?: boolean;
     isNew?: boolean;

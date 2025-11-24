@@ -42,6 +42,12 @@ export const fetchQuiz = async (quizId: number) => {
     return handleResponse(response);
 };
 
+// Get quiz attempt
+export const fetchQuizAttempt = async (quizAttemptId: number) => {
+    const response = await fetch(`${API_URL}/api/quizapi/getAttempt/${quizAttemptId}`);
+    return handleResponse(response);
+}
+
 // Post create quiz
 export const createQuiz = async (quiz: Quiz) => {
     const response = await fetch(`${API_URL}/api/quizapi/create`, {
@@ -71,6 +77,16 @@ export const updateQuiz = async (quizId: number, quiz: Quiz) => {
     });
     return handleResponse(response);
 };
+
+// Put update quiz attempt
+export const updateQuizScore = async (quizAttemptId: number, quizAttempt: QuizAttempt) => {
+    const response = await fetch(`${API_URL}/api/quizapi/update/attempt/${quizAttemptId}`, {
+        method: 'PUT',
+        headers,
+        body: JSON.stringify(quizAttempt),
+    });
+    return handleResponse(response);
+}
 
 // Delete quiz
 export const deleteQuiz = async (quizId: number) => {

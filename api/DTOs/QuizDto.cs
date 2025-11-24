@@ -7,8 +7,6 @@ namespace QuizApp.DTOs
     public class QuizDto
     {
         public int QuizId { get; set; }
-
-        [Required(ErrorMessage = "Quiz must have a name")]
         public string Name { get; set; } = string.Empty;
         public string Description { get; set; } = string.Empty;
 
@@ -29,7 +27,7 @@ namespace QuizApp.DTOs
                 .Concat(TrueFalseQuestions)
                 .Concat(MultipleChoiceQuestions)
                 .OrderBy(q => q.QuizQuestionNum);
-        
+    
     }
 }
     

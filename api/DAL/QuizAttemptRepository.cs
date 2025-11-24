@@ -15,7 +15,7 @@ namespace QuizApp.DAL
             {
                 return await _db.QuizAttempts
                                     .Include(q => q.FillInTheBlankAttempts)
-                                    .Include(q => q.TrueFalseQuestionAttempts)
+                                    .Include(q => q.TrueFalseAttempts)
                                     .Include(q => q.MultipleChoiceAttempts)
                                     .Include(q => q.RankingAttempts)
                                     .Include(q => q.SequenceAttempts)
@@ -35,7 +35,7 @@ namespace QuizApp.DAL
             {
                 return await _db.QuizAttempts
                                     .Include(q => q.FillInTheBlankAttempts)
-                                    .Include(q => q.TrueFalseQuestionAttempts)
+                                    .Include(q => q.TrueFalseAttempts)
                                     .Include(q => q.MultipleChoiceAttempts)
                                     .Include(q => q.RankingAttempts)
                                     .Include(q => q.SequenceAttempts)

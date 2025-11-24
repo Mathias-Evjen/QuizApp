@@ -1,32 +1,146 @@
-import { useLocation, useNavigate } from "react-router-dom";
-import "./style/Quiz.css";
-
-import { Question } from "../types/quiz/Question";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
+import { Question } from "../types/quiz/question";
 import { FillInTheBlankAttempt } from "../types/attempts/fillInTheBlankAttempt";
 import { TrueFalseAttempt } from "../types/attempts/trueFalseAttempt";
 import { MultiplechoiceAttempt } from "../types/attempts/MultipleChoiceAttempt";
 import { MatchingAttempt } from "../types/attempts/matchingAttempt";
 import { RankingAttempt } from "../types/attempts/rankingAttempt";
 import { SequenceAttempt } from "../types/attempts/sequenceAttempt";
+import { useEffect, useState } from "react";
+import { QuizAttempt } from "../types/attempts/quizAttempt";
+import { QuestionAttempt } from "../types/attempts/questionAttempt";
+import * as QuizService from "./services/QuizService";
+import "./style/Quiz.css";
+import { Quiz } from "../types/quiz/quiz";
+import { FillInTheBlank } from "../types/quiz/fillInTheBlank";
+import { Matching } from "../types/quiz/matching";
+import { Ranking } from "../types/quiz/ranking";
+import { MultipleChoice } from "../types/quiz/multipleChoice";
+import { TrueFalse } from "../types/quiz/trueFalse";
+import { Sequence } from "../types/quiz/sequence";
 
 
 const QuizResultPage: React.FC = () => {
-    const location = useLocation();
     const navigate = useNavigate();
-    const { score, total, quiz, allQuestions, attempts } = location.state || { score: 0, total: 0 };
 
-    if (!quiz || !allQuestions || !attempts) {
-        return <p>Error: Missing result data</p>;
-    }
+    const { id, attemptId } = useParams<{ id: string, attemptId: string }>();
+    const quizId = Number(id);
+    const quizAttemptId = Number(attemptId);
 
-    const {
-        fibAttempts,
-        trueFalseAttempts,
-        multipleChoiceAttempts,
-        matchingAttempts,
-        sequenceAttempts,
-        rankingAttempts
-    } = attempts;
+    const [quiz, setQuiz] = useState<Quiz>();
+    const [allQuestions, setAllQuestions] = useState<Question[]>([]);
+
+    const [loadingQuiz, setLoadingQuiz] = useState<boolean>(false);
+    const [quizError, setQuizError] = useState<string | null>(null);
+
+
+    const [quizAttempt, setQuizAttempt] = useState<QuizAttempt>();
+    const [allQuestionAttempts, setAllQuestionAttempts] = useState<QuestionAttempt[]>([]);
+    const [fibAttempts, setFibAttempts] = useState<FillInTheBlankAttempt[]>([]);
+    const [matchingAttempts, setMatchingAttempts] = useState<MatchingAttempt[]>([]);
+    const [rankingAttempts, setRankingAttempts] = useState<RankingAttempt[]>([]);
+    const [sequenceAttempts, setSequenceAttempts] = useState<SequenceAttempt[]>([]);
+    const [trueFalseAttempts, setTrueFalseAttempts] = useState<TrueFalseAttempt[]>([]);
+    const [multipleChoiceAttempts, setMultipleChoiceAttempts] = useState<MultiplechoiceAttempt[]>([]);
+
+    const [loadingQuizAttempt, setLoadingQuizAttempt] = useState<boolean>(false);
+    const [quizAttemptError, setQuizAttemptError] = useState<string | null>(null);
+    
+    // -----------------------
+    //     CRUD Operations 
+    // -----------------------
+
+    const fetchQuiz = async () => {
+        setLoadingQuiz(true);
+        setQuizError(null);
+
+        try {
+            const data = await QuizService.fetchQuiz(quizId);
+            setQuiz(data);
+            handleSetAllQuestions(
+                data.fillInTheBlankQuestions,
+                data.matchingQuestions,
+                data.rankingQuestions,
+                data.sequenceQuestions,
+                data.multipleChoiceQuestions,
+                data.trueFalseQuestions);
+            console.log(data);
+        } catch (error: unknown) {
+            if (error instanceof Error) {
+                console.error(`There was a problem fetching data: ${error.message}`);
+            } else {
+                console.error("Unknown error", error);
+            }
+            setQuizError("Failed to fetch quiz");
+        } finally {
+            setLoadingQuiz(false);
+        }
+    };
+    
+    const fetchQuizAttempt = async () => {
+        setLoadingQuizAttempt(true);
+        setQuizAttemptError(null);
+
+        try {
+            const data = await QuizService.fetchQuizAttempt(quizAttemptId);
+            setQuizAttempt(data);
+            console.log(data);
+            handleSetAllQuestionAttempts(
+                data.fillInTheBlankAttempts,
+                data.matchingAttempts,
+                data.rankingAttempts,
+                data.sequenceAttempts,
+                data.multipleChoiceAttempts,
+                data.trueFalseAttempts);
+        } catch (error: unknown) {
+            if (error instanceof Error) {
+                console.error(`There was a problem fetching data: ${error.message}`);
+            } else {
+                console.error("Unknown error", error);
+            }
+            setQuizAttemptError("Failed to fetch quiz attempt");
+        } finally {
+            setLoadingQuizAttempt(false);
+        }
+    };
+
+    const handleSetAllQuestions = (
+        fib: FillInTheBlank[], matching: Matching[], ranking: Ranking[],
+        sequence: Sequence[], multipleChoice: MultipleChoice[], trueFalse: TrueFalse[]
+    ) => {
+
+        const combined: Question[] = [
+            ...fib.map(q => ({ ...q, questionType: "fillInTheBlank" as const })),
+            ...matching.map(q => ({ ...q, questionType: "matching" as const })),
+            ...ranking.map(q => ({ ...q, questionType: "ranking" as const })),
+            ...sequence.map(q => ({ ...q, questionType: "sequence" as const })),
+            ...multipleChoice.map(q => ({ ...q, questionType: "multipleChoice" as const })),
+            ...trueFalse.map(q => ({ ...q, questionType: "trueFalse" as const }))
+        ];
+
+        combined.sort((a, b) => a.quizQuestionNum - b.quizQuestionNum);
+
+        setAllQuestions(combined);
+    };
+
+    const handleSetAllQuestionAttempts = (
+        fib: FillInTheBlankAttempt[], matching: MatchingAttempt[], ranking: RankingAttempt[],
+        sequence: SequenceAttempt[], multipleChoice: MultiplechoiceAttempt[], trueFalse: TrueFalseAttempt[]
+    ) => {    
+        const combined: QuestionAttempt[] = [
+            ...fib.map(q => ({ ...q, questionType: "fillInTheBlank" as const })),
+            ...matching.map(q => ({ ...q, questionType: "matching" as const })),
+            ...ranking.map(q => ({ ...q, questionType: "ranking" as const })),
+            ...sequence.map(q => ({ ...q, questionType: "sequence" as const })),
+            ...multipleChoice.map(q => ({ ...q, questionType: "multipleChoice" as const })),
+            ...trueFalse.map(q => ({ ...q, questionType: "trueFalse" as const }))
+        ];
+
+        combined.sort((a, b) => a.quizQuestionNum - b.quizQuestionNum);
+
+        setAllQuestionAttempts(combined);
+    };
+
 
     const getUserAnswer = (q: Question) => {
         if (q.questionType === "fillInTheBlank") {
@@ -129,44 +243,60 @@ const QuizResultPage: React.FC = () => {
         return false;
     };
 
+    useEffect(() => {
+        fetchQuiz();
+        fetchQuizAttempt();
+    }, []);
+
     return (
         <div className="quiz-result-page">
-            <h1>{quiz.name} — Results</h1>
-            <h2 className="quiz-result-score">
-                {score} / {total} Correct
-            </h2>
+            {loadingQuiz || loadingQuizAttempt ? (
+                <p>Loading</p>
+            ) : quizError || quizAttemptError ? (
+                <>
+                    <p>{quizError}</p>
+                    <p>{quizAttemptError}</p>
+                </>
+            ) : (
+                <>
+                    <h1>{quiz?.name} — Results</h1>
+                    <h2 className="quiz-result-score">
+                        {quizAttempt?.numOfCorrectAnswers} / {allQuestionAttempts.length} Correct
+                    </h2>
 
-            <div className="quiz-result-question-list">
-                {allQuestions.map((q: Question) => {
-                    const userAnswer = getUserAnswer(q);
-                    const correct = isCorrect(q, userAnswer);
+                    <div className="quiz-result-question-list">
+                        {allQuestions.map((q: Question) => {
+                            const attempt = allQuestionAttempts.find(attempt => attempt.quizQuestionNum === q.quizQuestionNum)
 
-                    return (
-                        <div
-                            key={`${q.questionType}-${q.quizQuestionNum}`}
-                            className={`quiz-result-question-box ${correct ? "correct" : "incorrect"}`}
-                        >
-                            <h3>Q{q.quizQuestionNum}: {q.question}</h3>
+                            return (
+                                <div
+                                    key={`${q.questionType}-${q.quizQuestionNum}`}
+                                    className={`quiz-result-question-box ${attempt?.answeredCorrectly ? "correct" : "incorrect"}`}
+                                >
+                                    <h3>Q{q.quizQuestionNum}: {q.question}</h3>
 
-                            <p>
-                                <strong>Your answer:</strong>{" "}
-                                <span className="quiz-result-answer">{formatUserAnswer(userAnswer)}</span>
-                            </p>
+                                    <p>
+                                        <strong>Your answer:</strong>{" "}
+                                        <span className="quiz-result-answer">{formatUserAnswer(attempt?.userAnswer)}</span>
+                                    </p>
 
-                            {!correct && (
-                                <p className="quiz-result-correct-answer">
-                                    <strong>Correct answer:</strong>{" "}
-                                    {getCorrectAnswerText(q)}
-                                </p>
-                            )}
-                        </div>
-                    );
-                })}
-            </div>
+                                    {!attempt?.answeredCorrectly && (
+                                        <p className="quiz-result-correct-answer">
+                                            <strong>Correct answer:</strong>{" "}
+                                            {getCorrectAnswerText(q)}
+                                        </p>
+                                    )}
+                                </div>
+                            );
+                        })}
+                    </div>
 
-            <button className="quiz-result-btn-back" onClick={() => navigate("/")}>
-                Back to Quizzes
-            </button>
+                    <button className="quiz-result-btn-back" onClick={() => navigate("/quiz")}>
+                        Back to Quizzes
+                    </button>
+                </>
+            )}
+            
         </div>
     );
 };

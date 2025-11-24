@@ -58,7 +58,8 @@ namespace QuizApp.Controllers
                 TrueFalseId = trueFalseAttemptDto.TrueFalseId,
                 QuizAttemptId = trueFalseAttemptDto.QuizAttemptId,
                 UserAnswer = trueFalseAttemptDto.UserAnswer,
-                QuizQuestionNum = trueFalseAttemptDto.QuizQuestionNum
+                QuizQuestionNum = trueFalseAttemptDto.QuizQuestionNum,
+                AnsweredCorrectly = trueFalseAttemptDto.AnsweredCorrectly
             };
 
             var returnOk = await _trueFalseAttemptRepository.Create(trueFalseAttempt);

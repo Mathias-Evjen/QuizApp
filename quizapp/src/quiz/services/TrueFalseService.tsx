@@ -1,4 +1,4 @@
-import { TrueFalse } from "../../types/trueFalse";
+import { TrueFalse } from "../../types/quiz/trueFalse";
 import { TrueFalseAttempt } from "../../types/attempts/trueFalseAttempt";
 
 

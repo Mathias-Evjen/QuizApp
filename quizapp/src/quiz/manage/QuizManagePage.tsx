@@ -1,6 +1,6 @@
 import "../style/Quiz.css";
 import { Quiz } from "../../types/quiz/quiz";
-import { Question } from "../../types/quiz/Question";
+import { Question } from "../../types/quiz/question";
 import { FillInTheBlank } from "../../types/quiz/fillInTheBlank";
 import { Matching } from "../../types/quiz/matching";
 import { Ranking } from "../../types/quiz/ranking";

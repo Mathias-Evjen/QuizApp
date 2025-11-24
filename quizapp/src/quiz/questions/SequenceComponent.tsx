@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import rightArrow from "../../shared/right-arrow.png";
+import rightArrow from "../../assets/right-arrow.png";
 
 interface SequenceProps {
   handleAnswer: (sequenceId: number, newAnswer: string) => void;

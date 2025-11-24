@@ -59,7 +59,8 @@ public class MatchingAPIController : ControllerBase
             MatchingId = matchingAttemptDto.MatchingId,
             QuizAttemptId = matchingAttemptDto.QuizAttemptId,
             UserAnswer = matchingAttemptDto.UserAnswer,
-            QuizQuestionNum = matchingAttemptDto.QuizQuestionNum
+            QuizQuestionNum = matchingAttemptDto.QuizQuestionNum,
+            AnsweredCorrectly = matchingAttemptDto.AnsweredCorrectly
         };
         var returnOk = await _matchingAttemptRepository.Create(matchingAttempt);
         if (!returnOk)

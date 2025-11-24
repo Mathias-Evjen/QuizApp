@@ -1,4 +1,4 @@
-import { QuestionBase } from "./Question";
+import { QuestionBase } from "./question";
 
 export interface Matching extends QuestionBase {
     questionType: "matching";

@@ -7,5 +7,6 @@ namespace QuizApp.DTOs
         public bool UserAnswer { get; set; }
         public int TrueFalseId { get; set; }
         public int QuizAttemptId { get; set; }
+        public bool AnsweredCorrectly { get; set; }
     }
 }

@@ -1,4 +1,4 @@
-import { FillInTheBlank } from "../../types/fillInTheBlank";
+import { FillInTheBlank } from "../../types/quiz/fillInTheBlank";
 import { FillInTheBlankAttempt } from "../../types/attempts/fillInTheBlankAttempt";
 
 
@@ -33,12 +33,6 @@ const getAuthHeaders = () => {
 // Get questions
 export const fetchQuestions = async (quizId: number) => {
     const response = await fetch(`${API_URL}/api/fillintheblankapi/getQuestions/${quizId}`);
-    return handleResponse(response);
-}
-
-// Get question attempts
-export const fetchAttempts = async (quizAttemptId: number) => {
-    const response = await fetch(`${API_URL}/api/fillintheblankapi/getAttempts/${quizAttemptId}`);
     return handleResponse(response);
 }
 

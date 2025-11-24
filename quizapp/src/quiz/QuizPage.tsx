@@ -269,7 +269,6 @@ const QuizPage: React.FC = () => {
     };
 
     const handleAnswerMatching = (matchingId: number, newAnswer: string) => {
-        console.log(newAnswer)
         setMatchingAttempts(prevAttempts =>
             prevAttempts.map(attempt =>
                 attempt.matchingId === matchingId

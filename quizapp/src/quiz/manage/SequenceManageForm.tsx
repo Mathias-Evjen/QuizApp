@@ -4,13 +4,14 @@ import rightArrow from "../../assets/right-arrow.png";
 import bin from "../../assets/bin.png";
 
 interface SequenceManageFormProps {
-    sequenceId?: number,
-    incomingQuestion: string,
-    incomingCorrectAnswer: string
+    sequenceId?: number;
+    incomingQuestion: string;
+    incomingCorrectAnswer: string;
+    errors?: {question?: string; length?: string; answer?: string; blankPos?: number[]};
     onChange?: (updatedQuestion: { question: string; correctAnswer: string; isDirty: boolean }) => void;
 }
 
-const SequenceManageForm: React.FC<SequenceManageFormProps> = ({sequenceId, incomingQuestion, incomingCorrectAnswer, onChange}) => {
+const SequenceManageForm: React.FC<SequenceManageFormProps> = ({sequenceId, incomingQuestion, incomingCorrectAnswer, errors, onChange}) => {
     const [splitQuestion, setSplitQuestion] = useState<string[]>(incomingCorrectAnswer ? incomingCorrectAnswer.split(",") : []);
     const [question, setQuestion] = useState(incomingQuestion);
 
@@ -24,11 +25,12 @@ const SequenceManageForm: React.FC<SequenceManageFormProps> = ({sequenceId, inco
             <div className="sequence-manage-form-input-wrapper">
                 <input id="sequence-manage-form-questiontext" className="sequence-manage-form-questiontext" value={question} onChange={(e) => setQuestion(e.target.value)} />
                 <label htmlFor="sequence-manage-form-questiontext" className="sequence-manage-form-label">Question text: </label>
+                {errors?.question && <span className="error">{errors.question}</span>}
             </div>
             <br/>
             <div className="sequence-manage-form-question-container">
                 {splitQuestion.map((key:string, index:number) => (
-                    <div className="sequence-manage-form-question-wrapper">
+                    <div className="sequence-manage-form-question-wrapper" key={index}>
                         <input className="sequence-manage-form-question-input" value={key} 
                         onChange={(e) => {
                             const newArr = [...splitQuestion];
@@ -41,8 +43,10 @@ const SequenceManageForm: React.FC<SequenceManageFormProps> = ({sequenceId, inco
                             const updated = splitQuestion.filter((_, i) => i !== index);
                             setSplitQuestion(updated);
                         }} />
+                        {(errors?.answer && errors.blankPos?.includes(index)) && <span className="error">{errors.answer}</span>}
                     </div>
                 ))}
+                {errors?.length && <span className="error">{errors.length}</span>}
                 <br/>
             </div>
             <button className="sequence-manage-form-btn-add" onClick={() => setSplitQuestion([...splitQuestion, ""])}>Add box</button>

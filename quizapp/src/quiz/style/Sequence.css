@@ -127,6 +127,9 @@
   margin-bottom: 1.5rem;
   margin-top: 1rem;
 }
+.sequence-manage-form-input-wrapper span{
+  font-size: 18px;
+}
 .sequence-manage-form-questiontext{
   min-width: 350px;
   max-width: 100%;
@@ -152,6 +155,9 @@
   flex-wrap: wrap;         /* Viktig: tillater flere linjer */
   gap: 1rem;               /* Avstand mellom items */
   row-gap: 2rem;
+}
+.sequence-manage-form-question-container span{
+  font-size: 18px;
 }
 .sequence-manage-form-question-wrapper{
   width: auto;

@@ -11,7 +11,6 @@ namespace QuizApp.Models
         
         [Required(ErrorMessage = "Must write an answer")]
         public string Answer { get; set; } = string.Empty;
-        public bool ShowAnswer { get; set; } = false;
         public int QuizId { get; set; }
         public virtual FlashCardQuiz? Quiz { get; set; } = default!;
         public int QuizQuestionNum { get; set; }

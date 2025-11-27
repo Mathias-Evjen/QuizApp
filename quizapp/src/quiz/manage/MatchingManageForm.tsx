@@ -5,13 +5,14 @@ import rightArrow from "../../assets/right-arrow.png";
 import bin from "../../assets/bin.png";
 
 interface MatchingManageFormProps {
-    matchingId?: number,
-    incomingQuestion: string,
-    incomingCorrectAnswer: string
+    matchingId?: number;
+    incomingQuestion: string;
+    incomingCorrectAnswer: string;
+    errors?: {question?: string; length?: string; answer?: string; blankPos?: number[]}
     onChange?: (updatedQuestion: { question: string; correctAnswer: string; isDirty: boolean }) => void;
 }
 
-const MatchingManageForm: React.FC<MatchingManageFormProps> = ({matchingId, incomingQuestion, incomingCorrectAnswer, onChange}) => {
+const MatchingManageForm: React.FC<MatchingManageFormProps> = ({matchingId, incomingQuestion, incomingCorrectAnswer, errors, onChange}) => {
     const [splitQuestion, setSplitQuestion] = useState<{ keys: string[]; values: string[] }>({keys: [],values: [],});
     const [question, setQuestion] = useState(incomingQuestion);
 
@@ -33,6 +34,7 @@ const MatchingManageForm: React.FC<MatchingManageFormProps> = ({matchingId, inco
             value={question}
             onChange={(e) => setQuestion(e.target.value)}
         />
+        {errors?.question && <span className="error">{errors.question}</span>}
         <label htmlFor="matching-manage-form-questiontext" className="matching-manage-form-label">
             Question text:
         </label>
@@ -80,8 +82,10 @@ const MatchingManageForm: React.FC<MatchingManageFormProps> = ({matchingId, inco
                 setSplitQuestion({ keys: newKeys, values: newValues });
                 }}
             />
+            {(errors?.answer && errors?.blankPos?.includes(index))&& <span className="error">{errors.answer}</span>}
             </div>
         ))}
+        {errors?.length && <span className="error">{errors.length}</span>}
         <br />
         </div>
 

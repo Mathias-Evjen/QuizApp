@@ -18,9 +18,7 @@
 
 .fill-in-the-blank-edit-container {
   display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  align-items: start;
+  flex-direction: column;
   padding: 20px;
   margin: 10px;
   width: 600px;
@@ -53,4 +51,9 @@
 .fill-in-the-blank-edit-input-block {
   display: flex;
   flex-direction: column;
+  position: relative;
 }
+
+.fill-in-the-blank-edit-input-block span {
+  font-size: 18px;
+} 

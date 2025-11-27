@@ -8,7 +8,7 @@ interface FlashCardEntryProps{
     quizQuestionNum: number;
     question: string;
     answer: string;
-    errors?: {question?: string, answer?: string};
+    errors?: {question?: string; answer?: string};
 }
 
 const FlashCardEntry: React.FC<FlashCardEntryProps> = ({ 

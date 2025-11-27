@@ -1,10 +1,6 @@
-import { Delete } from "@mui/icons-material";
 import { useState, useEffect } from "react";
 
 interface FillInTheBlankProps{
-    // onQuestionChanged: (fillInTheBlankId: number, newQuestion: string) => void;
-    // onAnswerChanged: (fillInTheBlankId: number, newAnswer: string) => void;
-    // onDeletePressed: (fillInTheBlankId: number, quizQuestionNum: number) => void;
     fillInTheblankId?: number;
     question: string;
     answer: string;
@@ -14,7 +10,6 @@ interface FillInTheBlankProps{
 
 const FillInTheBlankManageFrom: React.FC<FillInTheBlankProps> = ({ 
     fillInTheblankId, question, answer,  errors, onChange
-    // onQuestionChanged, onAnswerChanged, onDeletePressed 
     }) => {
 
     const [questionEdit, setQuestionEdit] = useState<string>(question);
@@ -34,9 +29,9 @@ const FillInTheBlankManageFrom: React.FC<FillInTheBlankProps> = ({
                         <input
                             type="text"
                             value={question}
-                            // onChange={(e) => onQuestionChanged(fillInTheblankId, e.target.value)}
                             onChange={(e) => setQuestionEdit(e.target.value)}
                             placeholder="Write a question..." />
+                        {errors?.question && <span className="error">{errors.question}</span>}
                     </div>
                     
                     <div className="fill-in-the-blank-edit-input-block">
@@ -44,15 +39,13 @@ const FillInTheBlankManageFrom: React.FC<FillInTheBlankProps> = ({
                         <input
                             type="text"
                             value={answer}
-                            // onChange={(e) => onAnswerChanged(fillInTheblankId, e.target.value)}
                             onChange={(e) => setCorrectAnswerEdit(e.target.value)}
                             placeholder="Write the answer..." />
+                        {errors?.answer && <span className="error">{errors.answer}</span>}
                     </div>
                     
                 </div>
             </div>
-
-            {/* <button className={"flash-card-entry-delete-button"} onClick={() => onDeletePressed(fillInTheblankId, quizQuestionNum)}><Delete /></button> */}
         </div>
     )
 }

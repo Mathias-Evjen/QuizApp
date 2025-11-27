@@ -141,6 +141,9 @@
   margin-bottom: 1.5rem;
   margin-top: 1rem;
 }
+.matching-manage-form-input-wrapper span{
+  font-size: 18px;
+}
 .matching-manage-form-questiontext{
   min-width: 350px;
   max-width: 100%;
@@ -167,6 +170,9 @@
   flex-wrap: wrap;   
   gap: 0rem;            
   row-gap: 2rem;
+}
+.matching-manage-form-question-container span{
+  font-size: 18px;
 }
 .matching-manage-form-question-wrapper{
   position: relative;

@@ -5,4 +5,6 @@ export interface Quiz {
     numOfQuestions?: number;
 
     showOptions?: boolean;
+    
+    isDirty?: boolean;
 }

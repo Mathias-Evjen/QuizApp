@@ -32,6 +32,8 @@ function QuizManagePage() {
     const [quiz, setQuiz] = useState<Quiz>();
     const [allQuestions, setAllQuestions] = useState<Question[]>([]);
     const [numOfQuestions, setNumOfQuestions] = useState<number>(quiz?.numOfQuestions || 0);
+    const [quizName, setQuizName] = useState<string>("");
+    const [quizDesc, setQuizDesc] = useState<string>("");
     
     const [loading, setLoading] = useState<boolean>(false);
     const [error, setError] = useState<string | null>(null);
@@ -41,6 +43,7 @@ function QuizManagePage() {
     const [notificationText, setNotificationText] = useState<string>("");
     const [notificationExit ,setNotificationExit] = useState<boolean>(false);
 
+    const [quizValidatonErrors, setQuizValidationErrors] = useState<{[key: number]: { name?: string, description?: string}}>({});
     const [fibValidationErrors, setFibValidationErrors] = useState<{[key: number]: { question?: string; answer?: string}}>({});
     const [matchingValidationErrors, setMatchingValidationErrors] = useState<{[key: number]: { question?: string; length?: string; answer?: string; blankPos?: number[]}}>({});
 
@@ -59,6 +62,8 @@ function QuizManagePage() {
                 data.multipleChoiceQuestions,
                 data.trueFalseQuestions);
             setNumOfQuestions(data.numOfQuestions);
+            setQuizName(data.name);
+            setQuizDesc(data.description);
         } catch (error: unknown) {
             if (error instanceof Error) {
                 console.error(`There was a problem fetching data: ${error.message}`);
@@ -287,6 +292,10 @@ function QuizManagePage() {
                 }
             }
         })
+        console.log(quiz)
+        if(quiz && quiz.quizId && quiz?.isDirty){
+            QuizService.updateQuiz(quiz.quizId, quiz)
+        }
         setAllQuestions(newQuestions);
         setNotificationType("save");
         setNotificationText("Saved quiz!")
@@ -294,8 +303,15 @@ function QuizManagePage() {
     }
 
     const handleValidation = () => {
+        const allQuizErrors: typeof quizValidatonErrors = {};
         const allFibErrors: typeof fibValidationErrors = {};
         const allMatchingErrors: typeof matchingValidationErrors = {};
+
+        if(quiz){
+            const q = quiz as Quiz;
+            const quizErrs = validateQuiz(q);
+            if (Object.keys(quizErrs).length > 0 && typeof q.quizId === "number") allQuizErrors[q.quizId] = quizErrs;
+        }
 
         allQuestions.forEach(q => {
             if (q.questionType === "fillInTheBlank") {
@@ -308,6 +324,11 @@ function QuizManagePage() {
             }
         });
 
+        if (Object.keys(allQuizErrors).length > 0){
+            setQuizValidationErrors(allQuizErrors);
+            return false;
+        }
+
         if (Object.keys(allFibErrors).length > 0) {
             setFibValidationErrors(allFibErrors);
             return false;
@@ -319,6 +340,13 @@ function QuizManagePage() {
         }
         
         return true;
+    }
+
+    const validateQuiz = (q: Quiz) => {
+        const errors: { name?: string; description?: string } = {};
+        if (!q.name || q.name.trim() === "") errors.name = "Name is required";
+        if(!q.description || q.description.trim() === "") errors.description = "Description is required";
+        return errors;
     }
 
     const validateFib = (q: FillInTheBlank) => {
@@ -395,8 +423,14 @@ function QuizManagePage() {
                     <div className="quiz-manage-wrapper">
                         <button className="quiz-back-btn" onClick={() => navigate(-1)}>{"<"}</button>
                         <div className="quiz-manage-header">
-                            <h3>{quiz?.name}</h3>
-                            <p className="quiz-manage-description">"{quiz?.description}"</p>
+                            <div className="quiz-manage-header-form-field">
+                                <input className="quiz-manage-name" value={quizName} onChange={(e) => {setQuizName(e.target.value); setQuiz(prev => ({...prev!, isDirty:true, name:e.target.value}))}} />
+                                {quiz?.quizId && quizValidatonErrors[quiz.quizId] && <span className="quiz-manage-header-error">{quizValidatonErrors[quiz.quizId].name}</span>}
+                            </div>
+                            <div className="quiz-manage-header-form-field">
+                                <textarea className="quiz-manage-description" value={quizDesc} onChange={(e) => {setQuizDesc(e.target.value); setQuiz(prev => ({...prev!, isDirty: true, description: e.target.value}))}}></textarea>
+                                {quiz?.quizId && quizValidatonErrors[quiz.quizId] && <span className="quiz-manage-header-error">{quizValidatonErrors[quiz.quizId].description}</span>}
+                            </div>
                             <p className="quiz-manage-num-questions">Number of questions: {numOfQuestions}</p>
                             <hr /><br/>
                         </div>

@@ -350,12 +350,40 @@ button:hover{
     border: solid 0px #32CD32;
     margin-left: 2rem;
 }
+.quiz-manage-header-form-field{
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 12px;
+}
+.quiz-manage-name{
+    height: 2rem;
+    width: 15rem;
+    padding: 5px;
+    font-size: 18px;
+    border: 2px darkgray solid;
+    border-radius: 10px;
+    margin-bottom: 10px;
+    margin-top: 10px;
+    font-weight: bold;
+}
+.quiz-manage-header-error{
+    color: red;
+    display: block;
+    margin-top: 4px;
+    font-size: 18px;
+}
 .quiz-manage-description{
     display: block;
-    white-space: normal;
-    word-break: break-word;
-    width: 20rem;
+    min-width: 25rem;
+    max-width: 25rem;
+    min-height: 5rem;
+    max-height: 10rem;
+    font-size: 15px;
+    padding: 5px;
+    border: 2px darkgray solid;
+    border-radius: 10px;
 }
+
 .quiz-manage-question-container{
     display: flex;
     flex-direction: column;

@@ -44,8 +44,12 @@ function QuizManagePage() {
     const [notificationExit ,setNotificationExit] = useState<boolean>(false);
 
     const [quizValidatonErrors, setQuizValidationErrors] = useState<{[key: number]: { name?: string, description?: string}}>({});
+    const [trueFalseValidationErrors, setTrueFalseValidationErrors] = useState<{[key: number]: { question?: string}}>({});
     const [fibValidationErrors, setFibValidationErrors] = useState<{[key: number]: { question?: string; answer?: string}}>({});
+    const [rankingValidationErrors, setRankingValidationErrors] = useState<{[key: number]: { question?: string; length?: string; answer?: string; blankPos?: number[]}}>({});
     const [matchingValidationErrors, setMatchingValidationErrors] = useState<{[key: number]: { question?: string; length?: string; answer?: string; blankPos?: number[]}}>({});
+    const [sequenceValidationErrors, setSequenceValidationErrors] = useState<{[key: number]: { question?: string; length?: string; answer?: string; blankPos?: number[]}}>({});
+    const [multipleChoiceValidationErrors, setMultipleChoiceValidationErrors] = useState<{[key: number]: { question?: string; length?: string; answer?: string; blankPos?: number[]; hasCorrect?: string}}>({});
 
     const fetchQuiz = async () => {
         setLoading(true);
@@ -236,41 +240,37 @@ function QuizManagePage() {
         const newQuestions = await Promise.all(
             allQuestions.map(async (q) => {
                 if (q.isNew && q.correctAnswer !== "") {
-                if (q.questionType === "sequence") {
-                    const { isNew, sequenceId, ...rest } = q;
-                    const created = await SequenceService.createSequence(rest);
-                    return { ...created, isNew: false, isDirty: false, questionType: "sequence" };
+                    if (q.questionType === "sequence") {
+                        const { isNew, sequenceId, ...rest } = q;
+                        const created = await SequenceService.createSequence(rest);
+                        return { ...created, isNew: false, isDirty: false, questionType: "sequence" };
+                    }
+                    if (q.questionType === "matching") {
+                        const { isNew, matchingId, ...rest } = q;
+                        const created = await MatchingService.createMatching(rest);
+                        return { ...created, isNew: false, isDirty: false, questionType: "matching" };
+                    }
+                    if (q.questionType === "ranking") {
+                        const { isNew, rankingId, ...rest } = q;
+                        const created = await RankingService.createRanking(rest);
+                        return { ...created, isNew: false, isDirty: false, questionType: "ranking" };
+                    }
+                    if (q.questionType === "fillInTheBlank") {
+                        const { isNew, fillInTheBlankId, ...rest } = q;
+                        const created = await FillInTheBlankService.createQuestion(rest);
+                        return { ...created, isNew: false, isDirty: false, questionType: "fillInTheBlank" };
+                    }
+                    if (q.questionType === "trueFalse") {
+                        const { isNew, trueFalseId, ...rest } = q;
+                        const created = await TrueFalseService.createTrueFalse(rest);
+                        return { ...created, isNew: false, isDirty: false, questionType: "trueFalse" };
+                    }
                 }
-                if (q.questionType === "matching") {
-                    const { isNew, matchingId, ...rest } = q;
-                    const created = await MatchingService.createMatching(rest);
-                    return { ...created, isNew: false, isDirty: false, questionType: "matching" };
+                if (q.questionType === "multipleChoice" && q.isNew) {
+                    const { isNew, multipleChoiceId, ...rest } = q;
+                    const created = await MultipleChoiceService.createMultipleChoice(rest);
+                    return { ...created, isNew: false, isDirty: false, questionType: "multipleChoice" };
                 }
-                if (q.questionType === "ranking") {
-                    const { isNew, rankingId, ...rest } = q;
-                    const created = await RankingService.createRanking(rest);
-                    return { ...created, isNew: false, isDirty: false, questionType: "ranking" };
-                }
-                if (q.questionType === "fillInTheBlank") {
-                    const { isNew, fillInTheBlankId, ...rest } = q;
-                    const created = await FillInTheBlankService.createQuestion(rest);
-                    return { ...created, isNew: false, isDirty: false, questionType: "fillInTheBlank" };
-                }
-                if (q.questionType === "trueFalse") {
-                    const { isNew, trueFalseId, ...rest } = q;
-                    const created = await TrueFalseService.createTrueFalse(rest);
-                    return { ...created, isNew: false, isDirty: false, questionType: "trueFalse" };
-                }
-            }
-            if (q.questionType === "multipleChoice" && q.isNew) {
-                if (q.options.length < 2){
-                    alert("Multiple Choice must have atleast 2 options")
-                    return q;
-                }
-                const { isNew, multipleChoiceId, ...rest } = q;
-                const created = await MultipleChoiceService.createMultipleChoice(rest);
-                return { ...created, isNew: false, isDirty: false, questionType: "multipleChoice" };
-            }
                 return q;
             })
         );
@@ -305,7 +305,11 @@ function QuizManagePage() {
     const handleValidation = () => {
         const allQuizErrors: typeof quizValidatonErrors = {};
         const allFibErrors: typeof fibValidationErrors = {};
+        const allRankingErrors: typeof rankingValidationErrors = {};
         const allMatchingErrors: typeof matchingValidationErrors = {};
+        const allSequenceErrors: typeof sequenceValidationErrors = {};
+        const allTrueFalseErrors: typeof trueFalseValidationErrors = {};
+        const allMultipleChoiceErrors: typeof multipleChoiceValidationErrors = {};
 
         if(quiz){
             const q = quiz as Quiz;
@@ -319,8 +323,24 @@ function QuizManagePage() {
                 if (Object.keys(fibErrs).length > 0) allFibErrors[q.fillInTheBlankId ?? q.tempId!] = fibErrs;
             }
             if (q.questionType === "matching") {
-                const matcingErrs = validateMatcing(q);
-                if (Object.keys(matcingErrs).length > 0) allMatchingErrors[q.matchingId ?? q.tempId!] = matcingErrs;
+                const matchingErrs = validateMatching(q);
+                if (Object.keys(matchingErrs).length > 0) allMatchingErrors[q.matchingId ?? q.tempId!] = matchingErrs;
+            }
+            if (q.questionType === "sequence") {
+                const sequenceErrs = validateSequenceAndRanking(q);
+                if (Object.keys(sequenceErrs).length > 0) allSequenceErrors[q.sequenceId ?? q.tempId!] = sequenceErrs;
+            }
+            if (q.questionType === "ranking") {
+                const rankingErrs = validateSequenceAndRanking(q);
+                if (Object.keys(rankingErrs).length > 0) allRankingErrors[q.rankingId ?? q.tempId!] = rankingErrs;
+            }
+            if (q.questionType === "multipleChoice") {
+                const multipleChoiceErrs = validateMultipleChoice(q);
+                if (Object.keys(multipleChoiceErrs).length > 0) allMultipleChoiceErrors[q.multipleChoiceId ?? q.tempId!] = multipleChoiceErrs;
+            }
+            if (q.questionType === "trueFalse") {
+                const trueFalseErrs = validateTrueFalse(q);
+                if (Object.keys(trueFalseErrs).length > 0) allTrueFalseErrors[q.trueFalseId ?? q.tempId!] = trueFalseErrs;
             }
         });
 
@@ -336,6 +356,26 @@ function QuizManagePage() {
 
         if (Object.keys(allMatchingErrors).length > 0) {
             setMatchingValidationErrors(allMatchingErrors);
+            return false;
+        }
+
+        if (Object.keys(allSequenceErrors).length > 0) {
+            setSequenceValidationErrors(allSequenceErrors);
+            return false;
+        }
+
+        if (Object.keys(allRankingErrors).length > 0) {
+            setRankingValidationErrors(allRankingErrors);
+            return false;
+        }
+
+        if (Object.keys(allMultipleChoiceErrors).length > 0) {
+            setMultipleChoiceValidationErrors(allMultipleChoiceErrors);
+            return false;
+        }
+
+        if (Object.keys(allTrueFalseErrors).length > 0) {
+            setTrueFalseValidationErrors(allTrueFalseErrors);
             return false;
         }
         
@@ -356,24 +396,71 @@ function QuizManagePage() {
         return errors;
     }
 
-    const validateMatcing = (q: Matching) => {
+    const validateMatching = (q: Matching) => {
         const errors: { question?: string; length?: string; answer?: string; blankPos?: number[] } = {};
         if (!q.question || q.question.trim() === "") errors.question = "Question is required";
 
         const answerList = q.correctAnswer.split(",");
         var pairCounter = 0;
-        answerList.forEach((a, i)=> {
+        answerList.forEach((a, i) => {
             if (i % 2 === 0 && (a === "" || answerList[i+1] === "")) {
                 if (!errors.blankPos) errors.blankPos = [];
 
-                errors.blankPos?.push(pairCounter);
+                errors.blankPos.push(pairCounter);
                 errors.answer = "Cannot be blank";
             }
             if (i % 2 !== 0) pairCounter++;
         });
         if (answerList.length < 4) errors.length = "Must have 2 or more options";
 
-        
+        return errors;
+    }
+
+    const validateSequenceAndRanking = (q: Sequence | Ranking) => {
+        const errors: { question?: string; length?: string; answer?: string; blankPos?: number[] } = {};
+        if (!q.question || q.question.trim() === "") errors.question = "Question is required";
+
+        const answerList = q.correctAnswer.split(",");
+        answerList.forEach((a, i) => {
+            if (a === "") {
+                if (!errors.blankPos) errors.blankPos = [];
+
+                errors.blankPos.push(i);
+                errors.answer = "Cannot be blank";
+            }
+        });
+
+        if (answerList.length < 3) errors.length = "Must have 3 or more options";
+
+        return errors;
+    }
+
+    const validateMultipleChoice = (q: MultipleChoice) => {
+        const errors: { question?: string; length?: string; answer?: string; blankPos?: number[]; hasCorrect?: string } = {};
+        if (!q.question || q.question.trim() === "") errors.question = "Question is required";
+
+        var hasCorrect = false;
+
+        q.options.forEach((op, i) => {
+            if (op.text === "") {
+                if (!errors.blankPos) errors.blankPos = [];
+
+                errors.blankPos.push(i);
+                errors.answer = "Cannot be blank";
+            }
+            if (op.isCorrect) hasCorrect = true;
+        });
+
+        if (q.options.length < 2) errors.length = "Must have 2 or more options";
+
+        if (!hasCorrect) errors.hasCorrect = "Must set a correct answer";
+        return errors;
+    }
+
+    const validateTrueFalse = (q: TrueFalse) => {
+        const errors: { question?: string } = {};
+        if (!q.question || q.question.trim() === "") errors.question = "Question is required";
+
         return errors;
     }
 
@@ -447,7 +534,7 @@ function QuizManagePage() {
                                             <div>
                                                 <p className="quiz-manage-question-text">Sequence question - Add items in order</p>
                                                 <hr />
-                                                <SequenceManageForm sequenceId={q.sequenceId} incomingQuestion={q.question} incomingCorrectAnswer={q.correctAnswer} 
+                                                <SequenceManageForm sequenceId={q.sequenceId} incomingQuestion={q.question} incomingCorrectAnswer={q.correctAnswer} errors={sequenceValidationErrors[q.sequenceId || q.tempId!]}
                                                 onChange={(updatedQuestion) => {
                                                     setAllQuestions(prev => prev.map(pq => pq.questionType === "sequence" && pq.sequenceId === q.sequenceId ? {...pq, ...updatedQuestion} : pq));
                                                 }} />
@@ -456,7 +543,7 @@ function QuizManagePage() {
                                             <div>
                                                 <p className="quiz-manage-question-text">Ranking question - Add items in order</p>
                                                 <hr />
-                                                <RankingManageForm rankedId={q.rankingId} incomingQuestion={q.question} incomingCorrectAnswer={q.correctAnswer}
+                                                <RankingManageForm rankedId={q.rankingId} incomingQuestion={q.question} incomingCorrectAnswer={q.correctAnswer} errors={rankingValidationErrors[q.rankingId ?? q.tempId!]}
                                                 onChange={(updatedQuestion) => {
                                                     setAllQuestions(prev => prev.map(pq => pq.questionType === "ranking" && pq.rankingId === q.rankingId ? {...pq, ...updatedQuestion} : pq));
                                                 }} />
@@ -473,7 +560,7 @@ function QuizManagePage() {
                                             <div>
                                                 <p className="quiz-manage-question-text">Multiple choice question</p>
                                                 <hr />
-                                                <MultipleChoiceManageForm multipleChoiceId={q.multipleChoiceId} incomingQuestion={q.question} incomingOptions={q.options}
+                                                <MultipleChoiceManageForm multipleChoiceId={q.multipleChoiceId} incomingQuestion={q.question} incomingOptions={q.options} errors={multipleChoiceValidationErrors[q.multipleChoiceId! ?? q.tempId]}
                                                 onChange={(updatedQuestion) => {
                                                     setAllQuestions(prev => prev.map(pq => pq.questionType === "multipleChoice" && pq.multipleChoiceId === q.multipleChoiceId ? {...pq, ...updatedQuestion} : pq));
                                                 }} />
@@ -482,7 +569,7 @@ function QuizManagePage() {
                                             <div>
                                                 <p className="quiz-manage-question-text">True or false question</p>
                                                 <hr />
-                                                <TrueFalseManageForm trueFalseId={q.trueFalseId} incomingQuestion={q.question} incomingCorrectAnswer={q.correctAnswer}
+                                                <TrueFalseManageForm trueFalseId={q.trueFalseId} incomingQuestion={q.question} incomingCorrectAnswer={q.correctAnswer} errors={trueFalseValidationErrors[q.trueFalseId! ?? q.tempId]}
                                                 onChange={(updatedQuestion) => {
                                                     setAllQuestions(prev => prev.map(pq => pq.questionType === "trueFalse" && pq.trueFalseId === q.trueFalseId ? {...pq, ...updatedQuestion} : pq));
                                                 }} />

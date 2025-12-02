@@ -1,0 +1,16 @@
+.manage-mc-container {
+  padding: 1rem;
+}
+
+.mc-question-block {
+  background: #f3f3f3;
+  padding: 1rem;
+  border-radius: 6px;
+  margin-bottom: 1rem;
+}
+
+.mc-option {
+  display: flex;
+  gap: 0.5rem;
+  margin-top: 0.5rem;
+}

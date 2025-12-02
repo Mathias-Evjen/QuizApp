@@ -3,21 +3,25 @@ using QuizApp.Models;
 using QuizApp.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 using QuizApp.Services;
+using QuizApp.DTOs;
+using Microsoft.AspNetCore.Authorization;
 
 namespace QuizApp.Controllers;
 
-public class RankingController : Controller
+[ApiController]
+[Route("api/[controller]")]
+public class RankingAPIController : ControllerBase
 {
     private readonly IQuestionRepository<Ranking> _rankingRepository;
     private readonly IAttemptRepository<RankingAttempt> _rankingAttemptRepository;
     private readonly QuizService _quizService;
-    private readonly ILogger<RankingController> _logger;
+    private readonly ILogger<RankingAPIController> _logger;
 
-    public RankingController(
+    public RankingAPIController(
         IQuestionRepository<Ranking> rankingRepository,
         IAttemptRepository<RankingAttempt> rankingAttemptRepository,
         QuizService quizService,
-        ILogger<RankingController> logger)
+        ILogger<RankingAPIController> logger)
     {
         _rankingRepository = rankingRepository;
         _rankingAttemptRepository = rankingAttemptRepository;
@@ -25,188 +29,103 @@ public class RankingController : Controller
         _logger = logger;
     }
 
-    public async Task<IActionResult> RankingQuestion()
+    [HttpGet("getQuestions/{quizId}")]
+    public async Task<IActionResult> GetQuestions(int quizId)
     {
-        var ranking = await _rankingRepository.GetAll();
-        if (ranking == null)
+        var questions = await _rankingRepository.GetAll(m => m.QuizId == quizId);
+        if (questions == null)
         {
-            _logger.LogError("[RankingController] Questions list not found while executing _rankingRepository.GetAll()");
-            return NotFound("Questions not found");
+            _logger.LogError("[RankingAPIController] Questions list not found while executing _rankingRepository.GetAll()");
+            return NotFound("Ranking questions not found");
         }
-
-        var viewModel = new RankingViewModel(ranking.ElementAt(0));
-
-        return View(viewModel);
-    }
-
-    [HttpPost]
-    public async Task<IActionResult> SubmitRankingQuestion(int id, List<string> values, int quizId, int quizQuestionNum, int quizAttemptId, int numOfQuestions)
-    {
-        var rankingObject = await _rankingRepository.GetById(id);
-        if (rankingObject == null)
-        {
-            _logger.LogError("[RankingController - Get Question] Ranking question not found for the Id {Id: 0000}", id);
-            return NotFound("Ranking question not found.");
-        }
-
-        string answer = rankingObject.Assemble(values, 2);
-
-        if (!CheckAttempt(quizAttemptId))
-        {
-            var rankingAttempt = new RankingAttempt();
-            rankingAttempt.RankingId = rankingObject.Id;
-            rankingAttempt.QuizAttemptId = quizAttemptId;
-            rankingAttempt.UserAnswer = answer;
-            if (answer == rankingObject.CorrectAnswer) { rankingAttempt.AnsweredCorrectly = true; }
-            else{ rankingAttempt.AnsweredCorrectly = false; }
-
-            var returnOk = await _rankingAttemptRepository.Create(rankingAttempt);
-            if (!returnOk)
+        var questionDtos = questions.Select(question => {        
+            return new RankingDto
             {
-                _logger.LogError("[RankingController] Question attempt creation failed {@attempt}", rankingAttempt);
-                return RedirectToAction("Quizzes", "Quiz");
-            }
-        }
-        else
-        {
-            var rankingAttempt = await _rankingAttemptRepository.GetById(quizAttemptId);
-            if (rankingAttempt == null)
-            {
-                _logger.LogError("[RankingController - Get Attempt] Ranking attempt not found for the Id {Id: 0000}", id);
-                return NotFound("Ranking attempt not found.");
-            }
-            rankingAttempt.RankingId = rankingObject.Id;
-            rankingAttempt.QuizAttemptId = quizAttemptId;
-            rankingAttempt.UserAnswer = answer;
-            if (answer == rankingObject.CorrectAnswer) { rankingAttempt.AnsweredCorrectly = true; }
-            else{ rankingAttempt.AnsweredCorrectly = false; }
-
-            var returnOk = await _rankingAttemptRepository.Create(rankingAttempt);
-            if (!returnOk)
-            {
-                _logger.LogError("[RankingController] Question attempt creation failed {@attempt}", rankingAttempt);
-                return RedirectToAction("Quizzes", "Quiz");
-            }
-        }
-        if (rankingObject.QuizQuestionNum == numOfQuestions)
-            return RedirectToAction("Results", "Quiz", new { quizAttemptId = quizAttemptId });
-            
-        return RedirectToAction("NextQuestion", "Quiz", new
-        {
-            quizId = quizId,
-            quizAttemptId = quizAttemptId,
-            quizQuestionNum = quizQuestionNum
+                RankingId = question.RankingId,
+                Question = question.Question,
+                QuizQuestionNum = question.QuizQuestionNum,
+                QuizId = question.QuizId
+            };
         });
+
+        return Ok(questionDtos);
     }
 
-    public bool CheckAttempt(int quizAttemptId)
+    [HttpPost("submitQuestion")]
+    public async Task<IActionResult> SubmitAttempt([FromBody] RankingAttemptDto rankingAttemptDto)
     {
-        if(quizAttemptId <= 0){ return false; }
-        var attempt =  _rankingAttemptRepository.Exists(rAttempt => rAttempt.RankingAttemptId == quizAttemptId);
-        if (attempt)
+        var rankingAttempt = new RankingAttempt
         {
-            return true;
-        }
-        else
-        {
-            return false; 
-        }
-    }
-
-    [HttpPost]
-    public async Task<IActionResult> CreateRankingQuestion(string questionText, List<string> Values, int quizId, int quizQuestionNum)
-    {
-        if (Values == null)
-        {
-            ModelState.AddModelError("", "Values can not be empty.");
-            return View();
-        }
-        var updatetRanking = new Ranking
-        {
-            QuestionText = questionText,
-            QuizId = quizId,
-            QuizQuestionNum = quizQuestionNum
+            RankingId = rankingAttemptDto.RankingId,
+            QuizAttemptId = rankingAttemptDto.QuizAttemptId,
+            UserAnswer = rankingAttemptDto.UserAnswer,
+            QuizQuestionNum = rankingAttemptDto.QuizQuestionNum,
+            AnsweredCorrectly = rankingAttemptDto.AnsweredCorrectly
         };
-        updatetRanking.Assemble(Values, 1);
-        updatetRanking.ShuffleQuestion(Values);
-        bool returnOk = await _rankingRepository.Create(updatetRanking);
-        if (returnOk)
-        {
-            await _quizService.ChangeQuestionCount(updatetRanking.QuizId, true);
-            return RedirectToAction("ManageQuiz", "Quiz", new { quizId = updatetRanking.QuizId});
-        }
 
-        _logger.LogError("[MatchingController] Question creation failed {@question}", updatetRanking);
-        return View();
-    }
-
-    [HttpGet]
-    public IActionResult CreateRankingQuestion(Quiz quiz)
-    {
-        return View(quiz);
-    }
-
-    // [HttpGet]
-    // public async Task<IActionResult> ShowRankings()
-    // {
-    //     var rankings = await _rankingRepository.GetAll();
-
-    //     var viewModel = new RankingViewModel(rankings);
-    //     return View(viewModel);
-    // }
-
-    [HttpGet]
-    public async Task<IActionResult> Edit(int id)
-    {
-        var ranking = await _rankingRepository.GetById(id);
-        return View("UpdateRankingPage", ranking);
-    }
-
-    [HttpPost]
-    public async Task<IActionResult> Edit(int id, string questionText, List<string> question, List<string> correctAnswer, int quizId, int quizQuestionNum)
-    {
-        Ranking updatetRanking = new Ranking
-        {
-            Id = id,
-            QuestionText = questionText,
-            QuizId = quizId,
-            QuizQuestionNum = quizQuestionNum
-        };
-        updatetRanking.Assemble(question, 3);
-        updatetRanking.Assemble(correctAnswer, 1);
-
-        if (ModelState.IsValid)
-        {
-            bool returnOk = await _rankingRepository.Update(updatetRanking);
-            if (returnOk)
-                return RedirectToAction("ManageQuiz", "Quiz", new { quizId = updatetRanking.QuizId });
-        }
-        _logger.LogError("[RankingController] Question update failed {@question}", updatetRanking);
-        return View(updatetRanking);
-    }
-
-    public async Task<IActionResult> Delete(int id)
-    {
-        var question = await _rankingRepository.GetById(id);
-        if (question == null)
-        {
-            _logger.LogError("[RankingController] Question deletion failed for the QuestionId {QuestionId:0000}", id);
-            return BadRequest("Question not found for the QuestionId");
-        }
-        return View(question);
-    }
-    
-    [HttpPost]
-    public async Task<IActionResult> DeleteConfirmed(int questionId, int qNum, int quizId)
-    {
-        bool returnOk = await _rankingRepository.Delete(questionId);
+        var returnOk = await _rankingAttemptRepository.Create(rankingAttempt);
         if (!returnOk)
         {
-            _logger.LogError("[RankingController] Question deletion failed for QuestionId {QuestionId:0000}", questionId);
+            _logger.LogError("[RankingAPIController] Question attempt creation failed {@attempt}", rankingAttempt);
+            return StatusCode(500, "Internal server error");
+        }
+
+        return Ok(rankingAttempt);
+    }
+
+    [Authorize]
+    [HttpPost("create")]
+    public async Task<IActionResult> CreateRankingQuestion([FromBody] RankingDto rankingDto)
+    {
+        var rankingQuestion = new Ranking
+        {
+            QuizId = rankingDto.QuizId,
+            QuizQuestionNum = rankingDto.QuizQuestionNum,
+            Question = rankingDto.Question,
+            CorrectAnswer = rankingDto.CorrectAnswer
+        };
+        bool returnOk = await _rankingRepository.Create(rankingQuestion);
+        if (returnOk)
+        {
+            await _quizService.ChangeQuestionCount(rankingQuestion.QuizId, true);
+            return CreatedAtAction(nameof(GetQuestions), new { quizId = rankingQuestion.QuizId }, rankingQuestion);
+        }
+        _logger.LogError("[RankingAPIController] Question creation failed {@question}", rankingQuestion);
+        return StatusCode(500, "Internal server error");
+    }
+
+    [Authorize]
+    [HttpPut("update/{rankingId}")]
+    public async Task<IActionResult> Update([FromBody] RankingDto rankingDto)
+    {
+        Ranking updatetRanking = new()
+        {
+            RankingId = rankingDto.RankingId,
+            QuizId = rankingDto.QuizId,
+            QuizQuestionNum = rankingDto.QuizQuestionNum,
+            Question = rankingDto.Question,
+            CorrectAnswer = rankingDto.CorrectAnswer
+        };
+        bool returnOk = await _rankingRepository.Update(updatetRanking);
+        if (returnOk) {
+            return Ok(updatetRanking);
+        }
+        _logger.LogError("[RankingAPIController] Question update failed {@question}", updatetRanking);
+        return StatusCode(500, "Internal server error");
+    }
+
+    [Authorize]
+    [HttpDelete("delete/{rankingId}")]
+    public async Task<IActionResult> Delete(int rankingId, [FromQuery] int quizQuestionNum, [FromQuery] int quizId)
+    {
+        bool returnOk = await _rankingRepository.Delete(rankingId);
+        if (!returnOk)
+        {
+            _logger.LogError("[RankingAPIController] Question deletion failed for QuestionId {QuestionId:0000}", rankingId);
             return BadRequest("Question deletion failed");
         }
         await _quizService.ChangeQuestionCount(quizId, false);
-        await _quizService.UpdateQuestionNumbers(qNum, quizId);
-        return RedirectToAction("ManageQuiz", "Quiz", new { quizId });
+        await _quizService.UpdateQuestionNumbers(quizQuestionNum, quizId);
+        return NoContent();
     }
 }

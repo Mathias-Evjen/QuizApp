@@ -11,5 +11,6 @@ namespace QuizApp.DTOs
         public string? Description { get; set; }
 
         public int NumOfQuestions { get; set; } = 0;
+        public bool? ShowOptions { get; set; } = false;
     }
 }

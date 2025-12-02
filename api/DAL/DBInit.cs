@@ -31,14 +31,14 @@ public static class DBInit
             var qustions = new List<TrueFalse>
             {
                 new() {
-                    QuestionText = "Norge ligger i Europa",
+                    Question = "Norge ligger i Europa",
                     CorrectAnswer = true,
                     QuizId = 3,
                     Quiz = quiz!,
                     QuizQuestionNum = 1
                 },
                 new() {
-                    QuestionText = "Jorda går i bane rundt månen",
+                    Question = "Jorda går i bane rundt månen",
                     CorrectAnswer = false,
                     QuizId = 3,
                     Quiz = quiz!,
@@ -55,14 +55,14 @@ public static class DBInit
             var questions = new List<MultipleChoice>
             {
                 new() {
-                    QuestionText = "Which is the biggest planet in our solar system?",
+                    Question = "Which is the biggest planet in our solar system?",
                     CorrectAnswer = "Jupiter",
                     QuizId = 3,
                     Quiz = quiz!,
                     QuizQuestionNum = 3
                 },
                 new() {
-                    QuestionText = "Which season is warmest?",
+                    Question = "Which season is warmest?",
                     CorrectAnswer = "Summer",
                     QuizId = 3,
                     Quiz = quiz!,
@@ -129,16 +129,14 @@ public static class DBInit
             var questions = new List<Matching>
             {
                 new() {
-                    Question = "fotball,kake,hjul,knotter,bake,hav,bade,bil",
-                    QuestionText = "Match the rows",
+                    Question = "Match the rows",
                     CorrectAnswer = "fotball,knotter,hjul,bil,bake,kake,bade,hav",
                     QuizId = 1,
                     Quiz = quiz1,
                     QuizQuestionNum = 3
                 },
                 new() {
-                    Question = "sol,snø,tre,planet,vinter,blader",
-                    QuestionText = "Match the rows",
+                    Question = "Match the rows",
                     CorrectAnswer = "sol,planet,tre,blader,vinter,snø",
                     QuizId = 2,
                     Quiz = quiz2,
@@ -193,16 +191,14 @@ public static class DBInit
             var questions = new List<Sequence>
             {
                 new() {
-                    Question = "Make an offer,Get pre-approved,Sign the purchase agreement,Find a home,Secure financing",
-                    QuestionText = "Order the following steps of applying for a home loan from first to last:",
+                    Question = "Order the following steps of applying for a home loan from first to last:",
                     CorrectAnswer = "Get pre-approved,Find a home,Make an offer,Sign the purchase agreement,Secure financing",
                     QuizId = 1,
                     Quiz = quiz1,
                     QuizQuestionNum = 4
                 },
                 new() {
-                    Question = "1801,1345,1814,2009,1918",
-                    QuestionText = "Sequence these years from earliest to latest:",
+                    Question = "Sequence these years from earliest to latest:",
                     CorrectAnswer = "1345,1801,1814,1918,2009",
                     QuizId = 2,
                     Quiz = quiz2,
@@ -219,16 +215,14 @@ public static class DBInit
             var questions = new List<Ranking>
             {
                 new() {
-                    Question = "Service speed,Price,Ambiance,Food quality",
-                    QuestionText = "Rank these factors from most to least important for a dining experience:",
+                    Question = "Rank these factors from most to least important for a dining experience:",
                     CorrectAnswer = "Food quality,Service speed,Ambiance,Price",
                     QuizId = 1,
                     Quiz = quiz1,
                     QuizQuestionNum = 5
                 },
                 new() {
-                    Question = "Location,Cleanliness,Price,Amenities",
-                    QuestionText = "Rank these features from most to least important when choosing a hotel:",
+                    Question = "Rank these features from most to least important when choosing a hotel:",
                     CorrectAnswer = "Cleanliness,Location,Price,Amenities",
                     QuizId = 2,
                     Quiz = quiz2,

@@ -1,0 +1,198 @@
+.ranking-card-wrapper {
+  min-width: 30rem;
+  max-width: 40rem;
+  min-height: 20rem;
+  max-height: auto;
+  position: relative;
+  border: 2px solid gray;
+  border-radius: 25px;
+  font-size: 20px;
+  margin: auto;
+  margin-bottom: 10px;
+  padding: 20px;
+}
+
+.ranking-card-next-btn {
+  position: absolute;
+  bottom: 20px;
+  right: 20px;
+  background-color:#1E90FF;
+  border-radius: 5px;
+  padding: 7px;
+  color: white;
+  cursor: pointer;
+  font-size: 15px;
+  border: solid 0px #1E90FF;
+}
+
+.ranking-question-answer-wrapper{
+  width: 100%;
+  min-height: 15rem;
+  max-height: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+/* -------------------- ANSWER CONTAINER -------------------- */
+
+.ranking-answer-container {
+  max-width: 90%;
+  border: 0px solid grey;
+  border-radius: 10px;
+  padding: 15px;
+  margin: auto;
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+  row-gap: 1rem;
+  gap: 1rem;               
+}
+
+.answer-box {
+  background: #f3f3f3;         /* tydelig droppable felt */
+  border: 2px solid #ccc;
+}
+
+/* Highlight når man drar over */
+.answer-box.drag-over {
+  border-color: #1E90FF;
+  background: #e8f1ff;
+}
+
+.ranking-answer-counter-label{
+  position: absolute;
+  bottom: 0px;
+  left: -20px;
+  font-size: 15px;
+}
+
+/* -------------------- ITEM CONTAINER -------------------- */
+
+.ranking-item-container {
+  max-width: 90%;
+  border: 1px solid grey;
+  border-radius: 10px;
+  padding: 15px;
+  margin: auto;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+/* -------------------- INDIVIDUAL ITEMS -------------------- */
+
+.ranking-item-wrapper {
+  min-width: 100px;
+  max-width: 100%;
+  min-height: 52px;
+  border: 1px solid lightgray;
+  padding: 10px;
+  border-radius: 6px;
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+}
+
+/* Items som kan dras */
+.draggable-item {
+  cursor: grab;
+}
+
+.ranking-item-label {
+  display: block;
+  white-space: normal;
+  word-break: break-word;
+  text-align: center;
+  cursor: pointer;
+}
+
+/*__Ranking Manage Form__*/
+.ranking-manage-form-wrapper{
+  width: 100%;
+  height: auto;
+  text-align: left;
+}
+.ranking-manage-form-input-wrapper{
+  position: relative;
+  width: 100%; /* juster etter behov */
+  margin-bottom: 1.5rem;
+  margin-top: 1rem;
+}
+.ranking-manage-form-questiontext{
+  min-width: 350px;
+  max-width: 100%;
+  padding: 12px 8px 8px 8px; /* litt plass til label */
+  border: 1px solid grey;
+  border-radius: 5px;
+  font-size: 15px;
+}
+.ranking-manage-form-label{
+  position: absolute;
+  top: 0;
+  left: 10px;
+  padding: 0 4px;
+  background: white;
+  font-size: 12px;
+  color: #555;
+  transform: translateY(-50%);
+  pointer-events: none; /* label blokkerer ikke input */
+}
+.ranking-manage-form-question-container{
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;         /* Viktig: tillater flere linjer */
+  gap: 1rem;               /* Avstand mellom items */
+  row-gap: 2rem;
+}
+.ranking-manage-form-question-wrapper{
+  width: auto;
+  position: relative;
+}
+.ranking-manage-form-question-input{
+  min-width: 100px;
+  max-width: 100px;
+  padding: 12px 50px 8px 8px; /* litt plass til label */
+  border: 1px solid grey;
+  border-radius: 5px;
+  font-size: 15px;
+}
+.ranking-manage-form-right-arrow{
+  width: 11px;
+  height: 11px;
+  position: absolute;
+  top: 50%;
+  right: -19px;
+  padding: 0 4px;
+  background: transparent;
+  font-size: 12px;
+  color: #555;
+  transform: translateY(-50%);
+  pointer-events: none; /* label blokkerer ikke input */
+}
+.ranking-manage-form-bin{
+  width: 20px;
+  height: 20px;
+  position: absolute;
+  top: 50%;
+  right: 10px;
+  padding: 0 4px;
+  background: white;
+  font-size: 12px;
+  color: #555;
+  transform: translateY(-50%);
+  cursor: pointer;
+}
+.ranking-manage-form-btn-add{
+  background-color:#1E90FF;
+  border-radius: 5px;
+  padding: 7px;
+  color: white;
+  cursor: pointer;
+  font-size: 15px;
+  border: solid 0px #1E90FF;
+  margin-top: 2rem;
+}

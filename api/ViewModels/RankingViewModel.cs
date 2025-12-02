@@ -5,9 +5,8 @@ namespace QuizApp.ViewModels
 {
     public class RankingViewModel : QuestionViewModel
     {
-        public int Id { get; set; }
+        public int RankingId { get; set; }
         public string Question { get; set; } = string.Empty;
-        public string QuestionText { get; set; } = string.Empty;
         public int QuizQuestionNum { get; set; }
         
         [Required(ErrorMessage = "Must answer")]
@@ -17,9 +16,8 @@ namespace QuizApp.ViewModels
 
         public RankingViewModel(Ranking ranking)
         {
-            Id = ranking.Id;
+            RankingId = ranking.RankingId;
             Question = ranking.Question;
-            QuestionText = ranking.QuestionText;
         }
     }
 }

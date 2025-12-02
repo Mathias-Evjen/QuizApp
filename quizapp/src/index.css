@@ -1,8 +1,4 @@
 :root {
-  max-width: 1200px;
-  margin: 0 auto;
-  text-align: center;
-
   font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
   line-height: 1.5;
 
@@ -10,4 +6,19 @@
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+}
+
+:root button:hover {
+  cursor: pointer;
+  user-select: none;
+  filter: brightness(0.9);
+}
+
+:root input:focus {
+  outline: none;
+}
+
+html, body {
+  margin: 0;
+  padding: 0;
 }

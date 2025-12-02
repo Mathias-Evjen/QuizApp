@@ -3,24 +3,17 @@ using System.Linq.Expressions;
 
 namespace QuizApp.DAL
 {
-    public class AttemptRepository<T> : IAttemptRepository<T> where T : class
+    public class AttemptRepository<T>(QuizDbContext context, ILogger<AttemptRepository<T>> logger) : IAttemptRepository<T> where T : class
     {
-        private readonly DbContext _context;
-        private readonly DbSet<T> _dbSet;
-        private readonly ILogger<AttemptRepository<T>> _logger;
+        private readonly DbContext _context = context;
+        private readonly DbSet<T> _dbSet = context.Set<T>();
+        private readonly ILogger<AttemptRepository<T>> _logger = logger;
 
-        public AttemptRepository(QuizDbContext context, ILogger<AttemptRepository<T>> logger)
-        {
-            _context = context;
-            _dbSet = context.Set<T>();
-            _logger = logger;
-        }
-
-        public async Task<IEnumerable<T>?> GetAll()
+        public async Task<IEnumerable<T>?> GetAll(Expression<Func<T, bool>> predicate)
         {
             try
             {
-                return await _dbSet.ToListAsync();
+                return await _dbSet.Where(predicate).ToListAsync();
             }
             catch (Exception e)
             {

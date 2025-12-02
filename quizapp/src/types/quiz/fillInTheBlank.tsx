@@ -1,0 +1,15 @@
+import { QuestionBase } from "./question";
+
+export interface FillInTheBlank extends QuestionBase {
+    questionType: "fillInTheBlank";
+
+    fillInTheBlankId?: number;
+    question: string;
+    quizId: number;
+    quizQuestionNum: number;
+    correctAnswer: string;
+
+    isDirty?: boolean;
+    isNew?: boolean;
+    tempId?: number;
+}

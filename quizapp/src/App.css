@@ -1,226 +1,160 @@
-/* Flash card quizzes */
 
-.flash-card-quiz-container {
+.site-container {
   display: flex;
-  flex-direction: row;
-  flex-wrap: wrap;
-  position: relative;
+  flex-direction: column;
+  align-items: center;
 }
 
-.flash-card-quiz-card {
+.loading, .fetch-error {
+  font-size: 50px;
+}
+
+/* NavMenu */
+
+.nav-bar {
   display: flex;
   flex-direction: row;
-  align-items: center;
   justify-content: space-between;
-  border: 5px rgb(172, 172, 172) solid;
-  border-radius: 25px;
-  box-shadow: 3px 3px 10px gray;
-  width: 1200px;
-  height: 125px;
-  box-sizing: border-box;
-  margin: 10px;
-  overflow: hidden;
-
-  transition: transform 0.1s ease-in-out;
-}
-
-.flash-card-quiz-card:hover {
-  cursor: pointer;
-  transform: scale(1.025);
-}
-
-.flash-card-quiz-title {
-  display: flex;
-  justify-content: center;
   align-items: center;
-  height: 120px;
-  font-size: 25px;
-  text-align: center;
-  margin-left: 40px;
+  width: 100%;
+  height: 60px;
+  border-bottom: 2px solid rgb(39, 39, 39);
 }
 
-.flash-card-quiz-description {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  height: 100%;
-  width: 500px;
-  box-sizing: border-box;
-  overflow: hidden;
-  padding: 0;
-}
-
-.flash-card-quiz-description p {
-  font-size: 18px;
-  color: rgb(124, 124, 124);
-  flex: 1;
-  overflow-y: auto;
-  text-align: start;
-}
-
-.create-flash-card-quiz-button {
-  position: absolute;
-  bottom: 50px;
-  right: 50px;
-  width: 150px;
-  height: 75px;
-  box-shadow: 1px 1px 5px gray;
-}
-
-.create-flash-card-quiz-button:hover {
-  cursor: pointer;
-  user-select: none;
-}
-
-.create-flash-card-quiz-popup {
-  position: absolute;
-}
-
-/* Flash card */
-
-.flash-card-container {
-  position: relative;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  position: relative;
-}
-
-.flash-card-sidebar {
-  position: absolute;
-  top: 91px;
-  left: -200px;
-  display: flex;
-  flex-direction: column;
-  width: 400px;
-  height: 455px;
-}
-
-.flash-card-page-description {
-  border: 3px solid gray;
-  border-radius: 25px;
-  background-color: rgb(226, 226, 226);
-  padding-bottom: 80px;
-
-  color: rgb(78, 78, 78);
-}
-
-.flash-card-menu {
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  right: 0;
-
+.nav-items {
   display: flex;
   flex-direction: row;
-  justify-content: center;
-  align-items: center;
-  margin-top: 15px;
-  padding: 13px;
-
-  border: 3px solid gray;
-  border-radius: 15px;
-  background-color: rgb(235, 235, 235);
 }
 
-.flash-card-menu p {
-  margin: 0 30px 0 30px;
-  font-size: 35px;
-}
-
-.flash-card-menu button {
-  height: 55px;
-  width: 95px;
-
-  border: 5px solid rgb(77, 77, 252);
-  border-radius: 6px;
-  background-color: rgb(88, 127, 255);
-  color: rgb(255, 247, 247);
-
-  user-select: none;
-
-  font-size: 18px;
-}
-
-.flash-card-menu button:hover {
-  cursor: pointer;
-  filter: brightness(0.95);
-}
-
-.flash-card {
-  width: 700px;
-  height: 450px;
-
-  transform: translateX(25vw);
-  opacity: 0;
-
-  animation: slideInRight 0.1s ease-out forwards;
-
-  user-select: none;
-  perspective: 1000px;
-}
-
-@keyframes slideInRight {
-  from {
-    transform: translateX(25vw);
-    opacity: 0;
-  }
-  to {
-    transform: translateX(0);
-    opacity: 1;
-  }
-}
-
-.flash-card-inner {
-  position: relative;
-  width: 100%;
-  height: 100%;
-  text-align: center;
-  transition: transform 0.6s;
-  transform-style: preserve-3d;
-  
-  border-radius: 25px;
-}
-
-.flash-card-inner.flipped {
-  transform: rotateX(180deg);
-}
-
-.flash-card-front,
-.flash-card-back {
-  position: absolute;
-  width: 100%;
-  height: 100%;
-  backface-visibility: hidden;
+.nav-item {
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-
-  border: 3px solid gray;
-  border-radius: 25px;
-  box-shadow: 3px 3px 10px gray;
-}
-
-.flash-card-back {
-  transform: rotateX(180deg);
+  text-align: center;
+  width: 80px;
+  height: 60px;
+  color: black;
+  text-decoration: none;
+  font-size: 25px;
+  padding-left: 20px;
+  padding-right: 20px;
+  line-height: 1;
   background-color: white;
+  position: relative;
 }
 
-.flash-card h3 {
-  width: 600px;
-  font-size: x-large;
+.nav-item.active {
+  background-color: rgb(234, 234, 234);
 }
 
-.flash-card:hover {
+.nav-item:hover {
+  text-decoration: underline;
+  text-decoration-thickness: 2px;
   cursor: pointer;
+  user-select: none;
 }
 
-.flash-card-QA-label {
+.nav-home {
+  font-weight: 600;
+}
+
+.login {
+  display: flex;
+}
+
+.nav-item.user {
+  width: 120px;
+}
+
+.dropdown {
+  display: flex;
+  flex-direction: column;
+  height: 122px;
   position: absolute;
   top: 0;
-  left: 35px;
-  font-size: x-large;
+  right: 0;
+  border-left: 2px solid black;
+  border-bottom: 2px solid black;
 }
 
+.dropdown > *:not(:last-child) {
+  border-bottom: 2px solid rgb(222, 222, 222);
+}
+
+/* General buttons */
+
+.button {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 150px;
+  height: 75px;
+  margin: 15px;
+  font-size: 25px;
+  border: none;
+  border-radius: 10px;
+  background-color: rgb(203, 203, 203);
+}
+
+.add-button {
+  color: rgb(255, 255, 255);
+  background-color: rgb(36, 205, 55);
+}
+
+.primary-button {
+  color: rgb(227, 227, 227);
+  pointer-events: none;
+  background-color: rgb(135, 195, 255);
+}
+
+.primary-button.active {
+  color: rgb(255, 255, 255);
+  background-color: rgb(38, 146, 253);
+  pointer-events: all;
+}
+
+.delete-button {
+  color: white;
+  background-color: red;
+}
+
+.nav-button {
+  background-color: rgb(255, 136, 123);
+  color: white;
+}
+
+
+.error {
+  position: absolute;
+  color: red;
+  bottom: -26px;
+  left: 0;
+  font-size: 20px;
+  pointer-events: none;
+}
+
+/* Search bar */
+
+.search-bar {
+  display: flex;
+  flex-direction: row;
+  justify-content: start;
+  align-items: center;
+  width: 400px;
+  height: 50px;
+  border: 2px solid gray;
+  border-radius: 30px;
+  padding: 0 10px 0 10px;
+  overflow: hidden;
+}
+
+.search-bar input {
+  border: none;
+  height: 100%;
+  width: 100%;
+}
+
+.search-bar svg {
+  color: rgb(86, 86, 86);
+}

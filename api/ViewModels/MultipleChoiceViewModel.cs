@@ -25,7 +25,7 @@ namespace QuizApp.ViewModels
         public MultipleChoiceViewModel(MultipleChoice question)
         {
             MultipleChoiceId = question.MultipleChoiceId;
-            QuestionText = question.QuestionText;
+            QuestionText = question.Question;
             QuizQuestionNum = question.QuizQuestionNum;
             Options = question.Options;
         }

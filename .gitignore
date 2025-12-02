@@ -7,7 +7,8 @@ obj/
 Debug/
 Release/
 APILogs/
-NodeModules/
+api/node_modules/
+quizapp/node_modules
 
 # User-specific files
 *.user
@@ -24,3 +25,11 @@ NodeModules/
 
 # Rider
 .idea/
+node_modules
+
+# DB temp files
+api/QuizDatabase.db-shm
+api/QuizDatabase.db-wal
+
+
+.env/

@@ -243,8 +243,8 @@ const ManageFlashCardQuiz: React.FC = () => {
                     <div className="page-top-container">
                         <SearchBar query={query} placeholder="Search for a flash card" handleSearch={setQuery}/>
                         <div className="manage-buttons-div">
-                            <button className="button add-button" onClick={handleAddFlashCard}>Add</button>
-                            <button className={`button primary-button ${flashCardsToSave() ? "active" : ""}`} onClick={handleSaveFlashCard}>Save</button>
+                            <button className="button primary-button" onClick={handleAddFlashCard}>Add</button>
+                            <button className={`button save-button ${flashCardsToSave() ? "active" : ""}`} onClick={handleSaveFlashCard}>Save</button>
                         </div>
                     </div>
                     

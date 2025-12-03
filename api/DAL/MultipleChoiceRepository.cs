@@ -9,7 +9,6 @@ namespace QuizApp.DAL
         private readonly QuizDbContext _db = db;
         private readonly ILogger<MultipleChoiceRepository> _logger = logger;
 
-        // Henter alle MultipleChoice-spørsmål
         public async Task<IEnumerable<MultipleChoice>?> GetAll()
         {
             try
@@ -43,7 +42,6 @@ namespace QuizApp.DAL
             }
         }
 
-        // Henter et spørsmål basert på ID
         public async Task<MultipleChoice?> GetById(int id)
         {
             try
@@ -59,7 +57,6 @@ namespace QuizApp.DAL
             }
         }
 
-        // Oppretter nytt spørsmål
         public async Task<bool> Create(MultipleChoice question)
         {
             try
@@ -76,7 +73,6 @@ namespace QuizApp.DAL
             }
         }
 
-        // Oppdaterer eksisterende spørsmål
         public async Task<bool> Update(MultipleChoice question)
         {
             try
@@ -93,7 +89,6 @@ namespace QuizApp.DAL
             }
         }
 
-        // Sletter spørsmål
         public async Task<bool> Delete(int id)
         {
             try

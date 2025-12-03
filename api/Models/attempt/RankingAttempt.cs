@@ -1,14 +1,13 @@
-using System;
-
 namespace QuizApp.Models
 {
-    public class SequenceAttempt : QuestionAttempt
+    public class RankingAttempt : QuestionAttempt
     {
-        public int SequenceAttemptId { get; set; }
-        public int SequenceId { get; set; }
+        public int RankingAttemptId { get; set; }
+        public int RankingId { get; set; }
         public int QuizAttemptId { get; set; }
         public virtual QuizAttempt QuizAttempt { get; set; } = default!;
         public string UserAnswer { get; set; } = string.Empty;
+        public int AmountCorrect { get; set; }
         public bool? AnsweredCorrectly { get; set; }
     }
 }

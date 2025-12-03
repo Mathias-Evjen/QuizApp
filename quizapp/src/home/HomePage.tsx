@@ -40,7 +40,7 @@ const HomePage: React.FC = () => {
             }
             setQuizError("Failed to fetch quizzes");
         } finally {
-            
+            setLoadingQuizzes(false);
         }
     };
 
@@ -59,7 +59,7 @@ const HomePage: React.FC = () => {
             } else {
                 console.error("Unknown error", error);
             }
-            setFlashCardError("Failed to fetch quizzes.");
+            setFlashCardError("Failed to fetch flash card quizzes.");
         } finally {
             setLoadingFlashCardQuizzes(false);
         }
@@ -109,8 +109,10 @@ const HomePage: React.FC = () => {
                     <div className="home-page-quizzes-container">
                         <h2>Try a quiz</h2>
 
-                        {displayQuizzes.length === 0 ? (
+                        {loadingQuizzes ? (
                             <h3>Loading...</h3>
+                        ) : quizError ? (
+                            <h3>{quizError}</h3>
                         ) : (
                             displayQuizzes.map(quiz =>
                                 <QuizCard
@@ -126,8 +128,10 @@ const HomePage: React.FC = () => {
                     <div className="home-page-quizzes-container">
                         <h2>Try a flash card quiz</h2>
                         
-                        {displayFlashCards.length === 0 ? (
+                        {loadingFlashCardQuizzes ? (
                             <h3>Loading...</h3>
+                        ) : flashCardError ? (
+                            <h3>{flashCardError}</h3>
                         ) : (
                             displayFlashCards.map(quiz => 
                                 <FlashCardQuizCard

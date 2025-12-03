@@ -590,6 +590,21 @@
 
   flex-direction: column;
   width: 900px;
+
+  border-radius: 10px;
+  padding: 10px 50px 0px 50px;
+  margin: 30px 0 30px 0;
+
+  box-shadow:
+    rgba(60, 64, 67, 0.3) 0px 1px 2px 0px,
+    rgba(60, 64, 67, 0.15) 0px 2px 6px 2px;
+}
+
+.flash-card-quiz-back-btn {
+  border: none;
+  background-color: transparent;
+  font-size: 20px;
+  margin-top: 10px;
 }
 
 .flash-card-quiz-details-container {
@@ -601,7 +616,7 @@
   border-radius: 25px;
   width: 900px;
   box-sizing: border-box;
-  margin-top: 25px;
+  margin-top: 15px;
   background-color: rgb(247, 247, 247);
 }
 

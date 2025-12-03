@@ -389,6 +389,8 @@ const QuizPage: React.FC = () => {
                 <p className="loading">Loading...</p>
             ) : error ? (
                 <p className="fetch-error">{error}</p>
+            ) : allQuestions.length === 0 ? (
+                <p>No questions to display</p>
             ) : (
                 <>
                     <div className="quiz-page-container">

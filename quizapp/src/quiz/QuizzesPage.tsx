@@ -72,10 +72,6 @@ function QuizzesPage() {
         return <div>Error: {error}</div>;
     }
 
-    const openQuiz = (quizId: number) => {
-        navigate(`/quiz/${quizId}`);
-    };
-
     const manageQuiz = (quizId: number) => {
         navigate(`/quiz/manage/${quizId}`);
     };

@@ -230,6 +230,9 @@ const ManageFlashCardQuiz: React.FC = () => {
                 <p className="fetch-error">{error}</p>
             ) : (
                 <div className="manage-quiz-container">
+                    <div>
+                        <button className="flash-card-quiz-back-btn" onClick={() => navigate(-1)}>{"<"}</button>
+                    </div>
                     <div className="flash-card-quiz-details-container">
                         <div className="flash-card-quiz-details">
                             <h1>{quiz?.name}</h1>

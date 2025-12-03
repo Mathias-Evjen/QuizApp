@@ -97,20 +97,20 @@
   background-color: rgb(203, 203, 203);
 }
 
-.add-button {
+.save-button {
   color: rgb(255, 255, 255);
-  background-color: rgb(36, 205, 55);
+  background-color: rgb(118, 228, 131);
+  pointer-events: none;
 }
 
 .primary-button {
   color: rgb(227, 227, 227);
-  pointer-events: none;
-  background-color: rgb(135, 195, 255);
+  background-color: rgb(38, 146, 253);
 }
 
-.primary-button.active {
+.save-button.active {
   color: rgb(255, 255, 255);
-  background-color: rgb(38, 146, 253);
+  background-color: rgb(36, 205, 55);
   pointer-events: all;
 }
 
@@ -118,12 +118,6 @@
   color: white;
   background-color: red;
 }
-
-.nav-button {
-  background-color: rgb(255, 136, 123);
-  color: white;
-}
-
 
 .error {
   position: absolute;

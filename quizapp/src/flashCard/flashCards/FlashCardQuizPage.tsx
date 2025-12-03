@@ -162,14 +162,14 @@ const FlashCardQuizPage: React.FC = () => {
                                 toggleAnswer={() => toggleShowAnswer(flashCards[flashCardIndex].flashCardId!)} />                            
 
                             <div className="flash-card-menu">
-                                <button className="button nav-button" onClick={handlePrevCard}><KeyboardArrowLeft /></button>
+                                <button className="button primary-button" onClick={handlePrevCard}><KeyboardArrowLeft /></button>
                                 <div className="flash-card-menu-middle">
                                     <div className={`shuffle-button ${shuffle ? "active" : ""}`} onClick={handleShuffle}>
                                         {shuffle ? <ShuffleOn /> : <Shuffle />}
                                     </div>
                                     <p>{flashCardIndex + 1}/{flashCards.length}</p>
                                 </div>
-                                <button className="button nav-button" onClick={handleNextCard}><KeyboardArrowRight /></button>
+                                <button className="button primary-button" onClick={handleNextCard}><KeyboardArrowRight /></button>
                             </div>
                         </>
                     ) : (

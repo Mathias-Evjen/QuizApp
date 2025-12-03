@@ -4,7 +4,7 @@ import { User } from '../types/auth/user';
 import { LoginDto } from '../types/auth/auth';
 import * as authService from './AuthService';
 
-interface AuthContextType { // Define the shape of the auth context
+interface AuthContextType {
     user: User | null;
     token: string | null;
     login: (credentials: LoginDto) => Promise<void>;
@@ -19,15 +19,13 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
     const [token, setToken] = useState<string | null>(localStorage.getItem('token'));
     const [isLoading, setIsLoading] = useState<boolean>(true);
 
-    useEffect(() => { // Check token validity on mount and when token changes
+    useEffect(() => {
         if (token) {
             try {
                 const decodedUser: User = jwtDecode(token);
-                // Check if the token is expired
                 if (decodedUser.exp * 1000 > Date.now()) {
                     setUser(decodedUser);
                 } else {
-                    // Token is expired, clear it
                     console.warn("Token expired");
                     localStorage.removeItem('token');
                     setUser(null);
@@ -43,29 +41,28 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
         setIsLoading(false);
     }, [token]);
 
-    const login = async (credentials: LoginDto) => { // Login and store token
+    const login = async (credentials: LoginDto) => {
         const { token } = await authService.login(credentials);
         localStorage.setItem('token', token);
         const decodedUser: User = jwtDecode(token);
-        // console.log(token); // Debugging line to check the token
         setUser(decodedUser);
         setToken(token);
     };
 
-    const logout = () => { // Clear token and user data
+    const logout = () => {
         localStorage.removeItem('token');
         setUser(null);
         setToken(null);
     };
 
-    return ( // Provide context to children
+    return (
         <AuthContext.Provider value={{ user, token, login, logout, isLoading }}>
             {!isLoading && children}
         </AuthContext.Provider>
     );
 };
 
-export const useAuth = (): AuthContextType => { // Custom hook to use auth context
+export const useAuth = (): AuthContextType => {
     const context = useContext(AuthContext);
     if (context === undefined) {
         throw new Error('useAuth must be used within an AuthProvider');

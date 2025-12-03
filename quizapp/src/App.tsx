@@ -24,47 +24,47 @@ import HomePage from "./home/HomePage";
 
 
 const App: React.FC = () => {
-  return (
-    <AuthProvider>
-      <Router>
-        <NavMenu />
+    return (
+        <AuthProvider>
+            <Router>
+                <NavMenu />
 
-        <div className="site-container">
-          <Routes>
+                <div className="site-container">
+                <Routes>
 
-            {/* PUBLIC */}
-            <Route path="/" element={<HomePage />} />
+                    {/* PUBLIC */}
+                    <Route path="/" element={<HomePage />} />
 
-            <Route path="/login" element={<LoginPage />} />
-            <Route path="/register" element={<RegisterPage />} />
+                    <Route path="/login" element={<LoginPage />} />
+                    <Route path="/register" element={<RegisterPage />} />
 
-            {/* QUIZ */}
-            <Route path="/quiz" element={<QuizzesPage />} />
-            <Route path="/quiz/:id" element={<QuizPage />} />
-            <Route path="/quiz/results/:id/:attemptId" element={<QuizResultPage />} />
+                    {/* QUIZ */}
+                    <Route path="/quiz" element={<QuizzesPage />} />
+                    <Route path="/quiz/:id" element={<QuizPage />} />
+                    <Route path="/quiz/results/:id/:attemptId" element={<QuizResultPage />} />
 
-            {/* FLASHCARDS */}
-            <Route path="/flashCards" element={<FlashCardQuizzesPage />} />
-            <Route path="/flashCards/:id" element={<FlashCardQuizPage />} />
+                    {/* FLASHCARDS */}
+                    <Route path="/flashCards" element={<FlashCardQuizzesPage />} />
+                    <Route path="/flashCards/:id" element={<FlashCardQuizPage />} />
 
 
-            {/* PROTECTED ROUTES */}
-            <Route element={<ProtectedRoute />}>
-              {/* QUIZ ADMIN */}
-              <Route path="/quiz/manage/:id" element={<QuizManagePage />} />
-              <Route path="/quiz/create" element={<QuizCreatePage />} />
+                    {/* PROTECTED ROUTES */}
+                    <Route element={<ProtectedRoute />}>
+                        {/* QUIZ ADMIN */}
+                        <Route path="/quiz/manage/:id" element={<QuizManagePage />} />
+                        <Route path="/quiz/create" element={<QuizCreatePage />} />
 
-              {/* FLASHCARD ADMIN */}
-              <Route path="/flashCards/manage/:id" element={<ManageFlashCardQuiz />} />
-            </Route>
+                        {/* FLASHCARD ADMIN */}
+                        <Route path="/flashCards/manage/:id" element={<ManageFlashCardQuiz />} />
+                    </Route>
 
-            <Route path="*" element={<Navigate to="/" replace />} />
+                    <Route path="*" element={<Navigate to="/" replace />} />
 
-          </Routes>
-        </div>
-      </Router>
-    </AuthProvider>
-  );
+                </Routes>
+                </div>
+            </Router>
+        </AuthProvider>
+    );
 };
 
 export default App;

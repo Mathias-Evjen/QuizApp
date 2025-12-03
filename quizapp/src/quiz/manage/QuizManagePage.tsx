@@ -37,6 +37,10 @@ function QuizManagePage() {
     
     const [loading, setLoading] = useState<boolean>(false);
     const [error, setError] = useState<string | null>(null);
+
+    const [showDelete, setShowDelete] = useState<boolean>(false);
+    const [questionToDelete, setQuestionToDelete] = useState<Question | null>(null);
+    const [questionDeleteIndex, setQuestionDeleteIndex] = useState<number>();
     
     const [selectedType, setSelectedType] = useState<string>("");
     const [notificationType, setNotificationType] = useState<string>("empty");
@@ -227,6 +231,14 @@ function QuizManagePage() {
         setNotificationType("delete")
         setNotificationText("Deleted question!")
         handleNotification();
+        setQuestionToDelete(null);
+        setShowDelete(false);
+    }
+
+    const handleShowDelete = (question: Question | null, show: boolean, index: number) => {
+        setQuestionDeleteIndex(index);
+        setQuestionToDelete(question);
+        setShowDelete(show)
     }
 
     const handleSaveQuestions = async () => {
@@ -528,7 +540,7 @@ function QuizManagePage() {
                                     <div className="quiz-manage-question-wrapper" key={q.quizQuestionNum}>
                                         <div className="quiz-manage-question-info-wrapper">
                                             <h3 className="quiz-manage-question-num">Question number: {q.quizQuestionNum}</h3>
-                                            <button className="quiz-manage-question-delete-btn" onClick={() => handleDeleteQuestion(index)}>Delete</button>
+                                            <button className="quiz-manage-question-delete-btn" onClick={() => handleShowDelete(q, true, index)}>Delete</button>
                                         </div>
                                         {q.questionType === "sequence" && (
                                             <div>
@@ -593,6 +605,18 @@ function QuizManagePage() {
                     </div>
                 </div>
             )}
+            {showDelete 
+            ? <div className="confirm-delete" onClick={() => handleShowDelete(null, false, 0)}>
+                <div className="confirm-delete-content" onClick={(e) => e.stopPropagation()}>
+                    <h2>Do you want to delete this quiz?</h2>
+                    <h1>{questionToDelete?.question}</h1>
+                    <div className="flash-card-quiz-popup-buttons">
+                        <button className="button" onClick={() => handleShowDelete(null, false, 0)}>Cancel</button>
+                        <button className="button delete-button" onClick={() => handleDeleteQuestion(questionDeleteIndex!)} >Delete</button>
+                    </div>
+                </div>
+            </div> 
+            : ""}
         </>
     )
 }

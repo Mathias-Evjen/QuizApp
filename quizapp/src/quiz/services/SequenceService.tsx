@@ -92,6 +92,5 @@ export function shuffleQuestion(values: string[]): string[] {
         shuffledValues[i] = shuffledValues[j];
         shuffledValues[j] = temp;
     }
-
-    return values;
+    return shuffledValues;
 }

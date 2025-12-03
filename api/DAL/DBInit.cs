@@ -16,10 +16,8 @@ public static class DBInit
         {
             var quiz = new List<Quiz>
             {
-                new() {Name = "Example quiz", Description = "Quiz with examples"},
-                new() {Name = "Also example quiz", Description = "This is also a quiz with examples"},
-                new() {Name = "True/False and MultipleChoice test", Description = "Test for True/False og MultipleChoice questions"},
-                new() {Name = "QuizResults test", Description = "Bla bla bla"}
+                new() {Name = "Sports & Fitness", Description = "Quiz about sports and fitness."},
+                new() {Name = "Food & Cooking", Description = "This is a quiz about food and cooking."},
             };
             context.AddRange(quiz);
             context.SaveChanges();
@@ -27,22 +25,23 @@ public static class DBInit
 
         if (!context.TrueFalseQuestions.Any())
         {
-            var quiz = context.Quizzes.Find(3);
+            var quiz1 = context.Quizzes.Find(1);
+            var quiz2 = context.Quizzes.Find(2);
             var qustions = new List<TrueFalse>
             {
                 new() {
-                    Question = "Norge ligger i Europa",
+                    Question = "Swimming is a full-body workout",
                     CorrectAnswer = true,
-                    QuizId = 3,
-                    Quiz = quiz!,
-                    QuizQuestionNum = 1
+                    QuizId = 1,
+                    Quiz = quiz1,
+                    QuizQuestionNum = 4
                 },
                 new() {
-                    Question = "Jorda går i bane rundt månen",
+                    Question = "Boiling vegetables preserves all their nutrients",
                     CorrectAnswer = false,
-                    QuizId = 3,
-                    Quiz = quiz!,
-                    QuizQuestionNum = 2
+                    QuizId = 2,
+                    Quiz = quiz2,
+                    QuizQuestionNum = 4
                 }
             };
             context.AddRange(qustions);
@@ -51,22 +50,23 @@ public static class DBInit
 
         if (!context.MultipleChoiceQuestions.Any())
         {
-            var quiz = context.Quizzes.Find(3);
+            var quiz1 = context.Quizzes.Find(1);
+            var quiz2 = context.Quizzes.Find(2);
             var questions = new List<MultipleChoice>
             {
                 new() {
-                    Question = "Which is the biggest planet in our solar system?",
-                    CorrectAnswer = "Jupiter",
-                    QuizId = 3,
-                    Quiz = quiz!,
-                    QuizQuestionNum = 3
+                    Question = "Which of these is an Olympic sport?",
+                    CorrectAnswer = "Table Tennis",
+                    QuizId = 1,
+                    Quiz = quiz1,
+                    QuizQuestionNum = 6
                 },
                 new() {
-                    Question = "Which season is warmest?",
-                    CorrectAnswer = "Summer",
-                    QuizId = 3,
-                    Quiz = quiz!,
-                    QuizQuestionNum = 4
+                    Question = "Which herb is commonly used in Italian cooking?",
+                    CorrectAnswer = "Basil",
+                    QuizId = 2,
+                    Quiz = quiz2,
+                    QuizQuestionNum = 6
                 }
             };
             context.AddRange(questions);
@@ -77,46 +77,14 @@ public static class DBInit
         {
             var options = new List<Option>
             {
-                new() {
-                    Text = "Earth",
-                    IsCorrect = false,
-                    MultipleChoiceId = 1
-                },
-                new() {
-                    Text = "Saturn",
-                    IsCorrect = false,
-                    MultipleChoiceId = 1
-                },
-                new() {
-                    Text = "Jupiter",
-                    IsCorrect = true,
-                    MultipleChoiceId = 1
-                },
-                new() {
-                    Text = "Uranus",
-                    IsCorrect = false,
-                    MultipleChoiceId = 1
-                },
-                new() {
-                    Text = "Spring",
-                    IsCorrect = false,
-                    MultipleChoiceId = 2
-                },
-                new() {
-                    Text = "Summer",
-                    IsCorrect = true,
-                    MultipleChoiceId = 2
-                },
-                new() {
-                    Text = "Autumn",
-                    IsCorrect = false,
-                    MultipleChoiceId = 2
-                },
-                new() {
-                    Text = "Winter",
-                    IsCorrect = false,
-                    MultipleChoiceId = 2
-                },
+                new() { Text = "Table Tennis", IsCorrect = true, MultipleChoiceId = 1 },
+                new() { Text = "Chess", IsCorrect = false, MultipleChoiceId = 1 },
+                new() { Text = "Bowling", IsCorrect = false, MultipleChoiceId = 1 },
+                new() { Text = "Video Gaming", IsCorrect = false, MultipleChoiceId = 1 },
+                new() { Text = "Basil", IsCorrect = true, MultipleChoiceId = 2 },
+                new() { Text = "Cilantro", IsCorrect = false, MultipleChoiceId = 2 },
+                new() { Text = "Mint", IsCorrect = false, MultipleChoiceId = 2 },
+                new() { Text = "Dill", IsCorrect = false, MultipleChoiceId = 2 },
             };
             context.AddRange(options);
             context.SaveChanges();
@@ -129,15 +97,15 @@ public static class DBInit
             var questions = new List<Matching>
             {
                 new() {
-                    Question = "Match the rows",
-                    CorrectAnswer = "fotball,knotter,hjul,bil,bake,kake,bade,hav",
+                    Question = "Match the sports with their equipment",
+                    CorrectAnswer = "soccer,cleats,cycling,helmet,basketball,ball,swimming,swim cap",
                     QuizId = 1,
                     Quiz = quiz1,
-                    QuizQuestionNum = 3
+                    QuizQuestionNum = 1
                 },
                 new() {
-                    Question = "Match the rows",
-                    CorrectAnswer = "sol,planet,tre,blader,vinter,snø",
+                    Question = "Match the food with its category",
+                    CorrectAnswer = "apple,fruit,salmon,fish,cheese,dairy,pizza,fast food",
                     QuizId = 2,
                     Quiz = quiz2,
                     QuizQuestionNum = 1
@@ -149,37 +117,23 @@ public static class DBInit
         if (!context.FillInTheBlankQuestions.Any())
         {
             var quiz1 = context.Quizzes.Find(1);
-            var quiz4 = context.Quizzes.Find(4);
+            var quiz2 = context.Quizzes.Find(2);
             var questions = new List<FillInTheBlank>
             {
                 new() {
-                    Question = "What is the capital of Norway?",
-                    CorrectAnswer = "Oslo",
+                    Question = "The sport known as 'the beautiful game' is ___",
+                    CorrectAnswer = "soccer",
                     QuizId = 1,
                     Quiz = quiz1,
-                    QuizQuestionNum = 1
+                    QuizQuestionNum = 5
                 },
                 new() {
-                    Question = "What is the capital of Sweden?",
-                    CorrectAnswer = "Stockholm",
-                    QuizId = 1,
-                    Quiz = quiz1,
-                    QuizQuestionNum = 2
-                },
-                new() {
-                    Question = "What is the capital of Norway?",
-                    CorrectAnswer = "Oslo",
-                    QuizId = 4,
-                    Quiz = quiz4,
-                    QuizQuestionNum = 1
-                },
-                new() {
-                    Question = "What is the capital of Sweden?",
-                    CorrectAnswer = "Stockholm",
-                    QuizId = 4,
-                    Quiz = quiz4,
-                    QuizQuestionNum = 2
-                },
+                    Question = "The main ingredient in guacamole is ___",
+                    CorrectAnswer = "avocado",
+                    QuizId = 2,
+                    Quiz = quiz2,
+                    QuizQuestionNum = 5
+                }
             };
             context.AddRange(questions);
             context.SaveChanges();
@@ -191,15 +145,15 @@ public static class DBInit
             var questions = new List<Sequence>
             {
                 new() {
-                    Question = "Order the following steps of applying for a home loan from first to last:",
-                    CorrectAnswer = "Get pre-approved,Find a home,Make an offer,Sign the purchase agreement,Secure financing",
+                    Question = "Order the steps of a typical workout from start to finish:",
+                    CorrectAnswer = "Warm-up,Stretching,Cardio,Strength training,Cool down",
                     QuizId = 1,
                     Quiz = quiz1,
-                    QuizQuestionNum = 4
+                    QuizQuestionNum = 2
                 },
                 new() {
-                    Question = "Sequence these years from earliest to latest:",
-                    CorrectAnswer = "1345,1801,1814,1918,2009",
+                    Question = "Order the steps of baking a cake from start to finish:",
+                    CorrectAnswer = "Preheat oven,Mix ingredients,Pour batter into pan,Bake,Cool,Decorate",
                     QuizId = 2,
                     Quiz = quiz2,
                     QuizQuestionNum = 2
@@ -215,15 +169,15 @@ public static class DBInit
             var questions = new List<Ranking>
             {
                 new() {
-                    Question = "Rank these factors from most to least important for a dining experience:",
-                    CorrectAnswer = "Food quality,Service speed,Ambiance,Price",
+                    Question = "Rank these exercises from most to least calories burned per hour:",
+                    CorrectAnswer = "Running,Swimming,Cycling,Yoga",
                     QuizId = 1,
                     Quiz = quiz1,
-                    QuizQuestionNum = 5
+                    QuizQuestionNum = 3
                 },
                 new() {
-                    Question = "Rank these features from most to least important when choosing a hotel:",
-                    CorrectAnswer = "Cleanliness,Location,Price,Amenities",
+                    Question = "Rank these cooking methods from healthiest to least healthy:",
+                    CorrectAnswer = "Steaming,Grilling,Baking,Frying",
                     QuizId = 2,
                     Quiz = quiz2,
                     QuizQuestionNum = 3

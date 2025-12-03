@@ -118,7 +118,6 @@ public class SequenceAPIController : ControllerBase
     [HttpDelete("delete/{sequenceId}")]
     public async Task<IActionResult> Delete(int sequenceId, [FromQuery] int quizQuestionNum, [FromQuery] int quizId)
     {
-        Console.WriteLine(quizId);
         bool returnOk = await _sequenceRepository.Delete(sequenceId);
         if (!returnOk)
         {

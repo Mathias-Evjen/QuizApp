@@ -34,7 +34,6 @@ function QuizzesPage() {
         try {
             const data = await QuizService.fetchQuizzes();
             setQuizzes(data);
-            console.log(data);
         } catch (error: unknown) {
             if (error instanceof Error) {
                 console.error(`There was a problem fetching data: ${error.message}`);
@@ -60,7 +59,6 @@ function QuizzesPage() {
     }
 
     useEffect(() => {
-        console.log("Fetching quizzes");
         fetchQuizzes();
     }, []);
 

@@ -30,7 +30,6 @@ const HomePage: React.FC = () => {
         try {
             const data = await QuizService.fetchQuizzes();
             setQuizzes(data);
-            console.log(data);
             setQuizzesToDisplay(data);
         } catch (error: unknown) {
             if (error instanceof Error) {
@@ -51,7 +50,6 @@ const HomePage: React.FC = () => {
         try {
             const data = await FlashCardQuizService.fetchQuizzes();
             setFlashCardQuizzes(data);
-            console.log(data);
             setFlashCardsToDisplay(data);
         } catch (error: unknown) {
             if (error instanceof Error) {

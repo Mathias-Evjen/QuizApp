@@ -32,7 +32,6 @@ const getAuthHeaders = () => {
 
 // Get sequences
 export const fetchSequences = async (quizId: number) => {
-  console.log(quizId);
   const response = await fetch(`${API_URL}/api/SequenceAPI/getQuestions/${quizId}`);
   return handleResponse(response);
 };

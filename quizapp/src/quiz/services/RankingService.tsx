@@ -32,7 +32,6 @@ const getAuthHeaders = () => {
 
 // Get rankings
 export const fetchRankings = async (quizId: number) => {
-  console.log(quizId);
   const response = await fetch(`${API_URL}/api/RankingAPI/getQuestions/${quizId}`);
   return handleResponse(response);
 };

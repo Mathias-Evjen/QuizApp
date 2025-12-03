@@ -70,7 +70,6 @@ const QuizPage: React.FC = () => {
                 data.sequenceQuestions,
                 data.multipleChoiceQuestions,
                 data.trueFalseQuestions);
-            console.log(data);
         } catch (error: unknown) {
             if (error instanceof Error) {
                 console.error(`There was a problem fetching data: ${error.message}`);
@@ -88,7 +87,6 @@ const QuizPage: React.FC = () => {
         try {
             const data = await QuizService.createQuizAttempt(quizAttempt);
             setQuizAttempt(data);
-            console.log(data);
         } catch (error) {
             console.error("There was a problem with the fetch operation: ", error);
         }

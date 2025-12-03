@@ -33,7 +33,6 @@ const getAuthHeaders = () => {
 
 export const fetchMultipleChoiceQuestions = async (quizId: number) => {
   const response = await fetch(`${API_URL}/api/MultipleChoiceAPI/getQuestions/${quizId}`);
-  console.log(response);
   return handleResponse(response);
 };
 

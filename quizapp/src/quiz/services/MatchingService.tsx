@@ -32,7 +32,6 @@ const getAuthHeaders = () => {
 
 // Get matchings
 export const fetchMatchings = async (quizId: number) => {
-  console.log(quizId);
   const response = await fetch(`${API_URL}/api/MatchingAPI/getQuestions/${quizId}`);
   return handleResponse(response);
 };

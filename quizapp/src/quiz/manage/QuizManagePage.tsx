@@ -287,7 +287,6 @@ function QuizManagePage() {
             })
         );
         newQuestions.map((q: Question) => {
-            console.log(q)
             if(q.isDirty){
                 if(q.questionType === "ranking" && q.rankingId){
                     RankingService.updateRanking(q.rankingId, q);
@@ -304,7 +303,6 @@ function QuizManagePage() {
                 }
             }
         })
-        console.log(quiz)
         if(quiz && quiz.quizId && quiz?.isDirty){
             QuizService.updateQuiz(quiz.quizId, quiz)
         }

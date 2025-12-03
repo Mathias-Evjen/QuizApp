@@ -5,11 +5,12 @@
 }
 
 .mc-card {
-  width: 600px;
+  min-width: 40rem;
+  max-width: 40rem;
   background: white;
   padding: 25px;
-  border-radius: 12px;
-  box-shadow: 0 3px 10px rgba(0,0,0,0.15);
+  border: 2px solid gray;
+  border-radius: 25px;
 }
 
 .multiple-choice-options {

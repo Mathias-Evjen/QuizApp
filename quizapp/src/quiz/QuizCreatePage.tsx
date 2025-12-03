@@ -28,7 +28,6 @@ function QuizCreatePage(){
                 description: newDescription,
                 numOfQuestions: 0
             }
-            //Hente name og desc og lage quiz card    
             const data = await QuizService.createQuiz(quiz);
             console.log('Quiz created successfully:', data);
             navigate('/quiz'); // Navigate back after successful creation

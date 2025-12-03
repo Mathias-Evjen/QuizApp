@@ -113,8 +113,8 @@ const Quizzes: React.FC = () => {
             ) : (
                 <div className="quizzes-page" onClick={() => handleShowMoreOptions(null)}>
                     <div className="flash-card-quiz-container">
+                        <h1>Flash card quizzes</h1>
                         <div className="page-top-container">
-                            <h1>Flash card quizzes</h1>
                             <SearchBar query={query} placeholder="Search for a quiz" handleSearch={setQuery} />
                             {user && (
                                 <button className="button primary-button active" onClick={() => handleShowCreate(true)}>Create</button>

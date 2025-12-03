@@ -239,7 +239,10 @@ public static class DBInit
             var quiz = new List<FlashCardQuiz>
             {
                 new() {Name = "Capitals of Scandinavia", Description = "Flashcards with questions about the captial cities of Scandinavia"},
-                new() {Name = "Which band?", Description = "Which band wrote the song on the card?"}
+                new() {Name = "Which band?", Description = "Which band wrote the song on the card?"},
+                new() {Name = "Norwegian translations", Description = "What is this english word in norwegian?"},
+                new() {Name = "Who was born on this day?", Description = "What famous person was born on this day?"},
+                new() {Name = "Antonyms", Description = "What are the antonyms of the words?"}
             };
             context.AddRange(quiz);
             context.SaveChanges();
@@ -249,6 +252,9 @@ public static class DBInit
         {
             var quiz1 = context.FlashCardQuizzes.Find(1);
             var quiz2 = context.FlashCardQuizzes.Find(2);
+            var quiz3 = context.FlashCardQuizzes.Find(3);
+            var quiz4 = context.FlashCardQuizzes.Find(4);
+            var quiz5 = context.FlashCardQuizzes.Find(5);
             var questions = new List<FlashCard>
             {
                 new() {
@@ -298,7 +304,157 @@ public static class DBInit
                     Answer = "The Strokes",
                     Quiz = quiz2!,
                     QuizQuestionNum = 5
-                }
+                },
+                new() {
+                    Question = "Resilient",
+                    Answer = "Robust",
+                    Quiz = quiz3!,
+                    QuizQuestionNum = 1
+                },
+                new() {
+                    Question = "Ambiguous",
+                    Answer = "Tvetydig",
+                    Quiz = quiz3!,
+                    QuizQuestionNum = 2
+                },
+                new() {
+                    Question = "Inevitable",
+                    Answer = "Uunngåelig",
+                    Quiz = quiz3!,
+                    QuizQuestionNum = 3
+                },
+                new() {
+                    Question = "Meticulous",
+                    Answer = "Nøye/Grundig",
+                    Quiz = quiz3!,
+                    QuizQuestionNum = 4
+                },
+                new() {
+                    Question = "Vulnerable",
+                    Answer = "Sårbar",
+                    Quiz = quiz3!,
+                    QuizQuestionNum = 5
+                },
+                new() {
+                    Question = "Consequence",
+                    Answer = "Konsekvens",
+                    Quiz = quiz3!,
+                    QuizQuestionNum = 6
+                },
+                new() {
+                    Question = "Preliminary",
+                    Answer = "Foreløpig/Innledende",
+                    Quiz = quiz3!,
+                    QuizQuestionNum = 7
+                },
+                new() {
+                    Question = "Sustainable",
+                    Answer = "Bærekraftig",
+                    Quiz = quiz3!,
+                    QuizQuestionNum = 8
+                },
+                new() {
+                    Question = "Comprehensive",
+                    Answer = "Omfattende",
+                    Quiz = quiz3!,
+                    QuizQuestionNum = 9
+                },
+                new() {
+                    Question = "Reluctant",
+                    Answer = "Motvillig",
+                    Quiz = quiz3!,
+                    QuizQuestionNum = 10
+                },
+                new() {
+                    Question = "15 August 1769",
+                    Answer = "Napoleon Bonaparte",
+                    Quiz = quiz4!,
+                    QuizQuestionNum = 1
+                },
+                new() {
+                    Question = "14 March 1879",
+                    Answer = "Albert Einstein",
+                    Quiz = quiz4!,
+                    QuizQuestionNum = 2
+                },
+                new() {
+                    Question = "15 January 1929",
+                    Answer = "Martin Luther Kind Jr.",
+                    Quiz = quiz4!,
+                    QuizQuestionNum = 3
+                },
+                new() {
+                    Question = "15 April 1452",
+                    Answer = "Leonardo da Vinci",
+                    Quiz = quiz4!,
+                    QuizQuestionNum = 4
+                },
+                new() {
+                    Question = "4 January 1643",
+                    Answer = "Isaac Newton",
+                    Quiz = quiz4!,
+                    QuizQuestionNum = 5
+                },
+                new() {
+                    Question = "7 November 1867",
+                    Answer = "Marie Curie",
+                    Quiz = quiz4!,
+                    QuizQuestionNum = 6
+                },
+                new() {
+                    Question = "6 January 1412",
+                    Answer = "Joan of Arc",
+                    Quiz = quiz4!,
+                    QuizQuestionNum = 7
+                },
+                new() {
+                    Question = "69 BC",
+                    Answer = "Cleopatra VII",
+                    Quiz = quiz4!,
+                    QuizQuestionNum = 8
+                },
+                new() {
+                    Question = "Resilient",
+                    Answer = "Fragile",
+                    Quiz = quiz5!,
+                    QuizQuestionNum = 1
+                },
+                new() {
+                    Question = "Ambigious",
+                    Answer = "Explicit",
+                    Quiz = quiz5!,
+                    QuizQuestionNum = 2
+                },
+                new() {
+                    Question = "Inevitable",
+                    Answer = "Avoidable",
+                    Quiz = quiz5!,
+                    QuizQuestionNum = 3
+                },
+                new() {
+                    Question = "Meticulous",
+                    Answer = "Careless",
+                    Quiz = quiz5!,
+                    QuizQuestionNum = 4
+                },
+                new() {
+                    Question = "Vulnerable",
+                    Answer = "Protected",
+                    Quiz = quiz5!,
+                    QuizQuestionNum = 5
+                },
+                new() {
+                    Question = "Preliminary",
+                    Answer = "Final",
+                    Quiz = quiz5!,
+                    QuizQuestionNum = 6
+                },
+                new() {
+                    Question = "Sustainable",
+                    Answer = "Unsustainable",
+                    Quiz = quiz5!,
+                    QuizQuestionNum = 7
+                },
             };
 
             context.AddRange(questions);

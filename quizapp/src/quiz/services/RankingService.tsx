@@ -93,5 +93,5 @@ export function shuffleQuestion(values: string[]): string[] {
         shuffledValues[j] = temp;
     }
 
-    return values;
+    return shuffledValues;
 }

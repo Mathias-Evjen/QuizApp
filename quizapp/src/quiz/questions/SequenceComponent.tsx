@@ -20,20 +20,16 @@ const SequenceComponent: React.FC<SequenceProps> = ({
 }) => {
   const [splitQuestion, setSplitQuestion] = useState<string[]>(questionItems);
 
-  // Tomme svarbokser, én for hver item
   const [answers, setAnswers] = useState<(string | null)[]>(Array(splitQuestion.length).fill(null));
 
-  // Når man begynner å dra
   const handleDragStart = (e: React.DragEvent, value: string) => {
     e.dataTransfer.setData("text/plain", value);
   };
 
-  // Når man drar over en answer-boks
   const handleDragOver = (e: React.DragEvent) => {
-    e.preventDefault(); // nødvendig for å aktivere drop
+    e.preventDefault(); 
   };
 
-  // Når man slipper i en answer-boks
   const handleDrop = (e: React.DragEvent, index: number) => {
     e.preventDefault();
     if(!answers[index]){
@@ -51,10 +47,8 @@ const SequenceComponent: React.FC<SequenceProps> = ({
   const handleRemoveAnswer = (itemValue: string, index: number) => {
     if (!itemValue) return;
 
-    // Legg tilbake i item-container
     setSplitQuestion([...splitQuestion, itemValue]);
 
-    // Fjern fra answer-boksen
     const newAnswers = [...answers];
     newAnswers[index] = "";
     setAnswers(newAnswers);

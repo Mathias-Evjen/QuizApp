@@ -81,10 +81,8 @@ export function shuffleQuestion(values: string[]): string[] {
         throw new Error("Values list is empty or null");
     }
 
-    // Lag en kopi slik at originalen ikke muteres
     const shuffledValues = [...values];
 
-    // Fisher-Yates shuffle
     for (let i = shuffledValues.length - 1; i > 0; i--) {
         const j = Math.floor(Math.random() * (i + 1));
         const temp = shuffledValues[i];

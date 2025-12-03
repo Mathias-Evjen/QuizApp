@@ -1,4 +1,4 @@
-import { useLocation, useNavigate, useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { Question } from "../types/quiz/question";
 import { FillInTheBlankAttempt } from "../types/attempts/fillInTheBlankAttempt";
 import { TrueFalseAttempt } from "../types/attempts/trueFalseAttempt";
@@ -9,8 +9,6 @@ import { SequenceAttempt } from "../types/attempts/sequenceAttempt";
 import { useEffect, useState } from "react";
 import { QuizAttempt } from "../types/attempts/quizAttempt";
 import { QuestionAttempt } from "../types/attempts/questionAttempt";
-import * as QuizService from "./services/QuizService";
-import "./style/Quiz.css";
 import { Quiz } from "../types/quiz/quiz";
 import { FillInTheBlank } from "../types/quiz/fillInTheBlank";
 import { Matching } from "../types/quiz/matching";
@@ -18,6 +16,8 @@ import { Ranking } from "../types/quiz/ranking";
 import { MultipleChoice } from "../types/quiz/multipleChoice";
 import { TrueFalse } from "../types/quiz/trueFalse";
 import { Sequence } from "../types/quiz/sequence";
+import * as QuizService from "./services/QuizService";
+import "./style/Quiz.css";
 
 
 const QuizResultPage: React.FC = () => {
@@ -36,12 +36,6 @@ const QuizResultPage: React.FC = () => {
 
     const [quizAttempt, setQuizAttempt] = useState<QuizAttempt>();
     const [allQuestionAttempts, setAllQuestionAttempts] = useState<QuestionAttempt[]>([]);
-    const [fibAttempts, setFibAttempts] = useState<FillInTheBlankAttempt[]>([]);
-    const [matchingAttempts, setMatchingAttempts] = useState<MatchingAttempt[]>([]);
-    const [rankingAttempts, setRankingAttempts] = useState<RankingAttempt[]>([]);
-    const [sequenceAttempts, setSequenceAttempts] = useState<SequenceAttempt[]>([]);
-    const [trueFalseAttempts, setTrueFalseAttempts] = useState<TrueFalseAttempt[]>([]);
-    const [multipleChoiceAttempts, setMultipleChoiceAttempts] = useState<MultiplechoiceAttempt[]>([]);
 
     const [loadingQuizAttempt, setLoadingQuizAttempt] = useState<boolean>(false);
     const [quizAttemptError, setQuizAttemptError] = useState<string | null>(null);
@@ -139,35 +133,6 @@ const QuizResultPage: React.FC = () => {
         setAllQuestionAttempts(combined);
     };
 
-
-    const getUserAnswer = (q: Question) => {
-        if (q.questionType === "fillInTheBlank") {
-            return fibAttempts.find((a: FillInTheBlankAttempt) => a.fillInTheBlankId === q.fillInTheBlankId)?.userAnswer;
-        }
-
-        if (q.questionType === "trueFalse") {
-            return trueFalseAttempts.find((a: TrueFalseAttempt) => a.trueFalseId === q.trueFalseId)?.userAnswer;
-        }
-
-        if (q.questionType === "multipleChoice") {
-            return multipleChoiceAttempts.find((a: MultiplechoiceAttempt) => a.multipleChoiceId === q.multipleChoiceId)?.userAnswer;
-        }
-
-        if (q.questionType === "matching") {
-            return matchingAttempts.find((a: MatchingAttempt) => a.matchingId === q.matchingId)?.userAnswer;
-        }
-
-        if (q.questionType === "sequence") {
-            return sequenceAttempts.find((a: SequenceAttempt) => a.sequenceId === q.sequenceId)?.userAnswer;
-        }
-
-        if (q.questionType === "ranking") {
-            return rankingAttempts.find((a: RankingAttempt) => a.rankingId === q.rankingId)?.userAnswer;
-        }
-
-        return null;
-    };
-
     const getCorrectAnswerText = (q: Question): string => {
         if (q.questionType === "multipleChoice" && "options" in q) {
             const correctOptions = q.options
@@ -198,36 +163,6 @@ const QuizResultPage: React.FC = () => {
         }
 
         return String(answer);
-    };
-
-    const isCorrect = (q: Question, userAnswer: any): boolean => {
-        if (userAnswer === null || userAnswer === undefined) return false;
-
-        if (q.questionType === "fillInTheBlank") {
-            if (!q.correctAnswer || typeof userAnswer !== "string") return false;
-            return userAnswer.trim().toLowerCase() === q.correctAnswer.trim().toLowerCase();
-        }
-
-        if (q.questionType === "trueFalse") {
-            if (typeof userAnswer !== "boolean") return false;
-            return userAnswer === q.correctAnswer;
-        }
-
-        if (q.questionType === "multipleChoice" && "options" in q) {
-            if (!q.correctAnswer || typeof userAnswer !== "string") return false;
-            return userAnswer === q.correctAnswer;
-        }
-
-        if (
-            q.questionType === "matching" ||
-            q.questionType === "sequence" ||
-            q.questionType === "ranking"
-        ) {
-            if (!q.correctAnswer || typeof userAnswer !== "string") return false;
-            return userAnswer.trim() === q.correctAnswer.trim();
-        }
-
-        return false;
     };
 
     useEffect(() => {

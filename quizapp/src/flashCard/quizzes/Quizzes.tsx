@@ -4,7 +4,6 @@ import { MoreVert, Settings, Delete, Close } from "@mui/icons-material";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../../auth/AuthContext";
 import * as FlashCardQuizService from "../FlashCardQuizService";
-import QuizCard from "./FlashCardQuizCard";
 import FlashCardQuizForm from "../FlashCardQuizForm";
 import SearchBar from "../../shared/SearchBar";
 import "../style/FlashCard.css";
@@ -115,6 +114,7 @@ const Quizzes: React.FC = () => {
                 <div className="quizzes-page" onClick={() => handleShowMoreOptions(null)}>
                     <div className="flash-card-quiz-container">
                         <div className="page-top-container">
+                            <h1>Flash card quizzes</h1>
                             <SearchBar query={query} placeholder="Search for a quiz" handleSearch={setQuery} />
                             {user && (
                                 <button className="button primary-button active" onClick={() => handleShowCreate(true)}>Create</button>
